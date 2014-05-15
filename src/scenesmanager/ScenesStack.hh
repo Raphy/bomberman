@@ -14,6 +14,8 @@ private:
     std::stack<IScene*> m_stack;
 
 public:
+    ~ScenesStack();
+
     // Get the foregroud scene.
     IScene* top(); // no const because it returns a no const reference.
 
@@ -28,10 +30,10 @@ public:
     // Pop until that the closure return true.
     template<typename Funct>
     bool rewind(Funct closure) {
-        while (!m_stack.empty() && !closure(m_stack.top()->getId())) {
-            m_stack.pop();
+        while (this->top() && !closure(this->top()->getId())) {
+            this->pop();
         }
-        return m_stack.empty() ? false : true;
+        return this->top() ? true : false;
     }
 
     // Call the previous "rewind" with a closure which

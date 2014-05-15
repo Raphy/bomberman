@@ -1,12 +1,26 @@
 #include "ScenesStack.hh"
 
+ScenesStack::~ScenesStack() {
+    while (this->top()) {
+        this->pop();
+    }
+}
+
 IScene* ScenesStack::top() {
     return m_stack.empty() ? NULL : m_stack.top();
 }
 
 bool ScenesStack::push(FunctSceneFactory factory, SceneArguments const& args) {
-    m_stack.push(factory(args));
-    return true;
+    IScene *scene = factory(args);
+
+    if (!scene->initialize()) {
+        delete scene;
+        return false;
+    }
+    else {
+        m_stack.push(factory(args));
+        return true;
+    }
 }
 
 bool ScenesStack::pop() {
@@ -14,6 +28,7 @@ bool ScenesStack::pop() {
         return false;
     }
     else {
+        delete m_stack.top();
         m_stack.pop();
         return true;
     }

@@ -13,7 +13,7 @@ private:
     ScenesStack m_scenes_stack;
 
 public:
-    ScenesManager(IScene* first_scene);
+    ScenesManager(FunctSceneFactory factory, SceneArguments const& args);
     ~ScenesManager();
 
     // Get the scene in the foreground.

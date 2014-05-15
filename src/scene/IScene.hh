@@ -11,6 +11,8 @@ class SceneId;
 class IScene {
 
 public:
+    virtual ~IScene() {};
+
 	virtual bool initialize() = 0;
 	virtual bool update() = 0;
 	virtual bool draw() = 0;
