@@ -19,7 +19,10 @@ public:
 	};
 
 	// Encapsule the fonction pointer and the his argument.
-	typedef std::pair<FunctSceneFactory, SceneArguments&> PairFactory;
+	typedef std::pair<FunctSceneFactory, SceneArguments*> PairFactory;
+
+	SceneStatus();
+	~SceneStatus();
 
 	// Get the type of the status.
 	Type getType() const;

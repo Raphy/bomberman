@@ -9,7 +9,7 @@ private:
 	std::string m_tag;
 
 public:
-	SceneId(std::string const& tag);
+	SceneId(std::string const& tag="");
 	SceneId(SceneId const& other);
 	void operator=(SceneId const& other);
 	void operator=(std::string const& tag);

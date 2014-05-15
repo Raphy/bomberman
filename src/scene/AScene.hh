@@ -35,4 +35,4 @@ public:
 };
 
 
-#endif // ASCENE_H_
+#endif // !ASCENE_H_

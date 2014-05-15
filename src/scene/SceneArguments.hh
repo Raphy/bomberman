@@ -9,15 +9,15 @@
 class SceneArguments {
 
 private:
-	std::map<std::string, std::string> m_map;
+    std::map<std::string, std::string> m_map;
 
 public:
-	SceneArguments();
-	~SceneArguments();
+    SceneArguments() {};
+    ~SceneArguments() {};
 
-	void set(std::string const& key, std::string const& value);
-	// Return an empty string if the key doesn't exist.
-	std::string const& get(std::string const& key) const;
+    void set(std::string const& key, std::string const& value);
+    // Return an empty string if the key doesn't exist.
+    std::string const& get(std::string const& key) const;
 };
 
 
