@@ -11,37 +11,37 @@
 class SceneStatus {
 
 public:
-	enum Type {
-		None,
-		GoOn,
-		Back,
-		Rewind,
-	};
+    enum Type {
+        None,
+        GoOn,
+        Back,
+        Rewind,
+    };
 
-	// Encapsule the fonction pointer and the his argument.
-	typedef std::pair<FunctSceneFactory, SceneArguments*> PairFactory;
+    // Encapsule the fonction pointer and the his argument.
+    typedef std::pair<FunctSceneFactory, SceneArguments*> PairFactory;
 
-	SceneStatus();
-	~SceneStatus();
+    SceneStatus();
+    ~SceneStatus();
 
-	// Get the type of the status.
-	Type getType() const;
-	// Get the id of the scene to rewind to.
-	SceneId const& getRewindId() const;
-	// Get the factory of the scene to go on.
-	PairFactory const& getGoOnFactory() const;
+    // Get the type of the status.
+    Type getType() const;
+    // Get the id of the scene to rewind to.
+    SceneId const& getRewindId() const;
+    // Get the factory of the scene to go on.
+    PairFactory const& getGoOnFactory() const;
 
-	// Set the type of the status and fill
-	// its corresponding parameters.
-	void setNone();
-	void setBack();
-	void setRewind(SceneId const& scene_id);
-	void setGoOn(FunctSceneFactory factory, SceneArguments& args);
+    // Set the type of the status and fill
+    // its corresponding parameters.
+    void setNone();
+    void setBack();
+    void setRewind(SceneId const& scene_id);
+    void setGoOn(FunctSceneFactory factory, SceneArguments& args);
 
 private:
-	Type m_type;
-	SceneId m_rewind_id;
-	PairFactory m_go_on_factory;
+    Type m_type;
+    SceneId m_rewind_id;
+    PairFactory m_go_on_factory;
 };
 
 #endif // SCENE_STATUS_H_

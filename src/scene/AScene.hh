@@ -21,15 +21,13 @@ protected:
     void setStatusRewind(std::string const& id_tag);
 
     template <typename T>
-    void setStatusGoOn(SceneArguments& args);
+    void setStatusGoOn(SceneArguments& args) {
+        m_status.setGoOn(&sceneFactory<T>, args);
+    }
 
 public:
     AScene(std::string const& id_tag);
 
-    // Interface inherited from IScene.
-    virtual bool initialize();
-    virtual bool update();
-    virtual bool draw();
     virtual SceneStatus const& getStatus() const;
     virtual SceneId const& getId() const;
 };
