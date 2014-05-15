@@ -12,6 +12,10 @@ Compilation
 $ make 
 ~~~
 
+#####Maybe you prefer clang ?
+~~~bash
+$ make CXX=clang++
+~~~
 
 #####Debug or not debug :
 ~~~bash
@@ -19,7 +23,6 @@ $ make DEBUG=1
 $ make DEBUG=0
 ~~~
 Currently, by default DEBUG equals 0.
-
 
 #####Optimisations :
 ~~~bash
