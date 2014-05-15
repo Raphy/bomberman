@@ -1,6 +1,18 @@
 bomberman
 =========
 
+(Relativement) Important
+------------------------
+Les tabulations c'est nulle !
+
+Heureusement, avec sublime text:
+> 1. ctrl+shift+p
+> 2. lancez 'install package'
+> 3. installez 'editorconfig'.
+
+Le fichier '.editorconfig' à la racine du dépot prendra effet et les tabulations seront desormais remplacées par 4 espaces.
+
+
 Authors
 -------
 ![Alt text](./avatars/delemo_b.png "delemo_b")
