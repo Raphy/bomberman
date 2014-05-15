@@ -28,6 +28,7 @@ $ make
 ~~~bash
 $ make CXX=clang++
 ~~~
+Warning: it's possible you could not compile the project with clang-3.0. Please, use clang-3.5 instead.
 
 #####Debug or not debug :
 ~~~bash
