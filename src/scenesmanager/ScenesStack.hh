@@ -18,7 +18,7 @@ public:
 
 	// Instantiate a new Scene with the scene factory,
 	// and put it at the foregroud.
-	bool push(FunctSceneFactory factory/*, args */);
+	bool push(FunctSceneFactory factory, SceneArguments const& args);
 
 	// Remove the current foreground scene and give
 	// the hand back to the previous scene.

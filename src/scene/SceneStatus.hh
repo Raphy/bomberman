@@ -6,6 +6,7 @@
 
 # include "SceneFactory.hpp"
 # include "SceneId.hh"
+# include "SceneArguments.hh"
 
 class SceneStatus {
 
@@ -18,7 +19,7 @@ public:
 	};
 
 	// Encapsule the fonction pointer and the his argument.
-	typedef std::pair<FunctSceneFactory, bool /* args*/> PairFactory;
+	typedef std::pair<FunctSceneFactory, SceneArguments&> PairFactory;
 
 	// Get the type of the status.
 	Type getType() const;
@@ -32,7 +33,7 @@ public:
 	void setNone();
 	void setBack();
 	void setRewind(SceneId const& scene_id);
-	void setGoOn(FunctSceneFactory factory/*, arg*/);
+	void setGoOn(FunctSceneFactory factory, SceneArguments& args);
 
 private:
 	Type m_type;

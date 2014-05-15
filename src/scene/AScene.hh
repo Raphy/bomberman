@@ -6,6 +6,7 @@
 # include "IScene.hh"
 # include "SceneId.hh"
 # include "SceneStatus.hh"
+# include "SceneArguments.hh"
 
 class AScene : public IScene {
 
@@ -20,12 +21,12 @@ protected:
 	void setStatusRewind(std::string const& id_tag);
 
 	template <typename T>
-	void setStatusGoOn(/*arg*/);
+	void setStatusGoOn(SceneArguments& args);
 
 public:
 	AScene(std::string const& id_tag);
 
-	// Interface inherited from IScene
+	// Interface inherited from IScene.
 	virtual bool initialize();
 	virtual bool update();
 	virtual bool draw();

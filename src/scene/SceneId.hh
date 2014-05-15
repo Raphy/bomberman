@@ -14,7 +14,7 @@ public:
 	void operator=(SceneId const& other);
 	void operator=(std::string const& tag);
 
-	bool operator==(SceneId const& other);
+	bool operator==(SceneId const& other) const;
 };
 
 #endif // !SCENE_ID_H_

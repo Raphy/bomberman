@@ -1,14 +1,15 @@
 #ifndef SCENE_FACTORY_H_
 # define SCENE_FACTORY_H_
 
-// Do not import all the header.
+// Do not import all the headers.
 class IScene;
+class SceneArguments;
 
-typedef IScene* (*FunctSceneFactory)(/* args */);
+typedef IScene* (*FunctSceneFactory)(SceneArguments const& args);
 
 template <typename T>
-IScene* sceneFactory(/* args */) {
-	return new T();
+IScene* sceneFactory(SceneArguments const& args) {
+	return new T(args);
 }
 
 #endif // SCENE_FACTORY_H_
