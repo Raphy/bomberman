@@ -3,6 +3,7 @@
 
 # include <stack>
 
+# include "IScene.hh"
 # include "SceneFactory.hpp"
 # include "SceneId.hh"
 
@@ -24,10 +25,18 @@ public:
     // the hand back to the previous scene.
     bool pop();
 
-    // Pop until that the current scene
-    // has the same ID than the parameter.
+    // Pop until that the closure return true.
+    template<typename Funct>
+    bool rewind(Funct closure) {
+        while (!m_stack.empty() && !closure(m_stack.top()->getId())) {
+            m_stack.pop();
+        }
+        return m_stack.empty() ? false : true;
+    }
+
+    // Call the previous "rewind" with a closure which
+    // check the scenes ids equality.
     bool rewind(SceneId const& scene_id);
 };
 
 #endif // !SCENES_STACK_H_
-
