@@ -1,6 +1,10 @@
 bomberman
 =========
 
+Authors
+-------
+![Alt text](./avatars/delemo_b.png "delemo_b")
+
 Compilation
 -----------
 #####Basic :
