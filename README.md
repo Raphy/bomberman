@@ -3,7 +3,6 @@ bomberman
 
 Authors
 -------
-
 ![Alt text](./avatars/delemo_b.png "Optional title")
 
 
