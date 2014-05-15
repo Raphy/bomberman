@@ -11,27 +11,27 @@
 class AScene : public IScene {
 
 private:
-	SceneStatus m_status;
-	SceneId m_id;
+    SceneStatus m_status;
+    SceneId m_id;
 
 protected:
-	// Help children scenes to manage their status.
-	void setStatusNone();
-	void setStatusBack();
-	void setStatusRewind(std::string const& id_tag);
+    // Help children scenes to manage their status.
+    void setStatusNone();
+    void setStatusBack();
+    void setStatusRewind(std::string const& id_tag);
 
-	template <typename T>
-	void setStatusGoOn(SceneArguments& args);
+    template <typename T>
+    void setStatusGoOn(SceneArguments& args);
 
 public:
-	AScene(std::string const& id_tag);
+    AScene(std::string const& id_tag);
 
-	// Interface inherited from IScene.
-	virtual bool initialize();
-	virtual bool update();
-	virtual bool draw();
-	virtual SceneStatus const& getStatus() const;
-	virtual SceneId const& getId() const;
+    // Interface inherited from IScene.
+    virtual bool initialize();
+    virtual bool update();
+    virtual bool draw();
+    virtual SceneStatus const& getStatus() const;
+    virtual SceneId const& getId() const;
 };
 
 

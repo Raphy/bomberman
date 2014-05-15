@@ -10,17 +10,17 @@
 class ScenesManager {
 
 private:
-	ScenesStack m_scenes_stack;
+    ScenesStack m_scenes_stack;
 
 public:
-	ScenesManager(IScene* first_scene);
-	~ScenesManager();
+    ScenesManager(IScene* first_scene);
+    ~ScenesManager();
 
-	// Get the scene in the foreground.
-	IScene& getCurrentScene();
-	// Check the status of the foreground scene
-	// and do something according to it.
-	bool applyChanges();
+    // Get the scene in the foreground.
+    IScene& getCurrentScene();
+    // Check the status of the foreground scene
+    // and do something according to it.
+    bool applyChanges();
 };
 
 #endif // !SCENES_MANAGER_H_

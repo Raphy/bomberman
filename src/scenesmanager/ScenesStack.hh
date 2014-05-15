@@ -10,23 +10,23 @@
 class ScenesStack {
 
 private:
-	std::stack<IScene*> m_stack;
+    std::stack<IScene*> m_stack;
 
 public:
-	// Get the foregroud scene.
-	IScene* top(); // no const because it returns a no const reference.
+    // Get the foregroud scene.
+    IScene* top(); // no const because it returns a no const reference.
 
-	// Instantiate a new Scene with the scene factory,
-	// and put it at the foregroud.
-	bool push(FunctSceneFactory factory, SceneArguments const& args);
+    // Instantiate a new Scene with the scene factory,
+    // and put it at the foregroud.
+    bool push(FunctSceneFactory factory, SceneArguments const& args);
 
-	// Remove the current foreground scene and give
-	// the hand back to the previous scene.
-	bool pop();
+    // Remove the current foreground scene and give
+    // the hand back to the previous scene.
+    bool pop();
 
-	// Pop until that the current scene
-	// has the same ID than the parameter.
-	bool rewind(SceneId const& scene_id);
+    // Pop until that the current scene
+    // has the same ID than the parameter.
+    bool rewind(SceneId const& scene_id);
 };
 
 #endif // !SCENES_STACK_H_

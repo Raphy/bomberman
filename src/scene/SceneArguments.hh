@@ -11,14 +11,14 @@ class SceneArguments {
 private:
     std::map<std::string, std::string> m_map;
 
-public:
-    SceneArguments() {};
-    ~SceneArguments() {};
+    // An empty string sometimes returned by reference
+    // by the methode 'get'. 
+    static std::string const static_empty_str;
 
+public:
     void set(std::string const& key, std::string const& value);
     // Return an empty string if the key doesn't exist.
     std::string const& get(std::string const& key) const;
 };
-
 
 #endif // !SCENE_ARGUMENTS_H_
