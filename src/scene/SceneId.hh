@@ -15,6 +15,7 @@ public:
 	void operator=(std::string const& tag);
 
 	bool operator==(SceneId const& other) const;
+	bool operator!=(SceneId const& other) const;
 };
 
 #endif // !SCENE_ID_H_
