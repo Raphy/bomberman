@@ -35,7 +35,7 @@ Warning: it's possible you could not compile the project with clang-3.0. Please,
 $ make DEBUG=1
 $ make DEBUG=0
 ~~~
-Currently, by default DEBUG equals 0.
+Currently, by default DEBUG equals 1.
 
 #####Optimisations :
 ~~~bash
