@@ -15,6 +15,9 @@ private:
     SceneId m_id;
 
 protected:
+    // The constructor is called only in child classes's construtors.
+    AScene(std::string const& id_tag);
+
     // Help children scenes to manage their status.
     void setStatusNone();
     void setStatusBack();
@@ -26,8 +29,6 @@ protected:
     }
 
 public:
-    AScene(std::string const& id_tag);
-
     virtual SceneStatus const& getStatus() const;
     virtual SceneId const& getId() const;
 };

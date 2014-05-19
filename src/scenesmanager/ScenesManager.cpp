@@ -4,7 +4,7 @@
 #include "ScenesManager.hh"
 
 ScenesManager::ScenesManager()
-    : m_scenes_stack()
+    : m_scenes_stack()./
 {
 }
 
