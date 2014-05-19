@@ -3,6 +3,7 @@
 
 # include "ScenesStack.hh"
 # include "IScene.hh"
+# include "SceneFactory.hpp"
 
 // Manage scenes : ordering, stacking up,
 // creating, destroying ...
@@ -13,8 +14,14 @@ private:
     ScenesStack m_scenes_stack;
 
 public:
-    ScenesManager(FunctSceneFactory factory, SceneArguments const& args);
+    ScenesManager();
     ~ScenesManager();
+
+    // Push the first scene
+    template <typename T>
+    bool start(SceneArguments const& args) {
+        return m_scenes_stack.push(sceneFactory<T>(args));
+    }
 
     // Get the scene in the foreground.
     IScene& getCurrentScene();
