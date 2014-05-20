@@ -16,12 +16,9 @@ Le fichier '.editorconfig' à la racine du dépot prendra effet et les tabulatio
 Authors
 -------
 ![Alt text](./avatars/delemo_b.png "delemo_b")
-<<<<<<< HEAD
 ![Alt text](./avatars/sauval_d.jpeg "sauval_d")
-=======
 ![Alt text](./avatars/svirch_n.png "svirch_n")
 ![Alt text](./avatars/defrei_r.png "defrei_r")
->>>>>>> 035b128de26ef08b677a7b1bfaff0578e6d5ef6d
 
 Compilation
 -----------
