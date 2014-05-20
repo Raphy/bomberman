@@ -17,6 +17,7 @@ Authors
 -------
 ![Alt text](./avatars/delemo_b.png "delemo_b")
 ![Alt text](./avatars/svirch_n.png "svirch_n")
+![Alt text](./avatars/defrei_r.png "defrei_r")
 
 Compilation
 -----------
