@@ -1,13 +1,11 @@
 #include <cassert>
+#include <string>
 
 #include "ScenesManager.hh"
 
-ScenesManager::ScenesManager(FunctSceneFactory factory, SceneArguments const& args)
+ScenesManager::ScenesManager()
     : m_scenes_stack()
 {
-    if (!m_scenes_stack.push(factory, args)) {
-        // TODO: runtime error -> throw excpetion
-    }
 }
 
 ScenesManager::~ScenesManager() {
@@ -17,7 +15,8 @@ IScene& ScenesManager::getCurrentScene() {
     IScene* scene = m_scenes_stack.top();
 
     if (!scene) {
-        // TODO: runtime error -> throw exeption
+        // TODO: runtime error -> throw custom exeption to keep points !
+        throw std::string("error: the scene statck is empty.");
     }
     return *scene;
 }
