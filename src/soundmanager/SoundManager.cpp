@@ -14,7 +14,7 @@ SoundManager::SoundManager()
   /* Set du volume au max au debut*/
   setVolume(_volume);
 
-  path = "";
+  // path = ""; Tu ne peux pas modifier un membre si il est constant. (tu dois le faire dans la liste d'initialisation)
   /*
     loadFx("goats", path + "goats.wav");
     loadMusic("pokemon", path + "pokemon.mp3");
