@@ -49,10 +49,9 @@ Note: if DEBUG is enable, OPTI is ignored in order to let you debug the program 
 
 Sound Manager
 -------------
-#######Format :
-Musique d'ambiance : .mp3
-
+#####Format :
+Musique d'ambiance : .mp3<br/>
 Fx : .wav
 
-#######Dependency :
+#####Dependency :
 libsdl-mixer1.2-dev
