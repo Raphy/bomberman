@@ -16,7 +16,9 @@ Le fichier '.editorconfig' à la racine du dépot prendra effet et les tabulatio
 Authors
 -------
 ![Alt text](./avatars/delemo_b.png "delemo_b")
+![Alt text](./avatars/sauval_d.jpeg "sauval_d")
 ![Alt text](./avatars/svirch_n.png "svirch_n")
+![Alt text](./avatars/defrei_r.png "defrei_r")
 
 Compilation
 -----------
@@ -44,3 +46,7 @@ $ make OPTI=3
 ~~~
 This will compile with -03 (the default value).
 Note: if DEBUG is enable, OPTI is ignored in order to let you debug the program correctly.
+
+#####SoundManager:
+Musique d'ambiamce : .mp3
+Fx : .wav
