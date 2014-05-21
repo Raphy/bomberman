@@ -31,7 +31,10 @@ public:
   }
 
   virtual void update(gdl::Clock const&clock,gdl::Input&input)
-  {}
+  {
+    (void) clock;
+    (void) input;
+  }
 
   virtual void
   draw
@@ -42,9 +45,15 @@ public:
     _position+=v;
   }
 
-  void rotate(glm::vec3 const&axis,float angle)
+  void rotate(glm::vec3 const&axis, float angle)
   {
-    _rotation +=axis*angle;
+    _rotation += axis * angle;
+  }
+
+  void lookAt(glm::vec3 const& point) {
+
+    _rotation = point;
+
   }
 
   void scale(glm::vec3 const&scale)
@@ -56,12 +65,13 @@ public:
   {
     glm::mat4 transform(1);
 
+    transform = glm::translate(transform,_position);
+
     transform = glm::rotate(transform, _rotation.x, glm::vec3(1,0,0));
     transform = glm::rotate(transform, _rotation.y, glm::vec3(0,1,0));
     transform = glm::rotate(transform, _rotation.z, glm::vec3(0,0,1));
 
-
-    transform = glm::translate(transform,_position);
+    
     transform = glm::scale(transform,_scale);
     return(transform);
   }
