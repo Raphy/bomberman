@@ -2,12 +2,13 @@
 # Basic
 CXX ?= g++
 
-INCFLAGS :=
+INCFLAGS := $(shell pkg-config --cflags SDL_mixer) -I 
 CXXFLAGS = -Wall -std=c++11 $(INCFLAGS)
-LDFLAGS := -lSDL_mixer
+CXXFLAGS += -I lib/gdl/includes/
+LDFLAGS := $(shell pkg-config --libs SDL_mixer) -L ./lib/gdl/libs/ -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2 -lpthread -ldl
 
 OFLAGS :=
-DBGFLAGS := -DDEBUG -ggdb3 
+DBGFLAGS := -DDEBUG -ggdb3
 NDBGFLAGS = -DNDEBUG $(OFLAGS)
 
 # The default mode (set it to 0 before the rendu)
@@ -29,7 +30,7 @@ endif
 TARGET := bomberman
 
 SRC_ROOTDIR := src
-SRC_SUBDIRS := scene scenesmanager soundmanager
+SRC_SUBDIRS := scene scenesmanager soundmanager object
 SRC_ALLDIRS := $(SRC_ROOTDIR) $(foreach sub_dir, $(SRC_SUBDIRS), $(SRC_ROOTDIR)/$(sub_dir))
 
 SRC := $(foreach dir, $(SRC_ALLDIRS), $(wildcard $(dir)/*.cpp))
