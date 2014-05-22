@@ -47,6 +47,11 @@ $ make OPTI=3
 This will compile with -03 (the default value).
 Note: if DEBUG is enable, OPTI is ignored in order to let you debug the program correctly.
 
-#####SoundManager:
-Musique d'ambiamce : .mp3
+Sound Manager
+-------------
+#####Format :
+Musique d'ambiance : .mp3<br/>
 Fx : .wav
+
+#####Dependency :
+libsdl-mixer1.2-dev

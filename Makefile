@@ -4,7 +4,7 @@ CXX ?= g++
 
 INCFLAGS :=
 CXXFLAGS = -Wall -std=c++11 $(INCFLAGS)
-LDFLAGS :=
+LDFLAGS := -lSDL_mixer
 
 OFLAGS :=
 DBGFLAGS := -DDEBUG -ggdb3 
@@ -29,7 +29,7 @@ endif
 TARGET := bomberman
 
 SRC_ROOTDIR := src
-SRC_SUBDIRS := scene scenesmanager 
+SRC_SUBDIRS := scene scenesmanager soundmanager
 SRC_ALLDIRS := $(SRC_ROOTDIR) $(foreach sub_dir, $(SRC_SUBDIRS), $(SRC_ROOTDIR)/$(sub_dir))
 
 SRC := $(foreach dir, $(SRC_ALLDIRS), $(wildcard $(dir)/*.cpp))
@@ -45,7 +45,7 @@ RM := rm -vf
 all: $(TARGET)
 
 $(TARGET): $(OBJ)
-	$(CXX) $(CFLAGS) -o $(TARGET) $(OBJ)
+	$(CXX) $(CFLAGS) -o $(TARGET) $(OBJ) $(LDFLAGS)
 
 clean:
 	$(RM) $(OBJ)
