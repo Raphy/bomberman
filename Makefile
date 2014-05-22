@@ -2,7 +2,7 @@
 # Basic
 CXX ?= g++
 
-INCFLAGS := $(shell pkg-config --cflags SDL_mixer) -I 
+INCFLAGS := $(shell pkg-config --cflags SDL_mixer)
 CXXFLAGS = -Wall -std=c++11 $(INCFLAGS)
 CXXFLAGS += -I lib/gdl/includes/
 LDFLAGS := $(shell pkg-config --libs SDL_mixer) -L ./lib/gdl/libs/ -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2 -lpthread -ldl
@@ -30,7 +30,7 @@ endif
 TARGET := bomberman
 
 SRC_ROOTDIR := src
-SRC_SUBDIRS := scene scenesmanager soundmanager object
+SRC_SUBDIRS := scene scenesmanager soundmanager object game
 SRC_ALLDIRS := $(SRC_ROOTDIR) $(foreach sub_dir, $(SRC_SUBDIRS), $(SRC_ROOTDIR)/$(sub_dir))
 
 SRC := $(foreach dir, $(SRC_ALLDIRS), $(wildcard $(dir)/*.cpp))
