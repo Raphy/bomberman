@@ -4,10 +4,10 @@ CXX ?= g++
 
 INCFLAGS :=
 CXXFLAGS = -Wall -std=c++11 $(INCFLAGS)
-LDFLAGS := -lSDL_mixer
+LDFLAGS := -lSDL_mixer -lSDL -lpthread
 
 OFLAGS :=
-DBGFLAGS := -DDEBUG -ggdb3 
+DBGFLAGS := -DDEBUG -ggdb3
 NDBGFLAGS = -DNDEBUG $(OFLAGS)
 
 # The default mode (set it to 0 before the rendu)
