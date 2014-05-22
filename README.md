@@ -19,6 +19,7 @@ Authors
 ![Alt text](./avatars/sauval_d.jpeg "sauval_d")
 ![Alt text](./avatars/svirch_n.png "svirch_n")
 ![Alt text](./avatars/defrei_r.png "defrei_r")
+![Alt text](./avatars/parejo_p.png "parejo_p")
 
 Compilation
 -----------
