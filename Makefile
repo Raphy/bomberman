@@ -2,7 +2,7 @@
 # Basic
 CXX ?= g++
 
-INCFLAGS := $(shell pkg-config --cflags SDL_mixer) -I 
+INCFLAGS :=
 CXXFLAGS = -Wall -std=c++11 $(INCFLAGS)
 CXXFLAGS += -I lib/gdl/includes/
 LDFLAGS := $(shell pkg-config --libs SDL_mixer) -L ./lib/gdl/libs/ -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2 -lpthread -ldl
@@ -46,7 +46,8 @@ RM := rm -vf
 all: $(TARGET)
 
 $(TARGET): $(OBJ)
-	$(CXX) $(CFLAGS) -o $(TARGET) $(OBJ) $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJ) $(LDFLAGS)
+	@echo $(CXXFLAGS)
 
 clean:
 	$(RM) $(OBJ)
