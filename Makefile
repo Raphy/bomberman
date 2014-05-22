@@ -34,7 +34,7 @@ SRC_SUBDIRS := scene scenesmanager soundmanager object
 SRC_ALLDIRS := $(SRC_ROOTDIR) $(foreach sub_dir, $(SRC_SUBDIRS), $(SRC_ROOTDIR)/$(sub_dir))
 
 SRC := $(foreach dir, $(SRC_ALLDIRS), $(wildcard $(dir)/*.cpp))
-INCFLAGS := $(foreach dir, $(SRC_ALLDIRS), -I $(dir)/)
+INCFLAGS += $(foreach dir, $(SRC_ALLDIRS), -I $(dir)/)
 
 # Generated object files
 OBJ := $(SRC:.cpp=.o)
