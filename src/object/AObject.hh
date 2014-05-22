@@ -12,6 +12,8 @@
 #include <BasicShader.hh>
 #include <Model.hh>
 
+#include "Rectangle.hh"
+
 class AObject
 {
 public:
@@ -22,6 +24,10 @@ public:
 	virtual bool initialize();
 	virtual void update(gdl::Clock const& clock, gdl::Input& input);
 	virtual void draw(gdl::AShader & shader, gdl::Clock const& clock);
+
+    Rectangle getCollider() const {
+        return Rectangle(_position, _scale);
+    }
 
 protected:
 
