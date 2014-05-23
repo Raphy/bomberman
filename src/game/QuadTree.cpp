@@ -20,17 +20,17 @@ void QuadTree::clear() {
     }
 }
 
-void QuadTree::insert(AGameObject* object) {
+void QuadTree::insert(AGameObject& object) {
     // if node is not a leaf.
     if (m_nodes[0] != NULL) {
-        int index = this->getIndex(object->getCollider());
+        int index = this->getIndex(object.getCollider());
         if (index != -1) {
             m_nodes[index]->insert(object);
             return ;
         }
     }
 
-    m_objects.push_back(object);
+    m_objects.push_back(&object);
 
     if (m_objects.size() > MAX_OBJECTS && m_nodes[0] == NULL) {
         this->split();
@@ -38,7 +38,7 @@ void QuadTree::insert(AGameObject* object) {
         while (it != m_objects.end()) {
             int index = this->getIndex((*it)->getCollider());
             if (index != -1) {
-                m_nodes[index]->insert(*it);
+                m_nodes[index]->insert(**it);
                 m_objects.erase(it++);
             }
             else {
@@ -75,10 +75,10 @@ int QuadTree::getIndex(Rectangle const& area) {
     double mid_w = m_bounds.getX() + m_bounds.getW() / 2;
     double mid_h = m_bounds.getY() + m_bounds.getH() / 2;
 
-    bool top_fit = (area.getY() + area.getY() < mid_h);
+    bool top_fit = (area.getY2() < mid_h);
     bool bottom_fit = (area.getY() > mid_h);
 
-    bool left_fit = (area.getX() + area.getX() < mid_w);
+    bool left_fit = (area.getX2() < mid_w);
     bool right_fit = (area.getX() > mid_w);
 
     int index = -1;

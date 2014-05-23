@@ -4,6 +4,7 @@
 
 #include <glm/glm.hpp>
 
+// A rectangle (top-left position and scale).
 class Rectangle {
 
 private:
@@ -26,14 +27,17 @@ public:
     glm::vec3 const& getScale() const { return m_scale; }
 
     double getX() const { return m_position.x; }
+    double getX2() const { return m_position.x + m_scale.x; }
     double getY() const { return m_position.y; }
+    double getY2() const { return m_position.y + m_scale.y; }
     double getW() const { return m_scale.x; }
     double getH() const { return m_scale.y; }
 
-
-
-
-
+    // Check if a rectangle overlap an other rectangle.
+    bool overlapping(Rectangle const& other) const {
+       return getX() <= other.getX2() && getX2() >= other.getX() &&
+            getY() <= other.getY2() && getY2() >= other.getY();
+    }
 };
 
 
