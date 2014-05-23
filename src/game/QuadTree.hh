@@ -56,6 +56,16 @@ public:
     // to the given area (and potentially in collision with).
     std::list<AGameObject*>& retrieve(
         std::list<AGameObject*>& list, Rectangle const& area);
+
+    // Remove an object.
+    bool removeObject(AGameObject& obj);
+    // Remove an object whose the position has changed.
+    // The old collider has to be specified.
+    bool removeObject(AGameObject& obj, Rectangle const& old);
+    // Update the position of an object whose the position has changed.
+    // If the object isn't in the quad tree, return false and the object
+    // is NOT inserted.
+    bool updateObject(AGameObject& obj, Rectangle const& old);
 };
 
 #endif // !QUAD_TREE_HH_
