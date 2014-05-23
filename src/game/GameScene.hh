@@ -68,6 +68,11 @@ private:
         removeObjectsIf(_static, closure);
         removeObjectsIf(_movable, closure);
     }
+
+    // Clear then build the quad tree with new objects positions.
+    void rebuildQuadTree();
+
+
 };
 
 #endif

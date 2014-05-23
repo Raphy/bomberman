@@ -7,25 +7,24 @@ GameScene::GameScene(SceneArguments const & args)
 {
 }
 
-GameScene::~GameScene(void)
-{  
+GameScene::~GameScene(void) {  
     delete _quad_tree;
 }
 
 /* MEMBER FUNCTION */
 
-bool    GameScene::initialize(void)
-{
+bool    GameScene::initialize(void) {
     _quad_tree = new QuadTree(Rectangle(0, 0, 100, 100)); // replace 100, 100 by map size.
     return true;
 }
 
-bool    GameScene::update(gdl::Clock const& clock, gdl::Input& input)
-{
-    // clear the quad tree.
-    _quad_tree->clear();
+bool    GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
-    // foreach object, update and insert in the quad tree
+    // If objects can access to the quad tree in their method 'update', 
+    // we have to rebuild the quad tree here, and after update.
+
+    // foreach object, update and insert in the clean quad tree.
+    _quad_tree->clear();
     this->foreachObject([&](AGameObject& obj) {
         obj.update(clock, input);
         _quad_tree->insert(obj);
@@ -59,7 +58,14 @@ bool    GameScene::update(gdl::Clock const& clock, gdl::Input& input)
     return true;
 }
 
-bool    GameScene::draw(void)
-{
+bool GameScene::draw(void) {
     return true;
+}
+
+void GameScene::rebuildQuadTree() {
+    _quad_tree->clear();
+
+    this->foreachObject([&](AGameObject& obj) {
+        _quad_tree->insert(obj);
+    });
 }
