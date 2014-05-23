@@ -4,7 +4,7 @@
 
 #include <glm/glm.hpp>
 
-// A rectangle (top-left position and scale).
+// top-left position and scale of an area.
 class Rectangle {
 
 private:

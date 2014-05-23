@@ -1,7 +1,5 @@
 #include	"GameScene.hh"
 
-/* CONSTRUCTORS */
-
 GameScene::GameScene(SceneArguments const & args)
   : AScene("GameScene"), _static(), _movable(), _quad_tree(0)
 {
@@ -11,14 +9,12 @@ GameScene::~GameScene(void) {
     delete _quad_tree;
 }
 
-/* MEMBER FUNCTION */
-
-bool    GameScene::initialize(void) {
+bool GameScene::initialize(void) {
     _quad_tree = new QuadTree(Rectangle(0, 0, 100, 100)); // replace 100, 100 by map size.
     return true;
 }
 
-bool    GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
+bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
     // If objects can access to the quad tree in their method 'update', 
     // we have to rebuild the quad tree here, and after update.

@@ -1,12 +1,12 @@
-#ifndef     GAMESCENE_HH_
-# define    GAMESCENE_HH_
+#ifndef GAMESCENE_HH_
+# define GAMESCENE_HH_
 
-# include   <list>
+# include <list>
 
-# include   "AScene.hh"
-# include   "AGameObject.hh"
-# include   "SceneArguments.hh"
-# include   "QuadTree.hh"
+# include "AScene.hh"
+# include "AGameObject.hh"
+# include "SceneArguments.hh"
+# include "QuadTree.hh"
 
 /*
 ** Should need these arguments:
@@ -14,23 +14,23 @@
 */
 
 // The most interesting scene.
-class       GameScene : public AScene
+class GameScene : public AScene
 {
 public:
     GameScene(SceneArguments const& args);
     virtual ~GameScene(void);
 
-    virtual bool              initialize(void);
-    virtual bool              update(gdl::Clock const& clock, gdl::Input& input);
-    virtual bool              draw(void);
+    virtual bool initialize(void);
+    virtual bool update(gdl::Clock const& clock, gdl::Input& input);
+    virtual bool draw(void);
 
 private:
     // List of static object (wall, ...)
-    std::list<AGameObject*>   _static;
+    std::list<AGameObject*> _static;
     // List of movable object (player, ia, bomb, ...)
-    std::list<AGameObject*>   _movable;
+    std::list<AGameObject*> _movable;
     // The magic data structure !
-    QuadTree*                 _quad_tree;
+    QuadTree* _quad_tree;
 
     // Call a closure/functor for each object in the list.
     // (the closure must take an AGameObject&)
@@ -71,8 +71,6 @@ private:
 
     // Clear then build the quad tree with new objects positions.
     void rebuildQuadTree();
-
-
 };
 
 #endif
