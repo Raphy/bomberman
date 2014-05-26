@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Mon May 26 17:48:52 2014 raphael defreitas
-// Last update Mon May 26 17:54:22 2014 raphael defreitas
+// Last update Mon May 26 18:23:19 2014 raphael defreitas
 */
 
 #ifndef		PLAYER_HH_
@@ -19,7 +19,7 @@ namespace API
   {
   public:
     Player(void);
-    ~Player();
+    ~Player(void);
 
     bool moveUp(void);
     bool moveDown(void);

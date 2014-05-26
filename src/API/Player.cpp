@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Mon May 26 17:51:39 2014 raphael defreitas
-// Last update Mon May 26 17:55:40 2014 raphael defreitas
+// Last update Mon May 26 18:22:56 2014 raphael defreitas
 //
 
 #include	"Player.hh"
@@ -17,7 +17,7 @@ Player::Player(void)
 
 }
 
-Player::~Player()
+Player::~Player(void)
 {
 
 }

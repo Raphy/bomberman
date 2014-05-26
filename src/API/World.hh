@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Mon May 26 17:46:57 2014 raphael defreitas
-// Last update Mon May 26 17:59:07 2014 raphael defreitas
+// Last update Mon May 26 18:23:07 2014 raphael defreitas
 */
 
 #ifndef		WORLD_HH_
@@ -20,8 +20,8 @@ namespace API
   class World
   {
   public:
-    World();
-    ~World();
+    World(void);
+    ~World(void);
 
     std::list<Player>& getPlayers(void);
 

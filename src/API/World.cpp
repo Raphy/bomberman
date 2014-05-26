@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Mon May 26 17:57:17 2014 raphael defreitas
-// Last update Mon May 26 17:59:37 2014 raphael defreitas
+// Last update Mon May 26 18:23:14 2014 raphael defreitas
 //
 
 #include	"Player.hh"
@@ -13,12 +13,12 @@
 
 using namespace API;
 
-World::World()
+World::World(void)
 {
 
 }
 
-World::~World()
+World::~World(void)
 {
 
 }
