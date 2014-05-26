@@ -5,11 +5,14 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Mon May 26 18:21:39 2014 raphael defreitas
-// Last update Mon May 26 18:22:07 2014 raphael defreitas
+// Last update Mon May 26 19:01:08 2014 raphael defreitas
 */
 
 #ifndef		VIRTUALMACHINE_HH_
 # define	VIRTUALMACHINE_HH_
+
+# include	<lua.hpp>
+# include	<string>
 
 namespace Lua
 {
@@ -17,7 +20,18 @@ namespace Lua
   {
   public:
     VirtualMachine(void);
+    VirtualMachine(lua_State* L);
     ~VirtualMachine(void);
+
+    void loadLibraries(void);
+
+    std::string getError(void);
+
+    bool runFile(const std::string& filename);
+    bool runString(const std::string& str);
+
+  protected:
+    lua_State* _L;
   };
 }
 
