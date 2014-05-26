@@ -1,31 +1,25 @@
-#include <SDL/SDL.h>
-#include <SDL/SDL_mixer.h>
-#include <map>
-#include <string>
+#ifndef		_SOUND_MANAGER_HH_
+# define	_SOUND_MANAGER_HH_
 
-/*
-** Gestion d'erreur ++
-*/
+# include <SDL/SDL.h>
+# include <SDL/SDL_mixer.h>
+# include <map>
+# include <string>
 
 class SoundManager
 {
 public:
   static SoundManager& getInstance();
 
-  void playMusic(const std::string&);
-  void playFx(const std::string&);
+  bool playMusic(const std::string&);
+  bool playMusicFade(const std::string&);
+  bool playFx(const std::string&);
 
-  /*
-  **   check le doublon ? depend comment il sera utilise ? singleton ?
-  */
-  void loadFx(const std::string&, const std::string&);
-  void loadMusic(const std::string&, const std::string&);
+  bool loadFx(const std::string&, const std::string&);
+  bool loadMusic(const std::string&, const std::string&);
 
-  /*
-  ** Penser a STOPER AVANT D'effacer
-  */
-  void deleteFx(const std::string& tag);
-  void deleteMusic(const std::string& tag);
+  bool deleteFx(const std::string& tag);
+  bool deleteMusic(const std::string& tag);
 
   void stopMusic();
   void stopFx();
@@ -54,27 +48,21 @@ public:
   bool isMuteMusic();
   bool isMuteFx();
 
-
 private:
   SoundManager();
   ~SoundManager();
   SoundManager(SoundManager const&);
   void operator=(SoundManager const&);
 
-  /*
-  ** Map de son
-  */
   std::map<std::string, Mix_Music *> _soundMusic;
   std::map<std::string, Mix_Chunk *> _soundFx;
 
-  /*
-  ** Volume 0 to 128
-  */
   int _volume;
   int _volumeFx;
   int _volumeMusic;
   bool _mute;
   bool _muteFx;
   bool _muteMusic;
-  const std::string path;
 };
+
+#endif /* !_SOUND_MANAGER_HH_ */
