@@ -1,30 +1,22 @@
 #include <iostream>
 #include <fstream>
+#include <exception>
 #include "SoundManager.hh"
 
 SoundManager::SoundManager()
   : _volume(128), _volumeFx(128), _volumeMusic(128), _mute(false), _muteFx(false), _muteMusic(false)
 {
-  /*
-  ** Init de SDL_Mix ? si singleton Mix_audio ! else allocate channel
-  */
-  Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048); // #### RETOUR
-  Mix_AllocateChannels(64); // nb channels for Fx
-
-  /* Set du volume au max au debut*/
+  if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048) == -1)
+    throw std::string("Init Mix_OpenAudio fail");
+  Mix_AllocateChannels(64);
   setVolume(_volume);
-
-  // path = ""; Tu ne peux pas modifier un membre si il est constant. (tu dois le faire dans la liste d'initialisation)
-  /*
-    loadFx("goats", path + "goats.wav");
-    loadMusic("pokemon", path + "pokemon.mp3");
-  */
 }
 
 SoundManager::~SoundManager()
 {
-  // Free tout les musics ? ou chacun les Free
-
+  stop();
+  while (deleteFx(_soundFx.begin()->first) == true);
+  while (deleteMusic(_soundMusic.begin()->first) == true);
   Mix_CloseAudio();
 }
 
@@ -34,76 +26,96 @@ SoundManager& SoundManager::getInstance()
   return instance;
 }
 
-void	SoundManager::loadFx(const std::string& tag, const std::string& path)
+bool	SoundManager::loadFx(const std::string& tag, const std::string& path)
 {
   Mix_Chunk *tmp;
 
   tmp = Mix_LoadWAV(path.c_str());
   if (tmp != NULL)
-    _soundFx.insert(std::pair<std::string, Mix_Chunk*>(tag, tmp));
+    {
+      if (_soundFx.size() != 0 && _soundFx.find(tag) != _soundFx.end())
+	return false;
+      _soundFx.insert(std::pair<std::string, Mix_Chunk*>(tag, tmp));
+    }
   else
-    std::cout << "Music not create" << std::endl;
+    return false;
+  return true;
 }
 
-void	SoundManager::loadMusic(const std::string& tag, const std::string& path)
+bool	SoundManager::loadMusic(const std::string& tag, const std::string& path)
 {
   Mix_Music *tmp;
 
   tmp = Mix_LoadMUS(path.c_str());
   if (tmp != NULL)
-    _soundMusic.insert(std::pair<std::string, Mix_Music*>(tag, tmp));
+    {
+      if (_soundMusic.size() != 0 && _soundMusic.find(tag) != _soundMusic.end())
+	return false;
+      _soundMusic.insert(std::pair<std::string, Mix_Music*>(tag, tmp));
+    }
   else
-    std::cout << "Music not create" << std::endl;
+    return false;
+  return true;
 }
 
-void SoundManager::deleteFx(const std::string& tag)
+bool SoundManager::deleteFx(const std::string& tag)
 {
   std::map<std::string, Mix_Chunk*>::iterator it;
 
   it = _soundFx.find(tag);
   if (it == _soundFx.end())
-    std::cout << "Music :" << tag << "not found" << std::endl;
-  else
-    {
-      Mix_FreeChunk(it->second);
-      _soundFx.erase(it);
-    }
+    return false;
+  Mix_FreeChunk(it->second);
+  _soundFx.erase(it);
+  return true;
 }
 
-void SoundManager::deleteMusic(const std::string& tag)
+bool SoundManager::deleteMusic(const std::string& tag)
 {
   std::map<std::string, Mix_Music*>::iterator it;
 
   it = _soundMusic.find(tag);
   if (it == _soundMusic.end())
-    std::cout << "Music :" << tag << "not found" << std::endl;
-  else
-    {
-      Mix_FreeMusic(it->second);
-      _soundMusic.erase(it);
-    }
+    return false;
+  Mix_FreeMusic(it->second);
+  _soundMusic.erase(it);
+  return true;
 }
 
-void	SoundManager::playMusic(const std::string& music)
+bool	SoundManager::playMusic(const std::string& music)
 {
   std::map<std::string, Mix_Music*>::iterator it;
 
   it = _soundMusic.find(music);
   if (it == _soundMusic.end())
-    std::cout << "Music :" << music << "not play" << std::endl;
-  else
-    Mix_PlayMusic(it->second, 1);
+    return false;
+  if (Mix_PlayMusic(it->second, 1) == -1)
+    return false;
+  return true;
 }
 
-void	SoundManager::playFx(const std::string& music)
+bool	SoundManager::playMusicFade(const std::string& music)
+{
+  std::map<std::string, Mix_Music*>::iterator it;
+
+  it = _soundMusic.find(music);
+  if (it == _soundMusic.end())
+    return false;
+  if (Mix_FadeInMusic(it->second, 1, 1000) == -1)
+    return false;
+  return true;
+}
+
+bool	SoundManager::playFx(const std::string& music)
 {
   std::map<std::string, Mix_Chunk*>::iterator it;
 
   it = _soundFx.find(music);
   if (it == _soundFx.end())
-    std::cout << "Music :" << music << "not play" << std::endl;
-  else
-    Mix_PlayChannel(-1, it->second, 0);
+    return false;
+  if (Mix_PlayChannel(-1, it->second, 0) == -1)
+    return false;
+  return true;
 }
 
 void	SoundManager::stopMusic()
