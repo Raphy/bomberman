@@ -30,6 +30,7 @@ bool PlaylistManager::update()
 {
   if (Mix_PlayingMusic() == 0)
       return false;
+  next();
   return true;
 }
 
