@@ -1,7 +1,7 @@
 #include "PlaylistManager.hh"
 
-PlaylistManager::PlaylistManager(SoundManager& son)
-  :_son(son), _n(0)
+PlaylistManager::PlaylistManager()
+  :_son(SoundManager::getInstance()), _n(0)
 {
 }
 
