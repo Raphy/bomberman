@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue May 27 17:57:46 2014 raphael defreitas
-// Last update Wed May 28 15:44:58 2014 raphael defreitas
+// Last update Wed May 28 16:35:44 2014 raphael defreitas
 */
 
 #ifndef		SCRIPT_HH_
