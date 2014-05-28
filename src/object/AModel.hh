@@ -5,18 +5,18 @@
 
 class AModel: public AGameObject
 {
-public:
+    public:
 	
 	// Gonna throw an exception
 	AModel(std::string const& modelPath);
 	
 	virtual ~AModel() {}
 	virtual void draw(gdl::AShader & shader, gdl::Clock const& clock);
-
-protected:
- gdl::Model _model;
- unsigned int 	_animIndex;
-
+        
+    protected:
+        gdl::Model _model;
+        unsigned int 	_animIndex;
+            
 };
 
 #endif		/* AMODEL_HH_ */
