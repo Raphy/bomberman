@@ -2,10 +2,10 @@
 # Basic
 CXX ?= g++
 
-INCFLAGS := $(shell pkg-config --cflags SDL_mixer) $(shell pkg-config --cflags lua)
+INCFLAGS := $(shell pkg-config --cflags SDL_mixer) $(shell pkg-config --cflags lua5.1)
 CXXFLAGS = -Wall -std=c++11 $(INCFLAGS)
 CXXFLAGS += -I lib/gdl/includes/
-LDFLAGS := $(shell pkg-config --libs SDL_mixer) -L ./lib/gdl/libs/ -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2 -lpthread -ldl $(shell pkg-config --libs lua)
+LDFLAGS := $(shell pkg-config --libs SDL_mixer) -L ./lib/gdl/libs/ -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2 -lpthread -ldl $(shell pkg-config --libs lua5.1)
 
 OFLAGS :=
 DBGFLAGS := -DDEBUG -ggdb3
