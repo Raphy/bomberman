@@ -7,7 +7,7 @@
 class		PlaylistManager
 {
 public:
-  PlaylistManager(SoundManager& son);
+  PlaylistManager();
   ~PlaylistManager();
 
   void addPlaylist(const std::string&);
