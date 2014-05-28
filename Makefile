@@ -15,7 +15,7 @@ NDBGFLAGS = -DNDEBUG $(OFLAGS)
 DEBUG ?= 1
 
 ifeq ($(DEBUG), 1)
-CXXFLAGS += $(DGBFLAGS)
+CXXFLAGS += $(DBGFLAGS)
 else
 CXXFLAGS += $(NDBGFLAGS)
 endif
@@ -46,7 +46,7 @@ RM := rm -vf
 all: $(TARGET)
 
 $(TARGET): $(OBJ)
-	$(CXX) $(CFLAGS) -o $(TARGET) $(OBJ) $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJ) $(LDFLAGS)
 
 clean:
 	$(RM) $(OBJ)
