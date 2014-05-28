@@ -13,6 +13,7 @@ NDBGFLAGS = -DNDEBUG $(OFLAGS)
 
 # Lua lib according to the user distribution
 # VERY VERY DEGUEULASSE !!!!!!!!!!!!
+# l'idée c'est que si la valeur de retour de la commande (uname -rms | grep -o ARCH) vaut 0 on utilise « lua » sinon « lua5.2 »
 INCFLAGS += $(shell pkg-config --cflags lua) $(shell pkg-config --cflags lua5.2)
 LDFLAGS += $(shell pkg-config --libs lua) $(shell pkg-config --libs lua5.2)
 
