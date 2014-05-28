@@ -11,10 +11,16 @@
 #include "AGameObject.hh"
 
 class AGeometry: public AGameObject {
-public:
-    AGeometry();
-    virtual ~AGeometry();
-private:
+    public:
+    
+    AGeometry() {};
+    virtual ~AGeometry() {};
+
+protected:
+    
+    gdl::Texture    _texture;
+    gdl::Geometry   _geometry;
+
     virtual void draw(gdl::AShader & shader, gdl::Clock const& clock);
 };
 
