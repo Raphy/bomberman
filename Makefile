@@ -12,10 +12,14 @@ DBGFLAGS := -DDEBUG -ggdb3
 NDBGFLAGS = -DNDEBUG $(OFLAGS)
 
 # Lua lib according to the user distribution
-# VERY VERY DEGUEULASSE !!!!!!!!!!!!
-# l'idée c'est que si la valeur de retour de la commande (uname -rms | grep -o ARCH) vaut 0 on utilise « lua » sinon « lua5.2 »
-INCFLAGS += $(shell pkg-config --cflags lua) $(shell pkg-config --cflags lua5.2)
-LDFLAGS += $(shell pkg-config --libs lua) $(shell pkg-config --libs lua5.2)
+ifeq ($(shell uname -rms | grep -o ARCH), ARCH)
+LIBLUA_NAME="lua"
+else
+LIBLUA_NAME="lua5.2"
+endif
+INCFLAGS += $(shell pkg-config --cflags $(LIBLUA_NAME))
+LDFLAGS += $(shell pkg-config --libs $(LIBLUA_NAME))
+
 
 # The default mode (set it to 0 before the rendu)
 DEBUG ?= 1
@@ -33,7 +37,7 @@ OFLAGS = -O$(OPTI)
 endif
 
 # Files and locations
-TARGET := bomberman
+TARGET := ./build/bomberman
 
 SRC_ROOTDIR := src
 SRC_SUBDIRS := scene scenesmanager soundmanager object API Lua
@@ -52,10 +56,7 @@ RM := rm -vf
 all: $(TARGET)
 
 lua_version:
-		@echo $(LUA_LIB)
-		@echo $(DISTRIB)
-		@echo $(shell pkg-config --libs --cflags lua)
-		@echo $(shell pkg-config --libs --cflags lua5.2)
+		@echo $(MAVAR)
 
 $(TARGET): $(OBJ)
 	$(CXX) $(CFLAGS) -o $(TARGET) $(OBJ) $(LDFLAGS)
