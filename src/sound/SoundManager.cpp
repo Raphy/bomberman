@@ -209,27 +209,27 @@ int SoundManager::getVolumeMusic()
   return _volumeMusic;
 }
 
-void SoundManager::Mute()
+void SoundManager::mute()
 {
   if (isMute() == false)
     {
       _mute = true;
       _muteFx = true;
       _muteMusic = true;
-      MuteMusic();
-      MuteFx();
+      muteMusic();
+      muteFx();
     }
   else
     {
       _mute = false;
       _muteFx = false;
       _muteMusic = false;
-      MuteMusic();
-      MuteFx();
+      muteMusic();
+      muteFx();
     }
 }
 
-void SoundManager::MuteMusic()
+void SoundManager::muteMusic()
 {
   if (isMuteMusic() == false)
     {
@@ -243,7 +243,7 @@ void SoundManager::MuteMusic()
     }
 }
 
-void SoundManager::MuteFx()
+void SoundManager::muteFx()
 {
   if (isMuteFx() == false)
     {

@@ -1,7 +1,6 @@
 #ifndef		_SOUND_MANAGER_HH_
 # define	_SOUND_MANAGER_HH_
 
-# include <SDL/SDL.h>
 # include <SDL/SDL_mixer.h>
 # include <map>
 # include <string>
@@ -41,9 +40,9 @@ public:
   int getVolumeFx();
   int getVolumeMusic();
 
-  void Mute();
-  void MuteMusic();
-  void MuteFx();
+  void mute();
+  void muteMusic();
+  void muteFx();
   bool isMute();
   bool isMuteMusic();
   bool isMuteFx();
