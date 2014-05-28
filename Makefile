@@ -13,7 +13,7 @@ NDBGFLAGS = -DNDEBUG $(OFLAGS)
 
 # Lua lib according to the user distribution
 # VERY VERY DEGUEULASSE !!!!!!!!!!!!
-INCCFLAGS += $(shell pkg-config --cflags lua) $(shell pkg-config --cflags lua5.2)
+INCFLAGS += $(shell pkg-config --cflags lua) $(shell pkg-config --cflags lua5.2)
 LDFLAGS += $(shell pkg-config --libs lua) $(shell pkg-config --libs lua5.2)
 
 # The default mode (set it to 0 before the rendu)
