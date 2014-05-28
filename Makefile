@@ -14,8 +14,6 @@ NDBGFLAGS = -DNDEBUG $(OFLAGS)
 # The default mode (set it to 0 before the rendu)
 DEBUG ?= 1
 
-CXXFLAGS += $(DGBFLAGS)
-
 ifeq ($(DEBUG), 1)
 CXXFLAGS += $(DGBFLAGS)
 else
