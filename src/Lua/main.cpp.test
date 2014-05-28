@@ -1,0 +1,81 @@
+#include	<cstdlib>
+#include	<iostream>
+#include	<vector>
+
+#include	"Script.hh"
+
+#include	"MyLuaClass.hpp"
+
+using namespace Lua;
+
+int displayLuaFunction(lua_State* L)
+{
+  int argc = lua_gettop(L);
+
+  // print input arguments
+  std::cout << "[C++] Function called from Lua with " << argc << " input arguments" << std::endl;
+  for(int i = 0; i < argc; i++)
+    {
+      std::cout << "Arg #" << i + 1 << ": " << lua_tostring(L, lua_gettop(L)) << std::endl;
+      lua_pop(L, 1);
+    }
+
+  // push to the stack the multiple return values
+  lua_pushnumber(L, 12);
+  lua_pushstring(L, "See you space cowboy");
+
+  // number of return values
+  return (2);
+}
+
+int main(int argc, char** argv)
+{
+  if (argc == 1)
+    {
+      std::cerr << "Usage: " << argv[0] << " <script Lua>" << std::endl;
+      return (EXIT_FAILURE);
+    }
+
+
+  Script script(argv[1]);
+
+  // Register
+  lua_pushcfunction(script.getState(), &displayLuaFunction);
+  lua_setglobal(script.getState(), "displayLuaFunction");
+
+  MyLuaClass::luaRegister(script.getState());
+  MyLuaClass **ud = static_cast<MyLuaClass **>(lua_newuserdata(script.getState(), sizeof(MyLuaClass *)));
+  (*ud) = new MyLuaClass("HELLO");
+  std::cout << "+++++ " << *ud << " +++++" << std::endl;
+
+  luaL_setmetatable(script.getState(), "MyLuaClass");
+  lua_setglobal(script.getState(), "my_lua_class");
+
+  if (!script.run())
+    {
+      std::cerr << "Lua: " << script.getError() << std::endl;
+      return (EXIT_FAILURE);
+    }
+
+
+  float posX = script.get<float>("player.position.x");
+  float posY = script.get<float>("player.position.y");
+  std::string filename = script.get<std::string>("player.filename");
+  int hp = script.get<int>("player.HP");
+
+  std::cout << "Position X = " << posX << ", Y = " << posY << std::endl;
+  std::cout << "Filename:" << filename << std::endl;
+  std::cout << "HP:" << hp << std::endl;
+
+  std::vector<int> array = script.getVector<int>("array");
+  for(std::vector<int>::iterator it = array.begin(); it != array.end(); it++)
+    std::cout << *it << ",";
+  std::cout<<std::endl;
+
+  MyLuaClass lua_class("CPP");
+  lua_class.printMsg();
+
+  delete (*ud);
+
+  return (EXIT_SUCCESS);
+}
