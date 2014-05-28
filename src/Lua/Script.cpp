@@ -5,13 +5,13 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue May 27 17:59:35 2014 raphael defreitas
-// Last update Wed May 28 00:17:20 2014 raphael defreitas
+// Last update Wed May 28 15:45:09 2014 raphael defreitas
 //
 
 #include	<exception>
-#include	<lua.hpp>
 #include	<string>
 
+#include	"lua.hpp"
 #include	"Script.hh"
 
 using namespace Lua;
