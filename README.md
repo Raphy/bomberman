@@ -18,6 +18,7 @@ Le fichier '.editorconfig' à la racine du dépot prendra effet et les tabulatio
 ![Alt text](./avatars/svirch_n.png "svirch_n")
 ![Alt text](./avatars/defrei_r.png "defrei_r")
 ![Alt text](./avatars/parejo_p.png "parejo_p")
+![Alt text](./avatars/lefebv_z.png "lefebv_z")
 
 ## Compilation
 
