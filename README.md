@@ -18,6 +18,7 @@ Le fichier '.editorconfig' à la racine du dépot prendra effet et les tabulatio
 ![Alt text](./avatars/svirch_n.png "svirch_n")
 ![Alt text](./avatars/defrei_r.png "defrei_r")
 ![Alt text](./avatars/parejo_p.png "parejo_p")
+![Alt text](./avatars/lefebv_z.png "lefebv_z")
 
 ## Compilation
 
@@ -64,5 +65,30 @@ Scripts: .lua
 Lua 5.2
 * ArchLinux: lua
 * Debian: liblua5.2-dev
+
+#### IA Script Skeleton
+~~~lua
+function onInitialization
+  -- What to do when the script is loaded
+end
+
+function onMyTurn
+  -- What to do when the player by this script will play
+  
+  -- The scripts is provided by the following objects:
+  -- Variable "me" (API::Me) represents the player by this script
+  -- Variable "map" (API::Map) represents the game map
+  
+  print(me:getName()) -- Prints the player name
+  
+  local objects = map:get(me:getX(), me:getY()) -- Returns std::vector<API::GameObject>
+  
+  -- Browse the objects in the current player position
+  for object in objects
+    print("Object "..object.getType().." in position "..object.getX()..","..object:getY())
+  end
+  
+end
+~~~
 
 
