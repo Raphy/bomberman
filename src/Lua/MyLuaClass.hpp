@@ -5,14 +5,14 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue May 27 22:42:13 2014 raphael defreitas
-// Last update Wed May 28 01:29:28 2014 raphael defreitas
+// Last update Wed May 28 15:44:46 2014 raphael defreitas
 //
 
 #include	<assert.h>
 #include	<iostream>
-#include	<lua.hpp>
 #include	<string>
 
+#include	"lua.hpp"
 #include	"Script.hh"
 using namespace Lua;
 
