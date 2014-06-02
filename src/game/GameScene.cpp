@@ -1,7 +1,10 @@
 #include	"GameScene.hh"
 
+const std::string GameScene::Tag = "game";
+
+
 GameScene::GameScene(SceneArguments const & args)
-  : AScene("GameScene"), _static(), _movable(), _quad_tree(0)
+  : AScene(Tag), _static(), _movable(), _quad_tree(0)
 {
 }
 
