@@ -16,6 +16,9 @@ private:
 
 protected:
     // The constructor is called only in child classes's construtors.
+    // It take a string which will be used for the scene id.
+    //! Warning: children classes has to take only a
+    // "SceneArguments const&" as parameter.
     AScene(std::string const& id_tag);
 
     // Help children scenes to manage their status.
@@ -29,6 +32,7 @@ protected:
     }
 
 public:
+    // Do not overload these methods in children.
     virtual SceneStatus const& getStatus() const;
     virtual SceneId const& getId() const;
 };
