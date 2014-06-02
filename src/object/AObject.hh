@@ -1,5 +1,6 @@
-#ifndef		AOBJECT_HH_
-# define	AOBJECT_HH_
+
+#ifndef          AOBJECT_HH_
+# define        AOBJECT_HH_
 
 # include <SdlContext.hh>
 # include <glm/glm.hpp>
@@ -17,33 +18,42 @@
 
 class AObject
 {
-public:
-	
-	AObject(): _position(0,0,0), _rotation(0,0,0), _scale(1,1,1) {}
-	virtual ~AObject() {}
+    public:
+        AObject():
+            _position(0, 0, 0),
+            _rotation(0, 0, 0),
+            _scale(1, 1, 1)
+        {
+        }
 
- virtual bool initialize() = 0;
- virtual void update(gdl::Clock const& clock, gdl::Input& input) = 0;
- virtual void draw(gdl::AShader & shader, gdl::Clock const& clock) = 0;
+        virtual ~AObject()
+        {
+        }
 
-protected:
+        virtual bool initialize() = 0;
+        virtual void update(gdl::Clock const &clock, gdl::Input & input) = 0;
+        virtual void draw(gdl::AShader & shader, gdl::Clock const &clock) = 0;
+        void setPosition(glm::vec3 position) { _position = position; }
+        void setSpeed(float speed) { this->_speed = speed; }
+        
+    protected:
+        glm::vec3 _position;
+        glm::vec3 _rotation;
+        glm::vec3 _scale;
+        float _speed;
+        
+        void lookNorth() { this -> lookAt(glm::vec3(0, 0, 0)); }
+        void lookSouth() { this -> lookAt(glm::vec3(0, 180, 0)); }
+        void lookWest() { this -> lookAt(glm::vec3(0, 90, 0)); }
+        void lookEast() { this -> lookAt(glm::vec3(0, -90, 0));}
+        void translate(glm::vec3 const &v) { _position += v; }
+        void rotate(glm::vec3 const &axis, float angle) { _rotation += axis * angle; }
+        void lookAt(glm::vec3 const &point) { _rotation = point; }
+        void scale(glm::vec3 const &scale) { _scale *= scale; }
 
-	glm::vec3 _position;
-	glm::vec3 _rotation;
-	glm::vec3 _scale;
-
-	void lookNorth() { this->lookAt(glm::vec3(0, 0, 0)); }
-	void lookSouth() { this->lookAt(glm::vec3(0, 180, 0)); }
-	void lookWest() { this->lookAt(glm::vec3(0, 90, 0)); }
-	void lookEast() { this->lookAt(glm::vec3(0, -90, 0)); }
-
-	void translate(glm::vec3 const& v) { _position += v; }
-	void rotate(glm::vec3 const& axis, float angle) { _rotation += axis * angle; }
-	void lookAt(glm::vec3 const& point) { _rotation = point; }
-	void scale(glm::vec3 const& scale) { _scale *= scale; }
-	
-	glm::mat4 getTransformation();
-
+        glm::mat4 getTransformation();
 };
+#endif           /* AOBJECT_HH_ */
 
-#endif		/* AOBJECT_HH_ */
+
+//~ Formatted by Jindent --- http://www.jindent.com

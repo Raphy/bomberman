@@ -35,7 +35,7 @@ public:
 		_shader.setUniform("view", transformation);
 		_shader.setUniform("projection", projection);
 
-		AObject *cube = new Marvin();
+		AObject *cube = new Wall();
 		
 		if (cube->initialize() == false)
   			return (false);

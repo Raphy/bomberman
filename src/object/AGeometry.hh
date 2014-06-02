@@ -15,7 +15,8 @@ class AGeometry: public AGameObject {
     
     AGeometry() {};
     virtual ~AGeometry() {};
-
+    bool setTexture(std::string const& path) { return _texture.load(path); }
+      
 protected:
     
     gdl::Texture    _texture;

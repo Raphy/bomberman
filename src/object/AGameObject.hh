@@ -16,6 +16,7 @@ public:
 
 protected:
  float _speed;
+ 
 };
 
 #endif   /* AGAMEOBJECT_HH_*/
