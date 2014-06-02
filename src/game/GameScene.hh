@@ -17,6 +17,8 @@
 class GameScene : public AScene
 {
 public:
+    static const std::string Tag;
+
     GameScene(SceneArguments const& args);
     virtual ~GameScene(void);
 
