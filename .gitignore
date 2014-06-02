@@ -4,6 +4,6 @@
 TestBomberman/
 bomberman
 nbproject/
+./build/bomberman
 *.autosave
-/build/
 nbproject
