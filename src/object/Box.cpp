@@ -1,25 +1,25 @@
 /* 
- * File:   Wall.cpp
+ * File:   Box.cpp
  * Author: svirch_n
  * 
- * Created on 02 June 2014, 16:15
+ * Created on 02 June 2014, 19:35
  */
 
-#include "Wall.hh"
+#include "Box.hh"
 
-Wall::Wall() {
+Box::Box() {
 }
 
-Wall::~Wall() {
+Box::~Box() {
 }
 
-bool Wall::initialize() {
+bool Box::initialize() {
     this->setSpeed(10);
-    return this->setTexture("./build/assets/textures/wall.tga");
+    return this->setTexture("./build/assets/textures/box.tga");
 }
 
 
-void Wall::update(gdl::Clock const &clock, gdl::Input &input)
+void Box::update(gdl::Clock const &clock, gdl::Input &input)
 {
     if (input.getKey(SDLK_UP))
         translate(glm::vec3(0, 0, -1) * static_cast<float>(clock.getElapsed()) * _speed);

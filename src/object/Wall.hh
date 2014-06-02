@@ -15,7 +15,7 @@ public:
     Wall();
     virtual ~Wall();
     virtual void update(gdl::Clock const& clock, gdl::Input& input);
-    virtual bool initialize() { return true; };
+    virtual bool initialize();;
 
     private:
 

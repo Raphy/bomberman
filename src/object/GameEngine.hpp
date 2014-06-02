@@ -3,6 +3,7 @@
 #include <SdlContext.hh>
 #include "AObject.hh"
 #include "Marvin.hh"
+#include    "Box.hh"
 
 class GameEngine:
     public gdl::Game
@@ -36,7 +37,7 @@ class GameEngine:
             _shader.setUniform("view", transformation);
             _shader.setUniform("projection", projection);
 
-            AObject * cube = new Wall();
+            AObject * cube = new Box();
 
             if (cube -> initialize() == false) {
                 return (false);
