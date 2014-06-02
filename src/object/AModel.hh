@@ -15,7 +15,6 @@ class AModel: public AGameObject
         
     protected:
         gdl::Model      _model;
-        unsigned int 	_animIndex;
             
 };
 

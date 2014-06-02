@@ -1,7 +1,6 @@
 # include	"AModel.hh"
 
 AModel::AModel(std::string const& modelPath)
-: _animIndex(0)
 {
     
     //Exception if failed ?

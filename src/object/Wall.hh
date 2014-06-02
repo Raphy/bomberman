@@ -13,9 +13,11 @@
 class Wall: public Cube {
 public:
     Wall();
-    Wall(const Wall& orig);
     virtual ~Wall();
-private:
+    virtual void update(gdl::Clock const& clock, gdl::Input& input);
+    virtual bool initialize() { return true; };
+
+    private:
 
 };
 

@@ -14,13 +14,7 @@ class Cube: public AGeometry
 {
     public:
         Cube();
-        virtual ~Cube(){};
-        virtual bool initialize() { return true; }
-
-        
-    private:
-        virtual void update(gdl::Clock const &clock,
-                            gdl::Input &     input);
+        virtual ~Cube() {};
 };
 #endif   /* CUBE_HH */
 
