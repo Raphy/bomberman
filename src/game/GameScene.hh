@@ -22,7 +22,7 @@ public:
 
     virtual bool initialize(void);
     virtual bool update(gdl::Clock const& clock, gdl::Input& input);
-    virtual bool draw(void);
+    virtual bool draw(gdl::AShader& shader, gdl::Clock const& clock);
 
 private:
     // List of static object (wall, ...)

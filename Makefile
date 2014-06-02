@@ -40,7 +40,7 @@ endif
 TARGET := ./build/bomberman
 
 SRC_ROOTDIR := src
-SRC_SUBDIRS := scene scenesmanager soundmanager object API Lua
+SRC_SUBDIRS := scene scenesmanager soundmanager object API Lua game
 SRC_ALLDIRS := $(SRC_ROOTDIR) $(foreach sub_dir, $(SRC_SUBDIRS), $(SRC_ROOTDIR)/$(sub_dir))
 
 SRC := $(foreach dir, $(SRC_ALLDIRS), $(wildcard $(dir)/*.cpp))

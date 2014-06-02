@@ -54,7 +54,7 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
     return true;
 }
 
-bool GameScene::draw(void) {
+bool GameScene::draw(gdl::AShader& shader, gdl::Clock const& clock) {
     return true;
 }
 
