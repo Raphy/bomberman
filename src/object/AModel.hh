@@ -14,6 +14,7 @@ class AModel: public AGameObject
 	virtual void draw(gdl::AShader & shader, gdl::Clock const& clock);
         
     protected:
+        
         gdl::Model      _model;
             
 };

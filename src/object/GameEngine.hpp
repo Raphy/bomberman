@@ -4,6 +4,7 @@
 #include "AObject.hh"
 #include "Marvin.hh"
 #include    "Box.hh"
+#include "Bomb.hh"
 
 class GameEngine:
     public gdl::Game
@@ -31,13 +32,13 @@ class GameEngine:
             glm::mat4 transformation;
 
             projection     = glm::perspective(60.0f, 800.0f / 600.0f, 0.1f, 100.0f);
-            transformation = glm::lookAt(glm::vec3(0, 0, -10), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+            transformation = glm::lookAt(glm::vec3(0, 50, -50), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
 
             _shader.bind();
             _shader.setUniform("view", transformation);
             _shader.setUniform("projection", projection);
 
-            AObject * cube = new Box();
+            AObject * cube = new Bomb();
 
             if (cube -> initialize() == false) {
                 return (false);
