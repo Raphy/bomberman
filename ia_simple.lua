@@ -1,29 +1,24 @@
-require 'helper'
+
+require 'actions'
+
+X,Y = 10,10
 
 function onInitialization()
-  -- What to do when the script is loaded
+  print(me:getName(me)) -- Prints the player name
+  Helper:getAllObject("player")
+  me:moveUp(me)
+  math.randomseed( os.time() )
 end
 
 function onMyTurn()
-  -- What to do when the player by this script will play
-
-  -- The scripts is provided by the following objects:
-  -- Variable "me" (API::Me) represents the player by this script
-  -- Variable "map" (API::Map) represents the game map
-
-  print(me:getName()) -- Prints the player name
-
-  -- local objects = map:get(me:getX(), me:getY()) -- Returns std::vector<API::GameObject>
-
-  -- print("Objects :")
-  -- -- Browse the objects in the current player position
-  -- for object in objects do
-  --   print("Object "..object:getType().." in position "..object:getX()..","..object:getY())
-  -- end
-
-  Helper:getAllObject("player")
-
+  Actions:actRandom(me)
 end
 
+print("-----init----")
 onInitialization()
+print("-----fin init----")
+
+for i=0, 10 do
+print("\n-----myturn-----")
 onMyTurn()
+end
