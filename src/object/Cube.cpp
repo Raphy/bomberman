@@ -9,8 +9,6 @@
 
 Cube::Cube() {
     
-    this->setTexture("./build/assets/textures/blank.tga");
-    
     _geometry.setColor(glm::vec4(1, 1, 1, 1));
 
     _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));
@@ -89,15 +87,4 @@ Cube::Cube() {
     _geometry.build();
 }
 
-void Cube::update(gdl::Clock const &clock, gdl::Input &input)
-{
-    if (input.getKey(SDLK_UP))
-        translate(glm::vec3(0, 0, 1) * static_cast<float>(clock.getElapsed()) * _speed);
-    if (input.getKey(SDLK_DOWN))
-        translate(glm::vec3(0, 0, -1) * static_cast<float>(clock.getElapsed()) * _speed);
-    if (input.getKey(SDLK_LEFT))
-        translate(glm::vec3(-1, 0, 0) * static_cast<float>(clock.getElapsed()) * _speed);
-    if (input.getKey(SDLK_RIGHT))
-        translate(glm::vec3(1, 0, 0) * static_cast<float>(clock.getElapsed()) * _speed);
-}
 

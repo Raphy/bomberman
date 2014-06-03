@@ -6,17 +6,35 @@
 class AGameObject: public AObject
 {
 public:
- 
- AGameObject(): _speed(10) {}
- virtual ~AGameObject() {}
+    
+    AGameObject() {}
+    
+    // Is it dead ?
+    bool isDead() const { return m_dead; }
 
- virtual void takeDamages() {}
- virtual void onCollision(AGameObject & obj) { (void) obj; }
- virtual void onMessage(AGameObject & obj, std::string const& message) { (void) obj; (void) message; }
+    virtual ~AGameObject() {}
+    // Called when collision occured with the other object as parameter.
+    virtual void onCollision(AGameObject&) {}
+    // A generic iteraction between objects (useful for IA)
+    virtual void onMessage(std::string const&, AGameObject&) {}
+    // Inflige damages to the game Object (prototype must be discuted).
+    virtual void takeDamages() {}
 
 protected:
- float _speed;
- 
+    // A type (string) used to dinstinguish
+    // differents AGameObject (in onCollision() for example)
+    std::string const m_type;
+    // Indicate if the object is already in the game.
+    bool m_dead;
+
+    // Constructor called by childrens. Take the type as parameter
+    // to force child to set it.  
+    AGameObject(std::string const& type) : AObject(), m_type(type), m_dead(false) {}
+
+    // Get the type of the object.
+    std::string const& getType() const { return m_type; }
+    // Used by children to set their m_dead attribute to true. 
+    void die() { m_dead = true; }
 };
 
 #endif   /* AGAMEOBJECT_HH_*/
