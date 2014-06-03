@@ -19,7 +19,6 @@ int main()
 
     while (engine.update() == true) {
         engine.draw();
-        usleep(1000);
     }
 
     return EXIT_SUCCESS;
