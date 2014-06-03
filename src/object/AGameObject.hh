@@ -18,7 +18,7 @@ public:
     // Inflige damages to the game Object (prototype must be discuted).
     virtual void takeDamages() {}
 
-    protected:
+protected:
     // A type (string) used to dinstinguish
     // differents AGameObject (in onCollision() for example)
     std::string const m_type;
