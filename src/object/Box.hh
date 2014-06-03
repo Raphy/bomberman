@@ -8,15 +8,17 @@
 #ifndef BOX_HH
 #define BOX_HH
 
-#include    "Cube.hh"
+#include    "ACube.hh"
 
-class Box: public Cube
+class Box: public ACube
 {
     public:
         Box();
         virtual ~Box();
 
         virtual void update(gdl::Clock const &clock, gdl::Input & input);
-        virtual bool initialize();;
+        virtual bool initialize();
+        
+        static std::string const Tag;
 };
 #endif   /* BOX_HH */

@@ -7,6 +7,8 @@
 
 #include "Bomb.hh"
 
+std::string const Bomb::Tag = "bomb";
+
 void Bomb::update(const gdl::Clock& clock, gdl::Input& input) {
 
     if (input.getKey(SDLK_UP))

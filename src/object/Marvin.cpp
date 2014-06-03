@@ -1,6 +1,8 @@
 
 #include        "Marvin.hh"
 
+std::string const Marvin::Tag = "marvin";
+
 bool Marvin::initialize() {
 
     this -> _inputs.push_back({SDLK_UP, false, &Marvin::onUpPressed});

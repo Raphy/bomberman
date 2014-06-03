@@ -21,6 +21,7 @@
 class AObject
 {
 public:
+    
     AObject():
         _position(0, 0, 0),
         _rotation(0, 0, 0),
@@ -30,16 +31,22 @@ public:
 
     virtual ~AObject() {}
 
+    virtual bool instanciatedObjects() const { return false; }
+    
+    // Need to remove the objects from the vector
+    virtual std::vector<AObject*> &getInstanciatedObjects() { return this->_objects; }
+    
     virtual bool initialize() = 0;
     virtual void update(gdl::Clock const& clock, gdl::Input& input) = 0;
     virtual void draw(gdl::AShader & shader, gdl::Clock const& clock) = 0;
-
+    
     Rectangle getCollider() const { return Rectangle(_position, _scale); }
 
     void setPosition(glm::vec3 position) { _position = position; }
     void setSpeed(float speed) { this->_speed = speed; }
     
 protected:
+    std::vector<AObject*> _objects;
     glm::vec3 _position;
     glm::vec3 _rotation;
     glm::vec3 _scale;

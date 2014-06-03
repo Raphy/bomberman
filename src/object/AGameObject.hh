@@ -7,8 +7,6 @@ class AGameObject: public AObject
 {
 public:
     
-    AGameObject() {}
-    
     // Is it dead ?
     bool isDead() const { return m_dead; }
 

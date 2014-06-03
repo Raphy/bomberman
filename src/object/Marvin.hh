@@ -13,11 +13,13 @@ struct inputStructure {
 class Marvin: public AModel
 {
 public:
-    Marvin() : AModel("./build/assets/marvin.fbx") {}
+    Marvin() : AModel("./build/assets/marvin.fbx", "marvin") {}
     virtual ~Marvin() {}
     
     virtual bool initialize();
     virtual void update(gdl::Clock const& clock, gdl::Input& input);
+ 
+    static std::string const Tag;
     
 private:
     

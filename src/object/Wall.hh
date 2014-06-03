@@ -8,17 +8,17 @@
 #ifndef WALL_HH
 #define	WALL_HH
 
-#include "Cube.hh"
+#include "ACube.hh"
 
-class Wall: public Cube {
+class Wall: public ACube {
 public:
-    Wall();
+
+    static std::string const Tag;
+
+    Wall(): ACube("wall") {};
     virtual ~Wall();
     virtual void update(gdl::Clock const& clock, gdl::Input& input);
     virtual bool initialize();
-
-    private:
-
 };
 
 #endif	/* WALL_HH */

@@ -1,6 +1,6 @@
 # include	"AModel.hh"
 
-AModel::AModel(std::string const& modelPath)
+AModel::AModel(std::string const& modelPath, std::string const& id): AGameObject(id)
 {
     
     //Exception if failed ?
