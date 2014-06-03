@@ -1,13 +1,13 @@
 /* 
- * File:   Cube.cpp
+ * File:   ACube.cpp
  * Author: svirch_n
  * 
  * Created on 28 May 2014, 18:00
  */
 
-#include "Cube.hh"
+#include "ACube.hh"
 
-Cube::Cube() {
+ACube::ACube(std::string const& id): AGeometry(id) {
     
     _geometry.setColor(glm::vec4(1, 1, 1, 1));
 

@@ -7,13 +7,12 @@ class AModel: public AGameObject
 {
     public:
 	
-	// Gonna throw an exception
-	AModel(std::string const& modelPath);
-	
 	virtual ~AModel() {}
 	virtual void draw(gdl::AShader & shader, gdl::Clock const& clock);
         
     protected:
+        // Gonna throw an exception
+        AModel(std::string const& modelPath, std::string const& id);
         gdl::Model      _model;
             
 };

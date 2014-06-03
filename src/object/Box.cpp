@@ -7,7 +7,9 @@
 
 #include "Box.hh"
 
-Box::Box() {
+std::string const Box::Tag = "box";
+
+Box::Box(): ACube("box") {
 }
 
 Box::~Box() {

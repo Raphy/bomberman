@@ -10,16 +10,16 @@
 
 #include "AGameObject.hh"
 
-class AGeometry:
-    public AGameObject
+class AGeometry: public AGameObject
 {
     public:
-        AGeometry() {};
+        
         virtual ~AGeometry() {};
         bool setTexture(std::string const &path) { return _texture.load(path);}
         virtual void draw(gdl::AShader & shader, gdl::Clock const &clock);
 
     protected:
+        AGeometry(std::string const& id): AGameObject(id) {};
         gdl::Texture  _texture;
         gdl::Geometry _geometry;
 };

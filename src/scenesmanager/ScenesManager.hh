@@ -20,7 +20,7 @@ public:
     // Push the first scene
     template <typename T>
     bool start(SceneArguments const& args) {
-        return m_scenes_stack.push(sceneFactory<T>(args));
+        return m_scenes_stack.push(&sceneFactory<T>, args);
     }
 
     // Get the scene in the foreground.

@@ -9,7 +9,7 @@ GameScene::GameScene(SceneArguments const & args)
 }
 
 GameScene::~GameScene(void) {  
-    delete _quad_tree;
+    delete _quad_tree; 
 }
 
 bool GameScene::initialize(void) {

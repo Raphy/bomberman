@@ -3,8 +3,11 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <cstdlib>
+
+#include "GameEngine.hh"
 #include "Wall.hh"
-#include "GameEngine.hpp"
+
+#include <unistd.h>
 
 int main()
 {

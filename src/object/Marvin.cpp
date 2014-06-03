@@ -1,6 +1,8 @@
 
 #include        "Marvin.hh"
 
+std::string const Marvin::Tag = "marvin";
+
 bool Marvin::initialize() {
 
     this -> _inputs.push_back({SDLK_UP, false, &Marvin::onUpPressed});
@@ -8,6 +10,25 @@ bool Marvin::initialize() {
     this -> _inputs.push_back({SDLK_LEFT, false, &Marvin::onLeftPressed});
     this -> _inputs.push_back({SDLK_RIGHT, false, &Marvin::onRightPressed});
 
+
+    
+    if (_model.createSubAnim(0, "start", 0, 37) == false)
+       std::cout << "create anim false" << std::endl;
+
+    if (_model.createSubAnim(0, "run", 37, 59) == false)
+       std::cout << "create anim false" << std::endl;
+
+    if (_model.createSubAnim(0, "stop", 59, 120) == false)
+       std::cout << "create anim false" << std::endl;
+
+    
+    if (_model.setCurrentSubAnim("run") == false)
+        std::cout << "set anim false" << std::endl;
+
+//    _model.setCurrentAnim(0);
+    
+    this->scale(glm::vec3(0.005, 0.005, 0.005));
+    
     return (true);
 }
 
