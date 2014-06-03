@@ -1,13 +1,29 @@
-//
-// main.cpp for Bomberman in /home/raphy/Epitech/Tech_2/bomberman/src
-// 
-// Made by raphael defreitas
-// Login   <defrei_r@epitech.net>
-// 
-// Started on  Wed May 28 17:17:07 2014 raphael defreitas
-// Last update Wed May 28 18:02:17 2014 raphael defreitas
-//
+//* Graph main
+#include <OpenGL.hh>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <cstdlib>
+#include "Wall.hh"
+#include "GameEngine.hpp"
 
+int main()
+{
+    GameEngine engine;
+
+    if (engine.initialize() == false) {
+        return (EXIT_FAILURE);
+    }
+
+    while (engine.update() == true) {
+        engine.draw();
+    }
+
+    return EXIT_SUCCESS;
+}
+
+//*
+
+/* LUA main
 #include	<cstdlib>
 #include	<exception>
 #include	<iostream>
@@ -51,3 +67,4 @@ int main(int argc, char** argv)
 
   return (EXIT_SUCCESS);
 }
+//*/

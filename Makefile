@@ -25,7 +25,7 @@ LDFLAGS += $(shell pkg-config --libs $(LIBLUA_NAME))
 DEBUG ?= 1
 
 ifeq ($(DEBUG), 1)
-CXXFLAGS += $(DGBFLAGS)
+CXXFLAGS += $(DBGFLAGS)
 else
 CXXFLAGS += $(NDBGFLAGS)
 endif
@@ -40,7 +40,7 @@ endif
 TARGET := ./build/bomberman
 
 SRC_ROOTDIR := src
-SRC_SUBDIRS := scene scenesmanager soundmanager object API Lua
+SRC_SUBDIRS := scene scenesmanager soundmanager object API Lua game
 SRC_ALLDIRS := $(SRC_ROOTDIR) $(foreach sub_dir, $(SRC_SUBDIRS), $(SRC_ROOTDIR)/$(sub_dir))
 
 SRC := $(foreach dir, $(SRC_ALLDIRS), $(wildcard $(dir)/*.cpp))
@@ -59,7 +59,7 @@ lua_version:
 		@echo $(MAVAR)
 
 $(TARGET): $(OBJ)
-	$(CXX) $(CFLAGS) -o $(TARGET) $(OBJ) $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJ) $(LDFLAGS)
 
 clean:
 	$(RM) $(OBJ)

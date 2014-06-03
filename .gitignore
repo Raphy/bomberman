@@ -1,10 +1,9 @@
 *.o
 *.so
-
 *~
-
 TestBomberman/
 bomberman
-
+nbproject/
+./build/bomberman
 *.autosave
-
+nbproject
