@@ -7,23 +7,32 @@ require 'api'
 -- print(map:get(1,1))
 
 
-TagsList = { "up","down","left","right","player","me","bomb","item","open","closed","unknown" }
+TagsList = { "up","down","left","right",
+				"player","me","bomb","item",
+				"open","closed","unknown" }
 Tags = {}
 for i,v in ipairs(TagsList) do
 	Tags[v] = i
 end
 
 Helper = {
-	w = 100,-- TODO : initialiser dans init
-	h = 100,
+	w = 10,-- TODO : initialiser dans init
+	h = 10,
 }
 
 function Helper:coord_to_idx(x,y)
-	return (x*self.w + y)
+	-- print(debug.traceback())
+	local idx = y * self.w + x
+	-- print("coord_to_idx : i="..idx.." x="..x.." y="..y)
+	return idx
 end
 
+-- retourne x,y
 function Helper:idx_to_coord(idx)
-	return (idx % self.w + self.h),(idx / self.w)--TODO : verifier les formules
+	local x = idx % self.w
+	local y = math.floor(idx / self.w)
+	-- print("idx_to_coord : i="..idx.." x="..x.." y="..y)
+	return x,y--TODO : verifier les formules
 end
 
 function Helper:areObjectsInCase(map,i,j,objType)
@@ -53,9 +62,9 @@ function Helper:getAllObject(objType)
 	print("get all objects of type " .. objType)
 	local objects = {}
 	local i = 0
-	while i < Y do
+	while i < Helper.h do
 		local j = 0
-		while j < X do
+		while j < Helper.w do
 			Helper:getObjectsFromCase(map,i,j,objects)
 			j = j + 1
 		end
