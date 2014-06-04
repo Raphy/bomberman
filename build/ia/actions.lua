@@ -28,13 +28,15 @@ function Actions:actRandom(player)
 end
 
 function Actions:goTo(player,x,y)
-	print("Actions:goTo) player : x="..player.getX().." y="..player.getY())
-	local start_idx = Helper:coord_to_idx(player.getX(), player.getY())
-	local dest_idx = Helper:coord_to_idx(x, y)
-	local open_list = List:new("open_list")
-	local closed_list = List:new("closed_list")
+	if not Map2D:check_coord(x,y) then --[[Helper:debug_--]]print("goTo outside case !!"); return false end
+		--car le joueur essaie d'acceder a une case hors de la map
 
-	calc_path_astar(start_idx, dest_idx, start_idx, open_list, closed_list)
+	print("Actions:goTo) player : x="..player.getX().." y="..player.getY())
+	local start_idx = Map2D:coord_to_idx(player.getX(), player.getY())
+	local dest_idx = Map2D:coord_to_idx(x, y)
+
+	Path:calc_path(Tags["dijkstra"], start_idx, dest_idx)
+	Path:calc_path(Tags["astar"], start_idx, dest_idx)
 
 	return player:moveUp()
 end

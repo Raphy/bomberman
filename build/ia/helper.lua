@@ -1,38 +1,20 @@
 
 require 'api'
+require 'tags'
 
   -- The scripts is provided by the following objects:
   -- Variable "me" (API::Me) represents the player by this script
   -- Variable "map" (API::Map) represents the game map
 -- print(map:get(1,1))
 
+Helper = {}
 
-TagsList = { "up","down","left","right",
-				"player","me","bomb","item",
-				"open","closed","unknown" }
-Tags = {}
-for i,v in ipairs(TagsList) do
-	Tags[v] = i
+function Helper:warning(msg)
+	print("WARNING : "..msg)
+	print(debug.traceback())
 end
-
-Helper = {
-	w = 10,-- TODO : initialiser dans init
-	h = 10,
-}
-
-function Helper:coord_to_idx(x,y)
-	-- print(debug.traceback())
-	local idx = y * self.w + x
-	-- print("coord_to_idx : i="..idx.." x="..x.." y="..y)
-	return idx
-end
-
--- retourne x,y
-function Helper:idx_to_coord(idx)
-	local x = idx % self.w
-	local y = math.floor(idx / self.w)
-	-- print("idx_to_coord : i="..idx.." x="..x.." y="..y)
-	return x,y--TODO : verifier les formules
+function Helper:debug_print(msg)
+	-- print("DEBUG : "..msg)
 end
 
 function Helper:areObjectsInCase(map,i,j,objType)
@@ -62,9 +44,9 @@ function Helper:getAllObject(objType)
 	print("get all objects of type " .. objType)
 	local objects = {}
 	local i = 0
-	while i < Helper.h do
+	while i < Map2D.h do
 		local j = 0
-		while j < Helper.w do
+		while j < Map2D.w do
 			Helper:getObjectsFromCase(map,i,j,objects)
 			j = j + 1
 		end
