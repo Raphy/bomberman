@@ -28,15 +28,18 @@ bool GameEngine::initialize() {
         glm::vec3(0, 1, 0)
     ));
     m_shader.setUniform("projection", glm::perspective(
-        60.0f, 
-        800.0f / 600.0f, 
+        60.0f,
+        800.0f / 600.0f,
         0.1f,
         100.0f
     ));
 
-    //SceneArguments scene_args;
-    //scene_args.set("toto", "titi");
-    //m_scenes_manager.start<GameScene>(scene_args);
+    /*
+    SceneArguments scene_args;
+    m_scenes_manager.start<MenuScene>(scene_args);
+    */
+    _menu = new MenuScene();
+    _menu->initialize();
 
     return true;
 }
@@ -49,6 +52,10 @@ bool GameEngine::update() {
 
     m_context.updateClock(m_clock);
     m_context.updateInputs(m_input);
+
+
+    _menu->update(m_clock, m_input);
+
 
     /*
     try {
@@ -63,7 +70,7 @@ bool GameEngine::update() {
     catch (std::string& err) {
         return false;
     }
-    */
+*/
     return true;
 }
 
@@ -71,6 +78,8 @@ void GameEngine::draw() {
 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     m_shader.bind();
+
+    _menu->draw(m_shader, m_clock);
 
     m_context.flush();
 }
