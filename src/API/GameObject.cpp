@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 11:55:16 2014 raphael defreitas
-// Last update Tue Jun  3 12:05:59 2014 raphael defreitas
+// Last update Thu Jun  5 12:54:26 2014 raphael defreitas
 //
 
 #include	<string>
@@ -46,4 +46,43 @@ float GameObject::getY(void) const
 void GameObject::setY(float value)
 {
   this->_y = value;
+}
+
+void GameObject::registerScript(Script& script)
+{
+  registerClass(script);
+  registerClassMethods(script);
+}
+
+void GameObject::registerClass(Script& script)
+{
+}
+
+void GameObject::registerClassMethods(Script& script)
+{
+}
+
+int GameObject::getType(lua_State* L)
+{
+  return 0;
+}
+
+int GameObject::getX(lua_State* L)
+{
+  return 0;
+}
+
+int GameObject::setX(lua_State* L)
+{
+  return 0;
+}
+
+int GameObject::getY(lua_State* L)
+{
+  return 0;
+}
+
+int GameObject::setY(lua_State* L)
+{
+  return 0;
 }
