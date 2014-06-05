@@ -4,103 +4,42 @@
 // Made by raphael defreitas
 // Login   <defrei_r@epitech.net>
 // 
-// Started on  Tue May 27 17:59:35 2014 raphael defreitas
-// Last update Wed May 28 15:45:09 2014 raphael defreitas
+// Started on  Tue Jun  3 12:35:19 2014 raphael defreitas
+// Last update Thu Jun  5 13:59:25 2014 raphael defreitas
 //
 
-#include	<exception>
 #include	<string>
 
-#include	"lua.hpp"
 #include	"Script.hh"
 
 using namespace Lua;
 
-Script::Script(const std::string& filename) :
-  _filename(filename), _close(true)
+Script::Script(const std::string& filename)
 {
-  this->_state = luaL_newstate();
-  if (!this->_state)
-    throw new std::exception();
-  luaL_openlibs(this->_state);
-}
-
-Script::Script(lua_State* state) :
-  _state(state), _filename("unknown"), _close(false)
-{
-  if (!this->_state)
-    throw new std::exception();
+  if (!this->_vm.loadFile(filename))
+    throw new std::exception(); // Exception: LuaScriptLoadingException
 }
 
 Script::~Script(void)
 {
-  if (this->_state && this->_close)
-    lua_close(this->_state);
 }
 
-lua_State* Script::getState()
+VirtualMachine& Script::getVirtualMachine(void)
 {
-  return (this->_state);
+  return this->_vm;
 }
 
-const std::string& Script::getFilename(void) const
+bool Script::execute(void)
 {
-  return (this->_filename);
+  return this->_vm.execute();
 }
 
-std::string Script::getError(void)
+bool Script::initialization(void)
 {
-  return (std::string(lua_tostring(this->_state, lua_gettop(this->_state))));
+  return this->_vm.call("initialization");
 }
 
-void Script::setError(const std::string& msg)
+bool Script::play(void)
 {
-  luaL_error(this->_state, msg.c_str());
-}
-
-bool Script::run(void)
-{
-  if (luaL_loadfile(this->_state, this->_filename.c_str()) || lua_pcall(this->_state, 0, 0, 0))
-    return (false);
-  return (true);
-}
-
-bool Script::_variableExists(const std::string& name)
-{
-  int level = 0;
-  std::string var = "";
-
-  for(unsigned int i = 0; i < name.size(); i++)
-    {
-      if(name.at(i) == '.')
-	{
-	  if(level == 0)
-	    lua_getglobal(this->_state, var.c_str());
-	  else
-	    lua_getfield(this->_state, -1, var.c_str());
-
-	  if(lua_isnil(this->_state, -1))
-	    return false;
-
-	  var = "";
-	  level++;
-	}
-      else
-	var += name.at(i);
-    }
-
-  if(level == 0)
-    lua_getglobal(this->_state, var.c_str());
-  else
-    lua_getfield(this->_state, -1, var.c_str());
-  if(lua_isnil(this->_state, -1))
-    return false;
-
-  return true;
-}
-
-void Script::_clean()
-{
-  int n = lua_gettop(this->_state);
-  lua_pop(this->_state, n);
+  return this->_vm.call("play");
 }
