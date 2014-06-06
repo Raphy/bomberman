@@ -1,3 +1,58 @@
+//
+// main.cpp for Bomberman in /home/raphy/Epitech/Tech_2/bomberman
+// 
+// Made by raphael defreitas
+// Login   <defrei_r@epitech.net>
+// 
+// Started on  Thu Jun  5 12:37:59 2014 raphael defreitas
+// Last update Thu Jun  5 14:07:47 2014 raphael defreitas
+//
+
+#include	<cstdlib>
+#include	<iostream>
+
+#include	"API/Manager.hh"
+#include	"Lua/Script.hh"
+
+int main(int argc, char** argv)
+{
+  if (argc == 1)
+    {
+      std::cerr << "Usage: " << argv[0] << " <script lua>" << std::endl;
+      return (EXIT_FAILURE);
+    }
+
+  Lua::Script ia(argv[1]);
+  API::Manager& api_manager = API::Manager::getInstance();
+
+  api_manager.registerScript(ia);
+
+  try
+    {
+
+      if (!ia.execute())
+	std::cerr << "[LUA ERROR Exec] " << ia.getVirtualMachine().getError() << std::endl;
+      if (!ia.initialization())
+	std::cerr << "[LUA ERROR] " << ia.getVirtualMachine().getError() << std::endl;
+      if (!ia.play())
+	std::cerr << "[LUA ERROR] " << ia.getVirtualMachine().getError() << std::endl;
+
+      int x = ia.getVirtualMachine().get<int>("x");
+
+      std::cout << "x=" << x << std::endl;
+    }
+  catch (std::exception* ex)
+    {
+      std::cerr << "[EXCEPTION] " << ex->what() << std::endl;
+      return (EXIT_FAILURE);
+    }
+
+  return EXIT_SUCCESS;
+}
+
+
+
+/*
 //* Graph main
 #include <OpenGL.hh>
 #include <glm/glm.hpp>
@@ -11,18 +66,20 @@
 
 int main()
 {
-    GameEngine engine;
+  GameEngine engine;
 
-    if (engine.initialize() == false) {
-        return (EXIT_FAILURE);
-    }
+  if (engine.initialize() == false) {
+    return (EXIT_FAILURE);
+  }
 
-    while (engine.update() == true) {
-        engine.draw();
-    }
+  while (engine.update() == true) {
+    engine.draw();
+  }
 
-    return EXIT_SUCCESS;
+
+  return EXIT_SUCCESS;
 }
+*/
 
 //*
 
@@ -62,7 +119,7 @@ int main(int argc, char** argv)
 	  return (EXIT_FAILURE);
 	}
     }
-  catch (std::exception& ex)
+    catch (std::exception& ex)
     {
       std::cerr << "[EXCEPTION] " << ex.what() << std::endl;
       return (EXIT_FAILURE);
