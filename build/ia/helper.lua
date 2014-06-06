@@ -44,9 +44,9 @@ function Helper:getAllObject(objType)
 	print("get all objects of type " .. objType)
 	local objects = {}
 	local i = 0
-	while i < Map2D.h do
+	while i < MapManager.h do
 		local j = 0
-		while j < Map2D.w do
+		while j < MapManager.w do
 			Helper:getObjectsFromCase(map,i,j,objects)
 			j = j + 1
 		end
@@ -72,4 +72,23 @@ end
 function Helper:getObjectsInFront(objType,x,y,direction)
 	local dir = direction or 0
 	return nil
+end
+
+-- * BOMB_HELPER *
+
+-- TODO: calculer le rayon en fonction du temps de la bombe
+
+
+function Helper:getDangerousCasesAroundBomb(bombPosition)
+	local radius = 2
+	MapManager:setVisionActivate(bombPosition, radius)
+	return self:getObjectsAround(Tags:v("bomb"),Coord:unpack(bombPosition),radius)
+	--le tag n'est pas bomb !
+end
+
+function Helper:getNearestSafeCase(bombPosition)
+	local radius = 2
+	MapManager:setVisionActivate(bombPosition, radius)
+	return self:getObjectsAround(Tags:v("bomb"),Coord:unpack(bombPosition),radius)
+	--le tag n'est pas bomb !
 end

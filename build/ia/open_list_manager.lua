@@ -26,7 +26,7 @@ end
 
 -- * ASTAR *
 
-AstarOpenListManager = OpenListManager:new(Tags["astar"])
+AstarOpenListManager = OpenListManager:new(Tags:v("astar"))
 
 function AstarOpenListManager:calc_h_cost(start, dest)
 	return (math.abs(start.x - dest.x) + math.abs(start.y - dest.y))
@@ -39,7 +39,7 @@ function AstarOpenListManager:open_side_cases(open_list, curr_idx, side_cases, d
 	for case in List:iter_case(side_cases) do
 		Helper:debug_print("open case "..case.idx)
 		case.parent = curr_idx
-		case.g = Map2D:get_case(case.parent).g + 1
+		case.g = MapManager:get_case(case.parent).g + 1
 		case.h = self:calc_h_cost(case, dest)
 		case.f = case.g + case.h
 	end
@@ -66,7 +66,7 @@ end
 
 -- * DIJKSTRA *
 
-DijkstraOpenListManager = OpenListManager:new(Tags["dijkstra"])
+DijkstraOpenListManager = OpenListManager:new(Tags:v("dijkstra"))
 
 function DijkstraOpenListManager:open_side_cases(open_list, curr_idx, side_cases)
 	Helper:debug_print("open cases.............. ")
@@ -89,6 +89,6 @@ end
 -- * OPEN_LIST_MANAGERS *
 
 OpenListManagers = {
-	[Tags["astar"]] = AstarOpenListManager,
-	[Tags["dijkstra"]] = DijkstraOpenListManager
+	[Tags:v("astar")] = AstarOpenListManager,
+	[Tags:v("dijkstra")] = DijkstraOpenListManager
 }

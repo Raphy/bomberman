@@ -42,7 +42,7 @@ function List:front_case(list)
 	if list._nbElem <= 0 then
 		Helper:warning("front_case on empty list "..list._name)
 	end
-	return Map2D:get_case(list[1])
+	return MapManager:get_case(list[1])
 end
 
 function List:front_idx(list)
@@ -78,7 +78,7 @@ function List:iter_case(list)
 	local n = list._nbElem
 	return function ()
 		i = i + 1
-		if i <= n then return Map2D:get_case(list[i]) end
+		if i <= n then return MapManager:get_case(list[i]) end
 	end
 end
 

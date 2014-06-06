@@ -6,7 +6,7 @@ require 'actions'
 -- ATTENTION : les index dans la map lua vont de 1 à w(ou h)
 
 function onInitialization()
-  Map2D:init_map(10,100)
+  MapManager:init(10,100)
 
   Helper:getAllObject("player")
   print(me:getName(me))
@@ -15,12 +15,14 @@ function onInitialization()
 end
 
 function onMyTurn()
-  -- Map2D:clean_map() -> ici ou a chaque calc_path ?
+  -- MapManager:clean_map() -> ici ou a chaque calc_path ?
 
   print(" actRandom")
   Actions:actRandom(me)
   print(" goTo 1.0 2.0")
-  Actions:goTo(me, 9.0, 100.0)
+  MapManager:setVisionActivate(Coord:new(me:getX(), me:getY()), 2)
+  Actions:goTo(me, me:getX()+2, me:getY()+1)
+  -- Actions:goTo(me, 9.0, 100.0)
 end
 
 print("-----init----")
