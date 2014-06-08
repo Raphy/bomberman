@@ -5,6 +5,8 @@
 # include "SceneArguments.hh"
 # include "AWidget.hh"
 
+#include <vector>
+
 class MenuScene : public AScene
 {
 public:
@@ -25,7 +27,7 @@ private:
   glm::mat4 _projection;
   glm::mat4 _transformation;
 
-  //  AWidget *
+  std::vector<AWidget*> _listButton;
 
 };
 

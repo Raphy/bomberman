@@ -10,16 +10,18 @@ public:
   AWidget(bool cursor, const std::string& path, glm::vec3 position, glm::vec3 scale);
   virtual ~AWidget();
 
-  virtual bool initialize() = 0;
-  virtual void update(gdl::Clock const& clock, gdl::Input& input) = 0;
-  virtual void draw(gdl::AShader & shader, gdl::Clock const& clock) = 0;
+  bool initialize();
+  void update(gdl::Clock const& clock, gdl::Input& input);
+  void draw(gdl::AShader & shader, gdl::Clock const& clock);
 
 private:
   gdl::Texture _texture;
   gdl::Geometry _geometry;
+
   bool _cursor;
   std::string _texturePath;
-
+  glm::vec3 _scale;
+  glm::vec3 _position;
 };
 
 #endif

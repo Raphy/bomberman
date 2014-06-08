@@ -7,6 +7,14 @@ MenuScene::MenuScene(/*SceneArguments const& args*/)
 {
   _projection = glm::ortho(0.0f, 600.0f, 600.0f, 0.0f, -1.0f, 1.0f); // taille ecran
   _transformation = glm::mat4(1);
+
+  /* Set elem of Button*/
+
+  _listButton.push_back(new AWidget(false, "./build/assets/img/play.tga", glm::vec3(20, 100, 1), glm::vec3(100, 100, 0)));
+  _listButton.push_back(new AWidget(false, "./build/assets/img/option.tga", glm::vec3(20, 250, 1), glm::vec3(100, 100, 0)));
+  _listButton.push_back(new AWidget(false, "./build/assets/img/exit.tga", glm::vec3(20, 450, 1), glm::vec3(100, 80, 0)));
+
+
 }
 
 MenuScene::~MenuScene()
@@ -19,6 +27,13 @@ bool MenuScene::initialize()
     {
       std::cerr << "Cannot load the wall texture" << std::endl;
       return (false);
+    }
+  std::vector<AWidget*>::iterator it = _listButton.begin();
+
+  while (it != _listButton.end())
+    {
+      (*it)->initialize();
+      it++;
     }
 
   _geometry.setColor(glm::vec4(1, 1, 1, 1));
@@ -51,12 +66,24 @@ bool MenuScene::draw(gdl::AShader& shader, gdl::Clock const& clock)
   shader.setUniform("view", _transformation);
   shader.setUniform("projection", _projection);
 
-  glm::mat4 transform(1);
   glm::vec3 size(600, 600, 0); // taille img final
+  glm::mat4 transform(1);
 
   transform = glm::scale(transform, size);
 
   _texture.bind();
+
   _geometry.draw(shader, transform, GL_QUADS);
+
+
+  std::vector<AWidget*>::iterator it = _listButton.begin();
+
+
+  while (it != _listButton.end())
+    {
+      (*it)->draw(shader, clock);
+      it++;
+    }
+
   return true;
 }
