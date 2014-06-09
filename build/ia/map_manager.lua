@@ -32,7 +32,6 @@ function MapManager:init(w,h)
 		  end
 		end
 	end
-
 	self._map = {}
 	self.w, self.h = w, h
 	self.size = self.w * self.h
@@ -40,7 +39,6 @@ function MapManager:init(w,h)
 	self.max = Coord:new(w,h)
 	self:set_vision(self.max / self.min, self.size)
 	_init_map()
-
 	print("init map2D of size "..self.size.." (w = "..self.w.." and h = "..self.h..")")
 end
 
@@ -65,12 +63,17 @@ function MapManager:set_vision_activate(center, size)
 	self:set_vision(center, size)
 	self:activate_vision()
 end
-
--- the parameter is a tag value
-function MapManager:make_type_unwalkable(type)
+function MapManager:set_vision_with_direction(center, direction, radius)
+	local r = radius or -1
+	Helper:to_implement()
+end
+function MapManager:set_vision_activate_with_direction(center, direction, radius)
+	local r = radius or -1
 	Helper:to_implement()
 end
 
+
+-- * COORDINATES *
 
 -- return true if x and y are valids coordinates in the map
 function MapManager:check_coord(x,y)
@@ -104,6 +107,8 @@ function MapManager:idx_to_coord(idx)
 end
 
 
+-- * CASE/ACCESS *
+
 function MapManager:create_case(curr_idx, i,j)
 	local case = {}
 	case.idx = curr_idx
@@ -113,6 +118,18 @@ function MapManager:create_case(curr_idx, i,j)
 	case.x,case.y = j,i
 	case.g,case.h,case.f = 0,0,0
 	return case
+end
+function MapManager:clean_map()
+	-- use iter() ?
+  for i=1,MapManager.h do
+    for j=1,MapManager.w do
+      local curr_idx = MapManager:coord_to_idx(j,i)
+      local case = self._map[curr_idx]
+     	case.status = Tags:v("unknown")
+     	case.parent = -1
+		case.g,case.h,case.f = 0,0,0
+    end
+  end
 end
 
 function MapManager:get_case(i)
@@ -125,15 +142,32 @@ end
 -- 	-- TODO : check i
 -- 	return self._map[i]
 -- end
+function MapManager:iter()
+	local function _iter(min, max)
+		local i = min.y
+		local j = min.x
+		return function ()
+			j = j + 1
+			if j == max.x then
+				i = i + 1
+				j = min.x
+			end
+			if i <= max.y then return self:get_case(self:coord_to_idx(j,i)) end
+		end
+	end
+	return _vision.active
+		and _iter(self._vision.min, self._vision.max)
+		or _iter(self.min, self.max)
+end
 
-function MapManager:clean_map()
-  for i=1,MapManager.h do
-    for j=1,MapManager.w do
-      local curr_idx = MapManager:coord_to_idx(j,i)
-      local case = self._map[curr_idx]
-     	case.status = Tags:v("unknown")
-     	case.parent = -1
-		case.g,case.h,case.f = 0,0,0
-    end
-  end
+
+-- * MAP ALTERATIONS *
+
+-- the parameter is a tag value
+function MapManager:make_type_unwalkable(type)
+	Helper:to_implement()
+end
+-- explode all bombs in vision and put "future_fire" in map
+function MapManager:preview_bomb_explosion()
+	Helper:to_implement()
 end
