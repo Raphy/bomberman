@@ -2,6 +2,7 @@
 #include <string>
 
 #include "ScenesManager.hh"
+#include "Exception.hh"
 
 ScenesManager::ScenesManager()
     : m_scenes_stack()
@@ -15,8 +16,7 @@ IScene& ScenesManager::getCurrentScene() {
     IScene* scene = m_scenes_stack.top();
 
     if (!scene) {
-        // TODO: runtime error -> throw custom exeption to keep points !
-        throw std::string("error: the scene statck is empty.");
+        throw Exception("the scene statck is empty.");
     }
     return *scene;
 }

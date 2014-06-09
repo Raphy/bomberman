@@ -3,9 +3,9 @@
 #include "GameEngine.hh"
 #include "MenuScene.hh"
 #include "GameScene.hh"
+#include "Exception.hh"
 
-
-GameEngine::GameEngine() : m_scenes_manager() {
+GameEngine::GameEngine() : m_scenes_manager() { 
 }
 
 GameEngine::~GameEngine() {
@@ -13,15 +13,19 @@ GameEngine::~GameEngine() {
 
 bool GameEngine::initialize() {
     if (!m_context.start(800, 600, "My bomberman!")) {
-        return false;
+        throw Exception("fail to start gdl context");
     }
 
     glEnable(GL_DEPTH_TEST);
 
-    if (!m_shader.load("./build/shaders/basic.fp", GL_FRAGMENT_SHADER) ||
-        !m_shader.load("./build/shaders/basic.vp", GL_VERTEX_SHADER) ||
-        !m_shader.build()) {
-        return false;
+    if (!m_shader.load("./build/shaders/basic.fp", GL_FRAGMENT_SHADER)) {
+        throw Exception("fail to load './build/shaders/basic.fp'");
+    }
+    if (!m_shader.load("./build/shaders/basic.vp", GL_VERTEX_SHADER)) {
+        throw Exception("fail to load './build/shaders/basic.vp'");
+    }
+    if (!m_shader.build()) {
+        throw Exception("fail to build shader");
     }
 
     m_shader.bind();
@@ -38,28 +42,29 @@ bool GameEngine::initialize() {
     ));
 
     SceneArguments scene_args;
-    m_scenes_manager.start<GameScene>(scene_args);
+    //m_scenes_manager.start<GameScene>(scene_args);
 
     return true;
 }
 
 bool GameEngine::update() {
+    m_context.updateClock(m_clock);
+    m_context.updateInputs(m_input);
 
     if (m_input.getInput(SDL_QUIT)) {
         return false;
     }
-
-    m_context.updateClock(m_clock);
-    m_context.updateInputs(m_input);
-
-    if (m_scenes_manager.applyChanges() == false) {
-        std::cerr << "error: fail to apply scenes changes" << std::endl;
-    }
     if (m_scenes_manager.empty()) {
         return false;
     }
+    if (m_scenes_manager.applyChanges() == false) {
+        throw Exception("fail to apply scene changes");
+    }
+
     IScene& scene = m_scenes_manager.getCurrentScene();
-    return scene.update(m_clock, m_input);
+    if (scene.update(m_clock, m_input) == false) {
+        throw Exception("fail to update scene '" + scene.getId().unwrap() + "'");
+    }
 }
 
 void GameEngine::draw() {
