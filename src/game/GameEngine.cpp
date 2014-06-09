@@ -1,6 +1,7 @@
-#include "GameEngine.hh"
+#include <iostream>
 
-#include "GameScene.hh"
+#include "GameEngine.hh"
+#include "MenuScene.hh"
 
 GameEngine::GameEngine() : m_scenes_manager() {
 }
@@ -34,12 +35,8 @@ bool GameEngine::initialize() {
         100.0f
     ));
 
-    /*
     SceneArguments scene_args;
     m_scenes_manager.start<MenuScene>(scene_args);
-    */
-    _menu = new MenuScene();
-    _menu->initialize();
 
     return true;
 }
@@ -53,33 +50,26 @@ bool GameEngine::update() {
     m_context.updateClock(m_clock);
     m_context.updateInputs(m_input);
 
-
-    _menu->update(m_clock, m_input);
-
-
-    /*
-    try {
-        IScene& scene = m_scenes_manager.getCurrentScene();
-        scene.update(m_clock, m_input);
-        if (!m_scenes_manager.applyChanges()) {
-            // throw an exception
-            return false;
-        }
-
+    if (m_scenes_manager.applyChanges() == false) {
+        std::cerr << "error: fail to apply scenes changes" << std::endl;
     }
-    catch (std::string& err) {
+    if (m_scenes_manager.empty()) {
         return false;
     }
-*/
-    return true;
+    IScene& scene = m_scenes_manager.getCurrentScene();
+    return scene.update(m_clock, m_input);
 }
 
 void GameEngine::draw() {
 
+    if (m_scenes_manager.empty())
+        return ; 
+
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     m_shader.bind();
 
-    _menu->draw(m_shader, m_clock);
+    IScene& scene = m_scenes_manager.getCurrentScene();
+    scene.draw(m_shader, m_clock);
 
     m_context.flush();
 }

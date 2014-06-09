@@ -47,7 +47,7 @@ void AWidget::draw(gdl::AShader & shader, gdl::Clock const& clock)
 {
   (void)clock;
 
-  //  shader.bind();
+  shader.bind();
 
   glm::mat4 transform(1);
 

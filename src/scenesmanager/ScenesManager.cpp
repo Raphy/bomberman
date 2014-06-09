@@ -49,5 +49,8 @@ bool ScenesManager::applyChanges() {
 
         default: /* unreachable */ break;
     }
+
+    this->getCurrentScene().consumeStatus();
+
     return retval;
 }

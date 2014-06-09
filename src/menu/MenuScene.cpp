@@ -2,10 +2,10 @@
 
 const std::string MenuScene::Tag = "menu";
 
-MenuScene::MenuScene(/*SceneArguments const& args*/)
+MenuScene::MenuScene(SceneArguments const&)
   : AScene(Tag)
 {
-  _projection = glm::ortho(0.0f, 600.0f, 600.0f, 0.0f, -1.0f, 1.0f); // taille ecran
+   _projection = glm::ortho(0.0f, 600.0f, 600.0f, 0.0f, -1.0f, 1.0f); // taille ecran
   _transformation = glm::mat4(1);
 
   /* Set elem of Button*/
@@ -19,11 +19,12 @@ MenuScene::MenuScene(/*SceneArguments const& args*/)
 
 MenuScene::~MenuScene()
 {
+ 
 }
 
 bool MenuScene::initialize()
 {
-  if (_texture.load("./build/assets/img/menu.tga") == false)
+   if (_texture.load("./build/assets/img/menu.tga") == false)
     {
       std::cerr << "Cannot load the wall texture" << std::endl;
       return (false);
@@ -60,8 +61,6 @@ bool MenuScene::update(gdl::Clock const& clock, gdl::Input& input)
 
 bool MenuScene::draw(gdl::AShader& shader, gdl::Clock const& clock)
 {
-  (void)clock;
-
   shader.bind();
   shader.setUniform("view", _transformation);
   shader.setUniform("projection", _projection);

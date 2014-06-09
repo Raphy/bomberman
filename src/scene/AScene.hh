@@ -35,6 +35,8 @@ public:
     // Do not overload these methods in children.
     virtual SceneStatus const& getStatus() const;
     virtual SceneId const& getId() const;
+
+    virtual void consumeStatus() { setStatusNone(); }
 };
 
 
