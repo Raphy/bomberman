@@ -1,38 +1,41 @@
 
--- * OPEN_LIST *
+require 'tags'
+require 'helper'
 
-OpenListManager = {
+-- * PATH_ALGO *
+
+PathAlgo = {
 	_tag = -1
 }
 
-function OpenListManager:new(algoTag)
+function PathAlgo:new(algo_tag)
 	tab = {}
 	setmetatable(tab, self)
 	self.__index = self
 	self.__metatable = self
-	tab._tag = algoTag
+	tab._tag = algo_tag
 	return tab
 end
 
 --ne retourne rien
-function OpenListManager:open_side_cases(open_list, curr_idx, side_cases)--, dest
+function PathAlgo:open_side_cases(open_list, curr_idx, side_cases)--, dest
 	Helper:warning("This method should be override")
 end
 
 --retourne une case
-function OpenListManager:get_next_open_case(open_list)
+function PathAlgo:get_next_open_case(open_list)
 	Helper:warning("This method should be override")
 end
 
 -- * ASTAR *
 
-AstarOpenListManager = OpenListManager:new(Tags:v("astar"))
+Astar = PathAlgo:new(Tags:v("astar"))
 
-function AstarOpenListManager:calc_h_cost(start, dest)
+function Astar:calc_h_cost(start, dest)
 	return (math.abs(start.x - dest.x) + math.abs(start.y - dest.y))
 end
 
-function AstarOpenListManager:open_side_cases(open_list, curr_idx, side_cases, dest)
+function Astar:open_side_cases(open_list, curr_idx, side_cases, dest)
 	Helper:debug_print("open cases.............. ")
 	Helper:debug_print("length = "..List:size(side_cases))
 
@@ -49,7 +52,7 @@ function AstarOpenListManager:open_side_cases(open_list, curr_idx, side_cases, d
 	-- TODO:inserer les side_cases en fonction de leur f_cost
 end
 
-function AstarOpenListManager:get_next_open_case(open_list)
+function Astar:get_next_open_case(open_list)
 	Helper:debug_print("next cases.............. ")
 	Helper:debug_print("length = "..List:size(open_list))
 
@@ -66,9 +69,9 @@ end
 
 -- * DIJKSTRA *
 
-DijkstraOpenListManager = OpenListManager:new(Tags:v("dijkstra"))
+Dijkstra = PathAlgo:new(Tags:v("dijkstra"))
 
-function DijkstraOpenListManager:open_side_cases(open_list, curr_idx, side_cases)
+function Dijkstra:open_side_cases(open_list, curr_idx, side_cases)
 	Helper:debug_print("open cases.............. ")
 	Helper:debug_print("length = "..List:size(side_cases))
 
@@ -79,7 +82,7 @@ function DijkstraOpenListManager:open_side_cases(open_list, curr_idx, side_cases
 	end
 end
 
-function DijkstraOpenListManager:get_next_open_case(open_list)
+function Dijkstra:get_next_open_case(open_list)
 	Helper:debug_print("next cases.............. ")
 	Helper:debug_print("length = "..List:size(open_list))
 
@@ -88,7 +91,7 @@ end
 
 -- * OPEN_LIST_MANAGERS *
 
-OpenListManagers = {
-	[Tags:v("astar")] = AstarOpenListManager,
-	[Tags:v("dijkstra")] = DijkstraOpenListManager
+PathAlgos = {
+	[Tags:v("astar")] = Astar,
+	[Tags:v("dijkstra")] = Dijkstra
 }

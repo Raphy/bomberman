@@ -38,6 +38,7 @@ function MapManager:init(w,h)
 	self.size = self.w * self.h
 	self.min = Coord:new(1,1)
 	self.max = Coord:new(w,h)
+	self:set_vision(self.max / self.min, self.size)
 	_init_map()
 
 	print("init map2D of size "..self.size.." (w = "..self.w.." and h = "..self.h..")")
@@ -47,12 +48,12 @@ end
 -- * VISION *
 
 
-function MapManager:activateVision() self._vision.active = true end
-function MapManager:desactivateVision() self._vision.active = false end
+function MapManager:activate_vision() self._vision.active = true end
+function MapManager:desactivate_vision() self._vision.active = false end
 
 --[[ center must have been created by Coord:new(x,y)
 		size is a number ]]
-function MapManager:setVision(center, size)
+function MapManager:set_vision(center, size)
 	self._vision.center = center
 	self._vision.size = size
 	self._vision.abs_min = center - size
@@ -60,14 +61,14 @@ function MapManager:setVision(center, size)
 	self._vision.min = Coord:max_filter(self._vision.abs_min, self.min)
 	self._vision.max = Coord:min_filter(self._vision.abs_max, self.max)
 end
-function MapManager:setVisionActivate(center, size)
-	self:setVision(center, size)
-	self:activateVision()
+function MapManager:set_vision_activate(center, size)
+	self:set_vision(center, size)
+	self:activate_vision()
 end
 
 -- the parameter is a tag value
-function MapManager:makeTypeUnwalkable(type)
-	-- TODO : implemente makeTypeUnwalkable
+function MapManager:make_type_unwalkable(type)
+	Helper:to_implement()
 end
 
 
@@ -106,7 +107,7 @@ end
 function MapManager:create_case(curr_idx, i,j)
 	local case = {}
 	case.idx = curr_idx
-	case.walkable = not Helper:areObjectsInCase(map,i,j,nil)
+	case.walkable = not Helper:are_objects_in_case(map,i,j,nil)
 	case.status = Tags:v("unknown")--/open/closed
 	case.parent = -1--idx du parent
 	case.x,case.y = j,i

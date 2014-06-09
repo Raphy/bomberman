@@ -7,8 +7,9 @@ require 'actions'
 
 function onInitialization()
   MapManager:init(10,100)
+  Coord:init()
 
-  Helper:getAllObject("player")
+  Helper:get_all_object("player")
   print(me:getName(me))
   me:moveUp(me)
   math.randomseed( os.time() )
@@ -17,12 +18,12 @@ end
 function onMyTurn()
   -- MapManager:clean_map() -> ici ou a chaque calc_path ?
 
-  print(" actRandom")
-  Actions:actRandom(me)
-  print(" goTo 1.0 2.0")
-  MapManager:setVisionActivate(Coord:new(me:getX(), me:getY()), 2)
-  Actions:goTo(me, me:getX()+2, me:getY()+1)
-  -- Actions:goTo(me, 9.0, 100.0)
+  print(" act_random")
+  Actions:act_random(me)
+  print(" go_to 1.0 2.0")
+  MapManager:set_vision_activate(Coord:new(me:getX(), me:getY()), 2)
+  Actions:go_to(me, me:getX()+2, me:getY()+1)
+  -- Actions:go_to(me, 9.0, 100.0)
 end
 
 print("-----init----")
