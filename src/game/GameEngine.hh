@@ -18,9 +18,15 @@
 
 # include "ScenesManager.hh"
 
+# include "MenuScene.hh"
+# include "GameScene.hh"
+
 class GameEngine : public gdl::Game {
 
 private:
+    // Define the first scene to be loaded.
+    typedef GameScene FirstScene;
+
     // GDL
     gdl::SdlContext        m_context;
     gdl::Clock             m_clock;

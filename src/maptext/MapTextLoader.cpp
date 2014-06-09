@@ -8,10 +8,8 @@
 #include "Exception.hh"
 
 MapTextLoader::MapTextLoader(std::string const& pathname) :
-    MapText(),
-    m_file(pathname)
+    MapText(), m_file(pathname)
 {
-
     if (!m_file) {
         throw Exception(pathname + ": " + std::string(strerror(errno)));
     }
@@ -21,8 +19,12 @@ MapTextLoader::MapTextLoader(std::string const& pathname) :
     while (readLine(line)) {
         m_map.push_back(StrVector());
         split(line, m_map.back());
-        m_width = std::max(m_width, (size_t)m_map.back().size());
-        m_height++;
+        if (m_map.back().empty()) {
+            m_map.pop_back();
+        } else {
+            m_width = std::max(m_width, (size_t)m_map.back().size());
+            m_height++;
+        }
     }       
 }
 

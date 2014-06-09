@@ -1,8 +1,6 @@
 #include <iostream>
 
 #include "GameEngine.hh"
-#include "MenuScene.hh"
-#include "GameScene.hh"
 #include "Exception.hh"
 
 GameEngine::GameEngine() : m_scenes_manager() { 
@@ -42,7 +40,8 @@ bool GameEngine::initialize() {
     ));
 
     SceneArguments scene_args;
-    //m_scenes_manager.start<GameScene>(scene_args);
+    scene_args.set("file", "./map");
+    m_scenes_manager.start<FirstScene>(scene_args);
 
     return true;
 }
@@ -65,6 +64,7 @@ bool GameEngine::update() {
     if (scene.update(m_clock, m_input) == false) {
         throw Exception("fail to update scene '" + scene.getId().unwrap() + "'");
     }
+    return true;
 }
 
 void GameEngine::draw() {

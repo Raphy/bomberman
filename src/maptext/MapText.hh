@@ -18,7 +18,8 @@ public:
     static const char DELIM = ' ';
 
     static const char VOID = '_';
-    static const char HERO = 'h';
+    static const char PLAYER_1 = '1';
+    static const char PLAYER_2 = '2';
     static const char ENEMY = 'e';
     static const char WALL = 'w';
 
@@ -26,8 +27,8 @@ public:
     MapText();
 
     // tuple for fun :)
-    std::tuple<size_t,size_t> getDim() const
-    { return std::make_tuple(m_width, m_height); }
+    std::tuple<int,int> getDim() const
+    { return std::make_tuple((int)m_width, (int)m_height); }
 
     template <typename F> // f(char c, size_t x, size_t y)
     void foreachObject(F closure) {

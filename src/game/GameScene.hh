@@ -7,6 +7,7 @@
 # include "AGameObject.hh"
 # include "SceneArguments.hh"
 # include "QuadTree.hh"
+# include "Marvin.hh"
 
 /*
 ** Should need these arguments:
@@ -19,24 +20,36 @@ class GameScene : public AScene
 public:
     static const std::string Tag;
 
+public:
     GameScene(SceneArguments const& args);
-    virtual ~GameScene(void);
+    virtual ~GameScene();
 
-    virtual bool initialize(void);
+    virtual bool initialize();
     virtual bool update(gdl::Clock const& clock, gdl::Input& input);
     virtual bool draw(gdl::AShader& shader, gdl::Clock const& clock);
 
 private:
+    int m_map_width;
+    int m_map_height;
 
-    int _map_width;
-    int _map_height;
 
+    Marvin* m_players[2];
     // List of static object (wall, ...)
-    std::list<AGameObject*> _static;
+    std::list<AGameObject*> m_static;
     // List of movable object (player, ia, bomb, ...)
-    std::list<AGameObject*> _movable;
+    std::list<AGameObject*> m_movable;
     // The magic data structure !
-    QuadTree* _quad_tree;
+    QuadTree* m_quad_tree;
+
+private:
+    static size_t playerIdx(int num) {
+        assert(num == 1 || num == 2);
+        return num - 1;
+    }
+
+    void loadMap(std::string const& filename);
+    void genMap(int width, int height);
+    void initPlayer(int num, int x, int y);
 
     // Call a closure/functor for each object in the list.
     // (the closure must take an AGameObject&)
@@ -50,8 +63,8 @@ private:
     // Call a closure/functor for each static and movable object.
     template<typename Funct>
     void foreachObject(Funct closure) {
-        foreachObject(_static, closure);
-        foreachObject(_movable, closure);
+        foreachObject(m_static, closure);
+        foreachObject(m_movable, closure);
     }
 
     // Foreach object of the list, remove it if closure return true.
@@ -71,8 +84,8 @@ private:
     // Foreach static and movable object, remove it if the closure return true.
     template<typename Funct>
     void removeObjectsIf(Funct closure) {
-        removeObjectsIf(_static, closure);
-        removeObjectsIf(_movable, closure);
+        removeObjectsIf(m_static, closure);
+        removeObjectsIf(m_movable, closure);
     }
 
     // Clear then build the quad tree with new objects positions.

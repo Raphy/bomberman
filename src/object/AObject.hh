@@ -43,6 +43,7 @@ public:
     Rectangle getCollider() const { return Rectangle(_position, _scale); }
 
     void setPosition(glm::vec3 position) { _position = position; }
+    void setPosition(double x, double y) { _position = glm::vec3(x, y, 0); }
     void setSpeed(float speed) { this->_speed = speed; }
     
 protected:
