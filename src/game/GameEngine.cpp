@@ -2,6 +2,8 @@
 
 #include "GameEngine.hh"
 #include "MenuScene.hh"
+#include "GameScene.hh"
+
 
 GameEngine::GameEngine() : m_scenes_manager() {
 }
@@ -36,7 +38,7 @@ bool GameEngine::initialize() {
     ));
 
     SceneArguments scene_args;
-    m_scenes_manager.start<MenuScene>(scene_args);
+    m_scenes_manager.start<GameScene>(scene_args);
 
     return true;
 }

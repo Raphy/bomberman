@@ -1,11 +1,23 @@
-#include	"GameScene.hh"
+#include <cstdlib>
+#include "GameScene.hh"
 
 const std::string GameScene::Tag = "game";
 
-
 GameScene::GameScene(SceneArguments const & args)
-  : AScene(Tag), _static(), _movable(), _quad_tree(0)
+    : AScene(Tag), _map_width(100), _map_height(100),
+     _static(), _movable(), _quad_tree(0)
 {
+
+    std::string const& str_width = args.get("width");
+    std::string const& str_height = args.get("height");
+
+    if (str_width.empty() == false) {
+        _map_width = atoi(str_width.c_str());
+    }
+
+    if (str_height.empty() == false) {
+        _map_height = atoi(str_height.c_str());
+    }
 }
 
 GameScene::~GameScene(void) {  
@@ -13,36 +25,31 @@ GameScene::~GameScene(void) {
 }
 
 bool GameScene::initialize(void) {
-    _quad_tree = new QuadTree(Rectangle(0, 0, 100, 100)); // replace 100, 100 by map size.
+    _quad_tree = new QuadTree(Rectangle(0, 0, _map_width, _map_height));
     return true;
 }
 
 bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
-    // If objects can access to the quad tree in their method 'update', 
-    // we have to rebuild the quad tree here, and after update.
-
-    // foreach object, update and insert in the clean quad tree.
-    _quad_tree->clear();
+    // Foreach object, update and insert in the new quad tree.
     this->foreachObject([&](AGameObject& obj) {
         obj.update(clock, input);
-        _quad_tree->insert(obj);
     });
 
-    // foreach movable object, check collision with others
+    this->rebuildQuadTree();
+
+    // Foreach movable object, check collision with others
     // and call onCollision().
     this->foreachObject(_movable, [&](AGameObject& obj) {
-        // skip if it is dead
+
         if (obj.isDead()) return;
-        // fetch the list of near objects with the
-        // quad tree's method "retrieve".
+
         std::list<AGameObject*> list;
         _quad_tree->retrieve(list, obj.getCollider());
-        // foreach near object, call a closure.
         this->foreachObject(list, [&](AGameObject& near_obj) {
-            // if the near object is dead, skip it.
+
             if (near_obj.isDead()) return ;
-            // it there is a collision, call the "onCollision" obejct's handler.
+
             if (obj.getCollider().overlapping(near_obj.getCollider())) {
                 obj.onCollision(near_obj);
             }

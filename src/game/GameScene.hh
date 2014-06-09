@@ -27,6 +27,10 @@ public:
     virtual bool draw(gdl::AShader& shader, gdl::Clock const& clock);
 
 private:
+
+    int _map_width;
+    int _map_height;
+
     // List of static object (wall, ...)
     std::list<AGameObject*> _static;
     // List of movable object (player, ia, bomb, ...)
