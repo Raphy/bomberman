@@ -10,15 +10,24 @@ MenuScene::MenuScene(/*SceneArguments const& args*/)
 
   /* Set elem of Button*/
 
-  _listButton.push_back(new AWidget(false, "./build/assets/img/play.tga", glm::vec3(20, 100, 1), glm::vec3(100, 100, 0)));
+  _listButton.push_back(new AWidget(true, "./build/assets/img/play.tga", glm::vec3(20, 100, 1), glm::vec3(100, 100, 0)));
   _listButton.push_back(new AWidget(false, "./build/assets/img/option.tga", glm::vec3(20, 250, 1), glm::vec3(100, 100, 0)));
   _listButton.push_back(new AWidget(false, "./build/assets/img/exit.tga", glm::vec3(20, 450, 1), glm::vec3(100, 80, 0)));
-
 
 }
 
 MenuScene::~MenuScene()
 {
+
+  std::vector<AWidget*>::iterator it = _listButton.begin();
+
+  while (it != _listButton.end())
+    {
+      _listButton.erase(it);
+      delete *it;
+      it++;
+    }
+
 }
 
 bool MenuScene::initialize()
@@ -28,13 +37,7 @@ bool MenuScene::initialize()
       std::cerr << "Cannot load the wall texture" << std::endl;
       return (false);
     }
-  std::vector<AWidget*>::iterator it = _listButton.begin();
 
-  while (it != _listButton.end())
-    {
-      (*it)->initialize();
-      it++;
-    }
 
   _geometry.setColor(glm::vec4(1, 1, 1, 1));
 
@@ -50,11 +53,26 @@ bool MenuScene::initialize()
 
   _geometry.build();
 
+  std::vector<AWidget*>::iterator it = _listButton.begin();
+
+  while (it != _listButton.end())
+    {
+      (*it)->initialize();
+      it++;
+    }
+
   return true;
 }
 
 bool MenuScene::update(gdl::Clock const& clock, gdl::Input& input)
 {
+  std::vector<AWidget*>::iterator it = _listButton.begin();
+
+  while (it != _listButton.end())
+    {
+      (*it)->update(clock, input);
+      it++;
+    }
   return true;
 }
 
@@ -75,9 +93,7 @@ bool MenuScene::draw(gdl::AShader& shader, gdl::Clock const& clock)
 
   _geometry.draw(shader, transform, GL_QUADS);
 
-
   std::vector<AWidget*>::iterator it = _listButton.begin();
-
 
   while (it != _listButton.end())
     {
