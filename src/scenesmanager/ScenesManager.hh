@@ -28,6 +28,8 @@ public:
     // Check the status of the foreground scene
     // and do something according to it.
     bool applyChanges();
+
+    bool empty() const { return m_scenes_stack.empty(); }
 };
 
 #endif // !SCENES_MANAGER_H_

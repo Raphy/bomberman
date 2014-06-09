@@ -18,8 +18,6 @@
 
 # include "ScenesManager.hh"
 
-#include "MenuScene.hh"
-
 class GameEngine : public gdl::Game {
 
 private:
@@ -30,9 +28,7 @@ private:
     gdl::BasicShader       m_shader;
 
     // other
-  ScenesManager m_scenes_manager;
-
-  AScene *_menu;
+    ScenesManager m_scenes_manager;
 
 public:
     GameEngine();
