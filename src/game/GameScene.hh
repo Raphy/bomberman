@@ -34,7 +34,6 @@ private:
     int m_map_width;
     int m_map_height;
 
-
     Marvin* m_players[2];
     // List of static object (wall, ...)
     std::list<AGameObject*> m_static;
@@ -72,13 +71,13 @@ private:
     // Call a closure/functor for each static and movable object.
     template<typename Funct>
     void foreachObject(Funct closure) {
-        foreachObject(m_static, closure);
         foreachObject(m_movable, closure);
+        foreachObject(m_static, closure);
     }
     template<typename Funct>
     void foreachObject(Funct closure) const {
-        foreachObject(m_static, closure);
         foreachObject(m_movable, closure);
+        foreachObject(m_static, closure);   
     }
 
     // Foreach object of the list, remove it if closure return true.

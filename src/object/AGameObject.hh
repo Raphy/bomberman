@@ -21,7 +21,7 @@ public:
     std::string const& getType() const { return m_type; }
 
     std::tuple<double, double> getPosition() const {
-        return std::make_tuple(_position.x, _position.y);
+        return std::make_tuple(_position.x, _position.z);
     }
 
 

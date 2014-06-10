@@ -15,7 +15,9 @@ GameScene::GameScene(SceneArguments const & args)
     m_players(),
     m_static(), m_movable(), m_quad_tree(0)
 {
-    m_players[0] = NULL, m_players[1] = NULL;
+    m_players[0] = nullptr;
+    m_players[1] = nullptr;
+
     std::string const& str_file = args.get("file");
     if (str_file.empty() == false) {
         loadMap(str_file);
@@ -112,7 +114,17 @@ void GameScene::save(std::string const& filename) const {
 }
 
 bool GameScene::initialize() {
-    this->save("save");
+
+    for (int player_num = 1; player_num <= 2; player_num++) {
+        size_t idx = playerIdx(player_num);
+        if (m_players[idx] != nullptr) { 
+            Camera* camera = new Camera(m_players[idx]);    
+            camera->setOffset(glm::vec3(0, 10, -10));
+            camera->initialize();
+            addCamera("p" + std::to_string(player_num), camera);
+        }
+    }
+
     m_quad_tree = new QuadTree(Rectangle(0, 0, m_map_width, m_map_height));
     rebuildQuadTree();
     return true;
@@ -167,7 +179,7 @@ bool GameScene::draw(gdl::AShader& shader, gdl::Clock const& clock) {
 void GameScene::rebuildQuadTree() {
     m_quad_tree->clear();
 
-    this->foreachObject([&](AGameObject& obj) {
+    foreachObject([&](AGameObject& obj) {
         m_quad_tree->insert(obj);
     });
 }

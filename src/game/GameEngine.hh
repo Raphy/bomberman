@@ -17,7 +17,7 @@
 # include <Model.hh>
 
 # include "ScenesManager.hh"
-# include   "AScene.hh"
+# include "AScene.hh"
 # include "GameScene.hh"
 
 class GameEngine : public gdl::Game {
