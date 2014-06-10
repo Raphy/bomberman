@@ -44,6 +44,7 @@ public:
     
     Rectangle getCollider() const { return Rectangle(_position, _scale); }
 
+<<<<<<< HEAD
     void setPosition(glm::vec3 position);
     glm::vec3 const& getPosition() const { return this->_position; }
     
@@ -55,6 +56,15 @@ public:
     void setPosition(double x, double y) { _position = glm::vec3(x, y, 0); }
     void setSpeed(float speed) { this->_speed = speed; }
     
+=======
+    void setPosition(glm::vec3 position) { _position = position; }
+    void setPosition(double x, double z) { _position = glm::vec3(x, 0, z); }
+    void setSpeed(float speed) { this->_speed = speed; }
+    
+    std::tuple<double, double> getPosition() const {
+        return std::make_tuple(_position.x, _position.z);
+    }
+>>>>>>> fcce119b031fffdde66ebf703073cdc1463aa313
 
 protected:
     
