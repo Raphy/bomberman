@@ -45,11 +45,11 @@ public:
     Rectangle getCollider() const { return Rectangle(_position, _scale); }
 
     void setPosition(glm::vec3 position) { _position = position; }
-    void setPosition(double x, double y) { _position = glm::vec3(x, y, 0); }
+    void setPosition(double x, double z) { _position = glm::vec3(x, 0, z); }
     void setSpeed(float speed) { this->_speed = speed; }
     
     std::tuple<double, double> getPosition() const {
-        return std::make_tuple(_position.x, _position.y);
+        return std::make_tuple(_position.x, _position.z);
     }
 
 protected:

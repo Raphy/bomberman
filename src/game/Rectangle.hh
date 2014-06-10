@@ -18,7 +18,7 @@ public:
         : m_position(position), m_scale(scale) {}
 
     Rectangle(double x, double y, double w, double h)
-        : m_position(x, y, 0), m_scale(w, h, 0) {}
+        : m_position(x, 0, y), m_scale(w, 0, h) {}
 
     Rectangle(Rectangle const& other)
         : m_position(other.m_position), m_scale(other.m_scale) {}
@@ -28,10 +28,10 @@ public:
 
     double getX() const { return m_position.x; }
     double getX2() const { return m_position.x + m_scale.x; }
-    double getY() const { return m_position.y; }
-    double getY2() const { return m_position.y + m_scale.y; }
+    double getY() const { return m_position.z; }
+    double getY2() const { return m_position.z + m_scale.z; }
     double getW() const { return m_scale.x; }
-    double getH() const { return m_scale.y; }
+    double getH() const { return m_scale.z; }
 
     // Check if a rectangle overlap an other rectangle.
     bool overlapping(Rectangle const& other) const {

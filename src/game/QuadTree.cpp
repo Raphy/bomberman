@@ -12,17 +12,17 @@ void QuadTree::clear() {
     m_objects.clear();
 
     for (int i = 0; i < 4; i++) {
-        if (m_nodes[i] != NULL) {
+        if (m_nodes[i] != nullptr) {
             m_nodes[i]->clear();
             delete m_nodes[i];
-            m_nodes[i] = NULL;
+            m_nodes[i] = nullptr;
         }
     }
 }
 
 void QuadTree::insert(AGameObject& object) {
     // if node is not a leaf.
-    if (m_nodes[0] != NULL) {
+    if (m_nodes[0] != nullptr) {
         int index = this->getIndex(object.getCollider());
         if (index != -1) {
             m_nodes[index]->insert(object);
@@ -32,7 +32,7 @@ void QuadTree::insert(AGameObject& object) {
 
     m_objects.push_back(&object);
 
-    if (m_objects.size() > MAX_OBJECTS && m_nodes[0] == NULL) {
+    if (m_objects.size() > MAX_OBJECTS && m_nodes[0] == nullptr) {
         this->split();
         auto it = m_objects.begin();
         while (it != m_objects.end()) {
@@ -51,7 +51,7 @@ void QuadTree::insert(AGameObject& object) {
 std::list<AGameObject*>& QuadTree::retrieve(
     std::list<AGameObject*>& list, Rectangle const& area) {
 
-    if (m_nodes[0] != NULL) {
+    if (m_nodes[0] != nullptr) {
         int index = this->getIndex(area);
         if (index != -1) {
           m_nodes[index]->retrieve(list, area);
@@ -104,7 +104,7 @@ int QuadTree::getIndex(Rectangle const& area) {
 }
 
 bool QuadTree::removeObject(AGameObject& obj, Rectangle const& collider) {
-    if (m_nodes[0] != NULL) {
+    if (m_nodes[0] != nullptr) {
         int index = getIndex(collider);
         if (index != -1) {
             return m_nodes[index]->removeObject(obj, collider);            
