@@ -18,7 +18,6 @@
 
 # include "ScenesManager.hh"
 
-# include "MenuScene.hh"
 # include "GameScene.hh"
 
 class GameEngine : public gdl::Game {
