@@ -5,15 +5,19 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Tue Jun  3 12:19:05 2014 raphael defreitas
+// Last update Tue Jun 10 23:53:00 2014 raphael defreitas
 */
 
 #ifndef		PLAYER_HH_
 # define	PLAYER_HH_
 
+# include	<lua.hpp>
 # include	<string>
 
 # include	"GameObject.hh"
+# include	"Lua/Script.hh"
+
+using namespace Lua;
 
 namespace API
 {
@@ -24,6 +28,13 @@ namespace API
     ~Player(void);
 
     const std::string& getName(void) const;
+
+    // Lua implementation
+    static void registerScript(Script& script);
+    static void registerMethods(Script& script);
+    static int ctor(lua_State* L);
+    static int dtor(lua_State* L);
+    static int getName(lua_State* L);
 
   protected:
     std::string _name;

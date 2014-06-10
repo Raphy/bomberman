@@ -5,9 +5,10 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 12:35:19 2014 raphael defreitas
-// Last update Thu Jun  5 13:59:25 2014 raphael defreitas
+// Last update Tue Jun 10 22:48:39 2014 raphael defreitas
 //
 
+#include	<stdexcept>
 #include	<string>
 
 #include	"Script.hh"
@@ -17,7 +18,7 @@ using namespace Lua;
 Script::Script(const std::string& filename)
 {
   if (!this->_vm.loadFile(filename))
-    throw new std::exception(); // Exception: LuaScriptLoadingException
+    throw new std::runtime_error("LuaScriptLoadingException: " + this->_vm.getError()); // Exception: LuaScriptLoadingException
 }
 
 Script::~Script(void)
