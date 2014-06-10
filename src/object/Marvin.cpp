@@ -10,7 +10,8 @@ bool Marvin::initialize() {
     this -> _inputs.push_back({SDLK_LEFT, false, &Marvin::onLeftPressed});
     this -> _inputs.push_back({SDLK_RIGHT, false, &Marvin::onRightPressed});
 
-
+    this->setSpeed(5);
+    this->setPosition(glm::vec3(0,0,0));
     
     if (_model.createSubAnim(0, "start", 0, 37) == false)
        std::cout << "create anim false" << std::endl;
@@ -18,16 +19,13 @@ bool Marvin::initialize() {
     if (_model.createSubAnim(0, "run", 37, 59) == false)
        std::cout << "create anim false" << std::endl;
 
-    if (_model.createSubAnim(0, "stop", 59, 120) == false)
+    if (_model.createSubAnim(0, "stop", 75, 130) == false)
        std::cout << "create anim false" << std::endl;
 
     
-    if (_model.setCurrentSubAnim("run") == false)
-        std::cout << "set anim false" << std::endl;
 
 //    _model.setCurrentAnim(0);
-    
-    this->scale(glm::vec3(0.005, 0.005, 0.005));
+    this->scale(glm::vec3(0.0025, 0.0025, 0.0025));
     
     return (true);
 }
@@ -41,6 +39,9 @@ void Marvin::update(gdl::Clock const &clock,
         if (input.getKey(it -> value)) {
             if (it -> isPressed == false) {
                 it -> isPressed = true;
+                this->totalPressed++;
+                _model.setCurrentSubAnim("run");
+                
             }
             
             // Call the method pointer
@@ -48,8 +49,12 @@ void Marvin::update(gdl::Clock const &clock,
             
         } else if (it -> isPressed) { //Replace getKeyUp which is not implemented yet
             it -> isPressed = false;
+            this->totalPressed--;
+            if (this->totalPressed == 0)
+            _model.setCurrentSubAnim("stop", false);
         }
     }
+    
 }
 
 void Marvin::onUpPressed(gdl::Clock const &clock)

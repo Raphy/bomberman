@@ -13,7 +13,7 @@ struct inputStructure {
 class Marvin: public AModel
 {
 public:
-    Marvin() : AModel("./build/assets/marvin.fbx", "marvin") {}
+    Marvin() : AModel("./build/assets/marvin.fbx", "marvin"), totalPressed(0) {}
     virtual ~Marvin() {}
     
     virtual bool initialize();
@@ -24,7 +24,7 @@ public:
 private:
     
     std::vector<inputStructure> _inputs;
-    
+    int totalPressed = 0;
     void onUpPressed(gdl::Clock const& clock);
     void onDownPressed(gdl::Clock const& clock);
     void onLeftPressed(gdl::Clock const& clock);

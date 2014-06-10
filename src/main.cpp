@@ -1,19 +1,10 @@
-//
-// main.cpp for Bomberman in /home/raphy/Epitech/Tech_2/bomberman
-// 
-// Made by raphael defreitas
-// Login   <defrei_r@epitech.net>
-// 
-// Started on  Thu Jun  5 12:37:59 2014 raphael defreitas
-// Last update Thu Jun  5 14:07:47 2014 raphael defreitas
-//
-
 #include	<cstdlib>
 #include	<iostream>
 
 #include	"API/Manager.hh"
 #include	"Lua/Script.hh"
 
+				/*
 int main(int argc, char** argv)
 {
   if (argc == 1)
@@ -49,10 +40,9 @@ int main(int argc, char** argv)
 
   return EXIT_SUCCESS;
 }
+*/
 
 
-
-/*
 //* Graph main
 #include <OpenGL.hh>
 #include <glm/glm.hpp>
@@ -79,7 +69,6 @@ int main()
 
   return EXIT_SUCCESS;
 }
-*/
 
 //*
 

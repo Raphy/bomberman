@@ -1,85 +1,82 @@
+
 #include "GameEngine.hh"
-
 #include "GameScene.hh"
+#include    "Basic.hh"
 
-GameEngine::GameEngine() : m_scenes_manager() {
+GameEngine::GameEngine():
+    m_scenes_manager()
+{
 }
 
-GameEngine::~GameEngine() {
+GameEngine::~GameEngine()
+{
 }
 
-bool GameEngine::initialize() {
+bool GameEngine::initialize()
+{
     if (!m_context.start(800, 600, "My bomberman!")) {
         return false;
     }
 
     glEnable(GL_DEPTH_TEST);
 
-    if (!m_shader.load("./build/shaders/basic.fp", GL_FRAGMENT_SHADER) ||
-        !m_shader.load("./build/shaders/basic.vp", GL_VERTEX_SHADER) ||
-        !m_shader.build()) {
+    if (!m_shader.load("./build/shaders/basic.fp", GL_FRAGMENT_SHADER) ||!m_shader.load("./build/shaders/basic.vp", GL_VERTEX_SHADER) ||!m_shader.build()) {
         return false;
     }
 
-    m_shader.bind();
-    m_shader.setUniform("view", glm::lookAt(
-        glm::vec3(0, 0, -10),
-        glm::vec3(0, 0, 0),
-        glm::vec3(0, 1, 0)
-    ));
-    m_shader.setUniform("projection", glm::perspective(
-        60.0f,
-        800.0f / 600.0f,
-        0.1f,
-        100.0f
-    ));
+    
+    this->_position = glm::vec3(0, 15, -20);
+    this->_lookAtPosition = glm::vec3(0, 0, 0);
+    
+//    m_shader.bind();
+//    m_shader.setUniform("view", glm::lookAt(this->_position, this->_lookAtPosition, glm::vec3(0, 1, 0)));
+//    m_shader.setUniform("projection", glm::perspective(60.0f, 800.0f / 600.0f, 0.1f, 10000.0f));
 
     /*
-    SceneArguments scene_args;
-    m_scenes_manager.start<MenuScene>(scene_args);
-    */
-    _menu = new MenuScene();
-    _menu->initialize();
+     * SceneArguments scene_args;
+     * m_scenes_manager.start<MenuScene>(scene_args);
+     */
+    _scene = new Basic();
+
+    _scene -> initialize();
 
     return true;
 }
 
-bool GameEngine::update() {
-
+bool GameEngine::update()
+{
     if (m_input.getInput(SDL_QUIT)) {
         return false;
     }
 
     m_context.updateClock(m_clock);
     m_context.updateInputs(m_input);
-
-
-    _menu->update(m_clock, m_input);
-
+    _scene -> update(m_clock, m_input);
 
     /*
-    try {
-        IScene& scene = m_scenes_manager.getCurrentScene();
-        scene.update(m_clock, m_input);
-        if (!m_scenes_manager.applyChanges()) {
-            // throw an exception
-            return false;
-        }
-
-    }
-    catch (std::string& err) {
-        return false;
-    }
-*/
+     * try {
+     *   IScene& scene = m_scenes_manager.getCurrentScene();
+     *   scene.update(m_clock, m_input);
+     *   if (!m_scenes_manager.applyChanges()) {
+     *       // throw an exception
+     *       return false;
+     *   }
+     *
+     * }
+     * catch (std::string& err) {
+     *   return false;
+     * }
+     */
     return true;
 }
 
-void GameEngine::draw() {
-
+void GameEngine::draw()
+{
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     m_shader.bind();
-
-    _menu->draw(m_shader, m_clock);
-
+    _scene -> metaDraw(m_shader, m_clock);
     m_context.flush();
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

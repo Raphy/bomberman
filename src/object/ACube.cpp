@@ -9,6 +9,8 @@
 
 ACube::ACube(std::string const& id): AGeometry(id) {
     
+    this->setPosition(glm::vec3(0, 0.5, 0));
+    
     _geometry.setColor(glm::vec4(1, 1, 1, 1));
 
     _geometry.pushVertex(glm::vec3(0.5, -0.5, 0.5));

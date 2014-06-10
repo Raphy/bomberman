@@ -24,8 +24,10 @@ public:
 
     virtual bool initialize(void);
     virtual bool update(gdl::Clock const& clock, gdl::Input& input);
+    
+protected:        
     virtual bool draw(gdl::AShader& shader, gdl::Clock const& clock);
-
+    
 private:
     // List of static object (wall, ...)
     std::list<AGameObject*> _static;

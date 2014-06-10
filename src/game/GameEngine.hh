@@ -17,12 +17,17 @@
 # include <Model.hh>
 
 # include "ScenesManager.hh"
-
-#include "MenuScene.hh"
+# include   "AScene.hh"
 
 class GameEngine : public gdl::Game {
 
 private:
+    
+    // TEST CAMERA CAN BE REMOVED!
+    glm::vec3 _position;
+    glm::vec3 _lookAtPosition;
+    
+    
     // GDL
     gdl::SdlContext        m_context;
     gdl::Clock             m_clock;
@@ -32,7 +37,7 @@ private:
     // other
   ScenesManager m_scenes_manager;
 
-  AScene *_menu;
+  AScene *_scene;
 
 public:
     GameEngine();

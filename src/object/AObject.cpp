@@ -5,8 +5,14 @@
 glm::mat4 AObject::getTransformation()
 {
     if (this->_static)
+    {
         return this->_transformation;
-    
+    }
+    return this->getForceTransformation();
+}
+
+glm::mat4 AObject::getForceTransformation()
+{
     glm::mat4 transform(1);
 
     /*
@@ -24,6 +30,7 @@ glm::mat4 AObject::getTransformation()
 
     return (transform);
 }
+
 
 void AObject::setPosition(glm::vec3 position) {
     _position = position;
@@ -73,7 +80,7 @@ void AObject::scale(const glm::vec3& scale) {
 
 void AObject::checkStaticObject() {
     if (this->_static)
-        this->_transformation = this->getTransformation();
+        this->_transformation = this->getForceTransformation();
 }
 
 

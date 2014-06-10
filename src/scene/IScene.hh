@@ -29,10 +29,13 @@ public:
 
     virtual bool initialize() = 0;
     virtual bool update(gdl::Clock const& clock, gdl::Input& input) = 0;
-    virtual bool draw(gdl::AShader& shader, gdl::Clock const& clock) = 0;
-
+    virtual bool metaDraw(gdl::AShader& shader, gdl::Clock const& clock) = 0;
+    
     virtual SceneStatus const& getStatus() const = 0;
     virtual SceneId const& getId() const = 0;
+
+protected:
+    virtual bool draw(gdl::AShader& shader, gdl::Clock const& clock) = 0;
 };
 
 #endif // !ISCENE_H_

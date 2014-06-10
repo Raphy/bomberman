@@ -76,6 +76,7 @@ protected:
 
     void checkStaticObject();
     glm::mat4 getTransformation();
+    glm::mat4 getForceTransformation();
 };
 
 #endif // !AOBJECT_HH_
