@@ -1,21 +1,20 @@
-#include <iostream>
-
 #include "GameEngine.hh"
-<<<<<<< HEAD
-=======
-//#include "AMenuScene.hh"
-//#include "MainMenu.hh"
 #include "GameScene.hh"
->>>>>>> 14a1b67ab98e7592ef0117627ddb04729f87dda3
+#include    "Basic.hh"
+#include <iostream>
 #include "Exception.hh"
 
-GameEngine::GameEngine() : m_scenes_manager() {
+GameEngine::GameEngine():
+    m_scenes_manager()
+{
 }
 
-GameEngine::~GameEngine() {
+GameEngine::~GameEngine()
+{
 }
 
-bool GameEngine::initialize() {
+bool GameEngine::initialize()
+{
     if (!m_context.start(800, 600, "My bomberman!")) {
         throw Exception("fail to start gdl context");
     }
@@ -32,22 +31,24 @@ bool GameEngine::initialize() {
         throw Exception("fail to build shader");
     }
 
-    m_shader.bind();
-    m_shader.setUniform("view", glm::lookAt(
-        glm::vec3(0, 0, -10),
-        glm::vec3(0, 0, 0),
-        glm::vec3(0, 1, 0)
-    ));
-    m_shader.setUniform("projection", glm::perspective(
-        60.0f,
-        800.0f / 600.0f,
-        0.1f,
-        100.0f
-    ));
+    
+    this->_position = glm::vec3(0, 15, -20);
+    this->_lookAtPosition = glm::vec3(0, 0, 0);
+    
+//    m_shader.bind();
+//    m_shader.setUniform("view", glm::lookAt(this->_position, this->_lookAtPosition, glm::vec3(0, 1, 0)));
+//    m_shader.setUniform("projection", glm::perspective(60.0f, 800.0f / 600.0f, 0.1f, 10000.0f));
 
-    SceneArguments scene_args;
-    scene_args.set("file", "./map");
-    m_scenes_manager.start<FirstScene>(scene_args);
+    /*
+     * SceneArguments scene_args;
+     * m_scenes_manager.start<MenuScene>(scene_args);
+     */
+    _scene = new Basic();
+
+    _scene -> initialize();
+      //SceneArguments scene_args;
+    //    scene_args.set("file", "./map");
+    //m_scenes_manager.start<FirstScene>(scene_args);
 
     return true;
 }
@@ -59,45 +60,64 @@ bool GameEngine::update() {
     if (m_input.getInput(SDL_QUIT)) {
         return false;
     }
+
+    // if (m_scenes_manager.empty()) {
+    //     return false;
+    // }
+
+    // if (m_scenes_manager.applyChanges() == false) {
+    //     throw Exception("fail to apply scene changes");
+    // }
+
+    // IScene& scene = m_scenes_manager.getCurrentScene();
+    // if (scene.update(m_clock, m_input) == false) {
+    //     throw Exception("fail to update scene '" + scene.getId().unwrap() + "'");
+    // }
+    // return true;
+
+
+    m_context.updateClock(m_clock);
+    m_context.updateInputs(m_input);
+    _scene -> update(m_clock, m_input);
+
     /*
-    if (m_scenes_manager.empty()) {
-        return false;
-    }
-
-    if (m_scenes_manager.applyChanges() == false) {
-        throw Exception("fail to apply scene changes");
-    }
-    */
-    /*
-    IScene& scene = m_scenes_manager.getCurrentScene();
-    if (scene.update(m_clock, m_input) == false) {
-        throw Exception("fail to update scene '" + scene.getId().unwrap() + "'");
-    }
-<<<<<<< HEAD
-=======
-    */
-
-    //    _menu->update(m_clock, m_input);
-
-
->>>>>>> 14a1b67ab98e7592ef0117627ddb04729f87dda3
+     * try {
+     *   IScene& scene = m_scenes_manager.getCurrentScene();
+     *   scene.update(m_clock, m_input);
+     *   if (!m_scenes_manager.applyChanges()) {
+     *       // throw an exception
+     *       return false;
+     *   }
+     *
+     * }
+     * catch (std::string& err) {
+     *   return false;
+     * }
+     */
     return true;
+
 }
 
-void GameEngine::draw() {
+// void GameEngine::draw() {
 
-  /*    if (m_scenes_manager.empty())
-        return ;
-  */
+//     if (m_scenes_manager.empty())
+//         return ;
+
+//     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//     m_shader.bind();
+
+//     IScene& scene = m_scenes_manager.getCurrentScene();
+//     scene.draw(m_shader, m_clock);
+
+// }
+
+void GameEngine::draw()
+{
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     m_shader.bind();
-
-    /*
-    IScene& scene = m_scenes_manager.getCurrentScene();
-    scene.draw(m_shader, m_clock);
-    */
-
-    //    _menu->draw(m_shader, m_clock);
-
+    _scene -> metaDraw(m_shader, m_clock);
     m_context.flush();
 }
+
+
+//~ Formatted by Jindent --- http://www.jindent.com

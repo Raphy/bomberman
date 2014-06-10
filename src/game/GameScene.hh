@@ -26,8 +26,10 @@ public:
 
     virtual bool initialize();
     virtual bool update(gdl::Clock const& clock, gdl::Input& input);
+    
+protected:        
     virtual bool draw(gdl::AShader& shader, gdl::Clock const& clock);
-
+    
 private:
     int m_map_width;
     int m_map_height;

@@ -155,6 +155,12 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 }
 
 bool GameScene::draw(gdl::AShader& shader, gdl::Clock const& clock) {
+
+    foreachObject([&] (AGameObject& obj) {
+        if (obj.isDead() == false) {
+            obj.draw(shader, clock);
+        }
+    });
     return true;
 }
 
