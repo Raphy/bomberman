@@ -39,6 +39,8 @@ public:
     // Call the previous "rewind" with a closure which
     // check the scenes ids equality.
     bool rewind(SceneId const& scene_id);
+
+    bool empty() const { return m_stack.empty(); }
 };
 
 #endif // !SCENES_STACK_H_

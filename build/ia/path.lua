@@ -1,7 +1,7 @@
 
 require 'list'
 require 'helper'
-require 'open_list_manager'
+require 'path_algo'
 require 'map_manager'
 
 Path = {}
@@ -11,7 +11,7 @@ function Path:get_final_path(start_idx, curr_idx)
 	local path = List:new("path")
 	local tmp = MapManager:get_case(curr_idx)
 	while tmp.idx ~= start_idx do
-		List:addCaseInList(path, tmp)
+		List:add_case_in_list(path, tmp)
 		tmp = MapManager:get_case(tmp.parent)
 	end
 	--TODO : reverse path
@@ -20,13 +20,13 @@ end
 
 function Path:register_case_open(open_list, case)
 	case.status = Tags:v("open")
-	List:addCaseInList(open_list, case)
+	List:add_case_in_list(open_list, case)
 end
 
 function Path:register_case_closed(open_list, closed_list, case)
 	case.status = Tags:v("closed")
-	List:removeCaseFromList(open_list, case)
-	List:addCaseInList(closed_list, case)
+	List:remove_case_from_list(open_list, case)
+	List:add_case_in_list(closed_list, case)
 end
 
 function Path:get_side_cases(curr_idx)
@@ -37,9 +37,9 @@ function Path:get_side_cases(curr_idx)
 		local case = MapManager:get_case(case_idx)
 		-- print("cases status = "..TagsList[case.status])
 		if case.status == Tags:v("unknown") and case.walkable then
-			List:addCaseInList(side_cases, case)
+			List:add_case_in_list(side_cases, case)
 		elseif case.status == Tags:v("open") then
-			List:addCaseInList(side_open_cases, case)
+			List:add_case_in_list(side_open_cases, case)
 		end
 	end
 
@@ -88,7 +88,7 @@ function Path:calc_path(algoTag, start_idx, dest_idx)--, curr_idx, open_list, cl
 	end
 
   	MapManager:clean_map()
-	local algoModule = OpenListManagers[algoTag]
+	local algoModule = PathAlgos[algoTag]
 	local open_list = List:new("open_list")
 	local closed_list = List:new("closed_list")
 	local start = MapManager:get_case(start_idx)

@@ -12,7 +12,7 @@ class MenuScene : public AScene
 public:
   static const std::string Tag;
 
-  MenuScene(/*SceneArguments const& args*/);
+  MenuScene(SceneArguments const& args);
   virtual ~MenuScene();
 
   virtual bool initialize();

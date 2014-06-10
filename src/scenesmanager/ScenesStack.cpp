@@ -18,7 +18,7 @@ bool ScenesStack::push(FunctSceneFactory factory, SceneArguments const& args) {
         return false;
     }
     else {
-        m_stack.push(factory(args));
+        m_stack.push(scene);
         return true;
     }
 }

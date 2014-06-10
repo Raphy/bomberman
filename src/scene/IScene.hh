@@ -33,6 +33,8 @@ public:
 
     virtual SceneStatus const& getStatus() const = 0;
     virtual SceneId const& getId() const = 0;
+
+    virtual void consumeStatus() = 0;
 };
 
 #endif // !ISCENE_H_

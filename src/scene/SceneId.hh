@@ -16,6 +16,8 @@ public:
 
     bool operator==(SceneId const& other) const;
     bool operator!=(SceneId const& other) const;
+
+    std::string const& unwrap() const { return m_tag; }
 };
 
 #endif // !SCENE_ID_H_
