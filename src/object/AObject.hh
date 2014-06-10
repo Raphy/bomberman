@@ -16,6 +16,8 @@
 # include <BasicShader.hh>
 # include <Model.hh>
 
+# include <tuple>
+
 # include "Rectangle.hh"
 
 class AObject
@@ -45,12 +47,15 @@ public:
     void setPosition(glm::vec3 position);
     glm::vec3 const& getPosition() const { return this->_position; }
     
-    void setSpeed(float speed) { this->_speed = speed; }
     
     // Optimisation if the object doesn't move
     // Performance loss if used on movement object
     void isStatic(bool value = true) { this->_static = value; }
     
+    void setPosition(double x, double y) { _position = glm::vec3(x, y, 0); }
+    void setSpeed(float speed) { this->_speed = speed; }
+    
+
 protected:
     
     //Instantiated object list

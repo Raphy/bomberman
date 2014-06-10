@@ -1,5 +1,8 @@
-#include  "AModel.hh"
-#include  <map>
+#ifndef MARVIN_HH_
+# define MARVIN_HH_
+
+# include  "AModel.hh"
+# include  <map>
 
 class Marvin;
 typedef void (Marvin::*inputFunction)(gdl::Clock const&);
@@ -30,3 +33,5 @@ private:
     void onLeftPressed(gdl::Clock const& clock);
     void onRightPressed(gdl::Clock const& clock);
 };
+
+#endif // !MARVIN_HH_

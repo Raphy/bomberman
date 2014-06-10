@@ -50,7 +50,7 @@ public:
     virtual SceneStatus const& getStatus() const;
     virtual SceneId const& getId() const;
     virtual bool metaDraw(gdl::AShader& shader, gdl::Clock const& clock);
+    virtual void consumeStatus() { setStatusNone(); }
 };
-
 
 #endif // !ASCENE_H_

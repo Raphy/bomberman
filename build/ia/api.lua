@@ -17,10 +17,6 @@ function map:get(this, x,y)
 	return nil
 end
 
-function map:get(this, x,y)
-	return nil
-end
-
 GameObject = Class:new({_type = "GameObject"})
 
 function GameObject:getType(this)
