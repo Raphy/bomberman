@@ -2,11 +2,6 @@
 require 'api'
 require 'tags'
 
-  -- The scripts is provided by the following objects:
-  -- Variable "me" (API::Me) represents the player by this script
-  -- Variable "map" (API::Map) represents the game map
--- print(map:get(1,1))
-
 Helper = {}
 
 -- * TIME_HELPER *
@@ -23,8 +18,9 @@ end
 -- * DEV_HELPER *
 
 function Helper:warning(msg)
-	print("WARNING : "..msg)
+	print("WARNING...")
 	print(debug.traceback())
+	print("...WARNING : "..msg)
 end
 function Helper:to_implement()
 	print("ERROR : FUNCTION NOT IMPLEMENTED")
@@ -35,30 +31,35 @@ function Helper:to_override()
 	print(debug.traceback())
 end
 function Helper:debug_print(msg)
-	print("DEBUG : "..msg)
+	-- print("DEBUG : "..msg)
 end
 
 
 -- * OBJECTS_HELPER *
 
-function Helper:are_objects_in_case(i,j,type)
-	local o = {}
-	local case = map:get(i,j)
+function Helper:get_my_coord()
+	return Coord:new(me:getX(), me:getY())
+end
+
+function Helper:are_objects_in_case(x,y,type)
+	local case = map:get(x,y)
+	if x == 5.0 and y == 5.0 then return true end
+	-- local case = map:get(5.0,5.0)
 	if case == nil then
 		return false end
-	for obj in case do
-		if type == nil or type == obj:getType() then
-			o:insert(obj) end
+	for _,obj in pairs(case) do
+		-- print("parcours enemy")
+		-- if type == nil or type == obj:getType() then
+			return true --end
 	end
-	return #o == 0
-	-- return false
+	return false
 end
-function Helper:get_objects_from_case(i,j,type,objects)
+function Helper:get_objects_from_case(x,y,type,objects)
 	local o = objects or {}
-	local case = map:get(i,j)
+	local case = map:get(x,y)
 	if case == nil then
 		return nil end
-	for obj in case do
+	for _,obj in pairs(case) do
 		if type == nil or type == obj:getType() then
 			table.insert(o, obj) end
 	end
@@ -69,16 +70,14 @@ function Helper:get_all_objects(type)
 	self:debug_print("get all objects of type "..type)
 	local o = {}
 	for case in MapManager:iter() do
-		local i,j = self:idx_to_coord(case.idx)
-		o = self:get_objects_from_case(i,j,type,o)
+		o = self:get_objects_from_case(case.x,case.y,type,o)
 	end
 	return o
 end
 function Helper:are_objects(type)
 	self:debug_print("get all objects of type "..type)
 	for case in MapManager:iter() do
-		local i,j = self:idx_to_coord(case.idx)
-		if self:are_objects_in_case(i,j,type,o) then
+		if self:are_objects_in_case(case.x,case.y,type,o) then
 			return true end
 	end
 	return false
@@ -117,17 +116,18 @@ end
 -- TODO: calculer le rayon en fonction du temps de la bombe ou de son etendu
 
 function Helper:is_place_safe()
-	self:to_implement()
-  -- return Helper:are_objects_around(Tags:v("bomb"),me:getX(),me:getY(),check_radius)
-  return true
+	-- TODO : checker les previews a la place ?
+	return not Helper:are_objects_around("bomb",me:getX(),me:getY(),3)
 end
 
 function Helper:get_dangerous_cases_around_bomb(bomb_position)
 	local radius = 2
-	MapManager:set_vision_activate(bomb_position, radius)
-	MapManager:preview_bomb_explosion()
-	return self:get_objects_around(Tags:v("future_fire"),Coord:unpack(bomb_position),radius)
+	-- MapManager:set_vision_activate(bomb_position, radius)
+	-- MapManager:preview_bomb_explosion()
+	-- return self:get_objects_around("preview_fire",Coord:unpack(bomb_position),radius)
 	--desactivate vision ?
+	self:to_implement()
+	return false
 end
 
 function Helper:get_nearest_safe_case(bomb_position)
@@ -137,5 +137,5 @@ function Helper:get_nearest_safe_case(bomb_position)
 	-- execute dijkstra sur type case vide
 	self:to_implement()
 	return nil
-	-- return self:get_objects_around(Tags:v("bomb"),Coord:unpack(bomb_position),radius)
+	-- return self:get_objects_around("bomb",Coord:unpack(bomb_position),radius)
 end

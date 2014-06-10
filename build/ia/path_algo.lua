@@ -29,13 +29,14 @@ end
 
 -- * ASTAR *
 
-Astar = PathAlgo:new(Tags:v("astar"))
+Astar = PathAlgo:new("astar")
 
 function Astar:calc_h_cost(start, dest)
 	return (math.abs(start.x - dest.x) + math.abs(start.y - dest.y))
 end
 
 function Astar:open_side_cases(open_list, curr_idx, side_cases, dest)
+	assert(dest ~= nil)
 	Helper:debug_print("open cases.............. ")
 	Helper:debug_print("length = "..List:size(side_cases))
 
@@ -69,7 +70,7 @@ end
 
 -- * DIJKSTRA *
 
-Dijkstra = PathAlgo:new(Tags:v("dijkstra"))
+Dijkstra = PathAlgo:new("dijkstra")
 
 function Dijkstra:open_side_cases(open_list, curr_idx, side_cases)
 	Helper:debug_print("open cases.............. ")
@@ -89,9 +90,14 @@ function Dijkstra:get_next_open_case(open_list)
 	return List:front_case(open_list)
 end
 
+-- * GLOUTON *
+
+-- TODO : corriger dijkstra et faire passer la version actuelle en glouton
+
+
 -- * OPEN_LIST_MANAGERS *
 
 PathAlgos = {
-	[Tags:v("astar")] = Astar,
-	[Tags:v("dijkstra")] = Dijkstra
+	["astar"] = Astar,
+	["dijkstra"] = Dijkstra,
 }

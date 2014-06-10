@@ -6,6 +6,7 @@
 	'*' permet d'additionner 2 jeux de coordonnees ensemble
 	'/' permet de diviser 2 jeux de coordonnees ensemble
 	'<' '<=' '>' '>=' permettent de comparer les x ET y de 2 jeux de coordonnees
+	les transitions coord <=> direction ne fontionnent que sur des cases adjacentes !
 ]]
 
 --[[
@@ -43,7 +44,7 @@ local coord_mt =
 				return lhs.x < rhs.x and lhs.y < rhs.y
 			end,
 	__le = function (lhs, rhs)
-				print(debug.traceback())
+				-- print(debug.traceback())
 				return lhs.x <= rhs.x and lhs.y <= rhs.y
 			end,
 	-- __tostring = function (c)
@@ -57,17 +58,17 @@ Coord = {
 }
 
 function Coord:init()
-	_is_in_direction = {
-		["left"] = function(c1,c2) return c1.x > c2.x and c1.y == c2.y end,
-		["right"] = function(c1,c2) return c1.x < c2.x and c1.y == c2.y end,
+	self._is_in_direction = {
 		["up"] = function(c1,c2) return c1.x == c2.x and c1.y > c2.y end,
 		["down"] = function(c1,c2) return c1.x == c2.x and c1.y < c2.y end,
+		["left"] = function(c1,c2) return c1.x > c2.x and c1.y == c2.y end,
+		["right"] = function(c1,c2) return c1.x < c2.x and c1.y == c2.y end,
 	}
-	_direction_diff = {
-		["left"] = Coord:new(-1,0),
-		["right"] = Coord:new(1,0),
-		["up"] = Coord:new(0,-1),
-		["down"] = Coord:new(0,1),
+	self._direction_diff = {
+		["up"] = self:new(0,-1),
+		["down"] = self:new(0,1),
+		["left"] = self:new(-1,0),
+		["right"] = self:new(1,0),
 	}
 end
 function Coord:new(x,y)
@@ -75,30 +76,45 @@ function Coord:new(x,y)
 	setmetatable(o, coord_mt)
 	return o
 end
+function Coord:cpy(rhs)
+	local o = {x=rhs.x,y=rhs.y}
+	setmetatable(o, coord_mt)
+	return o
+end
 
 -- TODO : gerer les diagonales ?
 function Coord:to_direction(c1,c2)
 	local function _check_dir(dir_value,c1,c2)
-		local dir_key = DirectionTags:k(dir_value)
-		if dir_value == 4 -- #DirectionTags
-			then return self._is_in_direction[dir_key](c1,c2)
-								and dir_key
-			else return self._is_in_direction[dir_key](c1,c2)
-								and _check_dir(dirTag + 1)
-		end
+		local dir_key = Tags:k(dir_value)
+		assert(dir_key == "up" or dir_key == "down" or dir_key == "left" or dir_key == "right", "bad direction key")
+		if self._is_in_direction[dir_key](c1,c2) then
+			return dir_key end
+		if dir_value == Tags:v("right") then
+			Helper:warning("can't find direction, maybe cases aren't adjacents.")
+			return "right" end
+		return _check_dir(dir_value + 1,c1,c2)
 	end
 
 	assert(c1 ~= c2)
-	return _check_dir(1,c1,c2)
-	-- return self._is_in_direction["left"] and "left"
-	-- 	or self._is_in_direction["right"] and "right"
-	-- 	or self._is_in_direction["up"] and "up"
-	-- 	or self._is_in_direction["down"] and "down"
+	-- print("to_direction : x1 = "..c1.x.." y1 = "..c1.y.." x2 = "..c2.x.." y2 = "..c2.y)
+	return _check_dir(Tags:v("up"),c1,c2)
 end
-function Coord:from_direction(c1,dir)
-	--isInTagsList with DirectionTags
+function Coord:from_direction(c1,dir,radius)
 	assert(dir == "left" or dir == "right" or dir == "up" or dir == "down")
-	return c1 + self._direction_diff[dir]
+	local r = radius or 1
+	local diff = Coord:cpy(self._direction_diff[dir])
+	diff.x, diff.y = (diff.x * r),(diff.y * r)
+	return c1 * diff
+end
+
+function Coord:apply_to_all_directions(f)
+	local function _apply(dir_v)
+		f(Tags:k(dir_v))
+		if dir_v == Tags:v("right") then
+			return end
+		_apply(dir_v + 1)
+	end
+	_apply(Tags:v("up"))
 end
 
 function Coord:min_filter(c1, c2)
@@ -112,7 +128,7 @@ end
 
 -- function Coord:max(c1, c2) return c1 >= c2 and c1 or c2 end
 
-function Coord:unpack(c) return c1.x, c1.y end
+function Coord:unpack(c) return c.x, c.y end
 
 -- local toto = Coord:new(0,10)
 -- local titi = Coord:new(1,1)

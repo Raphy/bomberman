@@ -20,6 +20,11 @@ public:
     // Get the type of the object.
     std::string const& getType() const { return m_type; }
 
+    std::tuple<double, double> getPosition() const {
+        return std::make_tuple(_position.x, _position.y);
+    }
+
+
 protected:
     // A type (string) used to dinstinguish
     // differents AGameObject (in onCollision() for example)

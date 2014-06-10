@@ -17,12 +17,16 @@
 # include <Model.hh>
 
 # include "ScenesManager.hh"
-
+# include   "AScene.hh"
 # include "GameScene.hh"
 
 class GameEngine : public gdl::Game {
 
 private:
+    // TEST CAMERA CAN BE REMOVED!
+    glm::vec3 _position;
+    glm::vec3 _lookAtPosition;
+
     // Define the first scene to be loaded.
     typedef GameScene FirstScene;
 
@@ -33,7 +37,8 @@ private:
     gdl::BasicShader       m_shader;
 
     // other
-    ScenesManager m_scenes_manager;
+  AScene *_scene;
+  ScenesManager m_scenes_manager;
 
 public:
     GameEngine();

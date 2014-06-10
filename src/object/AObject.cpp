@@ -1,7 +1,17 @@
 
 #include "AObject.hh"
 
+
 glm::mat4 AObject::getTransformation()
+{
+    if (this->_static)
+    {
+        return this->_transformation;
+    }
+    return this->getForceTransformation();
+}
+
+glm::mat4 AObject::getForceTransformation()
 {
     glm::mat4 transform(1);
 
@@ -20,6 +30,59 @@ glm::mat4 AObject::getTransformation()
 
     return (transform);
 }
+
+
+void AObject::setPosition(glm::vec3 position) {
+    _position = position;
+    this->checkStaticObject();
+}
+
+
+void AObject::lookAt(const glm::vec3& point) {
+    _rotation = point;
+    this->checkStaticObject();
+}
+
+void AObject::lookEast() {
+    this -> lookAt(glm::vec3(0, -90, 0));
+    this->checkStaticObject();
+}
+
+void AObject::lookNorth() {
+    this -> lookAt(glm::vec3(0, 0, 0));
+    this->checkStaticObject();
+}
+
+void AObject::lookSouth() {
+    this -> lookAt(glm::vec3(0, 180, 0));
+    this->checkStaticObject();
+}
+
+void AObject::lookWest() {
+    this -> lookAt(glm::vec3(0, 90, 0));
+    this->checkStaticObject();
+}
+
+void AObject::rotate(const glm::vec3& axis, float angle) {
+    _rotation += axis * angle;
+    this->checkStaticObject();
+}
+
+void AObject::translate(const glm::vec3& v) {
+    _position += v;
+    this->checkStaticObject();
+}
+
+void AObject::scale(const glm::vec3& scale) {
+    _scale *= scale;
+    this->checkStaticObject();
+}
+
+void AObject::checkStaticObject() {
+    if (this->_static)
+        this->_transformation = this->getForceTransformation();
+}
+
 
 
 //~ Formatted by Jindent --- http://www.jindent.com
