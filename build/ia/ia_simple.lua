@@ -12,8 +12,8 @@ function onInitialization()
  Coord:init()
 
 --  Helper:get_all_object("player")
-  print(me:getName(me))
-  print(map:getX(me))
+  print(me:getName())
+  print(map:getX())
   me:moveUp()
   math.randomseed( os.time() )
 end
@@ -22,11 +22,11 @@ function onMyTurn()
   MapManager:clean_map()-- -> ici ou a chaque calc_path ?
 
   print(" act_random")
- Actions:act_random(me)
+ Actions:act_random()
  print(" go_to 1.0 2.0")
- MapManager:set_vision_activate(Coord:new(me:getX(me), me:getY(me)), 2)
- Actions:go_to(me, me:getX(me)+2, me:getY(me)+1)
-  Actions:go_to(me, 9.0, 100.0)
+ MapManager:set_vision_activate(Coord:new(me:getX(), me:getY()), 2)
+ Actions:go_to(me:getX()+2, me:getY()+1)
+  Actions:go_to(9.0, 100.0)
 end
 
 print("-----init----")

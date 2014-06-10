@@ -1,11 +1,12 @@
 
-TagsList = { "up","down","left","right",
+TagsList = { "up","down","left","right","put_bomb",
 				"player","me","enemy",
 				"item","bomb",
-				"future_bomb","future_fire",
+				"preview_bomb","preview_fire",
 				"open","closed","unknown",
 				"astar","dijkstra",
-				"push","pop","continue" }
+				"push","pop","continue",
+				"begin","in_progress","end" }
 Tags = {}
 for i,v in ipairs(TagsList) do
 	Tags[v] = i
@@ -14,12 +15,14 @@ end
 function Tags:v(key)
 	local value = self[key]
 	if value == nil then
+		print(debug.traceback())
 		Helper:warning("Unexisting tag \""..key.."\"") end
 	return value
 end
 function Tags:k(value)
 	local key = TagsList[value]
 	if key == nil then
+		print(debug.traceback())
 		Helper:warning("Unexisting value \""..value.."\" in TagsList") end
 	return key
 end
