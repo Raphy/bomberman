@@ -50,6 +50,7 @@ private:
     void loadMap(std::string const& filename);
     void genMap(int width, int height);
     void initPlayer(int num, int x, int y);
+    void save(std::string const& filename) const;
 
     // Call a closure/functor for each object in the list.
     // (the closure must take an AGameObject&)
@@ -59,10 +60,21 @@ private:
             closure(*obj);
         }
     }
+    template<typename Funct>
+    void foreachObject(std::list<AGameObject*> const& objects, Funct closure) const {
+        for (auto obj : objects) {
+            closure(*obj);
+        }
+    }
 
     // Call a closure/functor for each static and movable object.
     template<typename Funct>
     void foreachObject(Funct closure) {
+        foreachObject(m_static, closure);
+        foreachObject(m_movable, closure);
+    }
+    template<typename Funct>
+    void foreachObject(Funct closure) const {
         foreachObject(m_static, closure);
         foreachObject(m_movable, closure);
     }

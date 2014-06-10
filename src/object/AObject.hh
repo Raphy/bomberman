@@ -16,6 +16,8 @@
 # include <BasicShader.hh>
 # include <Model.hh>
 
+# include <tuple>
+
 # include "Rectangle.hh"
 
 class AObject
@@ -46,6 +48,10 @@ public:
     void setPosition(double x, double y) { _position = glm::vec3(x, y, 0); }
     void setSpeed(float speed) { this->_speed = speed; }
     
+    std::tuple<double, double> getPosition() const {
+        return std::make_tuple(_position.x, _position.y);
+    }
+
 protected:
     std::vector<AObject*> _objects;
     glm::vec3 _position;

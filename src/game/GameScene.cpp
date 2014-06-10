@@ -4,6 +4,7 @@
 #include "GameScene.hh"
 #include "Exception.hh"
 #include "MapTextLoader.hh"
+#include "MapTextSaver.hh"
 
 #include "Wall.hh"
 
@@ -90,7 +91,28 @@ void GameScene::genMap(int width, int height) {
     m_map_height = height;
 }
 
+void GameScene::save(std::string const& filename) const {
+    MapTextSaver saver(filename, m_map_width, m_map_height);
+
+    for (int player_num = 1; player_num <= 2; player_num++) {
+        AGameObject const* player = m_players[playerIdx(player_num)];
+        if (player) {
+            double x, y;
+            std::tie (x, y) = player->getPosition();
+            saver.addPlayer(player_num,
+                static_cast<size_t>(x), static_cast<size_t>(y));
+        }
+    }
+
+    this->foreachObject([&](AGameObject const& obj) {
+        saver.add(obj);
+    });
+
+    saver.save();
+}
+
 bool GameScene::initialize() {
+    this->save("save");
     m_quad_tree = new QuadTree(Rectangle(0, 0, m_map_width, m_map_height));
     rebuildQuadTree();
     return true;

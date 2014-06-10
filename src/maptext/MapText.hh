@@ -15,6 +15,7 @@ protected:
     StrMatrix m_map;
 
 public:
+
     static const char DELIM = ' ';
 
     static const char VOID = '_';
@@ -22,6 +23,8 @@ public:
     static const char PLAYER_2 = '2';
     static const char ENEMY = 'e';
     static const char WALL = 'w';
+    static const char BOMB = 'b';
+    static const char FIRE = 'f';
 
 public:
     MapText();
@@ -33,9 +36,9 @@ public:
     template <typename F> // f(char c, size_t x, size_t y)
     void foreachObject(F closure) {
         size_t y = 0;
-        for (auto str_vec : m_map) {
+        for (auto& str_vec : m_map) {
             size_t x = 0;
-            for (auto str : str_vec) {
+            for (auto& str : str_vec) {
                 for (auto c : str) {
                     closure(c, x, y);
                 }

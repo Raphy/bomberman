@@ -39,5 +39,4 @@ public:
     virtual void consumeStatus() { setStatusNone(); }
 };
 
-
 #endif // !ASCENE_H_
