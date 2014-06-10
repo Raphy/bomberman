@@ -116,7 +116,7 @@ print("-----init----")
 onInitialization()
 print("-----fin init----")
 
-for i=0, 10 do
+for i=0, 1 do
 print("\n-----myturn-----")
 onMyTurn()
 print("-----fin myturn-----")
