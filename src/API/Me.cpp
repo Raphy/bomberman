@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 12:02:27 2014 raphael defreitas
-// Last update Wed Jun 11 01:41:10 2014 raphael defreitas
+// Last update Wed Jun 11 18:33:32 2014 raphael defreitas
 //
 
 #include	<lua.hpp>
@@ -66,13 +66,13 @@ void Me::registerScript(Script& script)
 {
   luaL_newmetatable(script.getVirtualMachine().getState(), "luaL_Me");
 
-    luaL_Reg meta[] =
+  /*luaL_Reg meta[] =
       {
         {"new", Me::ctor},
         {"__gc", Me::dtor},
         {NULL, NULL}
       };
-    luaL_setfuncs(script.getVirtualMachine().getState(), meta, 0);
+      luaL_setfuncs(script.getVirtualMachine().getState(), meta, 0);*/
     Me::registerMethods(script);
 
     lua_pushvalue(script.getVirtualMachine().getState(), -1);
