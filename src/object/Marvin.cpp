@@ -5,11 +5,6 @@ std::string const Marvin::Tag = "marvin";
 
 bool Marvin::initialize() {
 
-    this -> _inputs.push_back({SDLK_UP, false, &Marvin::onUpPressed});
-    this -> _inputs.push_back({SDLK_DOWN, false, &Marvin::onDownPressed});
-    this -> _inputs.push_back({SDLK_LEFT, false, &Marvin::onLeftPressed});
-    this -> _inputs.push_back({SDLK_RIGHT, false, &Marvin::onRightPressed});
-
     this->setSpeed(5);
     //this->setPosition(glm::vec3(0,0,0));
     
@@ -56,6 +51,15 @@ void Marvin::update(gdl::Clock const &clock,
     }
     
 }
+
+void Marvin::setBindKeys(const inputBinding& bind) {
+    
+    this -> _inputs.push_back({bind.up, false, &Marvin::onUpPressed});
+    this -> _inputs.push_back({bind.down, false, &Marvin::onDownPressed});
+    this -> _inputs.push_back({bind.left, false, &Marvin::onLeftPressed});
+    this -> _inputs.push_back({bind.right, false, &Marvin::onRightPressed});
+}
+
 
 void Marvin::onUpPressed(gdl::Clock const &clock)
 {
