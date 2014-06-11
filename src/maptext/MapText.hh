@@ -35,16 +35,16 @@ public:
 
     template <typename F> // f(char c, size_t x, size_t y)
     void foreachObject(F closure) {
-        size_t y = 0;
+        size_t y = m_map.size();
         for (auto& str_vec : m_map) {
-            size_t x = 0;
+            y--;
+            size_t x = str_vec.size();
             for (auto& str : str_vec) {
+                x--;
                 for (auto c : str) {
                     closure(c, x, y);
                 }
-                x++;
             }
-            y++;
         }
     }
 

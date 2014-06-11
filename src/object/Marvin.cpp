@@ -11,7 +11,7 @@ bool Marvin::initialize() {
     this -> _inputs.push_back({SDLK_RIGHT, false, &Marvin::onRightPressed});
 
     this->setSpeed(5);
-    this->setPosition(glm::vec3(0,0,0));
+    //this->setPosition(glm::vec3(0,0,0));
     
     if (_model.createSubAnim(0, "start", 0, 37) == false)
        std::cout << "create anim false" << std::endl;

@@ -115,6 +115,18 @@ void GameScene::save(std::string const& filename) const {
 
 bool GameScene::initialize() {
 
+    bool init_success = true;
+
+    foreachObject([&] (AGameObject& obj) {
+        if (obj.initialize() == false) {
+            init_success = false;
+        }
+    });
+
+    if (init_success == false) {
+        return false;
+    }
+
     for (int player_num = 1; player_num <= 2; player_num++) {
         size_t idx = playerIdx(player_num);
         if (m_players[idx] != nullptr) { 

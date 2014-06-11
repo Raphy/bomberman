@@ -2,7 +2,6 @@
 
 #include "GameEngine.hh"
 #include "GameScene.hh"
-#include "Basic.hh"
 #include "Exception.hh"
 
 GameEngine::GameEngine():
@@ -32,10 +31,6 @@ bool GameEngine::initialize() {
         throw Exception("fail to build shader");
     }
 
-    
-    this->_position = glm::vec3(0, 15, -20);
-    this->_lookAtPosition = glm::vec3(0, 0, 0);
-    
     SceneArguments scene_args;
     scene_args.set("file", "./map");
     m_scenes_manager.start<FirstScene>(scene_args);

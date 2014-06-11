@@ -25,7 +25,7 @@ MapTextSaver::MapTextSaver(std::string const& pathname, size_t width, size_t hei
 
 void MapTextSaver::add(char type, size_t x, size_t y) {
     if (x < m_width && y < m_height) {
-        m_map[y][x] += type;
+        m_map[m_height - 1 - y][m_width - 1 - x] += type;
     }
 }
 

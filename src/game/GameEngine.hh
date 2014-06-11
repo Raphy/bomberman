@@ -23,10 +23,6 @@
 class GameEngine : public gdl::Game {
 
 private:
-    // TEST CAMERA CAN BE REMOVED!
-    glm::vec3 _position;
-    glm::vec3 _lookAtPosition;
-
     // Define the first scene to be loaded.
     typedef GameScene FirstScene;
 
