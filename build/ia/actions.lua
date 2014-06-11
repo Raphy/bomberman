@@ -11,25 +11,19 @@ Actions = {
 		["put_bomb"] = function() me.putBomb() end,
 		},
 	_path = nil,
-	-- _current_path_cases = nil,
+	_global_direction = "up",
 }
 
---[[
-TODO : mettre en place un mecanisme d'action courante, timer...
-]]
-
 function Actions:path_recalc_needed()
-	return self._path == nil
-	-- return StateMachine._action_duration == 0
-	-- 	or self._path == nil
-	-- 	or List:empty(self._path)
+	return StateMachine._action_duration == 0
+		or self._path == nil
+		or List:empty(self._path)
 end
 function Actions:follow_path()
 	print("follow_path) type self._path : "..type(self._path))
 	if self._path == nil or List:empty(self._path) then
 		return false end
-	return self:go_towards(List:front(self._path))
-	-- return self:go_towards(List:front_and_pop(self._path))
+	return self:go_towards(List:front_and_pop(self._path))
 end
 
 function Actions:wait()
@@ -56,8 +50,7 @@ end
 
 function Actions:go_to(x,y)
 	if not MapManager:check_coord(x,y)
-		then --[[Helper:debug_--]]print("goTo outside case !!"); return false end
-		--car le joueur essaie d'acceder a une case hors de la map
+		then Helper:debug_print("goTo outside case !!"); return false end
 
 	if self:path_recalc_needed() then
 		print("Actions:goTo) player : x="..me.getX().." y="..me.getY())
@@ -70,7 +63,6 @@ end
 
 function Actions:go_towards(direction)
 	print("go_towards : "..direction)
-	-- verifier si c'est possible avant ?
 	return self.act[direction]()
 end
 
@@ -84,7 +76,7 @@ function Actions:get_closer_of_one_enemy(enemy_id)
 		local start_idx = MapManager:coord_to_idx(me:getX(), me:getY())
 		local dest_idx = -1
 		self._path = Path:calc_path("dijkstra", start_idx, -1, "enemy")
-		print("type self._path : "..type(self._path))
+		Helper:debug_print("type self._path : "..type(self._path))
 	end
 	return self:follow_path()
 end
@@ -95,27 +87,31 @@ function Actions:get_away_of_one_enemy(enemy_id)
 	return me:moveUp()
 end
 
+--TODO : ajouter safe_place au tag + le gerer dans calc_path !
+
 function Actions:avoid_bomb(bomb_id)
 	local id = bomb_id or -1
 	-- faire un clean_map qqpart ?
-	MapManager:preview_bomb(Helper:get_my_coord())-- faire un preview_all_bombs ?
+	Helper:preview_all_bombs()
 	MapManager:make_type_unwalkable("preview_fire")
 	MapManager:make_type_unwalkable("preview_bomb")
+	Helper:mark_all_safe_cases()
 	local path = Path:calc_path("dijkstra", MapManager:coord_to_idx(me:getX(), me:getY()), -1, "safe_place")
+	Helper:clean_preview()
 	if path == nil then
-		return false end--potentionnellement mort...
+		return false end
 	self._path = path
 	return self:follow_path()
 end
 
---chaque placeBomb doit etre suivi d'un avoidBomb (sauf s'il on veut se suicider ;) )
 function Actions:place_bomb()
 	-- faire un clean_map qqpart ?
-	MapManager:preview_bomb(Helper:get_my_coord())-- faire un preview_all_bombs ?
+	Helper:preview_bomb(Helper:get_my_coord())-- faire un preview_all_bombs ?
 	MapManager:make_type_unwalkable("preview_fire")
 	MapManager:make_type_unwalkable("preview_bomb")
+	Helper:mark_all_safe_cases()
 	local path = Path:calc_path("dijkstra", MapManager:coord_to_idx(me:getX(), me:getY()), -1, "safe_place")
-	MapManager:clean_preview()
+	Helper:clean_preview()
 	if path == nil then
 		return false end
 	return me:putBomb()

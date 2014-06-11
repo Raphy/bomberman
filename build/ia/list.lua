@@ -19,10 +19,6 @@ end
 
 
 function List:push(list, elem)
-	-- if List:is_case_in_list(list, elem) then
-	-- 	Helper:warning("try to add idx "..elem.idx.." already in list "..list._name)
-	-- end
-	-- Helper:debug_print("add_elem_in_list : "..list._name..". _idx = "..elem)
 	list._nb_elem = list._nb_elem + 1
 	table.insert(list, 1, elem)
 end
@@ -40,17 +36,15 @@ function List:front(list)
 	return list[1]
 end
 function List:front_and_pop(list)
--- TODO : a debug !!!
-	local elem = self:front(list)
-	self:pop(list)
-	return elem
+	if list._nb_elem <= 0 then
+		Helper:warning("pop on empty list "..list._name)
+	end
+	local head = table.remove(list, 1)
+	list._nb_elem = list._nb_elem - 1
+	return head
 end
 
 function List:push_back(list, elem)
-	-- if List:is_case_in_list(list, elem) then
-	-- 	Helper:warning("try to add idx "..elem.idx.." already in list "..list._name)
-	-- end
-	-- Helper:debug_print("add_elem_in_list : "..list._name..". _idx = "..elem)
 	list._nb_elem = list._nb_elem + 1
 	table.insert(list, list._nb_elem, elem)
 end
@@ -68,11 +62,13 @@ function List:back(list)
 	return list[list._nb_elem]
 end
 function List:back_and_pop(list)
-	local elem = self:back(list)
-	self:pop_back(list)
-	return elem
+	if list._nb_elem <= 0 then
+		Helper:warning("pop_back on empty list "..list._name)
+	end
+	local tail = table.remove(list, list._nb_elem)
+	list._nb_elem = list._nb_elem - 1
+	return tail
 end
-
 
 function List:size(list)
 	return list._nb_elem
@@ -113,10 +109,10 @@ end
 -- * CASE_LIST *
 
 function List:front_case(list)
-	if list._nb_elem <= 0 then
-		Helper:warning("front_case on empty list "..list._name)
-	end
-	return MapManager:get_case(list[1])
+	return MapManager:get_case(self:front(list))
+end
+function List:front_case_and_pop(list)
+	return MapManager:get_case(self:front_and_pop(list))
 end
 
 function List:add_case_in_list(list, case)
@@ -156,4 +152,15 @@ function List:iter_case(list)
 		if i <= n then return MapManager:get_case(list[i]) end
 	end
 end
+
+
+----------------------------------------
+-- test_list = List:new("test_list")
+-- List:push_back(test_list, "toto")
+-- List:push_back(test_list, "titi")
+-- List:push_back(test_list, "tata")
+-- head = List:front_and_pop(test_list)
+-- print(head)
+-- head = List:front_and_pop(test_list)
+-- print(head)
 

@@ -4,7 +4,7 @@ TagsList = { "up","down","left","right","put_bomb",
 				"item","bomb",
 				"preview_bomb","preview_fire",
 				"open","closed","unknown",
-				"astar","dijkstra",
+				"astar","dijkstra","glouton",
 				"push","pop","continue",
 				"begin","in_progress","end" }
 Tags = {}

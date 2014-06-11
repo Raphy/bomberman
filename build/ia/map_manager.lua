@@ -116,6 +116,7 @@ function MapManager:create_case(curr_idx, i,j)
 	case.x,case.y = j,i
 	case.walkable = true--not Helper:are_objects_in_case(j,i,"wall")
 	case.previews = List:new("case_previews_"..curr_idx)
+	case.marks = List:new("case_marks_"..curr_idx)
 	case.status = "unknown"--/open/closed
 	case.parent = -1--idx du parent
 	case.g,case.h,case.f = 0,0,0
@@ -157,7 +158,6 @@ end
 
 
 -- * MAP ALTERATIONS *
--- TODO : deplacer dans helper ?
 
 -- TODO : se servir de cette methode pour init la map et choisir d'eviter murs, joueurs ...
 
@@ -170,52 +170,4 @@ function MapManager:make_type_unwalkable(type)
 			case.walkable = not Helper:are_objects_in_case(case.x,case.y,type)
 		end
 	end
-end
-
-function MapManager:clean_preview()
-	for case in self:iter() do
-		List:clear(case.previews)
-	end
-end
-function MapManager:preview_bomb(bomb_coord)
-	print("debut preview bomb..........")
-	-- verifier s'il y a bien une bombe a ces coordonnees ?
-	local function _preview_fire(coord)
-		local x,y = Coord:unpack(coord)
-		if not self:check_coord(x,y) then
-			return false end
-		local case = self:get_case(self:coord_to_idx(x,y))-- faire une methode pour ça ?
-		Helper:debug_print("preview_fire on x = "..x.." y = "..y)
-		if not List:is_elem_in_list(case.previews, "preview_fire") then
-			List:push_back(case.previews, "preview_fire") end
-		return true
-	end
-	_preview_fire(bomb_coord)
-	for radius=1,3 do -- radius max = celui de la bomb
-		local function _call_preview(dir)
-			_preview_fire(Coord:from_direction(bomb_coord, dir, radius))
-		end
-		Coord:apply_to_all_directions(_call_preview)
-	end
-	print("fin preview bomb..........")
-end
-
--- explode all bombs in vision and put "preview_fire" in map
-function MapManager:preview_all_bombs()
-	for case in MapManager:iter() do
-		if Helper:are_objects_in_case(case.x,case.y,"bomb")
-			or List:is_elem_in_list(case.previews, "preview_bomb") then
-				self:preview_bomb(Coord:new(case.x,case.y))
-		end
-	end
-
-	--[[
-	quelles cases sont affecté ?
-	est ce qu'on met du feu aussi dans les murs ?
-		(sachant que dans les murs incassables, ils ne pourront jamais aller normalement)
-	comment on fait une preview ? copie complete ou seulement des cases affectes ?
-		(sachant que ca modifie les cases de MapManager._map et peux fausser d'autres calculs exterieurs par la suite)
-	ou alors clean la map juste apres ?
-	comment on annule une preview ?
-	]]
 end
