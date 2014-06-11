@@ -4,35 +4,39 @@ require 'list'
 
 StateMachine = {
 	_current = nil,
-	_change = Tags:v("continue"),-- tags_value de "push""pop"ou "continue"
+	_change = "continue",-- tags_value de "push""pop"ou "continue"
+	_action_duration = 0,-- represente le nombre de frames depuis le dernier state change
 	_executed = false,
 	_states = List:new("StateMachine_states"),
 }
 
-function StateMachine:init(begin_state)
-	self:push_state(begin_state)
+function StateMachine:init()
+	self:push_state("begin")
 end
 function StateMachine:update()
 	print("StateMachine:update) _current = "..self._current.name)
 	for _,cond in pairs(self._current.pre_conditions) do
 		if cond[1]() then
-			self._change = Tags:v(cond[2])
-			if self._change == Tags:v("push") then
+			self._change = cond[2]
+			if self._change == "push" then
 				self:push_state(cond[3])
-			elseif self._change == Tags:v("pop") then
+			elseif self._change == "pop" then
 				self:pop_state()
 			end
-		else break end
-	end
-	if self._change == Tags:v("continue")
-		then self:execute()
-		else self._change = Tags:v("continue")
+			self._action_duration = 0
+			break
 		end
+	end
+	if self._change == "continue" then
+		self:execute()
+		self._action_duration = self._action_duration + 1
+	else self._change = "continue"
+	end
 end
 
 function StateMachine:action_terminated()
 	-- assert(key == "push" or key == "pop") --or key == "continue")
-	self._change = Tags:v("pop")
+	self._change = "pop"
 end
 
 function StateMachine:push_state(state_name)
@@ -48,6 +52,7 @@ function StateMachine:pop_state()
 end
 
 function StateMachine:execute()
+	print("StateMachine: execute) _current = "..self._current.name)
 	-- if self._nb_elem <= 0
 	-- 	then Helper:warning("execute with empty stack") end
 	self._current.action()--action doit setter _change a pop si elle a atteint son objectif
@@ -60,11 +65,11 @@ end
 
 
 	-- _changes_action = {
-	-- [Tags:v("push")] = function()
+	-- ["push"] = function()
 	-- 	if self._current.next_state ~= nil then
 	-- 		self._current = StateList[self._current.next_state] end
 	-- end,
-	-- [Tags:v("pop")] = function()
+	-- ["pop"] = function()
 	-- 	self:pop_state()
 	-- 	self._current = StateList:back()
 	-- end,

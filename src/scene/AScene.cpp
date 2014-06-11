@@ -1,3 +1,7 @@
+#include <map>
+
+#include "AScene.hh"
+#include "Camera.hh"
 #include "AScene.hh"
 
 
@@ -24,4 +28,35 @@ SceneStatus const& AScene::getStatus() const {
 
 SceneId const& AScene::getId() const {
     return m_id;
+}
+
+Camera* AScene::getCamera(const std::string& label) {
+   auto it = m_cameras.find(label);
+   
+   if (it == m_cameras.end())
+       return nullptr;
+   return it->second;
+}
+
+void AScene::removeCamera(std::string label) {
+   m_cameras.erase(m_cameras.find(label)); 
+}
+
+
+bool AScene::metaDraw(gdl::AShader& shader, const gdl::Clock& clock) {
+
+    assert(m_cameras.empty() == false);
+    
+    int offset = 800 / m_cameras.size();
+    int i = 0;
+    
+    for (auto const& pair : m_cameras) {
+        glViewport(i * offset, 0, offset, 600);
+        pair.second->forceUpdate(shader, m_cameras.size());
+        draw(shader, clock);
+        i++;
+    }
+    
+    
+    return true;
 }

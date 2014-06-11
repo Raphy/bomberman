@@ -16,6 +16,8 @@
 # include <BasicShader.hh>
 # include <Model.hh>
 
+# include <tuple>
+
 # include "Rectangle.hh"
 
 class AObject
@@ -25,9 +27,9 @@ public:
     AObject():
         _position(0, 0, 0),
         _rotation(0, 0, 0),
-        _scale(1, 1, 1)
-    {
-    }
+        _scale(1, 1, 1),
+        _static(false)
+    {}
 
     virtual ~AObject() {}
 
@@ -42,26 +44,44 @@ public:
     
     Rectangle getCollider() const { return Rectangle(_position, _scale); }
 
-    void setPosition(glm::vec3 position) { _position = position; }
+    void setPosition(glm::vec3 position);
+    glm::vec3 const& getPosition() const { return this->_position; }
+    
+    
+    // Optimisation if the object doesn't move
+    // Performance loss if used on movement object
+    void isStatic(bool value = true) { this->_static = value; }
+    
+    void setPosition(double x, double y) { _position = glm::vec3(x, 0, y); }
     void setSpeed(float speed) { this->_speed = speed; }
     
+
 protected:
+    
+    //Instantiated object list
     std::vector<AObject*> _objects;
+    
     glm::vec3 _position;
     glm::vec3 _rotation;
     glm::vec3 _scale;
+    glm::mat4 _transformation;
     float _speed;
-    
-    void lookNorth() { this -> lookAt(glm::vec3(0, 0, 0)); }
-    void lookSouth() { this -> lookAt(glm::vec3(0, 180, 0)); }
-    void lookWest() { this -> lookAt(glm::vec3(0, 90, 0)); }
-    void lookEast() { this -> lookAt(glm::vec3(0, -90, 0));}
-    void translate(glm::vec3 const &v) { _position += v; }
-    void rotate(glm::vec3 const &axis, float angle) { _rotation += axis * angle; }
-    void lookAt(glm::vec3 const &point) { _rotation = point; }
-    void scale(glm::vec3 const &scale) { _scale *= scale; }
 
+    bool _static;
+    
+    // object modifications
+    void lookNorth();
+    void lookSouth();
+    void lookWest();
+    void lookEast();
+    void translate(glm::vec3 const &v);
+    void rotate(glm::vec3 const &axis, float angle);
+    void lookAt(glm::vec3 const &point);
+    void scale(glm::vec3 const &scale);
+
+    void checkStaticObject();
     glm::mat4 getTransformation();
+    glm::mat4 getForceTransformation();
 };
 
 #endif // !AOBJECT_HH_

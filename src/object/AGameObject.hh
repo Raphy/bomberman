@@ -17,6 +17,13 @@ public:
     virtual void onMessage(std::string const&, AGameObject&) {}
     // Inflige damages to the game Object (prototype must be discuted).
     virtual void takeDamages() {}
+    // Get the type of the object.
+    std::string const& getType() const { return m_type; }
+
+    std::tuple<double, double> getPosition() const {
+        return std::make_tuple(_position.x, _position.z);
+    }
+
 
 protected:
     // A type (string) used to dinstinguish
@@ -29,8 +36,6 @@ protected:
     // to force child to set it.  
     AGameObject(std::string const& type) : AObject(), m_type(type), m_dead(false) {}
 
-    // Get the type of the object.
-    std::string const& getType() const { return m_type; }
     // Used by children to set their m_dead attribute to true. 
     void die() { m_dead = true; }
 };

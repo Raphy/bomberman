@@ -1,18 +1,20 @@
 #include <iostream>
 
 #include "GameEngine.hh"
-//#include "AMenuScene.hh"
-//#include "MainMenu.hh"
 #include "GameScene.hh"
 #include "Exception.hh"
 
-GameEngine::GameEngine() : m_scenes_manager() {
+GameEngine::GameEngine():
+    m_scenes_manager()
+{
 }
 
-GameEngine::~GameEngine() {
+GameEngine::~GameEngine()
+{
 }
 
 bool GameEngine::initialize() {
+
     if (!m_context.start(800, 600, "My bomberman!")) {
         throw Exception("fail to start gdl context");
     }
@@ -29,38 +31,22 @@ bool GameEngine::initialize() {
         throw Exception("fail to build shader");
     }
 
-    m_shader.bind();
-    m_shader.setUniform("view", glm::lookAt(
-        glm::vec3(0, 0, -10),
-        glm::vec3(0, 0, 0),
-        glm::vec3(0, 1, 0)
-    ));
-    m_shader.setUniform("projection", glm::perspective(
-        60.0f,
-        800.0f / 600.0f,
-        0.1f,
-        100.0f
-    ));
-
     SceneArguments scene_args;
+    scene_args.set("file", "./map");
+    m_scenes_manager.start<FirstScene>(scene_args);
 
-    //    m_scenes_manager.start<GameScene>(scene_args);
-
-    /*
-    _menu = new MainMenu(scene_args);
-    _menu->initialize();
-    */
     return true;
 }
 
 bool GameEngine::update() {
+
     m_context.updateClock(m_clock);
     m_context.updateInputs(m_input);
 
     if (m_input.getInput(SDL_QUIT)) {
         return false;
     }
-    /*
+
     if (m_scenes_manager.empty()) {
         return false;
     }
@@ -68,34 +54,21 @@ bool GameEngine::update() {
     if (m_scenes_manager.applyChanges() == false) {
         throw Exception("fail to apply scene changes");
     }
-    */
-    /*
+
     IScene& scene = m_scenes_manager.getCurrentScene();
     if (scene.update(m_clock, m_input) == false) {
         throw Exception("fail to update scene '" + scene.getId().unwrap() + "'");
     }
-    */
-
-    //    _menu->update(m_clock, m_input);
-
-
     return true;
 }
 
 void GameEngine::draw() {
 
-  /*    if (m_scenes_manager.empty())
+    if (m_scenes_manager.empty())
         return ;
-  */
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     m_shader.bind();
-
-    /*
     IScene& scene = m_scenes_manager.getCurrentScene();
-    scene.draw(m_shader, m_clock);
-    */
-
-    //    _menu->draw(m_shader, m_clock);
-
+    scene.metaDraw(m_shader, m_clock);
     m_context.flush();
 }

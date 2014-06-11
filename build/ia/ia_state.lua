@@ -4,25 +4,41 @@ require 'state'
 require 'state_machine'
 
 
+-- * BEGIN *
+
+BeginState = State:new("begin")
+
+function BeginState:action()
+  Helper:debug_print("action : ".."begin")
+end
+
+BeginState.pre_conditions = {
+  { function()
+    return true end,
+    "push", "put_bomb", },
+}
+
+
+
 -- * GET_CLOSER_OF_ENEMY *
 
 GetCloserOfEnemyState = State:new("get_closer_of_enemy")
 
 function GetCloserOfEnemyState:action()
   Actions:get_closer_of_one_enemy()
-  if true --[[enemy found]] then StateMachine:action_terminated() end
+  -- if true --[[enemy found]] then StateMachine:action_terminated() end
 end
 
 GetCloserOfEnemyState.pre_conditions = {
-  { function()
-      return not Helper:is_place_safe() end,
-    "push", "avoid_bomb", },
-  { function()
-      return Helper:are_objects_around(Tags:v("enemy"),me:getX(),me:getY(),2) end,
-    "push", "kill_enemy", },
-  { function()
-      return Helper:are_objects_around(Tags:v("enemy"),me:getX(),me:getY(),(MapManager.size / 2)) end,
-    "push", "get_bonus", },
+  -- { function()
+  --     return not Helper:is_place_safe() end,
+  --   "push", "avoid_bomb", },
+  -- { function()
+  --     return Helper:are_objects_around("enemy",me:getX(),me:getY(),2) end,
+  --   "push", "kill_enemy", },
+  -- { function()
+  --     return Helper:are_objects_around("enemy",me:getX(),me:getY(),(MapManager.size / 2)) end,
+  --   "push", "get_bonus", },
 }
 
 -- * AVOID_BOMB *
@@ -31,6 +47,7 @@ AvoidBombState = State:new("avoid_bomb")
 
 function AvoidBombState:action()
   print("action : avoid_bomb")
+  Actions:avoid_bomb()
 end
 
 AvoidBombState.pre_conditions = {
@@ -68,6 +85,22 @@ GetAwayOfEnemyState.pre_conditions = {
   --conditions
 }
 
+-- * PUT_BOMB *
+
+PutBombState = State:new("put_bomb")
+
+function PutBombState:action()
+  Helper:debug_print("action : ".."put_bomb")
+  Actions:place_bomb()
+end
+
+PutBombState.pre_conditions = {
+  { function()
+    return Helper:is_place_safe() end,
+    "push", "avoid_bomb", },  
+}
+
+
 
 
 -- * GET_AWAY_OF_ENEMY *
@@ -93,14 +126,21 @@ StateList = {
   ["avoid_bomb"] = AvoidBombState,
   ["kill_enemy"] = KillEnemyState,--a copier dans StateList
   ["get_away_of_enemy"] = GetAwayOfEnemyState,--a copier dans StateList
+  ["put_bomb"] = PutBombState,--a copier dans StateList
+  ["begin"] = BeginState,--a copier dans StateList
 }
 
 
 function onInitialization()
   math.randomseed(os.time())
-  MapManager:init(10,100)
   Coord:init()
-  StateMachine:init("get_closer_of_enemy")
+  MapManager:init(10,10)
+  -- MapManager:set_vision_activate(Helper:get_my_coord(), 10)
+  StateMachine:init()
+  local x,y = MapManager:idx_to_coord(45)
+  print("x,y = "..x.." "..y)
+  print(Helper:are_objects_in_case(x,y,type))
+  print(Helper:are_objects_in_case(5.0,5.0,type))
 end
 
 function onMyTurn()
@@ -116,7 +156,7 @@ print("-----init----")
 onInitialization()
 print("-----fin init----")
 
-for i=0, 1 do
+for i=0, 2 do
 print("\n-----myturn-----")
 onMyTurn()
 print("-----fin myturn-----")

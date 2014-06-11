@@ -1,6 +1,8 @@
 #ifndef MAPTEXTLOADER_HH_
 # define MAPTEXTLOADER_HH_
 
+# include <fstream>
+
 # include "MapText.hh"
 
 class MapTextLoader : public MapText {

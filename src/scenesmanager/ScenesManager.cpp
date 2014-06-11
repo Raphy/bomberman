@@ -36,8 +36,8 @@ bool ScenesManager::applyChanges() {
 
         case SceneStatus::GoOn: {
             SceneStatus::PairFactory const& pf = status.getGoOnFactory();
-            assert(pf.first != NULL);
-            assert(pf.second != NULL);
+            assert(pf.first != nullptr);
+            assert(pf.second != nullptr);
             retval = m_scenes_stack.push(pf.first, *pf.second);
             break;
         }

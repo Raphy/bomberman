@@ -16,7 +16,7 @@ Box::~Box() {
 }
 
 bool Box::initialize() {
-    this->setSpeed(10);
+    this->setSpeed(0);
     return this->setTexture("./build/assets/textures/box.tga");
 }
 

@@ -5,10 +5,11 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 11:49:12 2014 raphael defreitas
-// Last update Thu Jun  5 14:04:10 2014 raphael defreitas
+// Last update Wed Jun 11 12:30:48 2014 raphael defreitas
 //
 
 #include	<lua.hpp>
+#include	<stdexcept>
 #include	<string>
 
 #include	"VirtualMachine.hh"
@@ -19,7 +20,7 @@ VirtualMachine::VirtualMachine(void)
 {
   this->_state = luaL_newstate();
   if (!this->_state)
-    throw new std::exception(); // Exception: LuaInterpreterException
+    throw new std::runtime_error("LuaInterpreterException: " + this->getError()); // Exception: LuaInterpreterException
   luaL_openlibs(this->_state);
 }
 
@@ -27,6 +28,11 @@ VirtualMachine::~VirtualMachine(void)
 {
   if (this->_state)
     lua_close(this->_state);
+}
+
+void VirtualMachine::clean(void)
+{
+  lua_pop(this->_state, lua_gettop(this->_state));
 }
 
 lua_State* VirtualMachine::getState(void)
@@ -93,8 +99,3 @@ bool VirtualMachine::_variableExists(const std::string& name)
 
   return true;
 }
-
-/*void VirtualMachine::_cleanStack()
-{
-  lua_pop(this->_state, lua_gettop(this->_state));
-  }*/
