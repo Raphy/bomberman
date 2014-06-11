@@ -7,6 +7,12 @@ class AGameObject: public AObject
 {
 public:
     
+    struct State {
+        glm::vec3 position;
+        glm::vec3 rotation;
+        glm::vec3 scale;
+    };
+    
     // Is it dead ?
     bool isDead() const { return m_dead; }
 
@@ -31,11 +37,17 @@ protected:
     std::string const m_type;
     // Indicate if the object is already in the game.
     bool m_dead;
+    
+    State _state;
 
     // Constructor called by childrens. Take the type as parameter
     // to force child to set it.  
     AGameObject(std::string const& type) : AObject(), m_type(type), m_dead(false) {}
 
+    void restoreLastState();
+    void saveCurrentState();
+    
+    
     // Used by children to set their m_dead attribute to true. 
     void die() { m_dead = true; }
 };

@@ -26,6 +26,8 @@ bool Marvin::initialize() {
 void Marvin::update(gdl::Clock const &clock,
                     gdl::Input &     input)
 {
+    this->saveCurrentState();
+    
     for (std::vector<inputStructure>::iterator it = _inputs.begin(); it != _inputs.end(); ++it) {
         
         //Replace getKeyDown which is not implemented yet
@@ -60,7 +62,10 @@ void Marvin::setBindKeys(const inputBinding& bind) {
 }
 
 void Marvin::onCollision(AGameObject& obj) {
-    std::cout << "collision" << std::endl;
+    
+    if (obj.getType() == "wall") {
+        this->restoreLastState();
+    }
 }
 
 void Marvin::onUpPressed(gdl::Clock const &clock)
