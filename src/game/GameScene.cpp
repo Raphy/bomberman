@@ -166,7 +166,7 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
             if (near_obj.isDead()) return ;
 
-            if (obj.getCollider().overlapping(near_obj.getCollider()) && &obj != &near_obj) {
+            if (&obj != &near_obj && obj.getCollider().overlapping(near_obj.getCollider())) {
                 obj.onCollision(near_obj);
             }
         });
