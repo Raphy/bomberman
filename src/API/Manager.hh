@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Thu Jun 05 10:38:15 2014 raphael defreitas
-// Last update Thu Jun  5 12:40:52 2014 raphael defreitas
+// Last update Tue Jun 10 23:47:10 2014 raphael defreitas
 */
 
 #ifndef		MANAGER_HH_
@@ -22,7 +22,7 @@ namespace API
   public:
     static Manager& getInstance(void);
 
-    bool registerScript(Script& script);
+    void registerScript(Script& script);
 
   private:
     Manager(void);

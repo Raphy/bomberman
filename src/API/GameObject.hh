@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Thu Jun  5 12:54:05 2014 raphael defreitas
+// Last update Wed Jun 11 00:05:07 2014 raphael defreitas
 */
 
 #ifndef		GAMEOBJECT_HH_
@@ -23,7 +23,7 @@ namespace API
   class GameObject
   {
   public:
-    GameObject(const std::string& type = "GameObject", float x = 0, float y = 0);
+    GameObject(float x, float y);
     ~GameObject(void);
 
     const std::string& getType(void) const;
@@ -34,13 +34,14 @@ namespace API
 
     // Lua implementation
     static void registerScript(Script& script);
-    static void registerClass(Script& script);
-    static void registerClassMethods(Script& script);
-    int getType(lua_State* L);
-    int getX(lua_State* L);
-    int setX(lua_State* L);
-    int getY(lua_State* L);
-    int setY(lua_State* L);
+    static void registerMethods(Script& script);
+    static int ctor(lua_State* L);
+    static int dtor(lua_State* L);
+    static int getType(lua_State* L);
+    static int getX(lua_State* L);
+    static int setX(lua_State* L);
+    static int getY(lua_State* L);
+    static int setY(lua_State* L);
 
   protected:
     std::string _type;
