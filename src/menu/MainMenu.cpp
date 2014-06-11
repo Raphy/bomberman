@@ -5,8 +5,8 @@
 
 // son ++!!
 
-MainMenu::MainMenu(SceneArguments const&)
-  : AMenuScene("mainMenu")
+MainMenu::MainMenu(SceneArguments const& arg)
+  : AMenuScene("MainMenu")
 {
   addButton("./build/assets/img/play.tga", glm::vec3(60, 100, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::playhandler), 0);
   addButton("./build/assets/img/option.tga", glm::vec3(60, 250, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::optionhandler), 1);
@@ -42,26 +42,32 @@ bool MainMenu::initialize()
 bool MainMenu::update(gdl::Clock const& clock, gdl::Input& input)
 {
   // j'avoue c'est crade mais il est 2h30 du mat' A REGLER
-  // voir la vitesse du cursor
 
-  if (input.getKey(SDLK_UP))
+  if (input.getKey(SDLK_UP) && !_btnUp)
     {
       _cursorPos--;
+      _btnUp = true;
       if (_cursorPos < 0)
 	_cursorPos = 2;
     }
+  if (!input.getKey(SDLK_UP) && _btnUp)
+    _btnUp = false;
 
-  if (input.getKey(SDLK_DOWN))
+  if (input.getKey(SDLK_DOWN) && !_btnDown)
     {
+      _btnDown = true;
       _cursorPos++;
       if (_cursorPos == 3)
 	_cursorPos = 0;
     }
+  if (!input.getKey(SDLK_DOWN) && _btnDown)
+    _btnDown = false;
 
-
-  if (input.getKey(SDLK_SPACE))
+  if (input.getKey(SDLK_SPACE) && !_btnSpace)
     {
       std::map<AWidget* , ButtonHandler>::iterator it;
+
+      _btnSpace = true;
 
       it = _mapButton.begin();
       while (it != _mapButton.end())
@@ -71,6 +77,8 @@ bool MainMenu::update(gdl::Clock const& clock, gdl::Input& input)
 	  it++;
 	}
     }
+  if (!input.getKey(SDLK_SPACE) && _btnSpace)
+    _btnSpace = false;
   return true;
 }
 

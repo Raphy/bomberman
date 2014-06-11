@@ -23,6 +23,10 @@ public:
 private:
   Cursor *_cursor;
 
+  bool _btnUp = false;
+  bool _btnDown = false;
+  bool _btnSpace = false;
+
 };
 
 #endif
