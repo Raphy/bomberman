@@ -6,15 +6,17 @@
   Penser a add le Son Menu + add dans le widget le son !!
 */
 
-AWidget::AWidget(const std::string& path, glm::vec3 position, glm::vec3 scale)
+AWidget::AWidget(const std::string& path, const glm::vec3& position, const glm::vec3& scale, int cur)
 {
   _texturePath = path;
   _position = position;
   _scale = scale;
+  _cur = cur;
 }
 
 AWidget::~AWidget()
 {
+
 }
 
 bool AWidget::initialize()
@@ -42,17 +44,9 @@ bool AWidget::initialize()
   return true;
 }
 
-/* faire le switch like DEFINE SNAKE*/
 void AWidget::update(gdl::Clock const& clock, gdl::Input& input)
 {
-  /*
-  if (input.getKey(SDLK_UP))
-    std::cout << "UP : " <<  _cursor << std::endl;
-  if (input.getKey(SDLK_DOWN))
-    std::cout << "DOWN" << std::endl;
-  if (input.getKey(SDLK_SPACE))
-    std::cout << "SPACE" << std::endl;
-  */
+
 }
 
 void AWidget::draw(gdl::AShader & shader, gdl::Clock const& clock)
@@ -69,4 +63,14 @@ void AWidget::draw(gdl::AShader & shader, gdl::Clock const& clock)
   _texture.bind();
 
   _geometry.draw(shader, transform, GL_QUADS);
+}
+
+int AWidget::getCur() const
+{
+  return _cur;
+}
+
+glm::vec3 AWidget::getPos() const
+{
+  return _position;
 }
