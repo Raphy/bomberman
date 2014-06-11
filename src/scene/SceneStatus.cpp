@@ -3,14 +3,14 @@
 #include "SceneStatus.hh"
 
 SceneStatus::SceneStatus()
-    : m_type(None), m_rewind_id(), m_go_on_factory(NULL, NULL)
+    : m_type(None), m_rewind_id(), m_go_on_factory(nullptr, nullptr)
 {
 }
 
 SceneStatus::~SceneStatus() {
     if (m_go_on_factory.second) {
         delete m_go_on_factory.second;
-        m_go_on_factory.second = NULL;
+        m_go_on_factory.second = nullptr;
     }
 }
 
@@ -43,7 +43,7 @@ void SceneStatus::setGoOn(FunctSceneFactory factory, SceneArguments& args) {
     m_type = GoOn;
     if (m_go_on_factory.second) {
         delete m_go_on_factory.second;
-        m_go_on_factory.second = NULL;
+        m_go_on_factory.second = nullptr;
     }
     m_go_on_factory = PairFactory(factory, &args);
 }

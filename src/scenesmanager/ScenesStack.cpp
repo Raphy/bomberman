@@ -7,7 +7,7 @@ ScenesStack::~ScenesStack() {
 }
 
 IScene* ScenesStack::top() {
-    return m_stack.empty() ? NULL : m_stack.top();
+    return m_stack.empty() ? nullptr : m_stack.top();
 }
 
 bool ScenesStack::push(FunctSceneFactory factory, SceneArguments const& args) {

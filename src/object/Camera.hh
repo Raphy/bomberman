@@ -13,7 +13,7 @@
 class Camera: public AObject {
 public:
     // can take the object to follow
-    Camera(AObject const* object = NULL): _follow(object), _lookAt(0,0,0), _offset(0, 0, 0) {}
+    Camera(AObject const* object = nullptr): _follow(object), _lookAt(0,0,0), _offset(0, 0, 0) {}
     virtual ~Camera() {}
     
     virtual bool initialize() { return true; }

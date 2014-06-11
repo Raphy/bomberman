@@ -27,7 +27,7 @@ void Camera::updateCamera(gdl::AShader & shader) const {
 
 
 bool Camera::needToMoveCamera() const {
-    if (this->_follow == NULL)
+    if (this->_follow == nullptr)
         return false;
     return true;
     return this->_lastPosition != this->_follow->getPosition();
@@ -35,13 +35,13 @@ bool Camera::needToMoveCamera() const {
 }
 
 glm::vec3 Camera::getLookAt() const {
-    if (this->_follow != NULL)
+    if (this->_follow != nullptr)
         return this->_follow->getPosition();
     return this->_lookAt;
 }
 
 glm::vec3 Camera::getPosition() const {
-    if (this->_follow != NULL)
+    if (this->_follow != nullptr)
         return this->_follow->getPosition() + this->_offset;
     return this->_position;
 }
