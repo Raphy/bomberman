@@ -49,6 +49,8 @@ void GameScene::initPlayer(int num, int x, int y) {
 
     Marvin* player = new Marvin();
     player->setPosition(static_cast<double>(x), static_cast<double>(y));
+    if (num == 1) player->setBindKeys();
+    else player->setBindKeys({SDLK_z, SDLK_s, SDLK_q, SDLK_d});
     m_players[idx] = player;
     m_movable.push_back(player);
 }

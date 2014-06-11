@@ -17,8 +17,6 @@ bool Marvin::initialize() {
     if (_model.createSubAnim(0, "stop", 75, 130) == false)
        std::cout << "create anim false" << std::endl;
 
-    
-
 //    _model.setCurrentAnim(0);
     this->scale(glm::vec3(0.0025, 0.0025, 0.0025));
     
@@ -53,6 +51,7 @@ void Marvin::update(gdl::Clock const &clock,
 }
 
 void Marvin::setBindKeys(const inputBinding& bind) {
+    this -> _inputs.clear();
     
     this -> _inputs.push_back({bind.up, false, &Marvin::onUpPressed});
     this -> _inputs.push_back({bind.down, false, &Marvin::onDownPressed});
@@ -60,6 +59,9 @@ void Marvin::setBindKeys(const inputBinding& bind) {
     this -> _inputs.push_back({bind.right, false, &Marvin::onRightPressed});
 }
 
+void Marvin::onCollision(AGameObject& obj) {
+    std::cout << "collision" << std::endl;
+}
 
 void Marvin::onUpPressed(gdl::Clock const &clock)
 {
