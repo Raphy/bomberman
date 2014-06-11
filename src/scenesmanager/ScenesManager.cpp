@@ -31,6 +31,9 @@ bool ScenesManager::applyChanges() {
 
         case SceneStatus::Back: {
             retval = m_scenes_stack.pop();
+            if (!empty()) {
+                getCurrentScene().resume();
+            }
             break;
         }
 
@@ -44,6 +47,9 @@ bool ScenesManager::applyChanges() {
 
         case SceneStatus::Rewind: {
             retval = m_scenes_stack.rewind(status.getRewindId());
+            if (!empty()) {
+                getCurrentScene().resume();
+            }
             break;
         }
 

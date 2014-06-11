@@ -93,7 +93,7 @@ void GameScene::loadMap(std::string const& filename) {
                     m_walls.back()->setPosition(
                         static_cast<double>(x), static_cast<double>(y));
                     break;
-                // case MapText::BOMB: break;
+                case MapText::BOMB: break;
                 // case MapText::FIRE: break;
                 default: break;
             }
