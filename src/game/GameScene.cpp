@@ -8,14 +8,14 @@
 #include "GameAPI.hh"
 
 #include "Wall.hh"
-
+#include "Box.hh"
 
 const std::string GameScene::Tag = "game";
 
 GameScene::GameScene(SceneArguments const & args)
     : AScene(Tag), m_map_width(0), m_map_height(0),
     m_players(),
-    m_static(), m_movable(), m_quad_tree(0)
+    m_objects(), m_walls(), m_quad_tree(0)
 {
     m_players[0] = nullptr;
     m_players[1] = nullptr;
@@ -65,7 +65,7 @@ void GameScene::initPlayer(int num, int x, int y) {
     if (num == 1) player->setBindKeys();
     else player->setBindKeys({SDLK_z, SDLK_s, SDLK_q, SDLK_d});
     m_players[idx] = player;
-    m_movable.push_back(player);
+    m_objects.push_back(player);
 }
 
 void GameScene::loadMap(std::string const& filename) {
@@ -80,13 +80,17 @@ void GameScene::loadMap(std::string const& filename) {
                 case MapText::PLAYER_1: initPlayer(1, x, y); break;
                 case MapText::PLAYER_2: initPlayer(2, x, y); break;
                 case MapText::ENEMY:
-                    //m_movable.push_back(new ?)
-                    //m_movable.back()->setPosition(
+                    //m_objects.push_back(new ?)
+                    //m_objects.back()->setPosition(
                     //  static_cast<double>(x), static_cast<double>(y));
                     break;
+                case MapText::BOX:
+                    m_objects.push_back(new Box());
+                    m_objects.back()->setPosition(
+                        static_cast<double>(x), static_cast<double>(y));
                 case MapText::WALL:
-                    m_static.push_back(new Wall());
-                    m_static.back()->setPosition(
+                    m_walls.push_back(new Wall());
+                    m_walls.back()->setPosition(
                         static_cast<double>(x), static_cast<double>(y));
                     break;
                 // case MapText::BOMB: break;
@@ -169,7 +173,7 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
     // Foreach movable object, check collision with others
     // and call onCollision().
-    foreachObject(m_movable, [&](AGameObject& obj) {
+    foreachObject(m_objects, [&](AGameObject& obj) {
 
         if (obj.isDead()) return;
 

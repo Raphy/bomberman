@@ -25,6 +25,7 @@ public:
     static const char WALL = 'w';
     static const char BOMB = 'b';
     static const char FIRE = 'f';
+    static const char BOX = 'x';
 
 public:
     MapText();

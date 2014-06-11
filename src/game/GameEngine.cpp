@@ -39,7 +39,6 @@ bool GameEngine::initialize() {
     return true;
 }
 
-#include "GameAPI.hh"
 bool GameEngine::update() {
 
     m_context.updateClock(m_clock);

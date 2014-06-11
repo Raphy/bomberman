@@ -47,10 +47,8 @@ private:
     int m_map_height;
 
     Marvin* m_players[2];
-    // List of static object (wall, ...)
-    std::list<AGameObject*> m_static;
-    // List of movable object (player, ia, bomb, ...)
-    std::list<AGameObject*> m_movable;
+    std::list<AGameObject*> m_objects;
+    std::list<AGameObject*> m_walls;
     // The magic data structure !
     QuadTree* m_quad_tree;
 
@@ -82,13 +80,13 @@ private:
     // Call a closure/functor for each static and movable object.
     template<typename Funct>
     void foreachObject(Funct closure) {
-        foreachObject(m_movable, closure);
-        foreachObject(m_static, closure);
+        foreachObject(m_objects, closure);
+        foreachObject(m_walls, closure);
     }
     template<typename Funct>
     void foreachObject(Funct closure) const {
-        foreachObject(m_movable, closure);
-        foreachObject(m_static, closure);   
+        foreachObject(m_objects, closure);
+        foreachObject(m_walls, closure);   
     }
 
     // Foreach object of the list, remove it if closure return true.
@@ -108,8 +106,8 @@ private:
     // Foreach static and movable object, remove it if the closure return true.
     template<typename Funct>
     void removeObjectsIf(Funct closure) {
-        removeObjectsIf(m_static, closure);
-        removeObjectsIf(m_movable, closure);
+        removeObjectsIf(m_objects, closure);
+        removeObjectsIf(m_walls, closure);
     }
 
     // Clear then build the quad tree with new objects positions.
