@@ -25,6 +25,7 @@ public:
     static const char WALL = 'w';
     static const char BOMB = 'b';
     static const char FIRE = 'f';
+    static const char BOX = 'x';
 
 public:
     MapText();
@@ -49,10 +50,10 @@ public:
     }
 
     template <typename F> // f(size_t x, size_t y)
-    void foreachObject(char type, F closure) {
+    void foreachObject(char type, F lambda) {
         this->foreachObject([&](char c, size_t x, size_t y) {
             if (c == type) {
-                closure(x, y);
+                lambda(x, y);
             }
         });
     }
