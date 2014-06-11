@@ -28,7 +28,7 @@ public:
     void setOffset(glm::vec3 offset) { this->_offset = offset; }
     
     // Force update should only be used in the IScene::metadraw
-    void forceUpdate(gdl::AShader &) const;
+    void forceUpdate(gdl::AShader &, unsigned int cameraNumber = 1) const;
     
 private:
 
@@ -37,7 +37,7 @@ private:
     glm::vec3           _offset;
     glm::vec3           _lastPosition;
     
-    void updateCamera(gdl::AShader &) const;
+    void updateCamera(gdl::AShader &, unsigned int cameraNumber = 1) const;
     bool needToMoveCamera() const;
     glm::vec3 getLookAt() const;
     glm::vec3 getPosition() const;

@@ -10,8 +10,8 @@
 void Camera::update(const gdl::Clock& clock, gdl::Input& input) {
 }
 
-void Camera::forceUpdate(gdl::AShader & shader) const {
-    this->updateCamera(shader);
+void Camera::forceUpdate(gdl::AShader & shader, unsigned int cameraNumber) const {
+    this->updateCamera(shader, cameraNumber);
 }
 
 void Camera::draw(gdl::AShader& shader, const gdl::Clock& clock) {
@@ -19,10 +19,14 @@ void Camera::draw(gdl::AShader& shader, const gdl::Clock& clock) {
         this->updateCamera(shader);
 }
 
-void Camera::updateCamera(gdl::AShader & shader) const {
+void Camera::updateCamera(gdl::AShader & shader, unsigned int cameraNumber) const {
+    
+    if (cameraNumber == 0)
+        cameraNumber = 1;
+    
     shader.bind();
     shader.setUniform("view", glm::lookAt(this->getPosition(), this->getLookAt(), glm::vec3(0, 1, 0)));
-    shader.setUniform("projection", glm::perspective(60.0f, 800.0f / 600.0f, 0.1f, 100.0f));
+    shader.setUniform("projection", glm::perspective(60.0f, (800.0f / cameraNumber) / 600.0f, 0.1f, 100.0f));
 }
 
 

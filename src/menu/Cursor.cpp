@@ -1,25 +1,19 @@
-#include "AWidget.hh"
+# include "Cursor.hh"
 
-#include <iostream>
-
-/*
-  Penser a add le Son Menu + add dans le widget le son !!
-*/
-
-AWidget::AWidget(const std::string& path, const glm::vec3& position, const glm::vec3& scale, int cur)
+Cursor::Cursor(const std::string& path, const glm::vec3& position, const glm::vec3& scale)
 {
   _texturePath = path;
   _position = position;
+  _position.x += -30;
   _scale = scale;
-  _cur = cur;
 }
 
-AWidget::~AWidget()
+Cursor::~Cursor()
 {
 
 }
 
-bool AWidget::initialize()
+bool Cursor::initialize()
 {
   if (_texture.load(_texturePath) == false)
     {
@@ -44,12 +38,12 @@ bool AWidget::initialize()
   return true;
 }
 
-void AWidget::update(gdl::Clock const& clock, gdl::Input& input)
+void Cursor::update(gdl::Clock const& clock, gdl::Input& input)
 {
 
 }
 
-void AWidget::draw(gdl::AShader & shader, gdl::Clock const& clock)
+void Cursor::draw(gdl::AShader & shader, gdl::Clock const& clock)
 {
   (void)clock;
 
@@ -65,12 +59,7 @@ void AWidget::draw(gdl::AShader & shader, gdl::Clock const& clock)
   _geometry.draw(shader, transform, GL_QUADS);
 }
 
-int AWidget::getCur() const
+void Cursor::setPosY(const glm::vec3& position)
 {
-  return _cur;
-}
-
-glm::vec3 AWidget::getPos() const
-{
-  return _position;
+  _position.y = position.y;
 }
