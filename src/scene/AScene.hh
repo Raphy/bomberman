@@ -15,7 +15,7 @@ class AScene : public IScene {
 private:
     SceneStatus m_status;
     SceneId m_id;
-    std::map<std::string, Camera*> m_camera;
+    std::map<std::string, Camera*> m_cameras;
 
 protected:
     // The constructor is called only in child classes's construtors.
@@ -37,7 +37,7 @@ protected:
     // set a Camera
     // managed in metaDraw
     // Each cameras will be considered every game frames
-    void addCamera(std::string const& label, Camera *camera) { m_camera.insert(std::pair<std::string, Camera *>(label, camera)); }
+    void addCamera(std::string const& label, Camera *camera) { m_cameras.insert(std::pair<std::string, Camera *>(label, camera)); }
     void removeCamera(std::string label);
     
     // return false if the label is not find
