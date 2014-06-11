@@ -22,19 +22,19 @@ int main(__attribute__((unused))int argc, char** argv)
 
   // à partir de là, base_path est valide
 
-  try
-    {
-      GameEngine engine;
+  try {
+        GameEngine engine;
 
-      if (engine.initialize() == false)
-	return (EXIT_FAILURE);
+         if (engine.initialize() == false) {
+            return (EXIT_FAILURE);
+        }
 
-      while (engine.update() == true)
-	engine.draw();
+        while (engine.update() == true) {
+            engine.draw();
+        }
     }
-  catch(std::exception& ex)
-    {
-      std::cerr << "[EXCEPTION] " << ex.what() << std::endl;
+    catch(std::exception& ex) {
+        std::cerr << "[EXCEPTION] " << ex.what() << std::endl;
     }
 
   return EXIT_SUCCESS;
