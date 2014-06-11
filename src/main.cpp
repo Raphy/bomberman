@@ -2,23 +2,40 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <cstdlib>
+#include <string>
 
 #include "GameEngine.hh"
 #include "Wall.hh"
 
 #include <unistd.h>
+#include <iostream>
+#include <exception>
 
-int main()
+int main(__attribute__((unused))int argc, char** argv)
 {
-  GameEngine engine;
+  // Calculating the base_path
+  std::string base_path("./");
+  std::string arg0(argv[0]);
+  size_t pos = std::string::npos;
+  if ((pos = arg0.find_last_of("/")) != std::string::npos)
+    base_path = arg0.substr(0, pos + 1);
 
-  if (engine.initialize() == false) {
-    return (EXIT_FAILURE);
-  }
+  // à partir de là, base_path est valide
 
-  while (engine.update() == true) {
-    engine.draw();
-  }
+  try
+    {
+      GameEngine engine;
+
+      if (engine.initialize() == false)
+	return (EXIT_FAILURE);
+
+      while (engine.update() == true)
+	engine.draw();
+    }
+  catch(std::exception& ex)
+    {
+      std::cerr << "[EXCEPTION] " << ex.what() << std::endl;
+    }
 
   return EXIT_SUCCESS;
 }
