@@ -16,19 +16,25 @@ Box::~Box() {
 }
 
 bool Box::initialize() {
-    this->setSpeed(0);
+    this->setSpeed(10);
+    this->scale(glm::vec3(0.8, 0.8, 0.8));
     return this->setTexture("./build/assets/textures/box.tga");
 }
 
-
 void Box::update(gdl::Clock const &clock, gdl::Input &input)
 {
+    this->saveCurrentState();
     if (input.getKey(SDLK_UP))
-        translate(glm::vec3(0, 0, -1) * static_cast<float>(clock.getElapsed()) * _speed);
-    if (input.getKey(SDLK_DOWN))
         translate(glm::vec3(0, 0, 1) * static_cast<float>(clock.getElapsed()) * _speed);
+    if (input.getKey(SDLK_DOWN))
+        translate(glm::vec3(0, 0, -1) * static_cast<float>(clock.getElapsed()) * _speed);
     if (input.getKey(SDLK_LEFT))
         translate(glm::vec3(1, 0, 0) * static_cast<float>(clock.getElapsed()) * _speed);
     if (input.getKey(SDLK_RIGHT))
         translate(glm::vec3(-1, 0, 0) * static_cast<float>(clock.getElapsed()) * _speed);
+}
+
+void Box::onCollision(AGameObject& obj) {
+    if (obj.getType() == "wall")
+        this->restoreLastState();
 }

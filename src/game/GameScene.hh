@@ -2,6 +2,7 @@
 # define GAMESCENE_HH_
 
 # include <list>
+# include <cassert>
 
 # include "AScene.hh"
 # include "AGameObject.hh"
@@ -23,6 +24,17 @@ public:
 public:
     GameScene(SceneArguments const& args);
     virtual ~GameScene();
+
+    void save(std::string const& filename) const;
+ 
+    int getMapWidth() const { return m_map_width; }
+    int getMapHeight() const { return m_map_height; }
+
+    QuadTree& getQuadTree()
+    { assert(m_quad_tree); return *m_quad_tree; }
+    QuadTree const& getQuadTreeConst() const
+    { assert(m_quad_tree); return *m_quad_tree; }
+
 
     virtual bool initialize();
     virtual bool update(gdl::Clock const& clock, gdl::Input& input);
@@ -51,7 +63,6 @@ private:
     void loadMap(std::string const& filename);
     void genMap(int width, int height);
     void initPlayer(int num, int x, int y);
-    void save(std::string const& filename) const;
 
     // Call a closure/functor for each object in the list.
     // (the closure must take an AGameObject&)

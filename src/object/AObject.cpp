@@ -31,7 +31,6 @@ glm::mat4 AObject::getForceTransformation()
     return (transform);
 }
 
-
 void AObject::setPosition(glm::vec3 position) {
     _position = position;
     this->checkStaticObject();

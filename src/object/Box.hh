@@ -16,6 +16,9 @@ class Box: public ACube
         Box();
         virtual ~Box();
 
+
+        virtual void onCollision(AGameObject& obj);
+
         virtual void update(gdl::Clock const &clock, gdl::Input & input);
         virtual bool initialize();
         

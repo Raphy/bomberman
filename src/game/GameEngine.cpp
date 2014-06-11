@@ -3,6 +3,7 @@
 #include "GameEngine.hh"
 #include "GameScene.hh"
 #include "Exception.hh"
+#include "MainMenu.hh"
 
 GameEngine::GameEngine():
     m_scenes_manager()
@@ -32,12 +33,13 @@ bool GameEngine::initialize() {
     }
 
     SceneArguments scene_args;
-    scene_args.set("file", "./map");
+    scene_args.set("file", "map");
     m_scenes_manager.start<FirstScene>(scene_args);
 
     return true;
 }
 
+#include "GameAPI.hh"
 bool GameEngine::update() {
 
     m_context.updateClock(m_clock);
