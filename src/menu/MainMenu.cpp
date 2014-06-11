@@ -8,9 +8,10 @@
 MainMenu::MainMenu(SceneArguments const& arg)
   : AMenuScene("MainMenu")
 {
-  addButton("./build/assets/img/play.tga", glm::vec3(60, 100, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::playhandler), 0);
-  addButton("./build/assets/img/option.tga", glm::vec3(60, 250, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::optionhandler), 1);
-  addButton("./build/assets/img/exit.tga", glm::vec3(60, 400, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::exithandler), 2);
+  addButton("./build/assets/img/play.tga", glm::vec3(60, 50, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::playhandler), 0);
+  addButton("./build/assets/img/option.tga", glm::vec3(60, 180, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::optionhandler), 1);
+  addButton("./build/assets/img/load.tga", glm::vec3(60, 300, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::exithandler), 2);
+  addButton("./build/assets/img/exit.tga", glm::vec3(60, 450, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::exithandler), 3);
 
   _cursor = new Cursor("./build/assets/img/bombe.tga", glm::vec3(30, 100, 1), glm::vec3(50, 50, 0));
 
@@ -48,7 +49,7 @@ bool MainMenu::update(gdl::Clock const& clock, gdl::Input& input)
       _cursorPos--;
       _btnUp = true;
       if (_cursorPos < 0)
-	_cursorPos = 2;
+	_cursorPos = 3;
     }
   if (!input.getKey(SDLK_UP) && _btnUp)
     _btnUp = false;
@@ -57,7 +58,7 @@ bool MainMenu::update(gdl::Clock const& clock, gdl::Input& input)
     {
       _btnDown = true;
       _cursorPos++;
-      if (_cursorPos == 3)
+      if (_cursorPos == 4)
 	_cursorPos = 0;
     }
   if (!input.getKey(SDLK_DOWN) && _btnDown)
@@ -85,6 +86,10 @@ bool MainMenu::update(gdl::Clock const& clock, gdl::Input& input)
 bool MainMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 {
   AMenuScene::draw(shader, clock);
+
+  glDisable(GL_DEPTH_TEST);
+  glAlphaFunc(GL_GREATER, 0.3f);
+  glEnable(GL_ALPHA_TEST);
 
   std::map<AWidget* , ButtonHandler>::iterator it;
   it = _mapButton.begin();
@@ -115,4 +120,9 @@ void MainMenu::optionhandler()
 void MainMenu::exithandler()
 {
   std::cout << "EXIT handler ok\n";
+}
+
+void MainMenu::loadhandler()
+{
+  std::cout << "LOAD handler ok\n";
 }

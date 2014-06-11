@@ -19,6 +19,7 @@ public:
   void playhandler();
   void optionhandler();
   void exithandler();
+  void loadhandler();
 
 private:
   Cursor *_cursor;

@@ -80,7 +80,7 @@ bool AMenuScene::draw(gdl::AShader& shader, gdl::Clock const& clock)
   transform = glm::scale(transform, size);
   _texture.bind();
   _geometry.draw(shader, transform, GL_QUADS);
-    _camera->draw(shader, clock);
+  _camera->draw(shader, clock);
 
   return true;
 }
