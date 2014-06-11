@@ -5,14 +5,14 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:42:59 2014 raphael defreitas
-// Last update Wed Jun 11 01:46:58 2014 raphael defreitas
+// Last update Wed Jun 11 12:30:15 2014 raphael defreitas
 */
 
 #ifndef		VIRTUALMACHINE_HH_
 # define	VIRTUALMACHINE_HH_
 
-# include	<exception>
 # include	<string>
+# include	<stdexcept>
 # include	<vector>
 
 # include	"lua.hpp"
@@ -35,10 +35,6 @@ namespace Lua
     bool execute(void);
     bool call(const std::string& name);
 
-    void registerClass(const std::string& class_name, const luaL_Reg* methods);
-    void registerClassName(const std::string& class_name);
-    void registerClassMethods(const luaL_Reg* methods);
-
     template<typename T>
     T get(const std::string& name)
     {
@@ -49,14 +45,14 @@ namespace Lua
 	  this->clean();
 	  return result;
 	}
-      throw new std::exception(); // Exception: LuaVariableNotExistsException
+      throw new std::runtime_error("LuaVariableNotExistsException: " + name); // Exception: LuaVariableNotExistsException
     }
 
     template<typename T>
     void set(const std::string& name, T value)
     {
       // See specializations
-      throw new std::exception(); // Type not implemented
+      throw new std::runtime_error("LuaTypeNotImplementedException"); // Type not implemented
     }
 
     template<class T>
@@ -69,7 +65,7 @@ namespace Lua
 	  this->clean();
 	  return result;
 	}
-      throw new std::exception(); // Exception: LuaVariableNotExistsException
+      throw new std::runtime_error("LuaVariableNotExistsException: " + name); // Exception: LuaVariableNotExistsException
     }
 
     template<class T>
@@ -90,7 +86,7 @@ namespace Lua
     T _get()
     {
       // See specializations
-      throw new std::exception(); // Type not implemented
+      throw new std::runtime_error("LuaTypeNotImplementedException"); // Type not implemented
     }
 
     template<class T>
@@ -108,7 +104,7 @@ namespace Lua
   inline bool VirtualMachine::_get<bool>()
   {
     if(!lua_isboolean(this->_state, -1))
-      throw new std::exception(); // Exception: LuaVariableIsNotBooleanException
+      throw new std::runtime_error("LuaVariableIsNotBooleanException"); // Exception: LuaVariableIsNotBooleanException
     return (bool)lua_toboolean(this->_state, -1);
   }
 
@@ -116,7 +112,7 @@ namespace Lua
   inline float VirtualMachine::_get<float>()
   {
     if(!lua_isnumber(this->_state, -1))
-      throw new std::exception(); // Exception: LuaVariableIsNotFloatException
+      throw new std::runtime_error("LuaVariableIsNotFloatException"); // Exception: LuaVariableIsNotFloatException
     return (float)lua_tonumber(this->_state, -1);
   }
 
@@ -124,7 +120,7 @@ namespace Lua
   inline int VirtualMachine::_get<int>()
   {
     if(!lua_isnumber(this->_state, -1))
-      throw new std::exception(); // Exception: LuaVariableIsNotIntException
+      throw new std::runtime_error("LuaVariableIsNotIntException"); // Exception: LuaVariableIsNotIntException
     return (int)lua_tonumber(this->_state, -1);
   }
 
@@ -132,7 +128,7 @@ namespace Lua
   inline std::string VirtualMachine::_get<std::string>()
   {
     if(!lua_isstring(this->_state, -1))
-      throw new std::exception(); // Exception: LuaVariableIsNotStringException
+      throw new std::runtime_error("LuaVariableIsNotStringException"); // Exception: LuaVariableIsNotStringException
     return std::string(lua_tostring(this->_state, -1));
   }
 

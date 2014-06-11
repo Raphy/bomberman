@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Thu Jun  5 10:41:01 2014 raphael defreitas
-// Last update Wed Jun 11 00:01:51 2014 raphael defreitas
+// Last update Wed Jun 11 12:39:53 2014 raphael defreitas
 //
 
 #include	<lua.hpp>
@@ -13,6 +13,7 @@
 #include	"GameObject.hh"
 #include	"Lua/Script.hh"
 #include	"Manager.hh"
+#include	"Map.hh"
 #include	"Me.hh"
 #include	"Player.hh"
 
@@ -29,8 +30,9 @@ Manager& Manager::getInstance(void)
 void Manager::registerScript(Script& script)
 {
   GameObject::registerScript(script);
-  Player::registerScript(script);
+  Map::registerScript(script);
   Me::registerScript(script);
+  Player::registerScript(script);
 }
 
 Manager::Manager(void)
