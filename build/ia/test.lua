@@ -2,7 +2,7 @@ print("[LUA] Exec")
 x = 42
 print("[LUA] ----------------------------------")
 
-go = GameObject:new(10.10, 12.12)
+--[[ go = GameObject:new(10.10, 12.12)
 print("[LUA] go.x = " .. go:getX())
 go:setX(42.1)
 print("[LUA] go.x = " .. go:getX())
@@ -17,7 +17,7 @@ print("[LUA] p.x = " .. p:getX());
 print("[LUA] p.y = " .. p:getY());
 print("[LUA] ----------------------------------")
 
---me = Me:new("Raphy", 11.2, 25.12)
+   --me = Me:new("Raphy", 11.2, 25.12) ]]
 print("[LUA] me.name = " .. me:getName());
 print("[LUA] me.type = " .. me:getType());
 print("[LUA] me.x = " .. me:getX());

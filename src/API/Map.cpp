@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 12:12:44 2014 raphael defreitas
-// Last update Wed Jun 11 12:38:09 2014 raphael defreitas
+// Last update Wed Jun 11 18:33:20 2014 raphael defreitas
 //
 
 #include	"Map.hh"
@@ -31,13 +31,13 @@ void Map::registerScript(Script& script)
 {
   luaL_newmetatable(script.getVirtualMachine().getState(), "luaL_Map");
 
-    luaL_Reg meta[] =
+  /*luaL_Reg meta[] =
       {
 	{"new", Map::ctor},
 	{"__gc", Map::dtor},
 	{NULL, NULL}
       };
-    luaL_setfuncs(script.getVirtualMachine().getState(), meta, 0);
+      luaL_setfuncs(script.getVirtualMachine().getState(), meta, 0);*/
     Map::registerMethods(script);
 
     lua_pushvalue(script.getVirtualMachine().getState(), -1);
