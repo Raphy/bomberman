@@ -1,25 +1,26 @@
-#ifndef MAINMENU_HH_
-#define MAINMENU_HH_
+#ifndef MAPMENU_HH_
+#define MAPMENU_HH_
 
 # include "AMenuScene.hh"
 # include "AWidget.hh"
 # include "Cursor.hh"
 
-class MainMenu : public AMenuScene
+
+class MapMenu : public AMenuScene
 {
 public:
-  MainMenu(SceneArguments const&);
-  ~MainMenu();
+  MapMenu(SceneArguments const&);
+  ~MapMenu();
 
   virtual bool initialize();
   virtual bool update(gdl::Clock const& clock, gdl::Input& input);
   virtual bool draw(gdl::AShader & shader, gdl::Clock const &clock);
 
   /* definir le handler de chaque boutton*/
-  void playhandler();
-  void optionhandler();
-  void exithandler();
-  void loadhandler();
+  void map1handler();
+  void map2handler();
+  void maprandomhandler();
+  void backhandler();
 
 private:
   Cursor *_cursor;

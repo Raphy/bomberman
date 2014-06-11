@@ -1,28 +1,23 @@
+#include "MapMenu.hh"
 
-#include <iostream> // debug !
-
-#include "MainMenu.hh"
-
-// son ++!!
-
-MainMenu::MainMenu(SceneArguments const& arg)
-  : AMenuScene("MainMenu")
+MapMenu::MapMenu(SceneArguments const& arg)
+  : AMenuScene("MapMenu")
 {
-  addButton("./build/assets/img/play.tga", glm::vec3(60, 50, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::playhandler), 0);
-  addButton("./build/assets/img/option.tga", glm::vec3(60, 180, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::optionhandler), 1);
-  addButton("./build/assets/img/load.tga", glm::vec3(60, 300, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::exithandler), 2);
-  addButton("./build/assets/img/exit.tga", glm::vec3(60, 450, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::exithandler), 3);
+  addButton("./build/assets/img/map1.tga", glm::vec3(60, 50, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MapMenu::map1handler), 0);
+  addButton("./build/assets/img/map2.tga", glm::vec3(60, 180, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MapMenu::map2handler), 1);
+  addButton("./build/assets/img/maprandom.tga", glm::vec3(60, 300, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MapMenu::maprandomhandler), 2);
+  addButton("./build/assets/img/back.tga", glm::vec3(60, 450, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MapMenu::backhandler), 3);
 
   _cursor = new Cursor("./build/assets/img/bombe.tga", glm::vec3(30, 100, 1), glm::vec3(50, 50, 0));
 
 }
 
-MainMenu::~MainMenu()
+MapMenu::~MapMenu()
 {
   delete _cursor;
 }
 
-bool MainMenu::initialize()
+bool MapMenu::initialize()
 {
   setTexture("./build/assets/img/menu.tga");
   AMenuScene::initialize();
@@ -40,7 +35,7 @@ bool MainMenu::initialize()
   return true;
 }
 
-bool MainMenu::update(gdl::Clock const& clock, gdl::Input& input)
+bool MapMenu::update(gdl::Clock const& clock, gdl::Input& input)
 {
   // j'avoue c'est crade mais il est 2h30 du mat' A REGLER
 
@@ -83,7 +78,7 @@ bool MainMenu::update(gdl::Clock const& clock, gdl::Input& input)
   return true;
 }
 
-bool MainMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
+bool MapMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 {
   AMenuScene::draw(shader, clock);
 
@@ -107,22 +102,23 @@ bool MainMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
   return true;
 }
 
-void MainMenu::playhandler()
+void MapMenu::map1handler()
 {
-  std::cout << "PLAY handler ok\n";
+  std::cout << "map1 handler ok\n";
 }
 
-void MainMenu::optionhandler()
+void MapMenu::map2handler()
 {
-  std::cout << "OPTION handler ok\n";
+  std::cout << "map2 handler ok\n";
 }
 
-void MainMenu::exithandler()
+void MapMenu::maprandomhandler()
 {
-  std::cout << "EXIT handler ok\n";
+  std::cout << "map random handler ok\n";
 }
 
-void MainMenu::loadhandler()
+void MapMenu::backhandler()
 {
-  std::cout << "LOAD handler ok\n";
+  std::cout << "back handler ok\n";
 }
+
