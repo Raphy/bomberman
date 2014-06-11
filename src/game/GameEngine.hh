@@ -33,8 +33,7 @@ private:
     gdl::BasicShader       m_shader;
 
     // other
-  AScene *_scene;
-  ScenesManager m_scenes_manager;
+    ScenesManager m_scenes_manager;
 
 public:
     GameEngine();

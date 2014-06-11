@@ -38,10 +38,21 @@ bool GameEngine::initialize() {
     return true;
 }
 
+#include "GameAPI.hh"
 bool GameEngine::update() {
 
     m_context.updateClock(m_clock);
     m_context.updateInputs(m_input);
+
+
+    //std::cout << "map width :" << GameAPI::getInstance().getMapWidth() << std::endl;
+    //std::cout << "map height :" << GameAPI::getInstance().getMapHeight() << std::endl;
+    std::list<AGameObject*> list;
+    std::cout << "size :" << GameAPI::getInstance().getObjectsIn(Rectangle(0,0,10,10), list).size() << std::endl;
+    for (auto obj : list) {
+        std::cout << "objet '" << obj->getType() << "'" << std::endl;
+    }
+
 
     if (m_input.getInput(SDL_QUIT)) {
         return false;

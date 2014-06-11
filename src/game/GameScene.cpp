@@ -5,8 +5,10 @@
 #include "Exception.hh"
 #include "MapTextLoader.hh"
 #include "MapTextSaver.hh"
+#include "GameAPI.hh"
 
 #include "Wall.hh"
+
 
 const std::string GameScene::Tag = "game";
 
@@ -18,6 +20,7 @@ GameScene::GameScene(SceneArguments const & args)
     m_players[0] = nullptr;
     m_players[1] = nullptr;
 
+    // load a file or gen a map
     std::string const& str_file = args.get("file");
     if (str_file.empty() == false) {
         loadMap(str_file);
@@ -32,10 +35,20 @@ GameScene::GameScene(SceneArguments const & args)
         }
         genMap(atoi(str_width.c_str()), atoi(str_height.c_str()));
     }
+
+    // api registration
+    GameAPI::getInstance().set(*this);
 }
 
-GameScene::~GameScene() {  
-    delete m_quad_tree; 
+GameScene::~GameScene() {
+    // api unregistration
+    GameAPI::getInstance().unset();
+
+    // free memory  
+    delete m_quad_tree;
+    foreachObject([] (AGameObject& obj) {
+        delete &obj;
+    });
 }
 
 void GameScene::initPlayer(int num, int x, int y) {
