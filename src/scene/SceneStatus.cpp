@@ -27,6 +27,10 @@ SceneStatus::PairFactory const& SceneStatus::getGoOnFactory() const {
 }
 
 void SceneStatus::setNone() {
+    if (m_type == GoOn && m_go_on_factory.second) {
+        delete m_go_on_factory.second;
+        m_go_on_factory.second = nullptr;
+    }
     m_type = None;
 }
 

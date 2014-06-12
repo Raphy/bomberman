@@ -2,6 +2,7 @@
 #include <iostream> // debug !
 
 #include "MainMenu.hh"
+#include "GameScene.hh"
 
 // son ++!!
 
@@ -110,6 +111,9 @@ bool MainMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 void MainMenu::playhandler()
 {
   std::cout << "PLAY handler ok\n";
+  SceneArguments& args = *new SceneArguments();
+  args.set("file", "map");
+  setStatusGoOn<GameScene>(args);
 }
 
 void MainMenu::optionhandler()
