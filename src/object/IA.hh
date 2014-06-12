@@ -9,6 +9,8 @@
 #define	IA_HH
 
 # include   "AModel.hh"
+# include   "Lua/Script.hh"
+# include   "ResourcesPath.hh"
 
 class IA: public AModel {
 
@@ -22,9 +24,8 @@ public:
         None = 4
     };
     
-    IA(): AModel("./build/assets/marvin.fbx", "ia"), _direction(None), pressed(false) {}
+    IA(): AModel(ResourcesPath::asset("marvin.fbx"), "ia"), _direction(None), pressed(false) {}
     virtual ~IA() {};
-
 
     virtual bool initialize();
     
@@ -43,6 +44,7 @@ private:
     
     // removable
     bool        pressed;
+    Lua::Script* _script;
     
     void onUpPressed(gdl::Clock const &clock);
     void onDownPressed(gdl::Clock const &clock);

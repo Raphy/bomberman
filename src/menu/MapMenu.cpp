@@ -1,16 +1,17 @@
 #include "MapMenu.hh"
+#include "GameScene.hh"
 
 SoundManager& MapMenu::_son = SoundManager::getInstance();
 
 MapMenu::MapMenu(SceneArguments const& arg)
   : AMenuScene("MapMenu")
 {
-  addButton("./build/assets/img/map1.tga", glm::vec3(60, 50, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MapMenu::map1handler), 0);
-  addButton("./build/assets/img/map2.tga", glm::vec3(60, 180, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MapMenu::map2handler), 1);
-  addButton("./build/assets/img/maprandom.tga", glm::vec3(60, 300, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MapMenu::maprandomhandler), 2);
-  addButton("./build/assets/img/back.tga", glm::vec3(60, 450, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MapMenu::backhandler), 3);
+  addButton(ResourcesPath::asset("img/map1.tga"), glm::vec3(60, 50, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MapMenu::map1handler), 0);
+  addButton(ResourcesPath::asset("img/map2.tga"), glm::vec3(60, 180, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MapMenu::map2handler), 1);
+  addButton(ResourcesPath::asset("img/maprandom.tga"), glm::vec3(60, 300, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MapMenu::maprandomhandler), 2);
+  addButton(ResourcesPath::asset("img/back.tga"), glm::vec3(60, 450, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MapMenu::backhandler), 3);
 
-  _cursor = new Cursor("./build/assets/img/bombe.tga", glm::vec3(30, 100, 1), glm::vec3(50, 50, 0));
+  _cursor = new Cursor(ResourcesPath::asset("img/bombe.tga"), glm::vec3(30, 100, 1), glm::vec3(50, 50, 0));
 
 
 }
@@ -22,7 +23,7 @@ MapMenu::~MapMenu()
 
 bool MapMenu::initialize()
 {
-  setTexture("./build/assets/img/menu.tga");
+  setTexture(ResourcesPath::asset("img/menu.tga"));
   AMenuScene::initialize();
 
   _cursor->initialize();
@@ -86,6 +87,10 @@ bool MapMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
   AMenuScene::draw(shader, clock);
 
 
+  //glDisable(GL_DEPTH_TEST);
+  //glAlphaFunc(GL_GREATER, 0.3f);
+
+
   std::map<AWidget* , ButtonHandler>::iterator it;
   it = _mapButton.begin();
 
@@ -105,21 +110,28 @@ bool MapMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 
 void MapMenu::map1handler(int t)
 {
-  std::cout << "map1 handler ok\n";
+    SceneArguments& args = *new SceneArguments();
+    args.set("file", ResourcesPath::map("map1.bmap"));
+    setStatusGoOn<GameScene>(args);
 }
 
 void MapMenu::map2handler(int t)
 {
-  std::cout << "map2 handler ok\n";
+    SceneArguments& args = *new SceneArguments();
+    args.set("file", ResourcesPath::map("map2.bmap"));
+    setStatusGoOn<GameScene>(args);
 }
 
 void MapMenu::maprandomhandler(int t)
 {
-  std::cout << "map random handler ok\n";
+    SceneArguments& args = *new SceneArguments();
+    args.set("width", "20");
+    args.set("height", "20");
+    setStatusGoOn<GameScene>(args);
 }
 
 void MapMenu::backhandler(int t)
 {
-  std::cout << "back handler ok\n";
+  setStatusBack();
 }
 

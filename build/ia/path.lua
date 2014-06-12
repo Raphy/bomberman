@@ -27,9 +27,11 @@ function Path:get_final_path(start_idx, curr_idx)
 	return dir_path
 end
 
-function Path:register_case_open(open_list, case)
+function Path:register_case_open(open_list, case, sort)
 	case.status = "open"
 	List:add_case_in_list(open_list, case)
+	-- if sort ~= nil and sort ~= false then
+	-- 	List:sort(open_list) end
 end
 
 function Path:register_case_closed(open_list, closed_list, case)
@@ -63,7 +65,7 @@ function Path:get_side_cases(curr_idx)
 end
 
 local DEBUG = 0
-local DEBUG_MAX = 10000
+local DEBUG_MAX = 2
 
 
 --[[ 
@@ -77,7 +79,6 @@ si dest_idx != -1 :
 
 local function check_finish(start, curr, dest, type)
 	local finish = false
-	-- if DEBUG == DEBUG_MAX then return true end
 	if dest ~= nil and curr.idx == dest.idx then
 		finish = true
 	elseif dest == nil then
@@ -95,19 +96,25 @@ end
 
 --retourne le path le plus court pour aller des current a destination
 function Path:calc_path(algo_name, start_idx, dest_idx, type)
+	start_idx = math.ceil(start_idx)
+	dest_idx = math.ceil(dest_idx)
   	MapManager:clean_map()
 	local algoModule = PathAlgos[algo_name]
 	local open_list = List:new("open_list")
 	local closed_list = List:new("closed_list")
 	local start = MapManager:get_case(start_idx)
+	Helper:debug_print("start calc_path : "..start_idx)
 	local dest = nil; if dest_idx ~= -1 then dest = MapManager:get_case(dest_idx) end
 
 	local function _calc_path(start, curr, open_list, closed_list)
-		print("_calc_path : node "..start.idx)
+		-- if DEBUG == DEBUG_MAX then return true end
+
+		Helper:debug_print("_calc_path : node "..curr.idx)
 		local finish, finish_path = check_finish(start, curr, dest, type)
 		if finish == true then return finish_path end
 
 		local side_cases, side_open_cases = Path:get_side_cases(curr.idx)
+		algoModule:check_side_open_cases(curr, side_open_cases, dest)
 		Path:register_case_closed(open_list, closed_list, curr)
 		algoModule:open_side_cases(open_list, curr.idx, side_cases, dest)	
 		if List:empty(open_list) then return nil end
@@ -120,6 +127,6 @@ function Path:calc_path(algo_name, start_idx, dest_idx, type)
 	Path:register_case_open(open_list, start)
 	-- return _calc_path(start, start, open_list, closed_list)
 	local res = _calc_path(start, start, open_list, closed_list)
-	if res == nil then print("path not found....") else print("path found !!") end
+	if res == nil then Helper:debug_print("path not found....") else Helper:debug_print("path found !!") end
 	return res
 end

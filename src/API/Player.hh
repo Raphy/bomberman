@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Thu Jun 12 00:53:17 2014 raphael defreitas
+// Last update Thu Jun 12 20:17:36 2014 raphael defreitas
 */
 
 #ifndef		PLAYER_HH_
@@ -15,6 +15,8 @@
 # include	<string>
 
 # include	"GameObject.hh"
+# include	"object/IA.hh"
+# include	"object/Marvin.hh"
 # include	"Lua/Script.hh"
 
 using namespace Lua;
@@ -24,7 +26,8 @@ namespace API
   class Player : public GameObject
   {
   public:
-    Player(const std::string& name, float x = 0, float y = 0);
+    Player(Marvin* marvin);
+    Player(IA* ia);
     ~Player(void);
 
     virtual size_t size(void) const { return sizeof(*this); }
@@ -33,12 +36,10 @@ namespace API
     // Lua implementation
     static void registerScript(Script& script);
     static void registerMethods(Script& script);
-    static int ctor(lua_State* L);
-    static int dtor(lua_State* L);
-    static int getName(lua_State* L);
 
   protected:
-    std::string _name;
+    Marvin* _marvin;
+    IA* _ia;
   };
 }
 

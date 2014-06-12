@@ -4,80 +4,67 @@ require 'state'
 require 'state_machine'
 
 
--- * BEGIN *
-
-BeginState = State:new("begin")
-
-function BeginState:action()
-  Helper:debug_print("action : ".."begin")
-end
-
-BeginState.pre_conditions = {
-  { function()
-    return true end,
-    "push", "put_bomb", },
-}
-
 
 
 -- * GET_CLOSER_OF_ENEMY *
 
-GetCloserOfEnemyState = State:new("get_closer_of_enemy")
+GetCloserOfEnemyState = State:new("get_closer_of_enemy_state")
 
 function GetCloserOfEnemyState:action()
   Actions:get_closer_of_one_enemy()
-  -- if true --[[enemy found]] then StateMachine:action_terminated() end
+
+  if true --[[enemy found]] then StateMachine:action_terminated() end
 end
 
 GetCloserOfEnemyState.pre_conditions = {
+  { function()
+      return not Helper:is_place_safe() end,
+    "push", "avoid_bomb_state", },
+  { function()
+      return Helper:are_objects_around("enemy",me:getPosition(),2) end,
+    "push", "kill_enemy_state", },
   -- { function()
-  --     return not Helper:is_place_safe() end,
-  --   "push", "avoid_bomb", },
-  -- { function()
-  --     return Helper:are_objects_around("enemy",me:getX(),me:getY(),2) end,
-  --   "push", "kill_enemy", },
-  -- { function()
-  --     return Helper:are_objects_around("enemy",me:getX(),me:getY(),(MapManager.size / 2)) end,
-  --   "push", "get_bonus", },
+  --     return Helper:are_objects_around("enemy",me:getPosition(),(MapManager.size / 2)) end,
+  --   "push", "get_bonus_state", },
 }
 
 -- * AVOID_BOMB *
 
-AvoidBombState = State:new("avoid_bomb")
+AvoidBombState = State:new("avoid_bomb_state")
 
 function AvoidBombState:action()
-  print("action : avoid_bomb")
-  Actions:avoid_bomb()
+  print("action : avoid_bomb_state")
+  Actions:avoid_bomb_state()
 end
 
 AvoidBombState.pre_conditions = {
   { function()
       return false end,
-    "push", "get_closer_of_enemy", },
+    "push", "get_closer_of_enemy_state", },
 }
 
 
 -- * KILL_ENEMY *
 
-KillEnemyState = State:new("kill_enemy")
+KillEnemyState = State:new("kill_enemy_state")
 
 function KillEnemyState:action()
-  Helper:debug_print("action : ".."kill_enemy")
+  Helper:debug_print("action : ".."kill_enemy_state")
   --corps
 end
 
 KillEnemyState.pre_conditions = {
   { function()
-    return Helper:is_place_safe() end,
-    "push", "avoid_bomb", },
+    return not Helper:is_place_safe() end,
+    "push", "avoid_bomb_state", },
 }
 
 -- * GET_AWAY_OF_ENEMY *
 
-GetAwayOfEnemyState = State:new("get_away_of_enemy")
+GetAwayOfEnemyState = State:new("get_away_of_enemy_state")
 
 function GetAwayOfEnemyState:action()
-  Helper:debug_print("action : ".."get_away_of_enemy")
+  Helper:debug_print("action : ".."get_away_of_enemy_state")
   --corps
 end
 
@@ -87,17 +74,31 @@ GetAwayOfEnemyState.pre_conditions = {
 
 -- * PUT_BOMB *
 
-PutBombState = State:new("put_bomb")
+PutBombState = State:new("put_bomb_state")
 
 function PutBombState:action()
-  Helper:debug_print("action : ".."put_bomb")
+  Helper:debug_print("action : ".."put_bomb_state")
   Actions:place_bomb()
 end
 
 PutBombState.pre_conditions = {
   { function()
     return Helper:is_place_safe() end,
-    "push", "avoid_bomb", },  
+    "push", "avoid_bomb_state", },  
+}
+
+
+-- * GET_BONUS *
+
+GetBonusState = State:new("get_bonus_state")
+
+function GetBonusState:action()
+  Helper:debug_print("action : ".."get_bonus_state")
+  StateMachine:action_terminated()
+end
+
+GetBonusState.pre_conditions = {
+  --conditions
 }
 
 
@@ -117,25 +118,36 @@ PutBombState.pre_conditions = {
 
 -- * GET_BONUS *
 
+
 -- * BEGIN *
 
+BeginState = State:new("begin_state")
 
+function BeginState:action()
+  Helper:debug_print("action : ".."begin_state")
+end
 
-StateList = {
-  ["get_closer_of_enemy"] = GetCloserOfEnemyState,
-  ["avoid_bomb"] = AvoidBombState,
-  ["kill_enemy"] = KillEnemyState,--a copier dans StateList
-  ["get_away_of_enemy"] = GetAwayOfEnemyState,--a copier dans StateList
-  ["put_bomb"] = PutBombState,--a copier dans StateList
-  ["begin"] = BeginState,--a copier dans StateList
+BeginState.pre_conditions = {
+  { function()
+    return true end,
+    "push", "get_closer_of_enemy_state", },
 }
 
 
-function onInitialization()
-  math.randomseed(os.time())
-  Coord:init()
-  MapManager:init(10,10)
-  -- MapManager:set_vision_activate(Helper:get_my_coord(), 10)
+StateList = {
+  ["get_closer_of_enemy_state"] = GetCloserOfEnemyState,
+  ["avoid_bomb_state"] = AvoidBombState,
+  ["kill_enemy_state"] = KillEnemyState,--a copier dans StateList
+  ["get_away_of_enemy_state"] = GetAwayOfEnemyState,--a copier dans StateList
+  ["put_bomb_state"] = PutBombState,--a copier dans StateList
+  ["begin_state"] = BeginState,--a copier dans StateList
+  ["get_bonus_state"] = GetBonusState,--a copier dans StateList
+}
+
+
+function initialization()
+  print("\n\nis_state : initialization...")
+  Helper:initialization_base()
   StateMachine:init()
   local x,y = MapManager:idx_to_coord(45)
   print("x,y = "..x.." "..y)
@@ -143,21 +155,23 @@ function onInitialization()
   print(Helper:are_objects_in_case(5.0,5.0,type))
 end
 
-function onMyTurn()
-  StateMachine._executed = false
-  local i = 1
-  while i <= 3 and StateMachine._executed == false do
-    StateMachine:update()
-    i = i + 1
-  end
+function play()
+  -- print("\n\nis_state : play...")
+  StateMachine:play()
+  -- StateMachine._executed = false
+  -- local i = 1
+  -- while i <= 3 and StateMachine._executed == false do
+  --   StateMachine:update()
+  --   i = i + 1
+  -- end
 end
 
-print("-----init----")
-onInitialization()
-print("-----fin init----")
+-- print("-----init----")
+-- initialization()
+-- print("-----fin init----")
 
-for i=0, 2 do
-print("\n-----myturn-----")
-onMyTurn()
-print("-----fin myturn-----")
-end
+-- for i=0, 2 do
+-- print("\n-----myturn-----")
+-- play()
+-- print("-----fin myturn-----")
+-- end
