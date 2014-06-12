@@ -4,6 +4,8 @@ function initialization()
 end
 
 function play()
+   x, y = me:getPosition()
+   print("[IA] position (".. x ..", ".. y ..")")
    if i > 11 then
       i = 0
    end
