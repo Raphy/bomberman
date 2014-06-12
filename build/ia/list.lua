@@ -104,6 +104,23 @@ function List:is_elem_in_list(list, elem)
 	end
 	return false
 end
+--[[ A SAVOIR :
+	pour les listes de tables, necessite que l'operateur < soit implementé
+]]
+function List:sort(list)--[[_cost]]
+	for i=1,self._nb_elem-1 do
+		if list[i] < list[i + 1] then
+			tmp = list[i]
+			list[i] = list[i+1]
+			list[i+1] = tmp
+		end
+	end
+end
+function List:push_and_sort(list, elem)--[[_cost]]
+	self:push_back(list,elem)
+	-- self:sort(list)
+	--faire plus opti ?
+end
 
 
 -- * CASE_LIST *
@@ -153,14 +170,4 @@ function List:iter_case(list)
 	end
 end
 
-
-----------------------------------------
--- test_list = List:new("test_list")
--- List:push_back(test_list, "toto")
--- List:push_back(test_list, "titi")
--- List:push_back(test_list, "tata")
--- head = List:front_and_pop(test_list)
--- print(head)
--- head = List:front_and_pop(test_list)
--- print(head)
 

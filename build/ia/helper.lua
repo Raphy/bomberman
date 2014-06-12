@@ -4,11 +4,10 @@ require 'tags'
 
 Helper = {}
 
-function Helper:initialization_base(repeat_max)
+function Helper:initialization_base(repeat_max, vision_size)
 	math.randomseed(os.time())
 	Coord:init()
-	MapManager:init(100,100)
-	-- MapManager:set_vision_activate(Helper:get_my_coord(), 10)
+	MapManager:init(100,100, vision_size)
 	Actions:init(repeat_max)
 end
 
@@ -39,7 +38,14 @@ function Helper:to_override()
 	print(debug.traceback())
 end
 function Helper:debug_print(msg)
-	print("DEBUG : "..msg)
+	-- print("DEBUG : "..msg)
+end
+function Helper:debug_dump_list(list)
+	self:debug_print("DUMP ",list._name," : ")
+	for elem in List:iter_case(list) do
+		self:debug_print(elem.idx)
+	end
+	self:debug_print("...DUMP END")
 end
 
 -- * OBJECTS_HELPER *
@@ -120,16 +126,16 @@ function Helper:get_objects_around(type,x,y,radius)
 	if not vision_state then MapManager:desactivate_vision() end
 	return o
 end
-function Helper:are_objects_in_front(type,x,y,direction)
-	local dir = direction or 0
-	self:to_implement()
-	return false
-end
-function Helper:get_objects_in_front(type,x,y,direction)
-	local dir = direction or 0
-	self:to_implement()
-	return nil
-end
+-- function Helper:are_objects_in_front(type,x,y,direction)
+-- 	local dir = direction or 0
+-- 	self:to_implement()
+-- 	return false
+-- end
+-- function Helper:get_objects_in_front(type,x,y,direction)
+-- 	local dir = direction or 0
+-- 	self:to_implement()
+-- 	return nil
+-- end
 
 
 -- * BOMB_HELPER *
@@ -142,7 +148,7 @@ end
 -- TODO: calculer le rayon en fonction du temps de la bombe ou de son etendu
 
 function Helper:is_place_safe()
-	-- TODO : checker les previews a la place ?
+	-- TODO : checker les previews en plus ?
 	return not Helper:are_objects_around("bomb",me:getX(),me:getY(),3)
 end
 

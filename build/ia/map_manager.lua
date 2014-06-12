@@ -22,7 +22,7 @@ MapManager = {
 	}
 }
 
-function MapManager:init(w,h)
+function MapManager:init(w,h, vision_size)
 	local function _init_map()
 		for i=1,MapManager.h do
 		  for j=1,MapManager.w do
@@ -38,7 +38,7 @@ function MapManager:init(w,h)
 	self.size = self.w * self.h
 	self.min = Coord:new(1,1)
 	self.max = Coord:new(w,h)
-	self:set_vision(self.max / self.min, self.size)
+	self:set_vision(Helper:get_my_coord(), vision_size or 10)
 	_init_map()
 	print("init map2D of size "..self.size.." (w = "..self.w.." and h = "..self.h..")")
 end
@@ -64,14 +64,14 @@ function MapManager:set_vision_activate(center, size)
 	self:set_vision(center, size)
 	self:activate_vision()
 end
-function MapManager:set_vision_with_direction(center, direction, radius)
-	local r = radius or -1
-	Helper:to_implement()
-end
-function MapManager:set_vision_activate_with_direction(center, direction, radius)
-	local r = radius or -1
-	Helper:to_implement()
-end
+-- function MapManager:set_vision_with_direction(center, direction, radius)
+-- 	local r = radius or -1
+-- 	Helper:to_implement()
+-- end
+-- function MapManager:set_vision_activate_with_direction(center, direction, radius)
+-- 	local r = radius or -1
+-- 	Helper:to_implement()
+-- end
 
 
 -- * COORDINATES *
@@ -83,35 +83,37 @@ function MapManager:check_coord(x,y)
 	local function _check_map(pos)
 		return pos >= self.min and pos <= self.max end
 	local pos = Coord:new(x,y)
-	return _check_vision(pos)
-	-- return self._vision.active and _check_vision(pos) or _check_map(pos)
+	return self._vision.active and _check_vision(pos) or _check_map(pos)
 end
-
--- return true if idx is a valid index in the map
--- function MapManager:check_idx(idx)
--- 	return idx > 0 and idx <= self.size
--- end
 
 function MapManager:coord_to_idx(x,y)
-	-- debug_print(debug.traceback())
 	local idx = (y - 1) * self.w + x
-	-- debug_print("coord_to_idx : i="..idx.." x="..x.." y="..y)
 	return idx
 end
-
 -- retourne x,y
 function MapManager:idx_to_coord(idx)
 	local x = idx % self.w
 	local y = math.ceil(idx / self.w) --+ 1
-	-- debug_print("idx_to_coord : i="..idx.." x="..x.." y="..y)
 	return x,y
 end
 
 
 -- * CASE/ACCESS *
+local case_mt =
+{
+	__lt = function (lhs, rhs)
+				return lhs.g < rhs.g
+			end,
+	__eq = function (rhs)
+				local new_case = rhs--copier tous les champs 1 par 1 ?
+				setmetatable(new_case, getmetatable(rhs))
+				return new_case
+			end,
+}
 
 function MapManager:create_case(curr_idx, i,j)
 	local case = {}
+	setmetatable(case, case_mt)
 	case.idx = curr_idx
 	case.x,case.y = j,i
 	case.walkable = true--not Helper:are_objects_in_case(j,i,"wall")
@@ -123,26 +125,26 @@ function MapManager:create_case(curr_idx, i,j)
 	return case
 end
 function MapManager:clean_map()
-	-- use iter() ?
-  for i=1,MapManager.h do
-    for j=1,MapManager.w do
-      local curr_idx = MapManager:coord_to_idx(j,i)
-      local case = self._map[curr_idx]
+	for case in self:iter() do
+		List:clear(case.previews)
+		List:clear(case.marks)
      	case.status = "unknown"
      	case.parent = -1
 		case.g,case.h,case.f = 0,0,0
-    end
-  end
+	end
 end
 
 function MapManager:get_case(i)
+	assert(i ~= nil, "get_case expect an index")
+	i = math.ceil(i)
 	if i <= 0 or i > self.size then
 		Helper:warning("get_case : idx="..i.." is outside the map")
 	end
 	return self._map[i]
 end
--- TODO : tester iter pour etre sur qu'il va bien exactement de min a max inclus
 function MapManager:iter()
+	if self._vision.active and self._vision.min == nil then
+		Helper:warning("iter on nil (but active) vision") end
 	local function _iter(min, max)
 		local i,j = min.y, min.x - 1
 		return function ()
