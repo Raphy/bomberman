@@ -1,7 +1,8 @@
 #ifndef		_SOUND_MANAGER_HH_
 # define	_SOUND_MANAGER_HH_
 
-# include <SDL/SDL_mixer.h>
+# include <SDL.h>
+# include <SDL_mixer.h>
 # include <map>
 # include <string>
 
