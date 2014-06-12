@@ -9,6 +9,7 @@
 # include "SceneArguments.hh"
 # include "QuadTree.hh"
 # include "Marvin.hh"
+# include "PlaylistManager.hh"
 
 /*
 ** Should need these arguments:
@@ -38,6 +39,7 @@ public:
 
     virtual bool initialize();
     virtual bool update(gdl::Clock const& clock, gdl::Input& input);
+    bool resume();
     
 protected:        
     virtual bool draw(gdl::AShader& shader, gdl::Clock const& clock);
@@ -52,6 +54,9 @@ private:
     // The magic data structure !
     QuadTree* m_quad_tree;
 
+    PlaylistManager m_playlist;
+
+
 private:
     static size_t playerIdx(int num) {
         assert(num == 1 || num == 2);
@@ -61,6 +66,8 @@ private:
     void loadMap(std::string const& filename);
     void genMap(int width, int height);
     void initPlayer(int num, int x, int y);
+
+    void initPlaylist();
 
     // Call a closure/functor for each object in the list.
     // (the closure must take an AGameObject&)

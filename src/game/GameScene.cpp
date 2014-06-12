@@ -15,7 +15,8 @@ const std::string GameScene::Tag = "game";
 GameScene::GameScene(SceneArguments const & args)
     : AScene(Tag), m_map_width(0), m_map_height(0),
     m_players(),
-    m_objects(), m_walls(), m_quad_tree(0)
+    m_objects(), m_walls(), m_quad_tree(0),
+    m_playlist()
 {
     m_players[0] = nullptr;
     m_players[1] = nullptr;
@@ -93,7 +94,7 @@ void GameScene::loadMap(std::string const& filename) {
                     m_walls.back()->setPosition(
                         static_cast<double>(x), static_cast<double>(y));
                     break;
-                // case MapText::BOMB: break;
+                case MapText::BOMB: break;
                 // case MapText::FIRE: break;
                 default: break;
             }
@@ -132,6 +133,12 @@ void GameScene::save(std::string const& filename) const {
     saver.save();
 }
 
+void GameScene::initPlaylist() {
+    m_playlist.deletePlaylist();
+    m_playlist.addPlaylist("maintheme");
+    //m_playlist.playPlaylist();
+}
+
 bool GameScene::initialize() {
 
     bool init_success = true;
@@ -158,10 +165,15 @@ bool GameScene::initialize() {
 
     m_quad_tree = new QuadTree(Rectangle(0, 0, m_map_width, m_map_height));
     rebuildQuadTree();
+
+    initPlaylist();
+
     return true;
 }
 
 bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
+
+    m_playlist.update();
 
     // Foreach object, update and insert in the new quad tree.
     foreachObject([&](AGameObject& obj) {
@@ -204,6 +216,11 @@ bool GameScene::draw(gdl::AShader& shader, gdl::Clock const& clock) {
             obj.draw(shader, clock);
         }
     });
+    return true;
+}
+
+bool GameScene::resume() {
+    m_playlist.playPlaylist();
     return true;
 }
 
