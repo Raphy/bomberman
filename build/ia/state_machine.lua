@@ -25,7 +25,7 @@ function StateMachine:play()
 	end
 end
 function StateMachine:update()
-	print("StateMachine:update) _current = "..self._current.name)
+	Helper:debug_print("StateMachine:update) _current = "..self._current.name)
 	for _,cond in pairs(self._current.pre_conditions) do
 		if cond[1]() then
 			self._change = cond[2]
@@ -65,7 +65,7 @@ function StateMachine:pop_state()
 end
 
 function StateMachine:execute()
-	print("StateMachine: execute) _current = "..self._current.name)
+	Helper:debug_print("StateMachine: execute) _current = "..self._current.name)
 	-- if self._nb_elem <= 0
 	-- 	then Helper:warning("execute with empty stack") end
 	self._current.action()--action doit setter _change a pop si elle a atteint son objectif

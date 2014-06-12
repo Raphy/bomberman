@@ -22,13 +22,13 @@ RandomState = State:new("random_state")
 
 function RandomState:action()
 	Helper:debug_print("action : ".."random_state")
-	Action:go_random()
+	Actions:go_random()
 end
 
 RandomState.pre_conditions = {
-	{ function()
-			return Helper:get_elapsed_time() > 15--[[??]] end,
-			"push", "put_bomb_state", },	
+	-- { function()
+	-- 		return Helper:get_elapsed_time() > 15--[[??]] end,
+	-- 		"push", "put_bomb_state", },	
 }
 
 -- * PUT_BOMB_STATE *
@@ -37,7 +37,7 @@ PutBombState = State:new("put_bomb_state")
 
 function PutBombState:action()
 	Helper:debug_print("action : ".."put_bomb_state")
-	Action:place_bomb()
+	Actions:place_bomb()
 end
 
 PutBombState.pre_conditions = {
@@ -52,7 +52,7 @@ AvoidBombState = State:new("avoid_bomb_state")
 
 function AvoidBombState:action()
 	Helper:debug_print("action : ".."avoid_bomb_state")
-	Action:avoid_bomb()
+	Actions:avoid_bomb()
 end
 
 AvoidBombState.pre_conditions = {
@@ -78,5 +78,8 @@ end
 
 function play()
 	Helper:debug_print("\n\nIA_INTRO) play")
+
+
+	-- Actions:go_random()
 	StateMachine:play()
 end

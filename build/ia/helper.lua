@@ -51,12 +51,12 @@ end
 -- * OBJECTS_HELPER *
 
 function Helper:get_my_coord()
-	return Coord:new(me:getX(), me:getY())
+	return Coord:new(me:getPosition())
 end
 
 function Helper:are_objects_in_case(x,y,type)
 	local case = map:get(x,y,1)
-	if x == 5.0 and y == 5.0 then return true end
+	-- if x == 5.0 and y == 5.0 then return true end
 	-- local case = map:get(5.0,5.0)
 	if case == nil then
 		return false end
@@ -71,7 +71,7 @@ function Helper:are_objects_in_case_except(x,y,type)
 	assert(type ~= nil, "are_objects_in_case_except : type expected")
 	do return false end--debug
 	local case = map:get(x,y,1)
-	if x == 5.0 and y == 5.0 then return true end
+	-- if x == 5.0 and y == 5.0 then return true end
 	-- local case = map:get(5.0,5.0)
 	if case == nil then
 		return false end
@@ -149,7 +149,7 @@ end
 
 function Helper:is_place_safe()
 	-- TODO : checker les previews en plus ?
-	return not Helper:are_objects_around("bomb",me:getX(),me:getY(),3)
+	return not Helper:are_objects_around("bomb",me:getPosition(),3)
 end
 
 function Helper:get_dangerous_cases_around_bomb(bomb_position)

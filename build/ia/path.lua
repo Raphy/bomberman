@@ -103,7 +103,7 @@ function Path:calc_path(algo_name, start_idx, dest_idx, type)
 	local open_list = List:new("open_list")
 	local closed_list = List:new("closed_list")
 	local start = MapManager:get_case(start_idx)
-	print("start calc_path : "..start_idx)
+	Helper:debug_print("start calc_path : "..start_idx)
 	local dest = nil; if dest_idx ~= -1 then dest = MapManager:get_case(dest_idx) end
 
 	local function _calc_path(start, curr, open_list, closed_list)
@@ -127,6 +127,6 @@ function Path:calc_path(algo_name, start_idx, dest_idx, type)
 	Path:register_case_open(open_list, start)
 	-- return _calc_path(start, start, open_list, closed_list)
 	local res = _calc_path(start, start, open_list, closed_list)
-	if res == nil then print("path not found....") else print("path found !!") end
+	if res == nil then Helper:debug_print("path not found....") else Helper:debug_print("path found !!") end
 	return res
 end

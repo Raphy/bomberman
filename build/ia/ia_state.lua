@@ -12,7 +12,8 @@ GetCloserOfEnemyState = State:new("get_closer_of_enemy_state")
 
 function GetCloserOfEnemyState:action()
   Actions:get_closer_of_one_enemy()
-  -- if true --[[enemy found]] then StateMachine:action_terminated() end
+
+  if true --[[enemy found]] then StateMachine:action_terminated() end
 end
 
 GetCloserOfEnemyState.pre_conditions = {
@@ -20,10 +21,10 @@ GetCloserOfEnemyState.pre_conditions = {
       return not Helper:is_place_safe() end,
     "push", "avoid_bomb_state", },
   { function()
-      return Helper:are_objects_around("enemy",me:getX(),me:getY(),2) end,
+      return Helper:are_objects_around("enemy",me:getPosition(),2) end,
     "push", "kill_enemy_state", },
   -- { function()
-  --     return Helper:are_objects_around("enemy",me:getX(),me:getY(),(MapManager.size / 2)) end,
+  --     return Helper:are_objects_around("enemy",me:getPosition(),(MapManager.size / 2)) end,
   --   "push", "get_bonus_state", },
 }
 
@@ -155,7 +156,7 @@ function initialization()
 end
 
 function play()
-  print("\n\nis_state : play...")
+  -- print("\n\nis_state : play...")
   StateMachine:play()
   -- StateMachine._executed = false
   -- local i = 1

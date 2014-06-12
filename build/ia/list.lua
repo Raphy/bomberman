@@ -45,6 +45,7 @@ function List:front_and_pop(list)
 end
 
 function List:push_back(list, elem)
+	if list._nb_elem == nil then print(debug.traceback()); assert(false) end
 	list._nb_elem = list._nb_elem + 1
 	table.insert(list, list._nb_elem, elem)
 end

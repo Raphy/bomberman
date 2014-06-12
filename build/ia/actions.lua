@@ -4,11 +4,11 @@ require 'helper'
 
 Actions = {
 	act = {
-		["up"] = function() me.moveUp() end,
-		["down"] = function() me.moveDown() end,
-		["left"] = function() me.moveLeft() end,
-		["right"] = function() me.moveRight() end,
-		["put_bomb"] = function() me.putBomb() end,
+		["up"] = function() me:moveUp() end,
+		["down"] = function() me:moveDown() end,
+		["left"] = function() me:moveLeft() end,
+		["right"] = function() me:moveRight() end,
+		["put_bomb"] = function() me:putBomb() end,
 		},
 	_path = nil,
 	_global_direction = "up",
@@ -24,7 +24,7 @@ function Actions:path_recalc_needed()
 		or List:empty(self._path)
 end
 function Actions:follow_path()
-	print("follow_path) type self._path : "..type(self._path))
+	Helper:debug_print("follow_path) type self._path : "..type(self._path))
 	if self._path == nil or List:empty(self._path) then
 		return false end
 	return self:go_towards(List:front_and_pop(self._path))
@@ -40,7 +40,7 @@ function Actions:go_random()
 		local repeat_nb = math.random(1,10)
 		self._path = List:new("random_path")
 		for i=1,repeat_nb do
-			List:push_back(Tags:k(dir))
+			List:push_back(self._path, Tags:k(dir))
 		end
 	end
 	return self:follow_path()
@@ -57,8 +57,7 @@ function Actions:go_to(x,y)
 		then Helper:debug_print("goTo outside case !!"); return false end
 
 	if self:path_recalc_needed() then
-		print("Actions:goTo) player : x="..me.getX().." y="..me.getY())
-		local start_idx = MapManager:coord_to_idx(me.getX(), me.getY())
+		local start_idx = MapManager:coord_to_idx(me:getPosition())
 		local dest_idx = MapManager:coord_to_idx(x, y)
 		self._path = Path:calc_path("astar", start_idx, dest_idx)
 	end
@@ -66,7 +65,7 @@ function Actions:go_to(x,y)
 end
 
 function Actions:go_towards(direction)
-	print("go_towards : "..direction)
+	Helper:debug_print("go_towards : "..direction)
 	return self.act[direction]()
 end
 
@@ -76,8 +75,8 @@ function Actions:get_closer_of_one_enemy(enemy_id)
 	local id = enemy_id or -1
 
 	if self:path_recalc_needed() then
-		print("path_recalc_needed")
-		local start_idx = MapManager:coord_to_idx(me:getX(), me:getY())
+		Helper:debug_print("path_recalc_needed")
+		local start_idx = MapManager:coord_to_idx(me:getPosition())
 		local dest_idx = -1
 		self._path = Path:calc_path("dijkstra", start_idx, -1, "enemy")
 		Helper:debug_print("type self._path : "..type(self._path))
@@ -100,7 +99,7 @@ function Actions:avoid_bomb(bomb_id)
 	MapManager:make_type_unwalkable("preview_fire")
 	MapManager:make_type_unwalkable("preview_bomb")
 	Helper:mark_all_safe_cases()
-	local path = Path:calc_path("dijkstra", MapManager:coord_to_idx(me:getX(), me:getY()), -1, "safe_place")
+	local path = Path:calc_path("dijkstra", MapManager:coord_to_idx(me:getPosition()), -1, "safe_place")
 	Helper:clean_preview()
 	if path == nil then
 		return false end
@@ -114,7 +113,7 @@ function Actions:place_bomb()
 	MapManager:make_type_unwalkable("preview_fire")
 	MapManager:make_type_unwalkable("preview_bomb")
 	Helper:mark_all_safe_cases()
-	local path = Path:calc_path("dijkstra", MapManager:coord_to_idx(me:getX(), me:getY()), -1, "safe_place")
+	local path = Path:calc_path("dijkstra", MapManager:coord_to_idx(me:getPosition()), -1, "safe_place")
 	Helper:clean_preview()
 	if path == nil then
 		return false end
