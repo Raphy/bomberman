@@ -5,6 +5,7 @@
 #include "Exception.hh"
 #include "MainMenu.hh"
 #include "SoundsLoader.hh"
+#include "ResourcesPath.hh"
 
 GameEngine::GameEngine():
     m_scenes_manager()
@@ -23,11 +24,11 @@ bool GameEngine::initialize() {
 
     glEnable(GL_DEPTH_TEST);
 
-    if (!m_shader.load("./build/shaders/basic.fp", GL_FRAGMENT_SHADER)) {
-        throw Exception("fail to load './build/shaders/basic.fp'");
+    if (!m_shader.load(ResourcesPath::shader("basic.fp"), GL_FRAGMENT_SHADER)) {
+        throw Exception("fail to load '" + ResourcesPath::shader("basic.fp") + "'");
     }
-    if (!m_shader.load("./build/shaders/basic.vp", GL_VERTEX_SHADER)) {
-        throw Exception("fail to load './build/shaders/basic.vp'");
+    if (!m_shader.load(ResourcesPath::shader("basic.vp"), GL_VERTEX_SHADER)) {
+        throw Exception("fail to load '" + ResourcesPath::shader("basic.vp") + "'");
     }
     if (!m_shader.build()) {
         throw Exception("fail to build shader");

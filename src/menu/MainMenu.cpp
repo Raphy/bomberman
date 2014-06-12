@@ -9,12 +9,12 @@
 MainMenu::MainMenu(SceneArguments const& arg)
   : AMenuScene("MainMenu")
 {
-  addButton("./build/assets/img/play.tga", glm::vec3(60, 50, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::playhandler), 0);
-  addButton("./build/assets/img/option.tga", glm::vec3(60, 180, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::optionhandler), 1);
-  addButton("./build/assets/img/load.tga", glm::vec3(60, 300, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::loadhandler), 2);
-  addButton("./build/assets/img/exit.tga", glm::vec3(60, 450, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::exithandler), 3);
+  addButton(ResourcesPath::asset("img/play.tga"), glm::vec3(60, 50, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::playhandler), 0);
+  addButton(ResourcesPath::asset("img/option.tga"), glm::vec3(60, 180, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::optionhandler), 1);
+  addButton(ResourcesPath::asset("img/load.tga"), glm::vec3(60, 300, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::loadhandler), 2);
+  addButton(ResourcesPath::asset("img/exit.tga"), glm::vec3(60, 450, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::exithandler), 3);
 
-  _cursor = new Cursor("./build/assets/img/bombe.tga", glm::vec3(30, 100, 1), glm::vec3(50, 50, 0));
+  _cursor = new Cursor(ResourcesPath::asset("img/bombe.tga"), glm::vec3(30, 100, 1), glm::vec3(50, 50, 0));
 
 }
 
@@ -25,7 +25,7 @@ MainMenu::~MainMenu()
 
 bool MainMenu::initialize()
 {
-  setTexture("./build/assets/img/menu.tga");
+  setTexture(ResourcesPath::asset("img/menu.tga"));
   AMenuScene::initialize();
 
   _cursor->initialize();

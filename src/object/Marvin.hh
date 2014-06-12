@@ -1,8 +1,10 @@
 #ifndef MARVIN_HH_
 # define MARVIN_HH_
 
-# include  "AModel.hh"
 # include  <map>
+
+# include  "AModel.hh"
+# include  "ResourcesPath.hh"
 
 class Marvin;
 typedef void (Marvin::*inputFunction)(gdl::Clock const&);
@@ -25,7 +27,7 @@ class Marvin: public AModel
 {
 public:
 
-    Marvin() : AModel("./build/assets/marvin.fbx", "marvin"), totalPressed(0) {}
+    Marvin() : AModel(ResourcesPath::asset("marvin.fbx"), "marvin"), totalPressed(0) {}
     virtual ~Marvin() {}
     
     virtual bool initialize();
