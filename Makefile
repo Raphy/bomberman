@@ -2,11 +2,11 @@
 # Basic
 CXX ?= g++
 
-INCFLAGS := $(shell pkg-config --cflags SDL_mixer)
+INCFLAGS := $(shell pkg-config --cflags)
 CXXFLAGS = -Wall -std=c++11 $(INCFLAGS)
 CXXFLAGS += -I lib/gdl/includes/
-LDFLAGS := $(shell pkg-config --libs SDL_mixer) -L ./lib/gdl/libs/ -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2 -lpthread -ldl
-
+LDFLAGS :=  -L ./lib/gdl/libs -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk  -lpthread -ldl -lSDL2 -lSDL2_mixer
+# $(shell pkg-config --libs)
 OFLAGS :=
 DBGFLAGS := -DDEBUG -ggdb3
 NDBGFLAGS = -DNDEBUG $(OFLAGS)

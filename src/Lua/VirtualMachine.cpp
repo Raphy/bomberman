@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 11:49:12 2014 raphael defreitas
-// Last update Wed Jun 11 12:30:48 2014 raphael defreitas
+// Last update Wed Jun 11 19:40:35 2014 raphael defreitas
 //
 
 #include	<lua.hpp>
@@ -16,7 +16,8 @@
 
 using namespace Lua;
 
-VirtualMachine::VirtualMachine(void)
+VirtualMachine::VirtualMachine(void) :
+  _close(true)
 {
   this->_state = luaL_newstate();
   if (!this->_state)
@@ -24,9 +25,18 @@ VirtualMachine::VirtualMachine(void)
   luaL_openlibs(this->_state);
 }
 
+VirtualMachine::VirtualMachine(lua_State* L) :
+  _close(false)
+{
+  this->_state = L;
+  if (!this->_state)
+    throw new std::runtime_error("LuaInterpreterException: " + this->getError()); // Exception: LuaInterpreterException
+}
+
+
 VirtualMachine::~VirtualMachine(void)
 {
-  if (this->_state)
+  if (this->_state && this->_close)
     lua_close(this->_state);
 }
 

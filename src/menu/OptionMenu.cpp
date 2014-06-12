@@ -9,11 +9,16 @@ OptionMenu::OptionMenu(SceneArguments const& arg)
 
   _cursor = new Cursor("./build/assets/img/bombe.tga", glm::vec3(30, 100, 1), glm::vec3(50, 50, 0));
 
+  _cursorFx = new Cursor("./build/assets/img/bombe.tga", glm::vec3(250, 70, 1), glm::vec3(50, 50, 0));
+  _cursorMusic = new Cursor("./build/assets/img/bombe.tga", glm::vec3(250, 200, 1), glm::vec3(50, 50, 0));
+
 }
 
 OptionMenu::~OptionMenu()
 {
   delete _cursor;
+  delete _cursorFx;
+  delete _cursorMusic;
 }
 
 bool OptionMenu::initialize()
@@ -22,6 +27,8 @@ bool OptionMenu::initialize()
   AMenuScene::initialize();
 
   _cursor->initialize();
+  _cursorFx->initialize();
+  _cursorMusic->initialize();
 
   std::map<AWidget* , ButtonHandler>::iterator it;
   it = _mapButton.begin();
@@ -37,6 +44,16 @@ bool OptionMenu::initialize()
 bool OptionMenu::update(gdl::Clock const& clock, gdl::Input& input)
 {
   // j'avoue c'est crade mais il est 2h30 du mat' A REGLER
+  if (input.getKey(SDLK_RIGHT))
+    {
+
+    }
+
+  if (input.getKey(SDLK_LEFT))
+    {
+
+    }
+
 
   if (input.getKey(SDLK_UP) && !_btnUp)
     {
@@ -68,7 +85,7 @@ bool OptionMenu::update(gdl::Clock const& clock, gdl::Input& input)
       while (it != _mapButton.end())
 	{
 	  if (it->first->getCur() == _cursorPos)
-	    (this->*(it->second))();
+	    (this->*(it->second))(SDLK_SPACE);
 	  it++;
 	}
     }
@@ -98,20 +115,23 @@ bool OptionMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 
   _cursor->draw(shader, clock);
 
+  _cursorFx->draw(shader, clock);
+  _cursorMusic->draw(shader, clock);
+
   return true;
 }
 
-void OptionMenu::soundfxhandler()
+void OptionMenu::soundfxhandler(int t)
 {
   std::cout << "sound FX handler ok\n";
 }
 
-void OptionMenu::soundmusichandler()
+void OptionMenu::soundmusichandler(int t)
 {
   std::cout << "sound MUSIC handler ok\n";
 }
 
-void OptionMenu::backhandler()
+void OptionMenu::backhandler(int t)
 {
   std::cout << "back handler ok\n";
 }

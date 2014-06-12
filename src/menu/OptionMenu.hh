@@ -15,12 +15,15 @@ public:
   virtual bool draw(gdl::AShader & shader, gdl::Clock const &clock);
 
   /* definir le handler de chaque boutton*/
-  void soundfxhandler();
-  void soundmusichandler();
-  void backhandler();
+  void soundfxhandler(int);
+  void soundmusichandler(int);
+  void backhandler(int);
 
 private:
   Cursor *_cursor;
+
+  Cursor *_cursorFx;
+  Cursor *_cursorMusic;
 
   bool _btnUp = false;
   bool _btnDown = false;

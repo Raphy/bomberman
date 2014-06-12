@@ -5,6 +5,7 @@
 # include "AWidget.hh"
 # include "Cursor.hh"
 
+#include "SoundManager.hh"
 
 class MapMenu : public AMenuScene
 {
@@ -17,13 +18,15 @@ public:
   virtual bool draw(gdl::AShader & shader, gdl::Clock const &clock);
 
   /* definir le handler de chaque boutton*/
-  void map1handler();
-  void map2handler();
-  void maprandomhandler();
-  void backhandler();
+  void map1handler(int);
+  void map2handler(int);
+  void maprandomhandler(int);
+  void backhandler(int);
 
 private:
   Cursor *_cursor;
+
+  static SoundManager& _son;
 
   bool _btnUp = false;
   bool _btnDown = false;

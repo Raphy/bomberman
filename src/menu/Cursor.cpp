@@ -63,3 +63,8 @@ void Cursor::setPosY(const glm::vec3& position)
 {
   _position.y = position.y;
 }
+
+void Cursor::setPosX(const glm::vec3& position)
+{
+  _position.x = position.x;
+}
