@@ -26,7 +26,7 @@ SoundManager& SoundManager::getInstance()
   return instance;
 }
 
-bool	SoundManager::loadFx(const std::string& tag, const std::string& path)
+bool    SoundManager::loadFx(const std::string& tag, const std::string& path)
 {
   Mix_Chunk *tmp;
 
@@ -34,7 +34,7 @@ bool	SoundManager::loadFx(const std::string& tag, const std::string& path)
   if (tmp != NULL)
     {
       if (_soundFx.size() != 0 && _soundFx.find(tag) != _soundFx.end())
-	return false;
+    return false;
       _soundFx.insert(std::pair<std::string, Mix_Chunk*>(tag, tmp));
     }
   else
@@ -42,19 +42,23 @@ bool	SoundManager::loadFx(const std::string& tag, const std::string& path)
   return true;
 }
 
-bool	SoundManager::loadMusic(const std::string& tag, const std::string& path)
+bool    SoundManager::loadMusic(const std::string& tag, const std::string& path)
 {
   Mix_Music *tmp;
 
   tmp = Mix_LoadMUS(path.c_str());
   if (tmp != NULL)
     {
-      if (_soundMusic.size() != 0 && _soundMusic.find(tag) != _soundMusic.end())
-	return false;
+      if (_soundMusic.size() != 0 && _soundMusic.find(tag) != _soundMusic.end()) {
+        return false;
+      }
       _soundMusic.insert(std::pair<std::string, Mix_Music*>(tag, tmp));
     }
-  else
+  else {
+    std::cerr << "warning: unable to load music " << path
+      << ": " << Mix_GetError() << std::endl;
     return false;
+  }
   return true;
 }
 
@@ -82,19 +86,22 @@ bool SoundManager::deleteMusic(const std::string& tag)
   return true;
 }
 
-bool	SoundManager::playMusic(const std::string& music)
+bool    SoundManager::playMusic(const std::string& music)
 {
   std::map<std::string, Mix_Music*>::iterator it;
 
   it = _soundMusic.find(music);
   if (it == _soundMusic.end())
     return false;
-  if (Mix_PlayMusic(it->second, 1) == -1)
+  if (Mix_PlayMusic(it->second, 1) == -1) {
+    std::cerr << "warning: unable to play music taged '" << music
+      << "'" << std::endl;
     return false;
+  }
   return true;
 }
 
-bool	SoundManager::playMusicFade(const std::string& music)
+bool    SoundManager::playMusicFade(const std::string& music)
 {
   std::map<std::string, Mix_Music*>::iterator it;
 
@@ -106,7 +113,7 @@ bool	SoundManager::playMusicFade(const std::string& music)
   return true;
 }
 
-bool	SoundManager::playFx(const std::string& music)
+bool    SoundManager::playFx(const std::string& music)
 {
   std::map<std::string, Mix_Chunk*>::iterator it;
 
@@ -118,17 +125,17 @@ bool	SoundManager::playFx(const std::string& music)
   return true;
 }
 
-void	SoundManager::stopMusic()
+void    SoundManager::stopMusic()
 {
   Mix_HaltMusic();
 }
 
-void	SoundManager::stopFx()
+void    SoundManager::stopFx()
 {
   Mix_HaltChannel(-1);
 }
 
-void	SoundManager::stop()
+void    SoundManager::stop()
 {
   stopFx();
   stopMusic();
@@ -166,7 +173,7 @@ void SoundManager::resumeMusic()
   Mix_ResumeMusic();
 }
 
-void	SoundManager::setVolume(int v)
+void    SoundManager::setVolume(int v)
 {
   if (v >= 0 || v <= 128)
     {
@@ -176,7 +183,7 @@ void	SoundManager::setVolume(int v)
     }
 }
 
-void	SoundManager::setVolumeFx(int v)
+void    SoundManager::setVolumeFx(int v)
 {
   if (v >= 0 || v <= 128)
     {
@@ -185,7 +192,7 @@ void	SoundManager::setVolumeFx(int v)
     }
 }
 
-void	SoundManager::setVolumeMusic(int v)
+void    SoundManager::setVolumeMusic(int v)
 {
   if (v >= 0 || v <= 128)
     {

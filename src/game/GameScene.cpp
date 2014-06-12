@@ -5,19 +5,23 @@
 #include "Exception.hh"
 #include "MapTextLoader.hh"
 #include "MapTextSaver.hh"
+#include "GameAPI.hh"
 
 #include "Wall.hh"
+#include "Box.hh"
 
 const std::string GameScene::Tag = "game";
 
 GameScene::GameScene(SceneArguments const & args)
     : AScene(Tag), m_map_width(0), m_map_height(0),
     m_players(),
-    m_static(), m_movable(), m_quad_tree(0)
+    m_objects(), m_walls(), m_quad_tree(0),
+    m_playlist()
 {
     m_players[0] = nullptr;
     m_players[1] = nullptr;
 
+    // load a file or gen a map
     std::string const& str_file = args.get("file");
     if (str_file.empty() == false) {
         loadMap(str_file);
@@ -32,10 +36,20 @@ GameScene::GameScene(SceneArguments const & args)
         }
         genMap(atoi(str_width.c_str()), atoi(str_height.c_str()));
     }
+
+    // api registration
+    GameAPI::getInstance().set(*this);
 }
 
-GameScene::~GameScene() {  
-    delete m_quad_tree; 
+GameScene::~GameScene() {
+    // api unregistration
+    GameAPI::getInstance().unset();
+
+    // free memory  
+    delete m_quad_tree;
+    foreachObject([] (AGameObject& obj) {
+        delete &obj;
+    });
 }
 
 void GameScene::initPlayer(int num, int x, int y) {
@@ -52,7 +66,7 @@ void GameScene::initPlayer(int num, int x, int y) {
     if (num == 1) player->setBindKeys();
     else player->setBindKeys({SDLK_z, SDLK_s, SDLK_q, SDLK_d});
     m_players[idx] = player;
-    m_movable.push_back(player);
+    m_objects.push_back(player);
 }
 
 void GameScene::loadMap(std::string const& filename) {
@@ -67,16 +81,20 @@ void GameScene::loadMap(std::string const& filename) {
                 case MapText::PLAYER_1: initPlayer(1, x, y); break;
                 case MapText::PLAYER_2: initPlayer(2, x, y); break;
                 case MapText::ENEMY:
-                    //m_movable.push_back(new ?)
-                    //m_movable.back()->setPosition(
+                    //m_objects.push_back(new ?)
+                    //m_objects.back()->setPosition(
                     //  static_cast<double>(x), static_cast<double>(y));
                     break;
+                case MapText::BOX:
+                    m_objects.push_back(new Box());
+                    m_objects.back()->setPosition(
+                        static_cast<double>(x), static_cast<double>(y));
                 case MapText::WALL:
-                    m_static.push_back(new Wall());
-                    m_static.back()->setPosition(
+                    m_walls.push_back(new Wall());
+                    m_walls.back()->setPosition(
                         static_cast<double>(x), static_cast<double>(y));
                     break;
-                // case MapText::BOMB: break;
+                case MapText::BOMB: break;
                 // case MapText::FIRE: break;
                 default: break;
             }
@@ -115,6 +133,12 @@ void GameScene::save(std::string const& filename) const {
     saver.save();
 }
 
+void GameScene::initPlaylist() {
+    m_playlist.deletePlaylist();
+    m_playlist.addPlaylist("maintheme");
+    m_playlist.playPlaylist();
+}
+
 bool GameScene::initialize() {
 
     bool init_success = true;
@@ -141,10 +165,15 @@ bool GameScene::initialize() {
 
     m_quad_tree = new QuadTree(Rectangle(0, 0, m_map_width, m_map_height));
     rebuildQuadTree();
+
+    initPlaylist();
+
     return true;
 }
 
 bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
+
+    m_playlist.update();
 
     // Foreach object, update and insert in the new quad tree.
     foreachObject([&](AGameObject& obj) {
@@ -156,7 +185,7 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
     // Foreach movable object, check collision with others
     // and call onCollision().
-    foreachObject(m_movable, [&](AGameObject& obj) {
+    foreachObject(m_objects, [&](AGameObject& obj) {
 
         if (obj.isDead()) return;
 
@@ -187,6 +216,11 @@ bool GameScene::draw(gdl::AShader& shader, gdl::Clock const& clock) {
             obj.draw(shader, clock);
         }
     });
+    return true;
+}
+
+bool GameScene::resume() {
+    m_playlist.playPlaylist();
     return true;
 }
 

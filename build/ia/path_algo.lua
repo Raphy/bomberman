@@ -21,11 +21,15 @@ end
 function PathAlgo:open_side_cases(open_list, curr_idx, side_cases)--, dest
 	Helper:warning("This method should be override")
 end
-
 --retourne une case
 function PathAlgo:get_next_open_case(open_list)
 	Helper:warning("This method should be override")
 end
+
+
+--[[
+TODO: adapter g_cost quand il devient plus petit
+]]
 
 -- * ASTAR *
 
@@ -37,11 +41,7 @@ end
 
 function Astar:open_side_cases(open_list, curr_idx, side_cases, dest)
 	assert(dest ~= nil)
-	Helper:debug_print("open cases.............. ")
-	Helper:debug_print("length = "..List:size(side_cases))
-
 	for case in List:iter_case(side_cases) do
-		Helper:debug_print("open case "..case.idx)
 		case.parent = curr_idx
 		case.g = MapManager:get_case(case.parent).g + 1
 		case.h = self:calc_h_cost(case, dest)
@@ -54,11 +54,7 @@ function Astar:open_side_cases(open_list, curr_idx, side_cases, dest)
 end
 
 function Astar:get_next_open_case(open_list)
-	Helper:debug_print("next cases.............. ")
-	Helper:debug_print("length = "..List:size(open_list))
-
 	local min = -1
-
 	for case in List:iter_case(open_list) do
 		if min > case.f or min == -1 then min = case.f end
 	end
@@ -73,31 +69,39 @@ end
 Dijkstra = PathAlgo:new("dijkstra")
 
 function Dijkstra:open_side_cases(open_list, curr_idx, side_cases)
-	Helper:debug_print("open cases.............. ")
-	Helper:debug_print("length = "..List:size(side_cases))
-
 	for case in List:iter_case(side_cases) do
-		Helper:debug_print("open case "..case.idx)
 		case.parent = curr_idx
+		case.g = MapManager:get_case(case.parent).g + 1
+		case.h = self:calc_h_cost(case, dest)
+	end
+	for case in List:iter_case(side_cases) do
 		Path:register_case_open(open_list, case)
 	end
 end
 
 function Dijkstra:get_next_open_case(open_list)
-	Helper:debug_print("next cases.............. ")
-	Helper:debug_print("length = "..List:size(open_list))
-
 	return List:front_case(open_list)
 end
 
 -- * GLOUTON *
 
--- TODO : corriger dijkstra et faire passer la version actuelle en glouton
+Glouton = PathAlgo:new("glouton")
 
+function Glouton:open_side_cases(open_list, curr_idx, side_cases)
+	for case in List:iter_case(side_cases) do
+		case.parent = curr_idx
+		Path:register_case_open(open_list, case)
+	end
+end
+
+function Glouton:get_next_open_case(open_list)
+	return List:front_case(open_list)
+end
 
 -- * OPEN_LIST_MANAGERS *
 
 PathAlgos = {
 	["astar"] = Astar,
 	["dijkstra"] = Dijkstra,
+	["glouton"] = Glouton,
 }

@@ -3,6 +3,8 @@
 #include "GameEngine.hh"
 #include "GameScene.hh"
 #include "Exception.hh"
+#include "MainMenu.hh"
+#include "SoundsLoader.hh"
 
 GameEngine::GameEngine():
     m_scenes_manager()
@@ -31,8 +33,10 @@ bool GameEngine::initialize() {
         throw Exception("fail to build shader");
     }
 
+    SoundsLoader()();
+
     SceneArguments scene_args;
-    scene_args.set("file", "./map");
+    scene_args.set("file", "map");
     m_scenes_manager.start<FirstScene>(scene_args);
 
     return true;

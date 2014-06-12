@@ -26,10 +26,12 @@ void PlaylistManager::playPlaylist()
   _son.playMusicFade(_playlist[_n]);
 }
 
+#include <iostream> 
 bool PlaylistManager::update()
 {
-  if (Mix_PlayingMusic() == 0)
+  if (Mix_PlayingMusic() == 1) {
       return false;
+  }
   next();
   return true;
 }

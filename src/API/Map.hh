@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Wed Jun 11 12:33:32 2014 raphael defreitas
+// Last update Thu Jun 12 01:54:29 2014 raphael defreitas
 */
 
 #ifndef		MAP_HH_
@@ -28,9 +28,8 @@ namespace API
     // Lua implementation
     static void registerScript(Script& script);
     static void registerMethods(Script& script);
-    static int ctor(lua_State* L);
-    static int dtor(lua_State* L);
     static int get(lua_State* L);
+    static int free(lua_State* L);
 
   };
 }

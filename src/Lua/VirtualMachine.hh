@@ -5,17 +5,16 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:42:59 2014 raphael defreitas
-// Last update Wed Jun 11 12:30:15 2014 raphael defreitas
+// Last update Thu Jun 12 02:34:12 2014 raphael defreitas
 */
 
 #ifndef		VIRTUALMACHINE_HH_
 # define	VIRTUALMACHINE_HH_
 
+# include	<lua.hpp>
 # include	<string>
 # include	<stdexcept>
 # include	<vector>
-
-# include	"lua.hpp"
 
 namespace Lua
 {
@@ -23,6 +22,7 @@ namespace Lua
   {
   public:
     VirtualMachine(void);
+    VirtualMachine(lua_State* L);
     ~VirtualMachine(void);
 
     void clean(void);
@@ -71,13 +71,28 @@ namespace Lua
     template<class T>
     void setClass(const std::string& tname, const std::string& name, T* data)
     {
-      T** udata = this->_newClass<T>();
+      T** udata = this->newClass<T>();
       *udata = data;
       luaL_setmetatable(this->_state, tname.c_str());
       lua_setglobal(this->_state, name.c_str());
     }
 
+    template<class T>
+    T** newClass()
+    {
+      T** result = (T**)lua_newuserdata(this->_state, sizeof(T*));
+      return result;
+    }
+
+    template<class T>
+    T* toClass()
+    {
+      T* result = *(T**)lua_touserdata(this->_state, 1);
+      return result;
+    }
+
   protected:
+    bool _close;
     lua_State* _state;
 
     bool _variableExists(const std::string& name);
@@ -89,12 +104,6 @@ namespace Lua
       throw new std::runtime_error("LuaTypeNotImplementedException"); // Type not implemented
     }
 
-    template<class T>
-    T** _newClass()
-    {
-      T** result = (T**)lua_newuserdata(this->_state, sizeof(T*));
-      return result;
-    }
   };
 
   /*

@@ -7,6 +7,7 @@
 # include "AScene.hh"
 # include "SceneArguments.hh"
 # include "AWidget.hh"
+# include "Camera.hh"
 
 class AMenuScene : public AScene
 {
@@ -14,13 +15,14 @@ protected:
   gdl::Texture _texture;
   gdl::Geometry _geometry;
 
-  /* for the camera */
+
+  Camera *_camera;
+
   glm::mat4 _projection;
-  glm::mat4 _transformation;
 
   std::string _pathTexture;
 
-  typedef void (AMenuScene::*ButtonHandler)();
+  typedef void (AMenuScene::*ButtonHandler)(int);
   std::map<AWidget*, ButtonHandler> _mapButton;
 
   int _cursorPos;

@@ -2,11 +2,11 @@
 # Basic
 CXX ?= g++
 
-INCFLAGS := $(shell pkg-config --cflags SDL_mixer)
+INCFLAGS := $(shell pkg-config --cflags)
 CXXFLAGS = -Wall -std=c++11 $(INCFLAGS)
 CXXFLAGS += -I lib/gdl/includes/
-LDFLAGS := $(shell pkg-config --libs SDL_mixer) -L ./lib/gdl/libs/ -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk -lSDL2 -lpthread -ldl
-
+LDFLAGS :=  -L ./lib/gdl/libs -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk  -lpthread -ldl -lSDL2 -lSDL2_mixer
+# $(shell pkg-config --libs)
 OFLAGS :=
 DBGFLAGS := -DDEBUG -ggdb3
 NDBGFLAGS = -DNDEBUG $(OFLAGS)
@@ -40,7 +40,7 @@ endif
 TARGET := ./build/bomberman
 
 SRC_ROOTDIR := src
-SRC_SUBDIRS := scene scenesmanager soundmanager object API Lua game menu maptext
+SRC_SUBDIRS := scene scenesmanager sound object API Lua game menu maptext
 SRC_ALLDIRS := $(SRC_ROOTDIR) $(foreach sub_dir, $(SRC_SUBDIRS), $(SRC_ROOTDIR)/$(sub_dir))
 
 SRC := $(foreach dir, $(SRC_ALLDIRS), $(wildcard $(dir)/*.cpp))

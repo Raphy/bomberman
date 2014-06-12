@@ -7,9 +7,10 @@ AMenuScene::AMenuScene(const std::string& tag)
 {
   // Set value screen size
   _projection = glm::ortho(0.0f, 600.0f, 600.0f, 0.0f, -1.0f, 1.0f);
-  _transformation = glm::mat4(1);
 
   _cursorPos = 0;
+
+  _camera = new Camera();
 }
 
 AMenuScene::~AMenuScene()
@@ -22,6 +23,7 @@ AMenuScene::~AMenuScene()
       _mapButton.erase(it);
       it++;
     }
+  delete _camera;
 }
 
 bool AMenuScene::initialize()
@@ -29,9 +31,17 @@ bool AMenuScene::initialize()
   // load texture
   if (_texture.load(_pathTexture) == false)
     {
-      std::cerr << "Cannot load the wall texture" << std::endl;
+      std::cerr << "Cannot load the background texture" << std::endl;
       return false;
     }
+
+  _camera->initialize();
+
+  _camera->setPosition(glm::vec3(0, 0, 0));
+  _camera->setLookAt(glm::vec3(0, 0, 1));
+
+  addCamera("menu", _camera);
+
 
   _geometry.setColor(glm::vec4(1, 1, 1, 1)); // voir ici pour (ALPHA/GAMME)->TRansparence
 
@@ -59,8 +69,10 @@ bool AMenuScene::draw(gdl::AShader& shader, gdl::Clock const& clock)
 {
   // VOIR OBJ CAMERA DE NICO
   shader.bind();
-  shader.setUniform("view", _transformation);
+  shader.setUniform("view", glm::mat4(1));
   shader.setUniform("projection", _projection);
+
+
 
   glm::vec3 size(600, 600, 0); // taille img final BACKGROUND !!!! EN FONCTION TAILLE ECRAN
   glm::mat4 transform(1);
@@ -68,6 +80,7 @@ bool AMenuScene::draw(gdl::AShader& shader, gdl::Clock const& clock)
   transform = glm::scale(transform, size);
   _texture.bind();
   _geometry.draw(shader, transform, GL_QUADS);
+  _camera->draw(shader, clock);
 
   return true;
 }

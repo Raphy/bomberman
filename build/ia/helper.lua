@@ -54,6 +54,20 @@ function Helper:are_objects_in_case(x,y,type)
 	end
 	return false
 end
+function Helper:are_objects_in_case_except(x,y,type)
+	assert(type ~= nil, "are_objects_in_case_except : type expected")
+	do return false end--debug
+	local case = map:get(x,y)
+	if x == 5.0 and y == 5.0 then return true end
+	-- local case = map:get(5.0,5.0)
+	if case == nil then
+		return false end
+	for _,obj in pairs(case) do
+		if type ~= obj:getType() then
+			return true end
+	end
+	return false
+end
 function Helper:get_objects_from_case(x,y,type,objects)
 	local o = objects or {}
 	local case = map:get(x,y)
@@ -113,6 +127,11 @@ end
 
 -- * BOMB_HELPER *
 
+local function is_case_safe(case)
+	return not Helper:are_objects_in_case_except(case.x,case.y,"enemy")
+		and List:empty(case.previews)
+end
+
 -- TODO: calculer le rayon en fonction du temps de la bombe ou de son etendu
 
 function Helper:is_place_safe()
@@ -139,3 +158,56 @@ function Helper:get_nearest_safe_case(bomb_position)
 	return nil
 	-- return self:get_objects_around("bomb",Coord:unpack(bomb_position),radius)
 end
+
+function Helper:clean_preview()
+	for case in MapManager:iter() do
+		List:clear(case.previews)
+	end
+end
+function Helper:preview_bomb(bomb_coord)
+	print("debut preview bomb..........")
+	local function _preview_fire(coord)
+		local x,y = Coord:unpack(coord)
+		if not MapManager:check_coord(x,y) then
+			return false end
+		local case = MapManager:get_case(MapManager:coord_to_idx(x,y))-- faire une methode pour ça ?
+		self:debug_print("preview_fire on x = "..x.." y = "..y)
+		if not List:is_elem_in_list(case.previews, "preview_fire") then
+			List:push_back(case.previews, "preview_fire") end
+		return true
+	end
+	_preview_fire(bomb_coord)
+	for radius=1,3 do -- radius max = celui de la bomb
+		local function _call_preview(dir)
+			_preview_fire(Coord:from_direction(bomb_coord, dir, radius))
+		end
+		Coord:apply_to_all_directions(_call_preview)
+	end
+	print("fin preview bomb..........")
+end
+
+function Helper:mark_all_safe_cases()
+	for case in MapManager:iter() do
+		if is_case_safe(case) and not List:is_elem_in_list(case.marks, "safe_place") then
+			List:push_back(case.marks, "safe_place")
+		end
+	end
+end
+-- explode all bombs in vision and put "preview_fire" in map
+function Helper:preview_all_bombs()
+	for case in MapManager:iter() do
+		if self:are_objects_in_case(case.x,case.y,"bomb")
+			or List:is_elem_in_list(case.previews, "preview_bomb") then
+				self:preview_bomb(Coord:new(case.x,case.y))
+		end
+	end
+end
+	--[[
+	quelles cases sont affecté ?
+	est ce qu'on met du feu aussi dans les murs ?
+		(sachant que dans les murs incassables, ils ne pourront jamais aller normalement)
+	comment on fait une preview ? copie complete ou seulement des cases affectes ?
+		(sachant que ca modifie les cases de MapManager._map et peux fausser d'autres calculs exterieurs par la suite)
+	ou alors clean la map juste apres ?
+	comment on annule une preview ?
+	]]
