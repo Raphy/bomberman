@@ -8,6 +8,7 @@
 # include "SceneArguments.hh"
 # include "AWidget.hh"
 # include "Camera.hh"
+# include "ResourcesPath.hh"
 
 class AMenuScene : public AScene
 {

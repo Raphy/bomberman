@@ -94,9 +94,9 @@ static const double COLLIDER_SIZE = 0.7;
 
 Rectangle Marvin::getCollider() const {
     return Rectangle(
-        this->_position.x + 0.5 - COLLIDER_SIZE / 2/* - _scale.x / 2/*- (COLLIDER_SIZE / 2)*/,
-        this->_position.z + 0.5 - COLLIDER_SIZE / 2/* - _scale.z / 2/*- (COLLIDER_SIZE / 2)*/,
-        COLLIDER_SIZE/*COLLIDER_SIZE*/,
-        COLLIDER_SIZE/*COLLIDER_SIZE*/);
+        this->_position.x + 0.5 - COLLIDER_SIZE / 2,
+        this->_position.z + 0.5 - COLLIDER_SIZE / 2,
+        COLLIDER_SIZE,
+        COLLIDER_SIZE);
 }
 //~ Formatted by Jindent --- http://www.jindent.com

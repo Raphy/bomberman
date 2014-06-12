@@ -8,15 +8,15 @@
 
 #include "SoundsLoader.hh"
 #include "SoundManager.hh"
+#include "ResourcesPath.hh"
 
-std::string const SoundsLoader::SOUNDS_DIR = "./build/sounds";
 std::string const SoundsLoader::CONF_FILE = "sounds.conf";
 
 SoundManager& SoundsLoader::s_sound_manager = SoundManager::getInstance();
 
 void SoundsLoader::operator()() {
 
-    std::string filename = SOUNDS_DIR + "/" + CONF_FILE;
+    std::string filename = ResourcesPath::sound(CONF_FILE);
     std::ifstream f(filename);
 
     if (f) {
@@ -36,7 +36,7 @@ void SoundsLoader::operator()() {
             else {
                 std::string sound_type = words[0];
                 std::string sound_tag = words[1];
-                std::string sound_file = SOUNDS_DIR + "/" + words[2];
+                std::string sound_file = ResourcesPath::sound(words[2]);
 
                 bool success = true;
                 if (sound_type == "fx") {

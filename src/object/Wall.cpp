@@ -6,6 +6,7 @@
  */
 
 #include "Wall.hh"
+#include "ResourcesPath.hh"
 
 std::string const Wall::Tag = "wall";
 
@@ -14,7 +15,7 @@ Wall::~Wall() {
 
 bool Wall::initialize() {
     this->setSpeed(0);
-    return this->setTexture("./build/assets/textures/wall.tga");
+    return this->setTexture(ResourcesPath::asset("textures/wall.tga"));
 }
 
 
