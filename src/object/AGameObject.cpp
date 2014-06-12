@@ -12,3 +12,7 @@ void AGameObject::saveCurrentState() {
     this->_state.rotation = this->_rotation;
     this->_state.scale = this->_scale;
 }
+
+Rectangle AGameObject::getCollider() const {
+    return Rectangle(_position, _scale);
+}
