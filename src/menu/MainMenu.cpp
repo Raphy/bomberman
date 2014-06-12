@@ -3,6 +3,7 @@
 
 #include "MainMenu.hh"
 #include "GameScene.hh"
+#include "OptionMenu.hh"
 
 // son ++!!
 
@@ -119,6 +120,11 @@ void MainMenu::playhandler(int t)
 void MainMenu::optionhandler(int t)
 {
   std::cout << "OPTION handler ok\n";
+
+  SceneArguments& args = *new SceneArguments();
+  args.set("", "");
+  setStatusGoOn<OptionMenu>(args);
+
 }
 
 void MainMenu::exithandler(int t)
