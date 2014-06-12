@@ -32,6 +32,7 @@ public:
     virtual void update(gdl::Clock const& clock, gdl::Input& input);
 
     virtual void onCollision(AGameObject&);
+    virtual Rectangle getCollider() { std::cout << "good" << std::endl; return Rectangle(this->_position.x - (0.7 / 2), this->_position.z - (0.7 / 2), 0.7, 0.7); }
 
     virtual void setBindKeys(inputBinding const& bind = {SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT});
     
