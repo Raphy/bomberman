@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Thu Jun  5 10:41:01 2014 raphael defreitas
-// Last update Wed Jun 11 12:39:53 2014 raphael defreitas
+// Last update Thu Jun 12 20:44:21 2014 raphael defreitas
 //
 
 #include	<lua.hpp>
@@ -33,6 +33,12 @@ void Manager::registerScript(Script& script)
   Map::registerScript(script);
   Me::registerScript(script);
   Player::registerScript(script);
+}
+
+void Manager::registerMe(Script& script, IA* ia)
+{
+  API::Me* udata = new API::Me(ia);
+  script.getVirtualMachine().setClass<API::Me>("luaL_Me", "me", udata);
 }
 
 Manager::Manager(void)

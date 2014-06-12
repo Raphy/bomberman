@@ -12,8 +12,12 @@ Actions = {
 		},
 	_path = nil,
 	_global_direction = "up",
+	_repeat_max = 10,
 }
 
+function Actions:init(repeat_max)
+	self._repeat_max = repeat_max or 10
+end
 function Actions:path_recalc_needed()
 	return StateMachine._action_duration == 0
 		or self._path == nil

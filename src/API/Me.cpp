@@ -5,12 +5,13 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 12:02:27 2014 raphael defreitas
-// Last update Wed Jun 11 21:05:38 2014 raphael defreitas
+// Last update Thu Jun 12 20:24:23 2014 raphael defreitas
 //
 
 #include	<lua.hpp>
 #include	<string>
 
+#include	"object/IA.hh"
 #include	"Lua/Script.hh"
 #include	"Lua/VirtualMachine.hh"
 #include	"Me.hh"
@@ -19,8 +20,8 @@
 using namespace API;
 using namespace Lua;
 
-Me::Me(const std::string& name, float x, float y) :
-  Player(name, x, y)
+Me::Me(IA* ia) :
+  Player(ia), _ia(ia)
 {
   this->_type = "Me";
 }
@@ -29,38 +30,29 @@ Me::~Me(void)
 {
 }
 
-bool Me::moveUp(void)
+void Me::moveUp(void)
 {
-  // ToDo: Perfom this action
-  this->_y -= 1;
-  return true;
+  this->_ia->goOneCaseUp();
 }
 
-bool Me::moveDown(void)
+void Me::moveDown(void)
 {
-  // ToDo: Perfom this action
-  this->_y += 1;
-  return true;
+  this->_ia->goOneCaseDown();
 }
 
-bool Me::moveLeft(void)
+void Me::moveLeft(void)
 {
-  // ToDo: Perfom this action
-  this->_x -= 1;
-  return true;
+  this->_ia->goOneCaseLeft();
 }
 
-bool Me::moveRight(void)
+void Me::moveRight(void)
 {
-  // ToDo: Perfom this action
-  this->_x += 1;
-  return true;
+  this->_ia->goOneCaseRight();
 }
 
-bool Me::putBomb(void)
+void Me::putBomb(void)
 {
   // ToDo: Perfom this action
-  return false;
 }
 
 void Me::registerScript(Script& script)
@@ -91,39 +83,39 @@ int Me::moveUp(lua_State* L)
 {
   VirtualMachine vm(L);
   Me* udata = vm.toClass<Me>();
-  lua_pushboolean(vm.getState(), udata->moveUp() ? 1 : 0);
-  return 1;
+  udata->moveUp();
+  return 0;
 }
 
 int Me::moveDown(lua_State* L)
 {
   VirtualMachine vm(L);
   Me* udata = vm.toClass<Me>();
-  lua_pushboolean(L, udata->moveDown() ? 1 : 0);
-  return 1;
+  udata->moveDown();
+  return 0;
 }
 
 int Me::moveLeft(lua_State* L)
 {
   VirtualMachine vm(L);
   Me* udata = vm.toClass<Me>();
-  lua_pushboolean(L, udata->moveLeft() ? 1 : 0);
-  return 1;
+  udata->moveLeft();
+  return 0;
 }
 
 int Me::moveRight(lua_State* L)
 {
   VirtualMachine vm(L);
   Me* udata = vm.toClass<Me>();
-  lua_pushboolean(L, udata->moveRight() ? 1 : 0);
-  return 1;
+  udata->moveRight();
+  return 0;
 }
 
 int Me::putBomb(lua_State* L)
 {
   VirtualMachine vm(L);
   Me* udata = vm.toClass<Me>();
-  lua_pushboolean(L, udata->putBomb() ? 1 : 0);
-  return 1;
+  udata->putBomb();
+  return 0;
 }
 

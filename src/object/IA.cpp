@@ -5,7 +5,11 @@
  * Created on 12 June 2014, 14:37
  */
 
+#include <iostream>
+
+#include "API/Manager.hh"
 #include "IA.hh"
+#include "Lua/Script.hh"
 
 bool IA::initialize()
 {
@@ -26,6 +30,27 @@ bool IA::initialize()
     }
 
     this -> scale(glm::vec3(0.0025, 0.0025, 0.0025));
+
+
+    /*
+    ** Dumping the script
+    */
+    try
+      {
+	this -> _script = new Lua::Script("./build/ia/default_ia.lua");
+	API::Manager::getInstance().registerScript(*this->_script);
+	API::Manager::getInstance().registerMe(*this->_script, this);
+	
+      }
+    catch (std::exception& e)
+      {
+	return (false);
+      }
+    if (!this->_script->execute() || !this->_script->initialization())
+      {
+	std::cerr << "[Lua] " << this->_script->getVirtualMachine().getError() << std::endl;
+	return (false);
+      }
 
     return (true);
 }
@@ -48,6 +73,11 @@ void IA::update(const gdl::Clock & clock, gdl::Input & input)
 //        goOneCaseRight();
 //        this -> pressed = true;
 //    }
+
+  if (!this -> _script -> play())
+    {
+      std::cerr << "[Lua] " << this -> _script -> getVirtualMachine() . getError() << std::endl;
+    }
 
     if (this -> _direction == Down) {
         onDownPressed(clock);

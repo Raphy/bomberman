@@ -179,7 +179,6 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
     // Foreach object, update and insert in the new quad tree.
     foreachObject([&](AGameObject& obj) {
-
         obj.update(clock, input);
     });
 
