@@ -26,9 +26,12 @@ int main()
             engine.draw();
         }
     }
-    catch(std::exception& ex) {
+    catch (std::string str) {
+        
+    }
+   /*catch(std::exception& ex) {
         std::cerr << "[EXCEPTION] " << ex.what() << std::endl;
     }
-
+*/
   return EXIT_SUCCESS;
 }

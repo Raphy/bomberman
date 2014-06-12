@@ -132,7 +132,7 @@ void OptionMenu::soundmusichandler(int t)
 
 void OptionMenu::backhandler(int t)
 {
-  std::cout << "back handler ok\n";
+  setStatusBack();
 }
 
 

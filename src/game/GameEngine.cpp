@@ -37,7 +37,6 @@ bool GameEngine::initialize() {
     SoundsLoader()();
 
     SceneArguments scene_args;
-    scene_args.set("file", "map");
     m_scenes_manager.start<FirstScene>(scene_args);
 
     return true;
@@ -60,10 +59,16 @@ bool GameEngine::update() {
         throw Exception("fail to apply scene changes");
     }
 
+    if (m_scenes_manager.empty()) {
+        return false;
+    }
+
     IScene& scene = m_scenes_manager.getCurrentScene();
     if (scene.update(m_clock, m_input) == false) {
         throw Exception("fail to update scene '" + scene.getId().unwrap() + "'");
     }
+
+
     return true;
 }
 

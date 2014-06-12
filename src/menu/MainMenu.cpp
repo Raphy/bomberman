@@ -3,6 +3,8 @@
 
 #include "MainMenu.hh"
 #include "GameScene.hh"
+#include "MapMenu.hh"
+#include "OptionMenu.hh"
 
 // son ++!!
 
@@ -111,23 +113,30 @@ bool MainMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 
 void MainMenu::playhandler(int t)
 {
-  std::cout << "PLAY handler ok\n";
-  SceneArguments& args = *new SceneArguments();
-  args.set("file", "map");
-  setStatusGoOn<GameScene>(args);
+    SceneArguments& args = *new SceneArguments();
+    setStatusGoOn<MapMenu>(args);
+    /*       
+      std::cout << "PLAY handler ok\n";
+      SceneArguments& args = *new SceneArguments();
+      args.set("file", "map");
+      setStatusGoOn<GameScene>(args);
+      */
 }
 
 void MainMenu::optionhandler(int t)
 {
-  std::cout << "OPTION handler ok\n";
+    SceneArguments& args = *new SceneArguments();
+    setStatusGoOn<OptionMenu>(args);
 }
 
 void MainMenu::exithandler(int t)
 {
-  std::cout << "EXIT handler ok\n";
+    setStatusBack();
 }
 
 void MainMenu::loadhandler(int t)
 {
-  std::cout << "LOAD handler ok\n";
+    SceneArguments& args = *new SceneArguments();
+    args.set("file", ResourcesPath::save("save.bmap"));
+    setStatusGoOn<GameScene>(args);
 }

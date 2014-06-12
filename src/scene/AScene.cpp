@@ -10,6 +10,7 @@ AScene::AScene(std::string const& id_tag)
 {
 }
 
+
 void AScene::setStatusNone() {
     m_status.setNone();
 }

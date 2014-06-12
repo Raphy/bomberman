@@ -1,4 +1,5 @@
 #include "MapMenu.hh"
+#include "GameScene.hh"
 
 SoundManager& MapMenu::_son = SoundManager::getInstance();
 
@@ -106,21 +107,28 @@ bool MapMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 
 void MapMenu::map1handler(int t)
 {
-  std::cout << "map1 handler ok\n";
+    SceneArguments& args = *new SceneArguments();
+    args.set("file", ResourcesPath::map("map1.bmap"));
+    setStatusGoOn<GameScene>(args);
 }
 
 void MapMenu::map2handler(int t)
 {
-  std::cout << "map2 handler ok\n";
+    SceneArguments& args = *new SceneArguments();
+    args.set("file", ResourcesPath::map("map2.bmap"));
+    setStatusGoOn<GameScene>(args);
 }
 
 void MapMenu::maprandomhandler(int t)
 {
-  std::cout << "map random handler ok\n";
+    SceneArguments& args = *new SceneArguments();
+    args.set("width", "20");
+    args.set("height", "20");   
+    setStatusGoOn<GameScene>(args);
 }
 
 void MapMenu::backhandler(int t)
 {
-  std::cout << "back handler ok\n";
+  setStatusBack();
 }
 

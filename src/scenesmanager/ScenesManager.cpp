@@ -24,6 +24,7 @@ IScene& ScenesManager::getCurrentScene() {
 bool ScenesManager::applyChanges() {
 
     bool retval = true;
+
     SceneStatus const& status = this->getCurrentScene().getStatus();
 
     switch (status.getType()) {
@@ -56,7 +57,8 @@ bool ScenesManager::applyChanges() {
         default: /* unreachable */ break;
     }
 
-    this->getCurrentScene().consumeStatus();
-
+    if (!empty()) {
+        this->getCurrentScene().consumeStatus();
+    }
     return retval;
 }

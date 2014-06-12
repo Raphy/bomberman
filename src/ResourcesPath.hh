@@ -14,6 +14,8 @@ private:
     static std::string s_shaders;
     static std::string s_assets;
     static std::string s_scripts_ia;
+    static std::string s_maps;
+    static std::string s_saves;
 
     static std::string makePath(std::string const& folder, std::string const& file);
 
@@ -25,6 +27,9 @@ public:
     static std::string shader(std::string const& file="");
     static std::string asset(std::string const& file="");
     static std::string scriptIA(std::string const& file="");
+    static std::string map(std::string const& file="");
+    static std::string save(std::string const& file="");
+
 };
 
 
