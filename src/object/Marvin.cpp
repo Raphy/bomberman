@@ -92,5 +92,9 @@ void Marvin::onRightPressed(gdl::Clock const &clock)
     this -> lookEast();
 }
 
-
+Rectangle Marvin::getCollider() const {
+    return Rectangle(
+        this->_position.x - (0.7 / 2),
+        this->_position.z - (0.7 / 2), 0.7, 0.7); 
+}
 //~ Formatted by Jindent --- http://www.jindent.com
