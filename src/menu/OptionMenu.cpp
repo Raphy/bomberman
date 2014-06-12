@@ -97,9 +97,9 @@ bool OptionMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 {
   AMenuScene::draw(shader, clock);
 
-  glDisable(GL_DEPTH_TEST);
-  glAlphaFunc(GL_GREATER, 0.3f);
-  glEnable(GL_ALPHA_TEST);
+  //glDisable(GL_DEPTH_TEST);
+  //glAlphaFunc(GL_GREATER, 0.3f);
+  //glEnable(GL_ALPHA_TEST);
 
   std::map<AWidget* , ButtonHandler>::iterator it;
   it = _mapButton.begin();
