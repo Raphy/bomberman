@@ -4,6 +4,14 @@ require 'tags'
 
 Helper = {}
 
+function Helper:initialization_base(repeat_max)
+	math.randomseed(os.time())
+	Coord:init()
+	MapManager:init(100,100)
+	-- MapManager:set_vision_activate(Helper:get_my_coord(), 10)
+	Actions:init(repeat_max)
+end
+
 -- * TIME_HELPER *
 
 function Helper:get_current_time()
@@ -31,9 +39,8 @@ function Helper:to_override()
 	print(debug.traceback())
 end
 function Helper:debug_print(msg)
-	-- print("DEBUG : "..msg)
+	print("DEBUG : "..msg)
 end
-
 
 -- * OBJECTS_HELPER *
 
@@ -42,7 +49,7 @@ function Helper:get_my_coord()
 end
 
 function Helper:are_objects_in_case(x,y,type)
-	local case = map:get(x,y)
+	local case = map:get(x,y,1)
 	if x == 5.0 and y == 5.0 then return true end
 	-- local case = map:get(5.0,5.0)
 	if case == nil then
@@ -57,7 +64,7 @@ end
 function Helper:are_objects_in_case_except(x,y,type)
 	assert(type ~= nil, "are_objects_in_case_except : type expected")
 	do return false end--debug
-	local case = map:get(x,y)
+	local case = map:get(x,y,1)
 	if x == 5.0 and y == 5.0 then return true end
 	-- local case = map:get(5.0,5.0)
 	if case == nil then
@@ -70,7 +77,7 @@ function Helper:are_objects_in_case_except(x,y,type)
 end
 function Helper:get_objects_from_case(x,y,type,objects)
 	local o = objects or {}
-	local case = map:get(x,y)
+	local case = map:get(x,y,1)
 	if case == nil then
 		return nil end
 	for _,obj in pairs(case) do

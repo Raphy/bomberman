@@ -95,11 +95,14 @@ end
 
 --retourne le path le plus court pour aller des current a destination
 function Path:calc_path(algo_name, start_idx, dest_idx, type)
+	start_idx = math.ceil(start_idx)
+	dest_idx = math.ceil(dest_idx)
   	MapManager:clean_map()
 	local algoModule = PathAlgos[algo_name]
 	local open_list = List:new("open_list")
 	local closed_list = List:new("closed_list")
 	local start = MapManager:get_case(start_idx)
+	print("start calc_path : "..start_idx)
 	local dest = nil; if dest_idx ~= -1 then dest = MapManager:get_case(dest_idx) end
 
 	local function _calc_path(start, curr, open_list, closed_list)

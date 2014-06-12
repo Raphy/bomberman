@@ -156,7 +156,6 @@ function MapManager:iter()
 		or _iter(self.min, self.max)
 end
 
-
 -- * MAP ALTERATIONS *
 
 -- TODO : se servir de cette methode pour init la map et choisir d'eviter murs, joueurs ...
