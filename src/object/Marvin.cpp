@@ -6,7 +6,6 @@ std::string const Marvin::Tag = "marvin";
 bool Marvin::initialize() {
 
     this->setSpeed(5);
-    //this->setPosition(glm::vec3(0,0,0));
     
     if (_model.createSubAnim(0, "start", 0, 37) == false)
        std::cout << "create anim false" << std::endl;
@@ -17,7 +16,6 @@ bool Marvin::initialize() {
     if (_model.createSubAnim(0, "stop", 75, 130) == false)
        std::cout << "create anim false" << std::endl;
 
-//    _model.setCurrentAnim(0);
     this->scale(glm::vec3(0.0025, 0.0025, 0.0025));
     
     return (true);
