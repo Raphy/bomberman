@@ -38,7 +38,6 @@ public:
     static std::string const Tag;
     
 private:
-    
     State   _state;
     std::vector<inputStructure> _inputs;
     int totalPressed = 0;

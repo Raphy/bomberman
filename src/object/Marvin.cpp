@@ -6,7 +6,6 @@ std::string const Marvin::Tag = "marvin";
 bool Marvin::initialize() {
 
     this->setSpeed(5);
-    //this->setPosition(glm::vec3(0,0,0));
     
     if (_model.createSubAnim(0, "start", 0, 37) == false)
        std::cout << "create anim false" << std::endl;
@@ -17,7 +16,6 @@ bool Marvin::initialize() {
     if (_model.createSubAnim(0, "stop", 75, 130) == false)
        std::cout << "create anim false" << std::endl;
 
-//    _model.setCurrentAnim(0);
     this->scale(glm::vec3(0.0025, 0.0025, 0.0025));
     
     return (true);
@@ -92,9 +90,13 @@ void Marvin::onRightPressed(gdl::Clock const &clock)
     this -> lookEast();
 }
 
+static const double COLLIDER_SIZE = 0.7;
+
 Rectangle Marvin::getCollider() const {
     return Rectangle(
-        this->_position.x - (0.7 / 2),
-        this->_position.z - (0.7 / 2), 0.7, 0.7); 
+        this->_position.x + 0.5 - COLLIDER_SIZE / 2/* - _scale.x / 2/*- (COLLIDER_SIZE / 2)*/,
+        this->_position.z + 0.5 - COLLIDER_SIZE / 2/* - _scale.z / 2/*- (COLLIDER_SIZE / 2)*/,
+        COLLIDER_SIZE/*COLLIDER_SIZE*/,
+        COLLIDER_SIZE/*COLLIDER_SIZE*/);
 }
 //~ Formatted by Jindent --- http://www.jindent.com
