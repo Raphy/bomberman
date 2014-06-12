@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 12:12:44 2014 raphael defreitas
-// Last update Thu Jun 12 02:36:34 2014 raphael defreitas
+// Last update Thu Jun 12 20:26:35 2014 raphael defreitas
 //
 
 #include	<cstring>
@@ -30,9 +30,9 @@ std::vector<GameObject*> Map::get(int x, int y, int distance)
 {
   std::vector<GameObject*> objects;
   // ToDo : Fill the vector with the corrects GameObjects ;)
-  objects.push_back(new GameObject(1.1, 2.2));
+  /*objects.push_back(new GameObject(1.1, 2.2));
   objects.push_back(new Player("Player1", 3.3, 4.4));
-  objects.push_back(new Player("Player2", 5.5, 6.6));
+  objects.push_back(new Player("Player2", 5.5, 6.6));*/
   return objects;
 }
 

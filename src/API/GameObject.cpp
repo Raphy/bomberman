@@ -5,21 +5,22 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 11:55:16 2014 raphael defreitas
-// Last update Wed Jun 11 23:57:03 2014 raphael defreitas
+// Last update Thu Jun 12 20:26:18 2014 raphael defreitas
 //
 
 #include	<lua.hpp>
 #include	<string>
 
 #include	"GameObject.hh"
+#include	"object/AGameObject.hh"
 #include	"Lua/Script.hh"
 #include	"Lua/VirtualMachine.hh"
 
 using namespace API;
 using namespace Lua;
 
-GameObject::GameObject(float x, float y) :
-  _type("GameObject"), _x(x), _y(y)
+GameObject::GameObject(AGameObject* go) :
+  _type("GameObject"), _go(go)
 {
 }
 
@@ -32,14 +33,9 @@ const std::string& GameObject::getType(void) const
   return this->_type;
 }
 
-float GameObject::getX(void) const
+std::tuple<double, double> GameObject::getPosition(void) const
 {
-  return this->_x;
-}
-
-float GameObject::getY(void) const
-{
-  return this->_y;
+  return this->_go->getPosition();
 }
 
 void GameObject::registerScript(Script& script)
@@ -56,8 +52,6 @@ void GameObject::registerMethods(Script& script)
   luaL_Reg methods[] =
     {
       {"getType", GameObject::getType},
-      {"getX", GameObject::getX},
-      {"getY", GameObject::getY},
       {"getPosition", GameObject::getPosition},
       {NULL, NULL}
     };
@@ -72,27 +66,12 @@ int GameObject::getType(lua_State* L)
   return 1;
 }
 
-int GameObject::getX(lua_State* L)
-{
-  VirtualMachine vm(L);
-  GameObject* udata = vm.toClass<GameObject>();
-  lua_pushnumber(L, udata->getX());
-  return 1;
-}
-
-int GameObject::getY(lua_State* L)
-{
-  VirtualMachine vm(L);
-  GameObject* udata = vm.toClass<GameObject>();
-  lua_pushnumber(L, udata->getY());
-  return 1;
-}
-
 int GameObject::getPosition(lua_State* L)
 {
   VirtualMachine vm(L);
   GameObject* udata = vm.toClass<GameObject>();
-  lua_pushnumber(L, udata->getX());
-  lua_pushnumber(L, udata->getY());
+  std::tuple<double, double> position = udata->getPosition();
+  lua_pushnumber(L, std::get<0>(position));
+  lua_pushnumber(L, std::get<1>(position));
   return 2;
 }
