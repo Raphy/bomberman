@@ -136,7 +136,7 @@ void GameScene::save(std::string const& filename) const {
 void GameScene::initPlaylist() {
     m_playlist.deletePlaylist();
     m_playlist.addPlaylist("maintheme");
-    //m_playlist.playPlaylist();
+    m_playlist.playPlaylist();
 }
 
 bool GameScene::initialize() {
