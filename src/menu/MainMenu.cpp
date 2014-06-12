@@ -74,7 +74,7 @@ bool MainMenu::update(gdl::Clock const& clock, gdl::Input& input)
       while (it != _mapButton.end())
 	{
 	  if (it->first->getCur() == _cursorPos)
-	    (this->*(it->second))();
+	    (this->*(it->second))(SDLK_SPACE);
 	  it++;
 	}
     }
@@ -107,22 +107,22 @@ bool MainMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
   return true;
 }
 
-void MainMenu::playhandler()
+void MainMenu::playhandler(int t)
 {
   std::cout << "PLAY handler ok\n";
 }
 
-void MainMenu::optionhandler()
+void MainMenu::optionhandler(int t)
 {
   std::cout << "OPTION handler ok\n";
 }
 
-void MainMenu::exithandler()
+void MainMenu::exithandler(int t)
 {
   std::cout << "EXIT handler ok\n";
 }
 
-void MainMenu::loadhandler()
+void MainMenu::loadhandler(int t)
 {
   std::cout << "LOAD handler ok\n";
 }

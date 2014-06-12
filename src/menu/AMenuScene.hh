@@ -22,7 +22,7 @@ protected:
 
   std::string _pathTexture;
 
-  typedef void (AMenuScene::*ButtonHandler)();
+  typedef void (AMenuScene::*ButtonHandler)(int);
   std::map<AWidget*, ButtonHandler> _mapButton;
 
   int _cursorPos;
