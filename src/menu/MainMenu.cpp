@@ -15,7 +15,7 @@ MainMenu::MainMenu(SceneArguments const& arg)
   addButton("./build/assets/img/load.tga", glm::vec3(60, 300, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::loadhandler), 2);
   addButton("./build/assets/img/exit.tga", glm::vec3(60, 450, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::exithandler), 3);
 
-  _cursor = new Cursor("./build/assets/img/bombe.tga", glm::vec3(30, 100, 1), glm::vec3(50, 50, 0));
+  _cursor = new Cursor("./build/assets/img/bombe.tga", glm::vec3(35, 225, 1), glm::vec3(30, 30, 0));
 
 }
 
@@ -90,10 +90,11 @@ bool MainMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
   AMenuScene::draw(shader, clock);
 
   // what the hell is that ? xD (by svirch_n)
-//  glDisable(GL_DEPTH_TEST);
-//  glAlphaFunc(GL_GREATER, 0.3f);
-//  glEnable(GL_ALPHA_TEST);
-
+  /*
+    glDisable(GL_DEPTH_TEST);
+    glAlphaFunc(GL_GREATER, 0.3f);
+    glEnable(GL_ALPHA_TEST);
+  */
   std::map<AWidget* , ButtonHandler>::iterator it;
   it = _mapButton.begin();
 
@@ -122,9 +123,7 @@ void MainMenu::optionhandler(int t)
 {
   std::cout << "OPTION handler ok\n";
 
-  SceneArguments& args = *new SceneArguments();
-  args.set("", "");
-  setStatusGoOn<OptionMenu>(args);
+  setStatusGoOn<OptionMenu>(*new SceneArguments());
 
 }
 

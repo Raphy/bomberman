@@ -12,6 +12,7 @@ MapMenu::MapMenu(SceneArguments const& arg)
 
   _cursor = new Cursor("./build/assets/img/bombe.tga", glm::vec3(30, 100, 1), glm::vec3(50, 50, 0));
 
+
 }
 
 MapMenu::~MapMenu()
@@ -84,9 +85,6 @@ bool MapMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 {
   AMenuScene::draw(shader, clock);
 
-  glDisable(GL_DEPTH_TEST);
-  glAlphaFunc(GL_GREATER, 0.3f);
-  glEnable(GL_ALPHA_TEST);
 
   std::map<AWidget* , ButtonHandler>::iterator it;
   it = _mapButton.begin();
@@ -100,6 +98,7 @@ bool MapMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
     }
 
   _cursor->draw(shader, clock);
+
 
   return true;
 }

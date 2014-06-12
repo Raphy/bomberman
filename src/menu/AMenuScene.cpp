@@ -43,7 +43,7 @@ bool AMenuScene::initialize()
   addCamera("menu", _camera);
 
 
-  _geometry.setColor(glm::vec4(1, 1, 1, 1)); // voir ici pour (ALPHA/GAMME)->TRansparence
+  _geometry.setColor(glm::vec4(1,1, 1, 1)); // voir ici pour (ALPHA/GAMME)->TRansparence
 
   _geometry.pushVertex(glm::vec3(0, 0, 0));
   _geometry.pushVertex(glm::vec3(1, 0, 0));
@@ -62,17 +62,16 @@ bool AMenuScene::initialize()
 
 bool AMenuScene::update(gdl::Clock const& clock, gdl::Input& input)
 {
+
   return true;
 }
 
 bool AMenuScene::draw(gdl::AShader& shader, gdl::Clock const& clock)
 {
-  // VOIR OBJ CAMERA DE NICO
+
   shader.bind();
   shader.setUniform("view", glm::mat4(1));
   shader.setUniform("projection", _projection);
-
-
 
   glm::vec3 size(600, 600, 0); // taille img final BACKGROUND !!!! EN FONCTION TAILLE ECRAN
   glm::mat4 transform(1);
@@ -81,6 +80,9 @@ bool AMenuScene::draw(gdl::AShader& shader, gdl::Clock const& clock)
   _texture.bind();
   _geometry.draw(shader, transform, GL_QUADS);
   _camera->draw(shader, clock);
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   return true;
 }
