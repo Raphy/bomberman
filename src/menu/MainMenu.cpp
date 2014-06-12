@@ -88,9 +88,10 @@ bool MainMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 {
   AMenuScene::draw(shader, clock);
 
-  glDisable(GL_DEPTH_TEST);
-  glAlphaFunc(GL_GREATER, 0.3f);
-  glEnable(GL_ALPHA_TEST);
+  // what the hell is that ? xD (by svirch_n)
+//  glDisable(GL_DEPTH_TEST);
+//  glAlphaFunc(GL_GREATER, 0.3f);
+//  glEnable(GL_ALPHA_TEST);
 
   std::map<AWidget* , ButtonHandler>::iterator it;
   it = _mapButton.begin();
