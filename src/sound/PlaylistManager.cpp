@@ -28,8 +28,9 @@ void PlaylistManager::playPlaylist()
 
 bool PlaylistManager::update()
 {
-  if (Mix_PlayingMusic() == 0)
+  if (Mix_PlayingMusic() == 1) {
       return false;
+  }
   next();
   return true;
 }

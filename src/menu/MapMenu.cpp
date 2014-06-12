@@ -1,5 +1,7 @@
 #include "MapMenu.hh"
 
+SoundManager& MapMenu::_son = SoundManager::getInstance();
+
 MapMenu::MapMenu(SceneArguments const& arg)
   : AMenuScene("MapMenu")
 {
@@ -69,7 +71,7 @@ bool MapMenu::update(gdl::Clock const& clock, gdl::Input& input)
       while (it != _mapButton.end())
 	{
 	  if (it->first->getCur() == _cursorPos)
-	    (this->*(it->second))();
+	    (this->*(it->second))(SDLK_SPACE);
 	  it++;
 	}
     }
@@ -102,22 +104,22 @@ bool MapMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
   return true;
 }
 
-void MapMenu::map1handler()
+void MapMenu::map1handler(int t)
 {
   std::cout << "map1 handler ok\n";
 }
 
-void MapMenu::map2handler()
+void MapMenu::map2handler(int t)
 {
   std::cout << "map2 handler ok\n";
 }
 
-void MapMenu::maprandomhandler()
+void MapMenu::maprandomhandler(int t)
 {
   std::cout << "map random handler ok\n";
 }
 
-void MapMenu::backhandler()
+void MapMenu::backhandler(int t)
 {
   std::cout << "back handler ok\n";
 }

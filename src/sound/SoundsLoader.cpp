@@ -16,8 +16,6 @@ SoundManager& SoundsLoader::s_sound_manager = SoundManager::getInstance();
 
 void SoundsLoader::operator()() {
 
-    std::cout << "sounds loader" << std::endl;
-
     std::string filename = SOUNDS_DIR + "/" + CONF_FILE;
     std::ifstream f(filename);
 

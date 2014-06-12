@@ -16,10 +16,10 @@ public:
   virtual bool draw(gdl::AShader & shader, gdl::Clock const &clock);
 
   /* definir le handler de chaque boutton*/
-  void playhandler();
-  void optionhandler();
-  void exithandler();
-  void loadhandler();
+  void playhandler(int);
+  void optionhandler(int);
+  void exithandler(int);
+  void loadhandler(int);
 
 private:
   Cursor *_cursor;

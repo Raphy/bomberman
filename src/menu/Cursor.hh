@@ -15,6 +15,7 @@ public:
   virtual void draw(gdl::AShader& shader, gdl::Clock const& clock);
 
   void setPosY(const glm::vec3&);
+  void setPosX(const glm::vec3&);
 
 protected:
   gdl::Texture _texture;
