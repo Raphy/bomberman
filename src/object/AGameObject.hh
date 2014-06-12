@@ -30,6 +30,7 @@ public:
         return std::make_tuple(_position.x, _position.z);
     }
 
+    virtual Rectangle getCollider() const;
 
 protected:
     // A type (string) used to dinstinguish
