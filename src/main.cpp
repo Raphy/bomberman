@@ -11,7 +11,7 @@
 #include "GameEngine.hh"
 #include "ResourcesPath.hh"
 
-int main(__attribute__((unused))int argc, char** argv)
+int main()
 {
     ResourcesPath::setRootDir("./build");
     
