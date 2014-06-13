@@ -5,15 +5,17 @@
 #include "MapMenu.hh"
 #include "OptionMenu.hh"
 
+SoundManager& OptionMenu::_son = SoundManager::getInstance();
+
 MainMenu::MainMenu(SceneArguments const& arg)
   : AMenuScene("MainMenu")
 {
-  addButton(ResourcesPath::asset("img/play.tga"), glm::vec3(60, 50, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::playhandler), 0);
-  addButton(ResourcesPath::asset("img/option.tga"), glm::vec3(60, 180, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::optionhandler), 1);
-  addButton(ResourcesPath::asset("img/load.tga"), glm::vec3(60, 300, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::loadhandler), 2);
-  addButton(ResourcesPath::asset("img/exit.tga"), glm::vec3(60, 450, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MainMenu::exithandler), 3);
+  addButton(ResourcesPath::asset("img/play.tga"), glm::vec3(60, 50, 1), glm::vec3(150, 70, 0) , static_cast<ButtonHandler>(&MainMenu::playhandler), 0);
+  addButton(ResourcesPath::asset("img/option.tga"), glm::vec3(60, 130, 1), glm::vec3(180, 70, 0) , static_cast<ButtonHandler>(&MainMenu::optionhandler), 1);
+  addButton(ResourcesPath::asset("img/load.tga"), glm::vec3(60, 210, 1), glm::vec3(150, 70, 0) , static_cast<ButtonHandler>(&MainMenu::loadhandler), 2);
+  addButton(ResourcesPath::asset("img/exit.tga"), glm::vec3(60, 450, 1), glm::vec3(150, 70, 0) , static_cast<ButtonHandler>(&MainMenu::exithandler), 3);
 
-  _cursor = new Cursor(ResourcesPath::asset("img/bombe.tga"), glm::vec3(30, 100, 1), glm::vec3(50, 50, 0));
+  _cursor = new Cursor(ResourcesPath::asset("img/bombe.tga"), glm::vec3(30, 100, 1), glm::vec3(30, 40, 0));
 
 }
 
@@ -41,6 +43,10 @@ bool MainMenu::initialize()
 	}
       it++;
     }
+
+
+
+
   return true;
 }
 
@@ -91,12 +97,15 @@ bool MainMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
   AMenuScene::draw(shader, clock);
 
   std::map<AWidget* , ButtonHandler>::iterator it = _mapButton.begin();
+  glm::vec3 tmp;
 
   while (it != _mapButton.end())
     {
       if (it->first->getCur() == _cursorPos)
 	{
-	  _cursor->setPosY(it->first->getPos());
+	  tmp = it->first->getPos();
+	  tmp.y += 15;
+	  _cursor->setPosY(tmp);
 	}
       it->first->draw(shader, clock);
       it++;

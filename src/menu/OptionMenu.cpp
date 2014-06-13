@@ -6,21 +6,23 @@ SoundManager& OptionMenu::_son = SoundManager::getInstance();
 OptionMenu::OptionMenu(SceneArguments const& arg)
   : AMenuScene("OptionMenu")
 {
-  addButton(ResourcesPath::asset("img/soundfx.tga"), glm::vec3(60, 50, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&OptionMenu::soundfxhandler), 0);
-  addButton(ResourcesPath::asset("img/soundmusic.tga"), glm::vec3(60, 180, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&OptionMenu::soundmusichandler), 1);
+  addButton(ResourcesPath::asset("img/soundfx.tga"), glm::vec3(60, 50, 1), glm::vec3(180, 100, 0) , static_cast<ButtonHandler>(&OptionMenu::soundfxhandler), 0);
+  addButton(ResourcesPath::asset("img/soundmusic.tga"), glm::vec3(60, 180, 1), glm::vec3(180, 100, 0) , static_cast<ButtonHandler>(&OptionMenu::soundmusichandler), 1);
   addButton(ResourcesPath::asset("img/back.tga"), glm::vec3(60, 450, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&OptionMenu::backhandler), 2);
 
-  _cursorbson = new Cursor( ResourcesPath::asset("img/barson.tga"), glm::vec3(200, 100, 1), glm::vec3(300, 20, 0));
+  _cursorbsonfx = new Cursor( ResourcesPath::asset("img/barson.tga"), glm::vec3(300, 100, 1), glm::vec3(300, 20, 0));
+  _cursorbsonmusic = new Cursor( ResourcesPath::asset("img/barson.tga"), glm::vec3(300, 200, 1), glm::vec3(300, 20, 0));
 
   _cursor = new Cursor(ResourcesPath::asset("img/bombe.tga"), glm::vec3(30, 100, 1), glm::vec3(50, 50, 0));
-  _cursorFx = new Cursor(ResourcesPath::asset("img/bombe.tga"), glm::vec3(250, 70, 1), glm::vec3(50, 50, 0));
-  _cursorMusic = new Cursor(ResourcesPath::asset("img/bombe.tga"), glm::vec3(250, 200, 1), glm::vec3(50, 50, 0));
+  _cursorFx = new Cursor(ResourcesPath::asset("img/dynamite.tga"), glm::vec3(250, 85, 1), glm::vec3(10, 50, 0));
+  _cursorMusic = new Cursor(ResourcesPath::asset("img/dynamite.tga"), glm::vec3(250, 200, 1), glm::vec3(10, 50, 0));
 
 }
 
 OptionMenu::~OptionMenu()
 {
-  delete _cursorbson;
+  delete _cursorbsonfx;
+  delete _cursorbsonmusic;
   delete _cursor;
   delete _cursorFx;
   delete _cursorMusic;
@@ -31,7 +33,8 @@ bool OptionMenu::initialize()
   setTexture(ResourcesPath::asset("img/menu.tga"));
   if (AMenuScene::initialize() == false
       || _cursor->initialize() == false
-      || _cursorbson->initialize() == false
+      || _cursorbsonfx->initialize() == false
+      || _cursorbsonmusic->initialize() == false
       || _cursorFx->initialize() == false
       || _cursorMusic->initialize() == false) {
     return false;
@@ -42,9 +45,10 @@ bool OptionMenu::initialize()
 
   while (it != _mapButton.end())
     {
-      if (it->first->initialize() == false) {
-        return false;
-      }
+      if (it->first->initialize() == false)
+	{
+	  return false;
+	}
       it++;
     }
   return true;
@@ -54,8 +58,6 @@ bool OptionMenu::update(gdl::Clock const& clock, gdl::Input& input)
 {
   glm::vec3 tmp;
   int v;
-
-  // j'avoue c'est crade mais il est 2h30 du mat' A REGLER
 
   if (input.getKey(SDLK_RIGHT))
     {
@@ -172,7 +174,9 @@ bool OptionMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 
   _cursorFx->draw(shader, clock);
   _cursorMusic->draw(shader, clock);
-  _cursorbson->draw(shader, clock);
+
+  _cursorbsonfx->draw(shader, clock);
+  _cursorbsonmusic->draw(shader, clock);
 
 
 
