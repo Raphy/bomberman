@@ -4,7 +4,12 @@ local case_mt =
 	__lt = function (lhs, rhs)
 				return lhs.g < rhs.g
 			end,
-	__newindex = function (rhs)
+	-- __newindex = function (rhs)
+	-- 			local new_case = rhs
+	-- 			setmetatable(new_case, getmetatable(rhs))
+	-- 			return new_case
+	-- 		end,
+	__eq = function (rhs)
 				local new_case = rhs
 				setmetatable(new_case, getmetatable(rhs))
 				return new_case
