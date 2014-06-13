@@ -1,7 +1,7 @@
 
-require 'actions'
-require 'state'
-require 'state_machine'
+require "actions"
+require "state"
+require "state_machine"
 
 
 
@@ -17,12 +17,12 @@ function GetCloserOfEnemyState:action()
 end
 
 GetCloserOfEnemyState.pre_conditions = {
-  { function()
-      return not Helper:is_place_safe() end,
-    "push", "avoid_bomb_state", },
-  { function()
-      return Helper:are_objects_around("enemy",me:getPosition(),2) end,
-    "push", "kill_enemy_state", },
+  -- { function()
+  --     return not Helper:is_place_safe() end,
+  --   "push", "avoid_bomb_state", },
+  -- { function()
+  --     return Helper:are_objects_around("enemy",me:getPosition(),2) end,
+  --   "push", "kill_enemy_state", },
   -- { function()
   --     return Helper:are_objects_around("enemy",me:getPosition(),(MapManager.size / 2)) end,
   --   "push", "get_bonus_state", },
@@ -35,12 +35,16 @@ AvoidBombState = State:new("avoid_bomb_state")
 function AvoidBombState:action()
   print("action : avoid_bomb_state")
   Actions:avoid_bomb_state()
+  if Helper:is_place_safe() then StateMachine:action_terminated() end
 end
 
 AvoidBombState.pre_conditions = {
-  { function()
-      return false end,
-    "push", "get_closer_of_enemy_state", },
+  -- { function()
+  --     return false end,
+  --   "push", "get_closer_of_enemy_state", },
+  -- { function()
+  --   return Helper:is_place_safe() end,
+  --   "pop", },
 }
 
 
@@ -51,6 +55,7 @@ KillEnemyState = State:new("kill_enemy_state")
 function KillEnemyState:action()
   Helper:debug_print("action : ".."kill_enemy_state")
   --corps
+  if true --[[pas d'ennemie]] then StateMachine:action_terminated() end
 end
 
 KillEnemyState.pre_conditions = {
@@ -66,6 +71,7 @@ GetAwayOfEnemyState = State:new("get_away_of_enemy_state")
 function GetAwayOfEnemyState:action()
   Helper:debug_print("action : ".."get_away_of_enemy_state")
   --corps
+  if true --[[pas d'ennemie]] then StateMachine:action_terminated() end
 end
 
 GetAwayOfEnemyState.pre_conditions = {
@@ -78,12 +84,13 @@ PutBombState = State:new("put_bomb_state")
 
 function PutBombState:action()
   Helper:debug_print("action : ".."put_bomb_state")
-  Actions:place_bomb()
+  if Actions:place_bomb() then
+    StateMachine:action_terminated() end
 end
 
 PutBombState.pre_conditions = {
   { function()
-    return Helper:is_place_safe() end,
+    return not Helper:is_place_safe() end,
     "push", "avoid_bomb_state", },  
 }
 
@@ -100,23 +107,6 @@ end
 GetBonusState.pre_conditions = {
   --conditions
 }
-
-
-
-
--- * GET_AWAY_OF_ENEMY *
-
--- * BREAK_WALL *
-
--- * GET_CLOSER_OF_WALL *
-
--- * WAIT *
-
--- * GET_CLOSER_OF_BONUS *
-
--- * USE_BONUS *
-
--- * GET_BONUS *
 
 
 -- * BEGIN *

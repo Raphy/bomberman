@@ -1,6 +1,6 @@
 
-require 'path'
-require 'helper'
+require "path"
+require "helper"
 
 Actions = {
 	act = {

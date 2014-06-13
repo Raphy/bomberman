@@ -1,9 +1,9 @@
 
-require 'coord'
-require 'list'
-require 'map_manager'
-require 'helper'
-require 'path'
+require "coord"
+require "list"
+require "map_manager"
+require "helper"
+require "path"
 
 Coord:init()	
 	MapManager:init(100,100)

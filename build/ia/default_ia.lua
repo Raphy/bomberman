@@ -1,5 +1,9 @@
-require 'actions'
-require 'state'
+
+base_path = './build/ia/'
+package.path = base_path .. '?.lua;' .. package.path
+
+require "actions"
+require "state"
 require "state_machine"
 
 -- * BEGIN_STATE *

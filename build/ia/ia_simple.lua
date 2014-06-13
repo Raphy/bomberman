@@ -1,7 +1,7 @@
 
-require 'helper'
-require 'map_manager'
-require 'api'
+require "helper"
+require "map_manager"
+require "api"
 
 -- X,Y = 10,10
 

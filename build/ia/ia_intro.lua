@@ -1,6 +1,6 @@
-require 'actions'
-require 'state'
-require 'state_machine'
+require "actions"
+require "state"
+require "state_machine"
 
 -- * BEGIN_STATE *
 

@@ -1,8 +1,8 @@
 
-require 'list'
-require 'helper'
-require 'path_algo'
-require 'map_manager'
+require "list"
+require "helper"
+require "path_algo"
+require "map_manager"
 
 Path = {}
 

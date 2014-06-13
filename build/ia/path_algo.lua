@@ -1,6 +1,6 @@
 
-require 'tags'
-require 'helper'
+require "tags"
+require "helper"
 
 -- * PATH_ALGO *
 

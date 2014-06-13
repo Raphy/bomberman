@@ -1,6 +1,6 @@
 
-require 'tags'
-require 'list'
+require "tags"
+require "list"
 
 StateMachine = {
 	_current = nil,
