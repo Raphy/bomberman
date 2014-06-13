@@ -126,8 +126,10 @@ private:
 
     // Clear then build the quad tree with new objects positions.
     void rebuildQuadTree();
-    
+
     void zoomCamera(int key);
+
+    bool isGameOver() const; 
 };
 
 #endif

@@ -16,6 +16,8 @@
 #include "Bomb.hh"
 #include "Fire.hh"
 
+#include "OptionMenu.hh"
+
 const std::string GameScene::Tag = "game";
 
 GameScene::GameScene(SceneArguments const & args)
@@ -139,9 +141,20 @@ void GameScene::initPlaylist() {
     m_playlist.playPlaylist();
 }
 
+bool GameScene::isGameOver() const {
+    for (auto player : m_players) {
+        if (player && player->isDead() == false) {
+            return false;
+        }
+    }
+    return true;
+}
+
 bool GameScene::initialize() {
 
     bool init_success = true;
+
+    m_quad_tree = new QuadTree(Rectangle(0, 0, m_map_width, m_map_height));
 
     foreachObject([&] (AGameObject& obj) {
         if (obj.initialize() == false) {
@@ -163,10 +176,9 @@ bool GameScene::initialize() {
         }
     }
 
-    m_quad_tree = new QuadTree(Rectangle(0, 0, m_map_width, m_map_height));
-    rebuildQuadTree();
-
     initPlaylist();
+
+    rebuildQuadTree();
 
     return true;
 }
@@ -191,20 +203,30 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
     m_playlist.update();
 
-    if (input.getKey(SDLK_KP_PLUS)) {
+    if (input.getKey(SDLK_ESCAPE)) {
+        setStatusGoOn<OptionMenu>(*new SceneArguments());
+        return true;
+    }
+    else if (input.getKey(SDLK_KP_PLUS)) {
         zoomCamera(SDLK_KP_PLUS);
     }
     else if (input.getKey(SDLK_KP_MINUS)) {
         zoomCamera(SDLK_KP_MINUS);
     }
 
+    if (isGameOver()) {
+        setStatusBack();   
+    }
+
     std::list<AGameObject*> new_objects;
 
     // Foreach object, update and insert in the new quad tree.
     for (auto obj : m_objects) {
-        obj->update(clock, input);
-        if (obj->instanciatedObjects()) {
-            obj->getObjectsAndReset(std::back_inserter(new_objects));
+        if (obj->isDead() == false) {
+            obj->update(clock, input);
+            if (obj->instanciatedObjects()) {
+                obj->getObjectsAndReset(std::back_inserter(new_objects));
+            }
         }
     }
 
@@ -235,7 +257,7 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
     // then, remove all dead objects.
     for (auto it = m_objects.begin(); it != m_objects.end();) {
-        if ((*it)->isDead()) {
+        if ((*it)->getType() != "marvin" && (*it)->isDead()) {
             m_objects.erase(it++);
         }
         else {
