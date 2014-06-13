@@ -214,11 +214,23 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
 bool GameScene::draw(gdl::AShader& shader, gdl::Clock const& clock) {
 
-    foreachObject([&] (AGameObject& obj) {
+    
+    
+    foreachObject(m_objects, [&] (AGameObject& obj) {
         if (obj.isDead() == false) {
             obj.draw(shader, clock);
         }
     });
+
+   if (m_walls.empty() == false) { 
+       reinterpret_cast<AGeometry*>(m_walls.front())->drawTexture();
+   foreachObject(m_walls, [&] (AGameObject& obj) {
+        if (obj.isDead() == false) {
+            reinterpret_cast<AGeometry*>(m_walls.front())->drawGeometry(shader, clock);
+        }
+    });
+   }
+
     return true;
 }
 
