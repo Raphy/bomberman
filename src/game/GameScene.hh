@@ -63,6 +63,13 @@ private:
         return num - 1;
     }
 
+    template<typename T>
+    void instantiateObject(int x, int y) {
+        m_objects.push_back(new T());
+        m_objects.back()->setPosition(
+            static_cast<double>(x), static_cast<double>(y));
+    }
+
     void loadMap(std::string const& filename);
     void genMap(int width, int height);
     void initPlayer(int num, int x, int y);
