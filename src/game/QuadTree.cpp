@@ -57,6 +57,11 @@ std::list<AGameObject*>& QuadTree::retrieve(
         if (index != -1) {
           m_nodes[index]->retrieve(list, area);
         }
+        else {
+            for (auto node : m_nodes) {
+                node->retrieve(list, area);
+            }
+        }
     }
     list.insert(list.end(), m_objects.begin(), m_objects.end());
     return list;
