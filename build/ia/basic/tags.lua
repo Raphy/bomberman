@@ -1,6 +1,6 @@
 
 TagsList = { "up","down","left","right","put_bomb",
-				"player","me","enemy",
+				"player","me","Player",
 				"item","bomb",
 				"preview_bomb","preview_fire",
 				"open","closed","unknown",

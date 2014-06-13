@@ -71,7 +71,7 @@ function initialization()
 	StateMachine:init(3)
 		local start_idx = MapManager:coord_to_idx(me:getPosition())
 		local dest_idx = -1
-		self._path = Path:calc_path("dijkstra", start_idx, -1, "enemy")
+		self._path = Path:calc_path("dijkstra", start_idx, -1, "Player")
 end
 
 

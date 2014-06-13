@@ -77,7 +77,7 @@ function MapManager:set_vision(center, size, modify_perso)
 	if modify_perso then _set(self._perso_vision) else _set(self._vision) end
 end
 function MapManager:set_vision_activate(center, size)
-	self:set_vision(center, size)
+	self:set_vision(center, size, false)
 	self:activate_vision()
 end
 
