@@ -1,7 +1,6 @@
 
 #include "AObject.hh"
 
-
 glm::mat4 AObject::getTransformation()
 {
     if (this->_static)

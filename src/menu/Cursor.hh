@@ -21,12 +21,12 @@ public:
 
 
 protected:
+  std::string _texturePath;
+  glm::vec3 _position;
+  glm::vec3 _scale;
+
   gdl::Texture _texture;
   gdl::Geometry _geometry;
-
-  std::string _texturePath;
-  glm::vec3 _scale;
-  glm::vec3 _position;
 
 };
 

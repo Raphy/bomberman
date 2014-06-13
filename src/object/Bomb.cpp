@@ -9,7 +9,7 @@
 
 std::string const Bomb::Tag = "bomb";
 
-static const double BOMBTIME = 10;
+static const double BOMBTIME = 2;
 
 void Bomb::update(const gdl::Clock& clock, gdl::Input& input) {
 

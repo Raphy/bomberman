@@ -25,18 +25,20 @@ bool MapMenu::initialize()
 {
   setTexture(ResourcesPath::asset("img/menu.tga"));
   if (AMenuScene::initialize() == false
-    || _cursor->initialize() == false) {
-    return false;
-  }
+      || _cursor->initialize() == false)
+    {
+      return false;
+    }
 
   std::map<AWidget* , ButtonHandler>::iterator it;
   it = _mapButton.begin();
 
   while (it != _mapButton.end())
     {
-      if (it->first->initialize() == false) {
-        return false;
-      }
+      if (it->first->initialize() == false)
+	{
+	  return false;
+	}
       it++;
     }
   return true;
@@ -44,7 +46,6 @@ bool MapMenu::initialize()
 
 bool MapMenu::update(gdl::Clock const& clock, gdl::Input& input)
 {
-  // j'avoue c'est crade mais il est 2h30 du mat' A REGLER
 
   if (input.getKey(SDLK_UP) && !_btnUp)
     {
@@ -56,6 +57,7 @@ bool MapMenu::update(gdl::Clock const& clock, gdl::Input& input)
   if (!input.getKey(SDLK_UP) && _btnUp)
     _btnUp = false;
 
+
   if (input.getKey(SDLK_DOWN) && !_btnDown)
     {
       _btnDown = true;
@@ -65,6 +67,7 @@ bool MapMenu::update(gdl::Clock const& clock, gdl::Input& input)
     }
   if (!input.getKey(SDLK_DOWN) && _btnDown)
     _btnDown = false;
+
 
   if (input.getKey(SDLK_SPACE) && !_btnSpace)
     {
@@ -79,20 +82,17 @@ bool MapMenu::update(gdl::Clock const& clock, gdl::Input& input)
 	    (this->*(it->second))(SDLK_SPACE);
 	  it++;
 	}
+
     }
   if (!input.getKey(SDLK_SPACE) && _btnSpace)
     _btnSpace = false;
+
   return true;
 }
 
 bool MapMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 {
   AMenuScene::draw(shader, clock);
-
-
-  //glDisable(GL_DEPTH_TEST);
-  //glAlphaFunc(GL_GREATER, 0.3f);
-
 
   std::map<AWidget* , ButtonHandler>::iterator it;
   it = _mapButton.begin();
@@ -113,24 +113,24 @@ bool MapMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 
 void MapMenu::map1handler(int t)
 {
-    SceneArguments& args = *new SceneArguments();
-    args.set("file", ResourcesPath::map("map1.bmap"));
-    setStatusGoOn<GameScene>(args);
+  SceneArguments& args = *new SceneArguments();
+  args.set("file", ResourcesPath::map("map1.bmap"));
+  setStatusGoOn<GameScene>(args);
 }
 
 void MapMenu::map2handler(int t)
 {
-    SceneArguments& args = *new SceneArguments();
-    args.set("file", ResourcesPath::map("map2.bmap"));
-    setStatusGoOn<GameScene>(args);
+  SceneArguments& args = *new SceneArguments();
+  args.set("file", ResourcesPath::map("map2.bmap"));
+  setStatusGoOn<GameScene>(args);
 }
 
 void MapMenu::maprandomhandler(int t)
 {
-    SceneArguments& args = *new SceneArguments();
-    args.set("width", "20");
-    args.set("height", "20");
-    setStatusGoOn<GameScene>(args);
+  SceneArguments& args = *new SceneArguments();
+  args.set("width", "20");
+  args.set("height", "20");
+  setStatusGoOn<GameScene>(args);
 }
 
 void MapMenu::backhandler(int t)
