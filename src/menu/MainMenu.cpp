@@ -46,7 +46,6 @@ bool MainMenu::initialize()
 
 bool MainMenu::update(gdl::Clock const& clock, gdl::Input& input)
 {
-
   if (input.getKey(SDLK_UP) && !_btnUp)
     {
       _cursorPos--;
@@ -54,7 +53,7 @@ bool MainMenu::update(gdl::Clock const& clock, gdl::Input& input)
       if (_cursorPos < 0)
 	_cursorPos = 3;
     }
-  if (!input.getKey(SDLK_UP) && _btnUp)
+  else if (!input.getKey(SDLK_UP) && _btnUp)
     _btnUp = false;
 
   if (input.getKey(SDLK_DOWN) && !_btnDown)
@@ -64,7 +63,7 @@ bool MainMenu::update(gdl::Clock const& clock, gdl::Input& input)
       if (_cursorPos == 4)
 	_cursorPos = 0;
     }
-  if (!input.getKey(SDLK_DOWN) && _btnDown)
+  else if (!input.getKey(SDLK_DOWN) && _btnDown)
     _btnDown = false;
 
   if (input.getKey(SDLK_SPACE) && !_btnSpace)
@@ -81,7 +80,7 @@ bool MainMenu::update(gdl::Clock const& clock, gdl::Input& input)
 	  it++;
 	}
     }
-  if (!input.getKey(SDLK_SPACE) && _btnSpace)
+  else if (!input.getKey(SDLK_SPACE) && _btnSpace)
     _btnSpace = false;
 
   return true;
@@ -102,7 +101,6 @@ bool MainMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
       it->first->draw(shader, clock);
       it++;
     }
-
   _cursor->draw(shader, clock);
 
   return true;
