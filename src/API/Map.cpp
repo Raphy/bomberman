@@ -5,20 +5,22 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 12:12:44 2014 raphael defreitas
-// Last update Thu Jun 12 20:26:35 2014 raphael defreitas
+// Last update Fri Jun 13 21:00:48 2014 raphael defreitas
 //
 
 #include	<cstring>
 #include	<iostream>
 #include	<typeinfo>
 
+#include	"game/GameScene.hh"
 #include	"GameObject.hh"
 #include	"Map.hh"
 #include	"Player.hh"
 
 using namespace API;
 
-Map::Map(void)
+Map::Map(GameScene* gs) :
+  _gs(gs)
 {
 }
 

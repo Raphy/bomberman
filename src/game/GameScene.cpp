@@ -2,6 +2,7 @@
 #include <cassert>
 #include <iterator>
 
+#include "API/Manager.hh"
 #include "GameScene.hh"
 #include "Exception.hh"
 #include "MapTextLoader.hh"
@@ -25,6 +26,9 @@ GameScene::GameScene(SceneArguments const & args)
 {
     m_players[0] = nullptr;
     m_players[1] = nullptr;
+
+    // Must be called before initializing the "AGameObjects"
+    API::Manager::getInstance().registerMap(this);
 
     // load a file or gen a map
     std::string const& str_file = args.get("file");

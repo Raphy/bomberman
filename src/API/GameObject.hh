@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Thu Jun 12 20:10:49 2014 raphael defreitas
+// Last update Fri Jun 13 20:38:27 2014 raphael defreitas
 */
 
 #ifndef		GAMEOBJECT_HH_
@@ -25,7 +25,7 @@ namespace API
   {
   public:
     GameObject(AGameObject* go);
-    ~GameObject(void);
+    virtual ~GameObject(void);
 
     virtual size_t size(void) const { return sizeof(*this); }
     const std::string& getType(void) const;
