@@ -94,6 +94,8 @@ end
 function Path:calc_path(algo_name, start_idx, dest_idx, type)
 	start_idx = math.floor(start_idx)
 	dest_idx = math.floor(dest_idx)
+	if start_idx == dest_idx then
+		return List:new("empty_path") end
   	MapManager:clean_map()--?????????
 	local algoModule = PathAlgos[algo_name]
 	local open_list = List:new("open_list")
@@ -129,6 +131,6 @@ function Path:calc_path(algo_name, start_idx, dest_idx, type)
 	Path:register_case_open(open_list, start)
 	-- return _calc_path(start, start, open_list, closed_list)
 	local res = _calc_path(start, start, open_list, closed_list)
-	if res == nil then Helper:debug_print("path not found....") else Helper:debug_print("path found !!") end
+	if res == nil then Helper:debug_print("path not found....") else Helper:debug_print("path found "..start.idx.."!!") end
 	return res
 end
