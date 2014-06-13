@@ -8,7 +8,7 @@ BeginState = State:new("begin_state")
 
 function BeginState:action()
 	Helper:debug_print("action : ".."begin_state")
-	end
+end
 
 BeginState.pre_conditions = {
 	{ function()
@@ -22,7 +22,7 @@ RandomState = State:new("random_state")
 
 function RandomState:action()
 	Helper:debug_print("action : ".."random_state")
-	Actions:go_random()
+	return Actions:go_random()
 end
 
 RandomState.pre_conditions = {
@@ -37,13 +37,19 @@ PutBombState = State:new("put_bomb_state")
 
 function PutBombState:action()
 	Helper:debug_print("action : ".."put_bomb_state")
-	Actions:place_bomb()
+	return Actions:place_bomb()
 end
 
 PutBombState.pre_conditions = {
 	{ function()
-		return not Helper:is_place_safe() end,
+		return Helper:is_place_dangerous() end,
 		"push", "avoid_bomb_state", },
+}
+
+PutBombState.post_conditions = {
+	{ function()
+		return StateMachine._last_action_status == true end,
+		"pop", },
 }
 
 -- * AVOID_BOMB_STATE *
@@ -52,7 +58,7 @@ AvoidBombState = State:new("avoid_bomb_state")
 
 function AvoidBombState:action()
 	Helper:debug_print("action : ".."avoid_bomb_state")
-	Actions:avoid_bomb()
+	return Actions:avoid_bomb()
 end
 
 AvoidBombState.pre_conditions = {
@@ -70,16 +76,18 @@ StateList = {
 	["avoid_bomb_state"] = AvoidBombState,
 }
 
+-- active_debug = true
+
 function initialization()
 	Helper:debug_print("\n\nIA_INTRO) initialization")
 	Helper:initialization_base()
-	StateMachine:init(3)
+	StateMachine:init(3, 1000, 10, 10)
 end
 
 function play()
-	Helper:debug_print("\n\nIA_INTRO) play")
+	-- Helper:debug_print("\n\nIA_INTRO) play")
 
 
-	-- Actions:go_random()
 	StateMachine:play()
+	-- Actions:go_random()
 end

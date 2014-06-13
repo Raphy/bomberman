@@ -1,16 +1,22 @@
+#include <cmath>
+
 #include    "AGameObject.hh"
 
-
 void AGameObject::restoreLastState() {
-    this->_position = this->_state.position;
-    this->_rotation = this->_state.rotation;
-    this->_scale = this->_state.scale;
+
+    _position = _state.position;
+    Rectangle const& collider = getCollider();
+
+    double center_x = collider.getX() + collider.getW() / 2;
+    double center_y = collider.getY() + collider.getH() / 2;
+    
+    _position.x = std::floor(center_x);
+    _position.z = std::floor(center_y);
+
 }
 
 void AGameObject::saveCurrentState() {
     this->_state.position = this->_position;
-    this->_state.rotation = this->_rotation;
-    this->_state.scale = this->_scale;
 }
 
 Rectangle AGameObject::getCollider() const {

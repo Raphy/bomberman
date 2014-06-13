@@ -156,7 +156,7 @@ bool GameScene::initialize() {
         size_t idx = playerIdx(player_num);
         if (m_players[idx] != nullptr) { 
             Camera* camera = new Camera(m_players[idx]);    
-            camera->setOffset(glm::vec3(0, 10, -10));
+            camera->setOffset(glm::vec3(0, 5, -5));
             camera->initialize();
             addCamera("p" + std::to_string(player_num), camera);
         }
@@ -184,10 +184,14 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
         }
     });
 
-    for (auto obj : new_objects) {
-        obj->initialize();
+    if (new_objects.empty() == false) {
+        for (auto obj : new_objects) {
+            if (obj->initialize() == false) {
+                return false;
+            }
+            m_objects.push_back(obj);
+        }
     }
-    std::copy(new_objects.begin(), new_objects.end(), std::back_inserter(m_objects));
 
     rebuildQuadTree();
 
@@ -221,20 +225,20 @@ bool GameScene::draw(gdl::AShader& shader, gdl::Clock const& clock) {
 
     
     
-    foreachObject(m_objects, [&] (AGameObject& obj) {
+    foreachObject([&] (AGameObject& obj) {
         if (obj.isDead() == false) {
             obj.draw(shader, clock);
         }
     });
-
-   if (m_walls.empty() == false) { 
-       reinterpret_cast<AGeometry*>(m_walls.front())->drawTexture();
-   foreachObject(m_walls, [&] (AGameObject& obj) {
-        if (obj.isDead() == false) {
-            reinterpret_cast<AGeometry*>(m_walls.front())->drawGeometry(shader, clock);
-        }
-    });
-   }
+//
+//   if (m_walls.empty() == false) { 
+//       reinterpret_cast<AGeometry*>(m_walls.front())->drawTexture();
+//   foreachObject(m_walls, [&] (AGameObject& obj) {
+//        if (obj.isDead() == false) {
+//            reinterpret_cast<AGeometry*>(m_walls.front())->drawGeometry(shader, clock);
+//        }
+//    });
+//   }
 
     return true;
 }
