@@ -26,7 +26,7 @@ void Camera::updateCamera(gdl::AShader & shader, unsigned int cameraNumber) cons
     
     shader.bind();
     shader.setUniform("view", glm::lookAt(this->getPosition(), this->getLookAt(), glm::vec3(0, 1, 0)));
-    shader.setUniform("projection", glm::perspective(60.0f, (800.0f / cameraNumber) / 600.0f, 0.1f, 100.0f));
+    shader.setUniform("projection", glm::perspective(60.0f, (800.0f / cameraNumber) / 600.0f, 0.1f, 20.0f));
 }
 
 

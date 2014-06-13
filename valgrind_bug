@@ -1,0 +1,118 @@
+==4263== Invalid read of size 8
+==4263==    at 0x634C3B0: std::_Rb_tree_increment(std::_Rb_tree_node_base*) (in /usr/lib/libstdc++.so.6.0.20)
+==4263==    by 0x42FC66: std::_Rb_tree_iterator<std::pair<AWidget* const, void (AMenuScene::*)(int)> >::operator++(int) (stl_tree.h:211)
+==4263==    by 0x42EE6E: AMenuScene::~AMenuScene() (AMenuScene.cpp:21)
+==4263==    by 0x43425B: MapMenu::~MapMenu() (MapMenu.cpp:19)
+==4263==    by 0x43428B: MapMenu::~MapMenu() (MapMenu.cpp:22)
+==4263==    by 0x412965: ScenesStack::pop() (ScenesStack.cpp:31)
+==4263==    by 0x412843: ScenesStack::~ScenesStack() (ScenesStack.cpp:5)
+==4263==    by 0x41185B: ScenesManager::~ScenesManager() (ScenesManager.cpp:12)
+==4263==    by 0x424484: GameEngine::~GameEngine() (GameEngine.cpp:15)
+==4263==    by 0x40E293: main (main.cpp:25)
+==4263==  Address 0x11772588 is 24 bytes inside a block of size 56 free'd
+==4263==    at 0x4C29E6C: operator delete(void*) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4263==    by 0x43075F: __gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> > >::deallocate(std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> >*, unsigned long) (new_allocator.h:110)
+==4263==    by 0x430689: std::allocator_traits<std::allocator<std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> > > >::deallocate(std::allocator<std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> > >&, std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> >*, unsigned long) (alloc_traits.h:383)
+==4263==    by 0x430497: std::_Rb_tree<AWidget*, std::pair<AWidget* const, void (AMenuScene::*)(int)>, std::_Select1st<std::pair<AWidget* const, void (AMenuScene::*)(int)> >, std::less<AWidget*>, std::allocator<std::pair<AWidget* const, void (AMenuScene::*)(int)> > >::_M_put_node(std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> >*) (stl_tree.h:389)
+==4263==    by 0x430027: std::_Rb_tree<AWidget*, std::pair<AWidget* const, void (AMenuScene::*)(int)>, std::_Select1st<std::pair<AWidget* const, void (AMenuScene::*)(int)> >, std::less<AWidget*>, std::allocator<std::pair<AWidget* const, void (AMenuScene::*)(int)> > >::_M_destroy_node(std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> >*) (stl_tree.h:438)
+==4263==    by 0x4300E5: std::_Rb_tree<AWidget*, std::pair<AWidget* const, void (AMenuScene::*)(int)>, std::_Select1st<std::pair<AWidget* const, void (AMenuScene::*)(int)> >, std::less<AWidget*>, std::allocator<std::pair<AWidget* const, void (AMenuScene::*)(int)> > >::_M_erase_aux(std::_Rb_tree_const_iterator<std::pair<AWidget* const, void (AMenuScene::*)(int)> >) (stl_tree.h:1867)
+==4263==    by 0x42FE17: _ZNSt8_Rb_treeIP7AWidgetSt4pairIKS1_M10AMenuSceneFviEESt10_Select1stIS7_ESt4lessIS1_ESaIS7_EE5eraseB5cxx11ESt17_Rb_tree_iteratorIS7_E (stl_tree.h:868)
+==4263==    by 0x42FC3A: _ZNSt3mapIP7AWidgetM10AMenuSceneFviESt4lessIS1_ESaISt4pairIKS1_S4_EEE5eraseB5cxx11ESt17_Rb_tree_iteratorIS9_E (stl_map.h:732)
+==4263==    by 0x42EE5D: AMenuScene::~AMenuScene() (AMenuScene.cpp:20)
+==4263==    by 0x43425B: MapMenu::~MapMenu() (MapMenu.cpp:19)
+==4263==    by 0x43428B: MapMenu::~MapMenu() (MapMenu.cpp:22)
+==4263==    by 0x412965: ScenesStack::pop() (ScenesStack.cpp:31)
+==4263== 
+==4263== Invalid read of size 8
+==4263==    at 0x634C3D0: std::_Rb_tree_increment(std::_Rb_tree_node_base*) (in /usr/lib/libstdc++.so.6.0.20)
+==4263==    by 0x42FC66: std::_Rb_tree_iterator<std::pair<AWidget* const, void (AMenuScene::*)(int)> >::operator++(int) (stl_tree.h:211)
+==4263==    by 0x42EE6E: AMenuScene::~AMenuScene() (AMenuScene.cpp:21)
+==4263==    by 0x43425B: MapMenu::~MapMenu() (MapMenu.cpp:19)
+==4263==    by 0x43428B: MapMenu::~MapMenu() (MapMenu.cpp:22)
+==4263==    by 0x412965: ScenesStack::pop() (ScenesStack.cpp:31)
+==4263==    by 0x412843: ScenesStack::~ScenesStack() (ScenesStack.cpp:5)
+==4263==    by 0x41185B: ScenesManager::~ScenesManager() (ScenesManager.cpp:12)
+==4263==    by 0x424484: GameEngine::~GameEngine() (GameEngine.cpp:15)
+==4263==    by 0x40E293: main (main.cpp:25)
+==4263==  Address 0x11772578 is 8 bytes inside a block of size 56 free'd
+==4263==    at 0x4C29E6C: operator delete(void*) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4263==    by 0x43075F: __gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> > >::deallocate(std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> >*, unsigned long) (new_allocator.h:110)
+==4263==    by 0x430689: std::allocator_traits<std::allocator<std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> > > >::deallocate(std::allocator<std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> > >&, std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> >*, unsigned long) (alloc_traits.h:383)
+==4263==    by 0x430497: std::_Rb_tree<AWidget*, std::pair<AWidget* const, void (AMenuScene::*)(int)>, std::_Select1st<std::pair<AWidget* const, void (AMenuScene::*)(int)> >, std::less<AWidget*>, std::allocator<std::pair<AWidget* const, void (AMenuScene::*)(int)> > >::_M_put_node(std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> >*) (stl_tree.h:389)
+==4263==    by 0x430027: std::_Rb_tree<AWidget*, std::pair<AWidget* const, void (AMenuScene::*)(int)>, std::_Select1st<std::pair<AWidget* const, void (AMenuScene::*)(int)> >, std::less<AWidget*>, std::allocator<std::pair<AWidget* const, void (AMenuScene::*)(int)> > >::_M_destroy_node(std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> >*) (stl_tree.h:438)
+==4263==    by 0x4300E5: std::_Rb_tree<AWidget*, std::pair<AWidget* const, void (AMenuScene::*)(int)>, std::_Select1st<std::pair<AWidget* const, void (AMenuScene::*)(int)> >, std::less<AWidget*>, std::allocator<std::pair<AWidget* const, void (AMenuScene::*)(int)> > >::_M_erase_aux(std::_Rb_tree_const_iterator<std::pair<AWidget* const, void (AMenuScene::*)(int)> >) (stl_tree.h:1867)
+==4263==    by 0x42FE17: _ZNSt8_Rb_treeIP7AWidgetSt4pairIKS1_M10AMenuSceneFviEESt10_Select1stIS7_ESt4lessIS1_ESaIS7_EE5eraseB5cxx11ESt17_Rb_tree_iteratorIS7_E (stl_tree.h:868)
+==4263==    by 0x42FC3A: _ZNSt3mapIP7AWidgetM10AMenuSceneFviESt4lessIS1_ESaISt4pairIKS1_S4_EEE5eraseB5cxx11ESt17_Rb_tree_iteratorIS9_E (stl_map.h:732)
+==4263==    by 0x42EE5D: AMenuScene::~AMenuScene() (AMenuScene.cpp:20)
+==4263==    by 0x43425B: MapMenu::~MapMenu() (MapMenu.cpp:19)
+==4263==    by 0x43428B: MapMenu::~MapMenu() (MapMenu.cpp:22)
+==4263==    by 0x412965: ScenesStack::pop() (ScenesStack.cpp:31)
+==4263== 
+ALSA lib pcm.c:7843:(snd_pcm_recover) underrun occurred
+==4263== Invalid read of size 8
+==4263==    at 0x634C3B0: std::_Rb_tree_increment(std::_Rb_tree_node_base*) (in /usr/lib/libstdc++.so.6.0.20)
+==4263==    by 0x42FC66: std::_Rb_tree_iterator<std::pair<AWidget* const, void (AMenuScene::*)(int)> >::operator++(int) (stl_tree.h:211)
+==4263==    by 0x42EE6E: AMenuScene::~AMenuScene() (AMenuScene.cpp:21)
+==4263==    by 0x432F1F: MainMenu::~MainMenu() (MainMenu.cpp:20)
+==4263==    by 0x432F4F: MainMenu::~MainMenu() (MainMenu.cpp:23)
+==4263==    by 0x412965: ScenesStack::pop() (ScenesStack.cpp:31)
+==4263==    by 0x412843: ScenesStack::~ScenesStack() (ScenesStack.cpp:5)
+==4263==    by 0x41185B: ScenesManager::~ScenesManager() (ScenesManager.cpp:12)
+==4263==    by 0x424484: GameEngine::~GameEngine() (GameEngine.cpp:15)
+==4263==    by 0x40E293: main (main.cpp:25)
+==4263==  Address 0x106c0448 is 24 bytes inside a block of size 56 free'd
+==4263==    at 0x4C29E6C: operator delete(void*) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4263==    by 0x43075F: __gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> > >::deallocate(std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> >*, unsigned long) (new_allocator.h:110)
+==4263==    by 0x430689: std::allocator_traits<std::allocator<std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> > > >::deallocate(std::allocator<std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> > >&, std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> >*, unsigned long) (alloc_traits.h:383)
+==4263==    by 0x430497: std::_Rb_tree<AWidget*, std::pair<AWidget* const, void (AMenuScene::*)(int)>, std::_Select1st<std::pair<AWidget* const, void (AMenuScene::*)(int)> >, std::less<AWidget*>, std::allocator<std::pair<AWidget* const, void (AMenuScene::*)(int)> > >::_M_put_node(std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> >*) (stl_tree.h:389)
+==4263==    by 0x430027: std::_Rb_tree<AWidget*, std::pair<AWidget* const, void (AMenuScene::*)(int)>, std::_Select1st<std::pair<AWidget* const, void (AMenuScene::*)(int)> >, std::less<AWidget*>, std::allocator<std::pair<AWidget* const, void (AMenuScene::*)(int)> > >::_M_destroy_node(std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> >*) (stl_tree.h:438)
+==4263==    by 0x4300E5: std::_Rb_tree<AWidget*, std::pair<AWidget* const, void (AMenuScene::*)(int)>, std::_Select1st<std::pair<AWidget* const, void (AMenuScene::*)(int)> >, std::less<AWidget*>, std::allocator<std::pair<AWidget* const, void (AMenuScene::*)(int)> > >::_M_erase_aux(std::_Rb_tree_const_iterator<std::pair<AWidget* const, void (AMenuScene::*)(int)> >) (stl_tree.h:1867)
+==4263==    by 0x42FE17: _ZNSt8_Rb_treeIP7AWidgetSt4pairIKS1_M10AMenuSceneFviEESt10_Select1stIS7_ESt4lessIS1_ESaIS7_EE5eraseB5cxx11ESt17_Rb_tree_iteratorIS7_E (stl_tree.h:868)
+==4263==    by 0x42FC3A: _ZNSt3mapIP7AWidgetM10AMenuSceneFviESt4lessIS1_ESaISt4pairIKS1_S4_EEE5eraseB5cxx11ESt17_Rb_tree_iteratorIS9_E (stl_map.h:732)
+==4263==    by 0x42EE5D: AMenuScene::~AMenuScene() (AMenuScene.cpp:20)
+==4263==    by 0x432F1F: MainMenu::~MainMenu() (MainMenu.cpp:20)
+==4263==    by 0x432F4F: MainMenu::~MainMenu() (MainMenu.cpp:23)
+==4263==    by 0x412965: ScenesStack::pop() (ScenesStack.cpp:31)
+==4263== 
+==4263== Invalid read of size 8
+==4263==    at 0x634C3D0: std::_Rb_tree_increment(std::_Rb_tree_node_base*) (in /usr/lib/libstdc++.so.6.0.20)
+==4263==    by 0x42FC66: std::_Rb_tree_iterator<std::pair<AWidget* const, void (AMenuScene::*)(int)> >::operator++(int) (stl_tree.h:211)
+==4263==    by 0x42EE6E: AMenuScene::~AMenuScene() (AMenuScene.cpp:21)
+==4263==    by 0x432F1F: MainMenu::~MainMenu() (MainMenu.cpp:20)
+==4263==    by 0x432F4F: MainMenu::~MainMenu() (MainMenu.cpp:23)
+==4263==    by 0x412965: ScenesStack::pop() (ScenesStack.cpp:31)
+==4263==    by 0x412843: ScenesStack::~ScenesStack() (ScenesStack.cpp:5)
+==4263==    by 0x41185B: ScenesManager::~ScenesManager() (ScenesManager.cpp:12)
+==4263==    by 0x424484: GameEngine::~GameEngine() (GameEngine.cpp:15)
+==4263==    by 0x40E293: main (main.cpp:25)
+==4263==  Address 0x106c0438 is 8 bytes inside a block of size 56 free'd
+==4263==    at 0x4C29E6C: operator delete(void*) (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==4263==    by 0x43075F: __gnu_cxx::new_allocator<std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> > >::deallocate(std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> >*, unsigned long) (new_allocator.h:110)
+==4263==    by 0x430689: std::allocator_traits<std::allocator<std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> > > >::deallocate(std::allocator<std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> > >&, std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> >*, unsigned long) (alloc_traits.h:383)
+==4263==    by 0x430497: std::_Rb_tree<AWidget*, std::pair<AWidget* const, void (AMenuScene::*)(int)>, std::_Select1st<std::pair<AWidget* const, void (AMenuScene::*)(int)> >, std::less<AWidget*>, std::allocator<std::pair<AWidget* const, void (AMenuScene::*)(int)> > >::_M_put_node(std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> >*) (stl_tree.h:389)
+==4263==    by 0x430027: std::_Rb_tree<AWidget*, std::pair<AWidget* const, void (AMenuScene::*)(int)>, std::_Select1st<std::pair<AWidget* const, void (AMenuScene::*)(int)> >, std::less<AWidget*>, std::allocator<std::pair<AWidget* const, void (AMenuScene::*)(int)> > >::_M_destroy_node(std::_Rb_tree_node<std::pair<AWidget* const, void (AMenuScene::*)(int)> >*) (stl_tree.h:438)
+==4263==    by 0x4300E5: std::_Rb_tree<AWidget*, std::pair<AWidget* const, void (AMenuScene::*)(int)>, std::_Select1st<std::pair<AWidget* const, void (AMenuScene::*)(int)> >, std::less<AWidget*>, std::allocator<std::pair<AWidget* const, void (AMenuScene::*)(int)> > >::_M_erase_aux(std::_Rb_tree_const_iterator<std::pair<AWidget* const, void (AMenuScene::*)(int)> >) (stl_tree.h:1867)
+==4263==    by 0x42FE17: _ZNSt8_Rb_treeIP7AWidgetSt4pairIKS1_M10AMenuSceneFviEESt10_Select1stIS7_ESt4lessIS1_ESaIS7_EE5eraseB5cxx11ESt17_Rb_tree_iteratorIS7_E (stl_tree.h:868)
+==4263==    by 0x42FC3A: _ZNSt3mapIP7AWidgetM10AMenuSceneFviESt4lessIS1_ESaISt4pairIKS1_S4_EEE5eraseB5cxx11ESt17_Rb_tree_iteratorIS9_E (stl_map.h:732)
+==4263==    by 0x42EE5D: AMenuScene::~AMenuScene() (AMenuScene.cpp:20)
+==4263==    by 0x432F1F: MainMenu::~MainMenu() (MainMenu.cpp:20)
+==4263==    by 0x432F4F: MainMenu::~MainMenu() (MainMenu.cpp:23)
+==4263==    by 0x412965: ScenesStack::pop() (ScenesStack.cpp:31)
+==4263== 
+ALSA lib pcm.c:7843:(snd_pcm_recover) underrun occurred
+==4263== 
+==4263== HEAP SUMMARY:
+==4263==     in use at exit: 66,383,837 bytes in 189,950 blocks
+==4263==   total heap usage: 3,062,760 allocs, 2,872,810 frees, 37,157,387,520 bytes allocated
+==4263== 
+==4263== LEAK SUMMARY:
+==4263==    definitely lost: 17,670,585 bytes in 474 blocks
+==4263==    indirectly lost: 210,469 bytes in 2,592 blocks
+==4263==      possibly lost: 1,393,547 bytes in 11,442 blocks
+==4263==    still reachable: 47,109,236 bytes in 175,442 blocks
+==4263==         suppressed: 0 bytes in 0 blocks
+==4263== Rerun with --leak-check=full to see details of leaked memory
+==4263== 
+==4263== For counts of detected and suppressed errors, rerun with: -v
+==4263== Use --track-origins=yes to see where uninitialised values come from
+==4263== ERROR SUMMARY: 29065 errors from 7 contexts (suppressed: 9 from 2)
