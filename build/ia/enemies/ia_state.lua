@@ -11,9 +11,7 @@ require "state_machine"
 GetCloserOfEnemyState = State:new("get_closer_of_enemy_state")
 
 function GetCloserOfEnemyState:action()
-  Actions:get_closer_of_one_enemy()
-  return Helper:are_objects_around("enemy",me:getPosition(),2) then
-    StateMachine:action_terminated() end
+  return Actions:get_closer_of_one_enemy()
 end
 
 GetCloserOfEnemyState.pre_conditions = {
@@ -31,16 +29,19 @@ GetCloserOfEnemyState.pre_conditions = {
     "push", "kill_enemy_state", },
 }
 
+GetCloserOfEnemyState.post_conditions = {
+  { function()
+    return Helper:enemy_in_view() end,
+    "pop", },
+}
+
 -- * AVOID_BOMB *
 
 AvoidBombState = State:new("avoid_bomb_state")
 
 function AvoidBombState:action()
   Helper:debug_print("action : avoid_bomb_state")
-  -- if not Actions:avoid_bomb() then
-  --   "push", "break_wall_state"
-  if Helper:is_place_safe() then
-    StateMachine:action_terminated() end
+  return Actions:avoid_bomb()
 end
 
 AvoidBombState.pre_conditions = {
@@ -52,6 +53,11 @@ AvoidBombState.pre_conditions = {
     "pop", },
 }
 
+AvoidBombState.post_conditions = {
+  { function()
+    return true end,-- impossible de s'enfuir
+    "push", "break_wall_state", },
+}
 
 -- * KILL_ENEMY *
 
@@ -59,14 +65,25 @@ KillEnemyState = State:new("kill_enemy_state")
 
 function KillEnemyState:action()
   Helper:debug_print("action : ".."kill_enemy_state")
-  --corps
-  if true --[[pas d'ennemie]] then StateMachine:action_terminated() end
+  return false
 end
 
 KillEnemyState.pre_conditions = {
   { function()
-    return not Helper:is_place_safe() end,
+    return Helper:is_place_dangerous() end,
     "push", "avoid_bomb_state", },
+  { function()
+    return not Helper:enemy_in_view() end,
+    "push", "get_closer_of_enemy_state", },
+  { function()
+    return Helper:enemy_in_view() end,
+    "push", "put_bomb_state", },
+}
+
+KillEnemyState.post_conditions = {
+  { function()
+    return not Helper:enemy_in_view() end,
+    "pop", },
 }
 
 -- * GET_AWAY_OF_ENEMY *
@@ -75,12 +92,13 @@ GetAwayOfEnemyState = State:new("get_away_of_enemy_state")
 
 function GetAwayOfEnemyState:action()
   Helper:debug_print("action : ".."get_away_of_enemy_state")
-  --corps
-  if true --[[pas d'ennemie]] then StateMachine:action_terminated() end
+  return false
 end
 
 GetAwayOfEnemyState.pre_conditions = {
-  --conditions
+  { function()
+    return true end,
+    "pop", },
 }
 
 -- * PUT_BOMB *

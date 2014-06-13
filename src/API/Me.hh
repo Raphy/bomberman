@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Thu Jun 12 20:24:49 2014 raphael defreitas
+// Last update Fri Jun 13 21:41:55 2014 raphael defreitas
 */
 
 #ifndef		ME_HH_
@@ -26,8 +26,6 @@ namespace API
   public:
     Me(IA* ia);
     ~Me(void);
-
-    virtual size_t size(void) const { return sizeof(*this); }
 
     void moveUp(void);
     void moveDown(void);

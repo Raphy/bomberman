@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:42:59 2014 raphael defreitas
-// Last update Thu Jun 12 02:34:12 2014 raphael defreitas
+// Last update Fri Jun 13 22:34:24 2014 raphael defreitas
 */
 
 #ifndef		VIRTUALMACHINE_HH_
