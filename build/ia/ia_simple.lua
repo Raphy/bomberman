@@ -1,40 +1,46 @@
 
-require "helper"
-require "map_manager"
-require "api"
+require 'actions'
+require 'state'
+require 'state_machine'
 
--- X,Y = 10,10
+-- * BEGIN_STATE *
 
--- ATTENTION : les index dans la map lua vont de 1 à w(ou h)
+BeginState = State:new("begin_state")
 
-function onInitialization()
- MapManager:init(10,100)
- Coord:init()
-
---  Helper:get_all_object("player")
-  print(me:getName())
-  me:moveUp()
-  math.randomseed( os.time() )
+function BeginState:action()
+	Helper:debug_print("action : ".."begin_state")
+	--corps
 end
 
-function onMyTurn()
-  MapManager:clean_map()-- -> ici ou a chaque calc_path ?
+BeginState.pre_conditions = {
+	--conditions
+}
 
-  Helper:debug_print(" act_random")
- Actions:act_random()
- Helper:debug_print(" go_to 1.0 2.0")
- local x,y = me:getPosition()
- MapManager:set_vision_activate(Coord:new(x,y), 2)
- Actions:go_to(x+2, y+1)
-  Actions:go_to(9.0, 100.0)
+StateList = {
+  ["begin_state"] = BeginState
+}
+
+active_debug = true
+active_debug_list = false
+
+function initialization()
+	Helper:debug_print("\n\nIA_SIMPLE) initialization")
+	Helper:initialization_base(20, 2)
+	StateMachine:init(1)
+
+	MapManager:update()
+	Actions:get_closer_of_one_enemy()
 end
 
-print("-----init----")
-onInitialization()
-print("-----fin init----")
+DEBUG = 0
+DEBUG_MAX = 100
 
-for i=0, 0 do
-print("\n-----myturn-----")
-onMyTurn()
-print("-----fin myturn-----")
+function play()
+	if DEBUG == DEBUG_MAX then
+		MapManager:update()
+		StateMachine:play()
+		DEBUG = 0
+	end
+	DEBUG = DEBUG + 1
+	-- Helper:debug_print("\n\nIA_SIMPLE) play")
 end

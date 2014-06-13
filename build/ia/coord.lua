@@ -9,10 +9,6 @@
 	les transitions coord <=> direction ne fontionnent que sur des cases adjacentes !
 ]]
 
---[[
-TODO : test '>' et '>=' pour savoir exactement comment lua inverse les operateurs !
-]]
-
 local coord_mt =
 {
 	__add = function (lhs, rhs)
@@ -44,12 +40,8 @@ local coord_mt =
 				return lhs.x < rhs.x and lhs.y < rhs.y
 			end,
 	__le = function (lhs, rhs)
-				-- print(debug.traceback())
 				return lhs.x <= rhs.x and lhs.y <= rhs.y
 			end,
-	-- __tostring = function (c)
-	-- 	return c.x..c.y
-	-- end
 }
 
 Coord = {
@@ -82,7 +74,6 @@ function Coord:cpy(rhs)
 	return o
 end
 
--- TODO : gerer les diagonales ?
 function Coord:to_direction(c1,c2)
 	local function _check_dir(dir_value,c1,c2)
 		local dir_key = Tags:k(dir_value)
@@ -94,9 +85,7 @@ function Coord:to_direction(c1,c2)
 			return "right" end
 		return _check_dir(dir_value + 1,c1,c2)
 	end
-
 	assert(c1 ~= c2)
-	-- print("to_direction : x1 = "..c1.x.." y1 = "..c1.y.." x2 = "..c2.x.." y2 = "..c2.y)
 	return _check_dir(Tags:v("up"),c1,c2)
 end
 function Coord:from_direction(c1,dir,radius)
@@ -126,18 +115,4 @@ function Coord:max_filter(c1, c2)
 	return Coord:new(_max(c1.x,c2.x),_max(c1.y,c2.y))
 end
 
--- function Coord:max(c1, c2) return c1 >= c2 and c1 or c2 end
-
 function Coord:unpack(c) return c.x, c.y end
-
--- local toto = Coord:new(0,10)
--- local titi = Coord:new(1,1)
-
--- print("toto x y ",toto.x,toto.y)
--- print("titi x y ",titi.x,titi.y)
-
--- print("< ",(toto < titi))
--- print("<= ",(toto <= titi))
--- print("> ",(toto > titi))
--- print(">= ",(toto >= titi))
-

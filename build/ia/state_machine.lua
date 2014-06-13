@@ -4,10 +4,11 @@ require "list"
 
 StateMachine = {
 	_current = nil,
-	_change = "continue",-- tags_value de "push""pop"ou "continue"
+	_change = "continue",-- /"push"/"pop"
 	_changes_per_frame = 3,
 	_next_state = nil,
 	_action_duration = 0,-- represente le nombre de frames depuis le dernier state change
+	_last_action_status = false,
 	_executed = false,
 	_states = List:new("StateMachine_states"),
 }
@@ -25,7 +26,7 @@ function StateMachine:play()
 	end
 end
 function StateMachine:update()
-	Helper:debug_print("StateMachine:update) _current = "..self._current.name)
+	Helper:debug_print("		StateMachine:update) "..self._current.name)
 	for _,cond in pairs(self._current.pre_conditions) do
 		if cond[1]() then
 			self._change = cond[2]
@@ -34,6 +35,7 @@ function StateMachine:update()
 		end
 	end
 	if self._change == "continue" then
+		Helper:increase_frames()
 		self:execute()
 		self._action_duration = self._action_duration + 1
 	else
@@ -65,45 +67,9 @@ function StateMachine:pop_state()
 end
 
 function StateMachine:execute()
-	Helper:debug_print("StateMachine: execute) _current = "..self._current.name)
-	-- if self._nb_elem <= 0
-	-- 	then Helper:warning("execute with empty stack") end
-	self._current.action()--action doit setter _change a pop si elle a atteint son objectif
+	Helper:debug_print("		StateMachine: execute) "..self._current.name)
+	if self._current == nil
+		then Helper:warning("execute with empty stack") end
+	self._last_action_status = self._current.action()
 	self._executed = true
-	--check pos_conditions
 end
-
-
--------------------------------------------------------------
-
-
-	-- _changes_action = {
-	-- ["push"] = function()
-	-- 	if self._current.next_state ~= nil then
-	-- 		self._current = StateList[self._current.next_state] end
-	-- end,
-	-- ["pop"] = function()
-	-- 	self:pop_state()
-	-- 	self._current = StateList:back()
-	-- end,
-	-- }
-
-
---[[
-	a appeler a chaque frame,
-	qu'il y ai eu un changement d'etat ou pas
-]]
--- function StateMachine:update()
--- 	for cond in List:iter(self._current.pre_conditions) do
--- 		-- if cond[1]() then cond[2]() end
--- 	end
--- 	if self._current.enable_exec
--- 		then self._current:action()
--- 		else List:pop_back(self._states)
--- 			self._current = List:back(self._states)
--- 	end
--- 	--stocker le retour de action ?
--- 	for cond in List:iter(self._current.post_conditions) do
--- 		if cond[1]() then cond[2]() end
--- 	end
--- end

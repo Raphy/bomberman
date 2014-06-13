@@ -108,7 +108,7 @@ end
 --[[ A SAVOIR :
 	pour les listes de tables, necessite que l'operateur < soit implementé
 ]]
-function List:sort(list)--[[_cost]]
+function List:sort(list)
 	for i=1,self._nb_elem-1 do
 		if list[i] < list[i + 1] then
 			tmp = list[i]
@@ -117,10 +117,9 @@ function List:sort(list)--[[_cost]]
 		end
 	end
 end
-function List:push_and_sort(list, elem)--[[_cost]]
+function List:push_and_sort(list, elem)
 	self:push_back(list,elem)
-	-- self:sort(list)
-	--faire plus opti ?
+	self:sort(list)
 end
 
 
@@ -137,7 +136,8 @@ function List:add_case_in_list(list, case)
 	if List:is_case_in_list(list, case) then
 		Helper:warning("try to add idx "..case.idx.." already in list "..list._name)
 	end
-	Helper:debug_print("add_case_in_list : "..list._name..". _idx = "..case.idx)
+	if active_debug_list then
+		Helper:debug_print("add_case_in_list : "..list._name..". _idx = "..case.idx) end
 	list._nb_elem = list._nb_elem + 1
 	table.insert(list, list._nb_elem, case.idx)
 end
@@ -145,7 +145,8 @@ function List:remove_case_from_list(list, case)
 	if not List:is_case_in_list(list, case) then
 		Helper:warning("try to remove unexisted idx "..case.idx.." from list "..list._name)
 	end
-	Helper:debug_print("remove_case_from_list : "..list._name..". _idx = "..case.idx)
+	if active_debug_list then
+		Helper:debug_print("remove_case_from_list : "..list._name..". _idx = "..case.idx) end
 	for i,v in ipairs(list) do
 		if v == case.idx then
 			table.remove(list, i)
@@ -161,7 +162,6 @@ function List:is_case_in_list(list, case)
 		end
 	end
 end
-
 function List:iter_case(list)
 	local i = 0
 	local n = list._nb_elem
@@ -170,5 +170,3 @@ function List:iter_case(list)
 		if i <= n then return MapManager:get_case(list[i]) end
 	end
 end
-
-

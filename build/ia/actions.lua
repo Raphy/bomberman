@@ -24,7 +24,6 @@ function Actions:path_recalc_needed()
 		or List:empty(self._path)
 end
 function Actions:follow_path()
-	Helper:debug_print("follow_path) type self._path : "..type(self._path))
 	if self._path == nil or List:empty(self._path) then
 		return false end
 	return self:go_towards(List:front_and_pop(self._path))
@@ -45,9 +44,7 @@ function Actions:go_random()
 	end
 	return self:follow_path()
 end
-
--- A savoir : complete random, use with cautions
-function Actions:act_random()
+function Actions:act_random()-- A savoir : complete random, use with cautions
 	local dir = math.random(Tags:v("up"), Tags:v("put_bomb"))
 	return self.act[dir]()
 end
@@ -63,38 +60,27 @@ function Actions:go_to(x,y)
 	end
 	return self:follow_path()
 end
-
 function Actions:go_towards(direction)
-	Helper:debug_print("go_towards : "..direction)
 	return self.act[direction]()
 end
 
--- TODO : faire 2 versions, une safe et une simple
--- TODO : completer avec enemy_id defini, où prendre plutot une position d'enemy ?
 function Actions:get_closer_of_one_enemy(enemy_id)
 	local id = enemy_id or -1
-
 	if self:path_recalc_needed() then
-		Helper:debug_print("path_recalc_needed")
 		local start_idx = MapManager:coord_to_idx(me:getPosition())
 		local dest_idx = -1
 		self._path = Path:calc_path("dijkstra", start_idx, -1, "enemy")
-		Helper:debug_print("type self._path : "..type(self._path))
 	end
 	return self:follow_path()
 end
-
 function Actions:get_away_of_one_enemy(enemy_id)
 	local id = enemy_id or -1
 	Helper:to_implement()
 	return me:moveUp()
 end
 
---TODO : ajouter safe_place au tag + le gerer dans calc_path !
-
 function Actions:avoid_bomb(bomb_id)
 	local id = bomb_id or -1
-	-- faire un clean_map qqpart ?
 	Helper:preview_all_bombs()
 	MapManager:make_type_unwalkable("preview_fire")
 	MapManager:make_type_unwalkable("preview_bomb")
@@ -106,10 +92,8 @@ function Actions:avoid_bomb(bomb_id)
 	self._path = path
 	return self:follow_path()
 end
-
 function Actions:place_bomb()
-	-- faire un clean_map qqpart ?
-	Helper:preview_bomb(Helper:get_my_coord())-- faire un preview_all_bombs ?
+	Helper:preview_all_bombs()
 	MapManager:make_type_unwalkable("preview_fire")
 	MapManager:make_type_unwalkable("preview_bomb")
 	Helper:mark_all_safe_cases()
