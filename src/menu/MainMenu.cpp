@@ -5,7 +5,7 @@
 #include "MapMenu.hh"
 #include "OptionMenu.hh"
 
-SoundManager& OptionMenu::_son = SoundManager::getInstance();
+
 
 MainMenu::MainMenu(SceneArguments const& arg)
   : AMenuScene("MainMenu")
