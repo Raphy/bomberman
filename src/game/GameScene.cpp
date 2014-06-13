@@ -143,6 +143,8 @@ bool GameScene::initialize() {
 
     bool init_success = true;
 
+    m_quad_tree = new QuadTree(Rectangle(0, 0, m_map_width, m_map_height));
+
     foreachObject([&] (AGameObject& obj) {
         if (obj.initialize() == false) {
             init_success = false;
@@ -163,10 +165,9 @@ bool GameScene::initialize() {
         }
     }
 
-    m_quad_tree = new QuadTree(Rectangle(0, 0, m_map_width, m_map_height));
-    rebuildQuadTree();
-
     initPlaylist();
+
+    rebuildQuadTree();
 
     return true;
 }
