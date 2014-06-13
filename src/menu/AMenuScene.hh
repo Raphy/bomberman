@@ -9,10 +9,15 @@
 # include "AWidget.hh"
 # include "Camera.hh"
 # include "ResourcesPath.hh"
+# include "Configuration.hh"
 
 class AMenuScene : public AScene
 {
 protected:
+  Configuration _conf;
+  float _windowX;
+  float _windowY;
+
   gdl::Texture _texture;
   gdl::Geometry _geometry;
 
@@ -38,6 +43,12 @@ public:
   void setTexture(const std::string& path);
 
   void addButton(const std::string& path,  const glm::vec3& pos, const glm::vec3& scale, const ButtonHandler& fct, int c);
+
+  float getWindowX() const;
+  float getWindowY() const;
+
+  float getXPercent(float) const;
+  float getYPercent(float) const;
 
 };
 

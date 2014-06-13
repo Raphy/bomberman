@@ -1,9 +1,9 @@
 #include "AMenuScene.hh"
 
 AMenuScene::AMenuScene(const std::string& tag)
-  : AScene(tag)
+  : AScene(tag), _conf() , _windowX((float)_conf.WindowWidth()), _windowY((float)_conf.WindowHeight())
 {
-  _projection = glm::ortho(0.0f, 600.0f, 600.0f, 0.0f, -1.0f, 1.0f);
+  _projection = glm::ortho(0.0f, getWindowX(), getWindowY(), 0.0f, -1.0f, 1.0f);
 
   _cursorPos = 0;
 
@@ -69,7 +69,7 @@ bool AMenuScene::draw(gdl::AShader& shader, gdl::Clock const& clock)
   shader.setUniform("view", glm::mat4(1));
   shader.setUniform("projection", _projection);
 
-  glm::vec3 size(600, 600, 0);
+  glm::vec3 size(getWindowX(), getWindowY(), 0);
   glm::mat4 transform(1);
 
   transform = glm::scale(transform, size);
@@ -92,4 +92,24 @@ void AMenuScene::setTexture(const std::string& path)
 void AMenuScene::addButton(const std::string& path,  const glm::vec3& pos, const glm::vec3& scale, const ButtonHandler& fct, int c)
 {
   _mapButton.insert(std::pair<AWidget*, ButtonHandler>(new AWidget(path, pos, scale, c), fct));
+}
+
+float AMenuScene::getWindowX() const
+{
+  return _windowX;
+}
+
+float AMenuScene::getWindowY() const
+{
+  return _windowY;
+}
+
+float AMenuScene::getXPercent(float p) const
+{
+  return (getWindowX() * p) / 100;
+}
+
+float AMenuScene::getYPercent(float p) const
+{
+  return (getWindowY() * p) / 100;
 }
