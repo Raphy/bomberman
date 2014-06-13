@@ -101,7 +101,7 @@ void Marvin::onBombPressed(const gdl::Clock& clock) {
     this->addObject(bomb);
 }
 
-void Marvin::addObject(AObject * obj) {
+void Marvin::addObject(AGameObject * obj) {
     this->_objects.push_back(obj);
 }
 
