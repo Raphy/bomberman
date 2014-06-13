@@ -7,7 +7,12 @@ require "path"
 
 Coord:init()	
 	MapManager:init(100,100)
-	MapManager:activate_vision()
+-- MapManager:activate_vision()
+	math.randomseed(os.time())
+	-- Coord:init()
+	-- MapManager:init(100,100, vision_size)
+	Actions:init(10)
+
 -- * COORD *
 do
 	print("\n\n***** TEST COORD *****\n")

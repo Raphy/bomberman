@@ -50,12 +50,14 @@ function Actions:act_random()-- A savoir : complete random, use with cautions
 end
 
 function Actions:go_to(x,y)
-	if not MapManager:check_coord(x,y)
-		then Helper:debug_print("goTo outside case !!"); return false end
-
+	if not MapManager:check_coord(x,y) then
+		Helper:debug_print("goTo outside case !!")
+		return false end
 	if self:path_recalc_needed() then
 		local start_idx = MapManager:coord_to_idx(me:getPosition())
 		local dest_idx = MapManager:coord_to_idx(x, y)
+		if start_idx == dest_idx then
+			return false end
 		self._path = Path:calc_path("astar", start_idx, dest_idx)
 	end
 	return self:follow_path()
