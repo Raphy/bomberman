@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 12:12:44 2014 raphael defreitas
-// Last update Fri Jun 13 22:17:24 2014 raphael defreitas
+// Last update Fri Jun 13 23:06:47 2014 raphael defreitas
 //
 
 #include	<cstring>
@@ -14,8 +14,10 @@
 #include	<list>
 #include	<vector>
 
+#include	"Box.hh"
 #include	"game/GameScene.hh"
 #include	"game/Rectangle.hh"
+#include	"game/GameAPI.hh"
 #include	"GameObject.hh"
 #include	"Map.hh"
 #include	"Me.hh"
@@ -27,8 +29,7 @@
 
 using namespace API;
 
-Map::Map(GameScene* gs) :
-  _gs(gs)
+Map::Map(void)
 {
 }
 
@@ -36,27 +37,29 @@ Map::~Map(void)
 {
 }
 
-std::vector<GameObject*> Map::get(int x, int y, int d/*, Me* me*/)
+std::vector<GameObject*> Map::get(int x, int y, int d, Me* me)
 {
   std::vector<GameObject*> objects;
   std::list<AGameObject*> list_go;
 
   // Retrieveing the objects from the map
   Rectangle rect((double)x - (double)d, (double)y - (double)d, (double)d * 2, (double)d * 2);
-  this->_gs->getQuadTree().retrieve(list_go, rect);
+  GameAPI::getInstance().getObjectsIn(rect, list_go);
 
   // Creating our own vector of API::GameObjects
   for (std::list<AGameObject*>::iterator it = list_go.begin(); it != list_go.end(); it++)
     {
-      /*std::cout << "[ " << *it << " ] [ " << me->getAGameObject() << " ]" << std::endl;*/
+      std::cout << "[CPP] type du AGameObject: " << (*it)->getType() << std::endl;
       if ((*it)->getType() == "marvin")
 	objects.push_back(new Player((Marvin*)*it));
       else if ((*it)->getType() == "wall")
 	objects.push_back(new API::Wall((::Wall*)*it));
-      /*else if ((*it)->getType() == "ia" && (void*)(*it) == (void*)me->getAGameObject())
-	objects.push_back(new Me((IA*)*it));*/
+      else if ((*it)->getType() == "ia" && *it == me->getAGameObject())
+	objects.push_back(new Me((IA*)*it));
       else if ((*it)->getType() == "ia")
 	objects.push_back(new Player((Marvin*)*it));
+      else if ((*it)->getType() == "box")
+	objects.push_back(new API::Box((::Box*)*it));
       else
 	std::cout << "GAMEOBJECT NOT HANDLED (Api::Map::get) : " << (*it)->getType() << std::endl;
     }
@@ -91,13 +94,9 @@ int Map::get(lua_State* L)
   int x = luaL_checkinteger(L, 2);
   int y = luaL_checkinteger(L, 3);
   int distance = luaL_checkinteger(L, 4);
-  Me* me = *(Me**)lua_touserdata(L, 5);
+  Me* me = *(Me**)luaL_checkudata(L, 5, "luaL_Me");
 
-  /*Me* me = vm.getClass<Me>("me");*/
-
-  std::cout << "map:get " << me->getType() << std::endl;
-
-  std::vector<GameObject*> vec = udata->get(x, y, distance/*, me*/);
+  std::vector<GameObject*> vec = udata->get(x, y, distance, me);
 
   lua_newtable(vm.getState());
   int i = 0;

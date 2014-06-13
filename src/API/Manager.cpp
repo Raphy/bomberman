@@ -5,11 +5,12 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Thu Jun  5 10:41:01 2014 raphael defreitas
-// Last update Fri Jun 13 21:36:34 2014 raphael defreitas
+// Last update Fri Jun 13 22:57:42 2014 raphael defreitas
 //
 
 #include	<lua.hpp>
 
+#include	"Box.hh"
 #include	"game/GameScene.hh"
 #include	"GameObject.hh"
 #include	"Lua/Script.hh"
@@ -36,8 +37,9 @@ void Manager::registerScript(Script& script)
   Me::registerScript(script);
   Player::registerScript(script);
   API::Wall::registerScript(script);
+  API::Box::registerScript(script);
 
-  API::Map* udata = new API::Map(this->_gs);
+  API::Map* udata = new API::Map();
   script.getVirtualMachine().setClass<API::Map>("luaL_Map", "map", udata);
 }
 

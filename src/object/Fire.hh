@@ -18,10 +18,11 @@ public:
         North,
         East,
         South,
-        West
+        West,
+        None //the first one is None
     };
     
-    Fire(): ACube("fire"), _first(false), _steps(1), _created(false) {}
+    Fire(): ACube("fire"), _steps(0), _direction(None) {}
     Fire(Fire const& obj);
     virtual ~Fire() {}
 
@@ -32,18 +33,18 @@ public:
     // default is 3 (I guess..)
     void setStep(int steps) { this -> _steps = steps; }
     void setDirection(Direction direction) { this->_direction = direction; }
-    void setIsFirst(bool first = true) { this->_first = first; }
 
 private:
     
-    bool _first;
     int _steps;
-    bool _created;
     Direction _direction;
 
-    Direction getDirection() { return this -> _direction; }
-    int getStep() { return _steps; }
-    int isFirst() { return _first; }
+    Direction getDirection() const { return this -> _direction; }
+    int getStep() const { return _steps; }
+    int isFirst() const { return _direction == None; }
+    
+    void createFire(glm::vec3 const&, Direction);
+    void createRoot();
 };
 
 #endif	/* FIRE_HH */
