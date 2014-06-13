@@ -4,7 +4,7 @@
 #include "SoundManager.hh"
 
 SoundManager::SoundManager()
-  : _volume(0), _volumeFx(0), _volumeMusic(0), _mute(false), _muteFx(false), _muteMusic(false)
+  : _volume(128), _volumeFx(128), _volumeMusic(128), _mute(false), _muteFx(false), _muteMusic(false)
 {
   if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048) == -1)
     throw std::string("Init Mix_OpenAudio fail");
