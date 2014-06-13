@@ -178,10 +178,14 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
         }
     });
 
-    for (auto obj : new_objects) {
-        obj->initialize();
+    if (new_objects.empty() == false) {
+        for (auto obj : new_objects) {
+            if (obj->initialize() == false) {
+                return false;
+            }
+            m_objects.push_back(obj);
+        }
     }
-    std::copy(new_objects.begin(), new_objects.end(), std::back_inserter(m_objects));
 
     rebuildQuadTree();
 
