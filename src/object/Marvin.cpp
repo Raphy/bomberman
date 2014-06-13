@@ -93,7 +93,7 @@ void Marvin::onRightPressed(gdl::Clock const &clock)
 }
 
 void Marvin::onBombPressed(const gdl::Clock& clock) {
-    AObject* bomb = new Bomb();
+    AGameObject* bomb = new Bomb();
     
     bomb->setPosition(glm::vec3(static_cast<int>(this->_position.x),
                                 static_cast<int>(this->_position.y),

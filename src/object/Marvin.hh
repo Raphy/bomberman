@@ -36,7 +36,7 @@ public:
 
     virtual void onCollision(AGameObject&);
     virtual Rectangle getCollider() const;
-    virtual void setBindKeys(inputBinding const& bind = {SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT, SDLK_SPACE});
+    virtual void setBindKeys(inputBinding const& bind = {SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT, SDLK_RCTRL});
     
     static std::string const Tag;
     
