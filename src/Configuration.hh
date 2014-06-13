@@ -11,13 +11,13 @@
 class Configuration {
 public:
     
-    static int s_camera_width;
-    static int s_camera_height;
+    static int s_window_width;
+    static int s_window_height;
     
 private:
 
-    static int CameraWidth() { return s_camera_width; }
-    static int CameraHeight() { return s_camera_height; }
+    static int WindowWidth() { return s_window_width; }
+    static int WindowHeight() { return s_window_height; }
     
 };
 

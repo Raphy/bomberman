@@ -7,5 +7,5 @@
 
 #include "Configuration.hh"
 
-int Configuration::s_camera_height = 1080;
-int Configuration::s_camera_width = 720;
+int Configuration::s_window_height = 1080;
+int Configuration::s_window_width = 720;
