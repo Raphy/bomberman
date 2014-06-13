@@ -30,8 +30,7 @@ private:
 
   bool _btnUp = false;
   bool _btnDown = false;
-  bool _btnSpace = false;
-
+  bool _btnSpace = true;
 };
 
 #endif

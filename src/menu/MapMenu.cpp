@@ -56,6 +56,7 @@ bool MapMenu::update(gdl::Clock const& clock, gdl::Input& input)
   if (!input.getKey(SDLK_UP) && _btnUp)
     _btnUp = false;
 
+
   if (input.getKey(SDLK_DOWN) && !_btnDown)
     {
       _btnDown = true;
@@ -65,6 +66,7 @@ bool MapMenu::update(gdl::Clock const& clock, gdl::Input& input)
     }
   if (!input.getKey(SDLK_DOWN) && _btnDown)
     _btnDown = false;
+
 
   if (input.getKey(SDLK_SPACE) && !_btnSpace)
     {
@@ -79,20 +81,17 @@ bool MapMenu::update(gdl::Clock const& clock, gdl::Input& input)
 	    (this->*(it->second))(SDLK_SPACE);
 	  it++;
 	}
+
     }
   if (!input.getKey(SDLK_SPACE) && _btnSpace)
     _btnSpace = false;
+
   return true;
 }
 
 bool MapMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 {
   AMenuScene::draw(shader, clock);
-
-
-  //glDisable(GL_DEPTH_TEST);
-  //glAlphaFunc(GL_GREATER, 0.3f);
-
 
   std::map<AWidget* , ButtonHandler>::iterator it;
   it = _mapButton.begin();
