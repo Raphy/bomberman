@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 12:12:44 2014 raphael defreitas
-// Last update Fri Jun 13 22:52:17 2014 raphael defreitas
+// Last update Fri Jun 13 23:06:47 2014 raphael defreitas
 //
 
 #include	<cstring>
@@ -14,6 +14,7 @@
 #include	<list>
 #include	<vector>
 
+#include	"Box.hh"
 #include	"game/GameScene.hh"
 #include	"game/Rectangle.hh"
 #include	"game/GameAPI.hh"
@@ -53,16 +54,12 @@ std::vector<GameObject*> Map::get(int x, int y, int d, Me* me)
 	objects.push_back(new Player((Marvin*)*it));
       else if ((*it)->getType() == "wall")
 	objects.push_back(new API::Wall((::Wall*)*it));
-      /*else if ((*it)->getType() == "ia" && *it == me->getAGameObject())
-	{
-	  std::cout << "me [ " << *it << " ] [ " << me->getAGameObject() << " ]" << std::endl;
-	  objects.push_back(new Me((IA*)*it));
-	  }*/
-      /*else if ((*it)->getType() == "ia")
-	{
-	  std::cout << "ia [ " << *it << " ] [ " << me->getAGameObject() << " ]" << std::endl;
-	  objects.push_back(new Player((Marvin*)*it));
-	  }*/
+      else if ((*it)->getType() == "ia" && *it == me->getAGameObject())
+	objects.push_back(new Me((IA*)*it));
+      else if ((*it)->getType() == "ia")
+	objects.push_back(new Player((Marvin*)*it));
+      else if ((*it)->getType() == "box")
+	objects.push_back(new API::Box((::Box*)*it));
       else
 	std::cout << "GAMEOBJECT NOT HANDLED (Api::Map::get) : " << (*it)->getType() << std::endl;
     }

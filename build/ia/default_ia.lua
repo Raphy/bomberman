@@ -4,7 +4,7 @@ end
 
 function play()
    print("[[ - START - ]]")
-   local objects = map:get(0, 0, 100, me)
+   local objects = map:get(5, 5, 10, me)
    for i=1, #objects do
       local x, y = objects[i]:getPosition()
       print("[IA] " .. objects[i]:getType() .. " (" .. x .. ", " .. y .. ")")
