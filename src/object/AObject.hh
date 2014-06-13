@@ -31,11 +31,10 @@ public:
         _static(false)
     {}
 
+    AObject(AObject const&);
+        
     virtual ~AObject() {}
 
-    virtual bool instanciatedObjects() const { return false; }
-    
-    
     virtual bool initialize() = 0;
     virtual void update(gdl::Clock const& clock, gdl::Input& input) = 0;
     virtual void draw(gdl::AShader & shader, gdl::Clock const& clock) = 0;

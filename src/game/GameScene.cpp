@@ -11,6 +11,7 @@
 #include "Box.hh"
 #include "IA.hh"
 #include "Bomb.hh"
+#include "Fire.hh"
 
 const std::string GameScene::Tag = "game";
 
@@ -86,7 +87,7 @@ void GameScene::loadMap(std::string const& filename) {
                 case MapText::BOX:      instantiateObject<Box>(x, y); break;
                 case MapText::WALL:     instantiateObject<Wall>(x, y); break;
                 case MapText::BOMB:     instantiateObject<Bomb>(x, y); break;
-                //case MapText::FIRE:   instantiateObject<Fire>(x, y); break;
+                case MapText::FIRE:   instantiateObject<Fire>(x, y); break;
                 default: break;
             }
         });
