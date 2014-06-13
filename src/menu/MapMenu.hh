@@ -4,8 +4,7 @@
 # include "AMenuScene.hh"
 # include "AWidget.hh"
 # include "Cursor.hh"
-
-#include "SoundManager.hh"
+# include "SoundManager.hh"
 
 class MapMenu : public AMenuScene
 {
@@ -25,11 +24,11 @@ public:
 private:
   Cursor *_cursor;
 
-  static SoundManager& _son;
-
   bool _btnUp = false;
   bool _btnDown = false;
   bool _btnSpace = true;
+
+  static SoundManager& _son;
 
 };
 
