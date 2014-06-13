@@ -5,12 +5,13 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Thu Jun 05 10:38:15 2014 raphael defreitas
-// Last update Thu Jun 12 20:43:33 2014 raphael defreitas
+// Last update Fri Jun 13 20:56:43 2014 raphael defreitas
 */
 
 #ifndef		MANAGER_HH_
 # define	MANAGER_HH_
 
+# include	"game/GameScene.hh"
 # include	"Lua/Script.hh"
 # include	"object/IA.hh"
 
@@ -25,12 +26,14 @@ namespace API
 
     void registerScript(Script& script);
     void registerMe(Script& script, IA* ia);
+    void registerMap(GameScene* gs);
 
   private:
     Manager(void);
     ~Manager(void);
 
     static Manager _instance;
+    GameScene* _gs;
   };
 }
 

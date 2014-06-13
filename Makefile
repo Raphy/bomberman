@@ -2,7 +2,7 @@
 # Basic
 CXX ?= g++
 
-INCFLAGS := $(shell pkg-config --cflags)
+# INCFLAGS := $(shell pkg-config --cflags)
 CXXFLAGS = -Wall -std=c++11 $(INCFLAGS)
 CXXFLAGS += -I lib/gdl/includes/
 LDFLAGS :=  -L ./lib/gdl/libs -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk  -lpthread -ldl -lSDL2 -lSDL2_mixer
