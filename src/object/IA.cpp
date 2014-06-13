@@ -44,12 +44,11 @@ bool IA::initialize()
       }
     catch (std::exception& e)
       {
-	return (false);
+	std::cerr << "[IA] " << "Lua script registering failed" << std::endl;
       }
     if (!this->_script->execute() || !this->_script->initialization())
       {
 	std::cerr << "[Lua] " << this->_script->getVirtualMachine().getError() << std::endl;
-	return (false);
       }
 
     return (true);
