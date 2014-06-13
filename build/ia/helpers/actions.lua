@@ -54,7 +54,7 @@ function Actions:go_to(x,y)
 		Helper:debug_print("goTo outside case !!")
 		return false end
 	if self:path_recalc_needed() then
-		local start_idx = MapManager:coord_to_idx(me:getPosition())
+		local start_idx = MapManager:coord_to_idx(Helper:get_my_position())
 		local dest_idx = MapManager:coord_to_idx(x, y)
 		if start_idx == dest_idx then
 			return false end
@@ -69,7 +69,7 @@ end
 function Actions:get_closer_of_one_enemy(enemy_id)
 	local id = enemy_id or -1
 	if self:path_recalc_needed() then
-		local start_idx = MapManager:coord_to_idx(me:getPosition())
+		local start_idx = MapManager:coord_to_idx(Helper:get_my_position())
 		local dest_idx = -1
 		self._path = Path:calc_path("dijkstra", start_idx, -1, "Player")
 	end
@@ -87,7 +87,7 @@ function Actions:avoid_bomb(bomb_id)
 	MapManager:make_type_unwalkable("preview_fire")
 	MapManager:make_type_unwalkable("preview_bomb")
 	Helper:mark_all_safe_cases()
-	local path = Path:calc_path("dijkstra", MapManager:coord_to_idx(me:getPosition()), -1, "safe_place")
+	local path = Path:calc_path("dijkstra", MapManager:coord_to_idx(Helper:get_my_position()), -1, "safe_place")
 	Helper:clean_preview()
 	if path == nil then
 		return false end
@@ -99,7 +99,7 @@ function Actions:place_bomb()
 	MapManager:make_type_unwalkable("preview_fire")
 	MapManager:make_type_unwalkable("preview_bomb")
 	Helper:mark_all_safe_cases()
-	local path = Path:calc_path("dijkstra", MapManager:coord_to_idx(me:getPosition()), -1, "safe_place")
+	local path = Path:calc_path("dijkstra", MapManager:coord_to_idx(Helper:get_my_position()), -1, "safe_place")
 	Helper:clean_preview()
 	if path == nil then
 		return false end

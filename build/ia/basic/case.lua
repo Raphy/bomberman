@@ -19,7 +19,7 @@ local case_mt =
 Case = {}
 
 function Case:create_case(curr_idx, i,j)
-	assert(MapManager:check_coord(j,i))
+	-- assert(MapManager:check_coord(j,i))
 
 	local case = {}
 	setmetatable(case, case_mt)
