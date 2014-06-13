@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Thu Jun 12 20:17:36 2014 raphael defreitas
+// Last update Fri Jun 13 21:41:40 2014 raphael defreitas
 */
 
 #ifndef		PLAYER_HH_
@@ -30,7 +30,6 @@ namespace API
     Player(IA* ia);
     ~Player(void);
 
-    virtual size_t size(void) const { return sizeof(*this); }
     const std::string& getName(void) const;
 
     // Lua implementation
