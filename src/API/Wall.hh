@@ -1,34 +1,32 @@
 /*
-** Player.hh for Bomberman in /home/raphy/Epitech/Tech_2/bomberman/src/API
+** Wall.hh for Bomberman in /home/raphy/Epitech/Tech_2/bomberman/src/API
 **
 ** Made by raphael defreitas
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Fri Jun 13 21:41:40 2014 raphael defreitas
+// Last update Fri Jun 13 21:34:50 2014 raphael defreitas
 */
 
-#ifndef		PLAYER_HH_
-# define	PLAYER_HH_
+#ifndef		WALL_HH_
+# define	WALL_HH_
 
 # include	<lua.hpp>
 # include	<string>
 
 # include	"GameObject.hh"
-# include	"object/IA.hh"
-# include	"object/Marvin.hh"
+# include	"object/Wall.hh"
 # include	"Lua/Script.hh"
 
 using namespace Lua;
 
 namespace API
 {
-  class Player : public GameObject
+  class Wall : public GameObject
   {
   public:
-    Player(Marvin* marvin);
-    Player(IA* ia);
-    ~Player(void);
+    Wall(::Wall* wall);
+    ~Wall(void);
 
     const std::string& getName(void) const;
 
@@ -37,9 +35,8 @@ namespace API
     static void registerMethods(Script& script);
 
   protected:
-    Marvin* _marvin;
-    IA* _ia;
+    ::Wall* _wall;
   };
 }
 
-#endif /* !PLAYER_HH_*/
+#endif /* !WALL_HH_*/
