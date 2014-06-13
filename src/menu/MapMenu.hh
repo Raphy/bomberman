@@ -25,12 +25,12 @@ public:
 
 private:
   Cursor *_cursor;
-
+  
   static SoundManager& _son;
 
   bool _btnUp = false;
   bool _btnDown = false;
-  bool _btnSpace = false;
+  bool _btnSpace = true;
 
 };
 
