@@ -24,15 +24,17 @@ void Bomb::update(const gdl::Clock& clock, gdl::Input& input) {
     if (this -> _time >= BOMBTIME) {
         std::cout << "BOOM" << std::endl;
         this -> die();
-//        this -> createFire();
+        this -> createFire();
     }
 }
 
 void Bomb::createFire() {
     
-    AGameObject* obj = new Fire();
+    Fire* obj = new Fire();
     
+    obj->setStep(0);
     obj->setPosition(this->_position);
+    obj->setDirection(Fire::None);
     
     addObject(obj);
 }

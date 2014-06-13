@@ -171,9 +171,32 @@ bool GameScene::initialize() {
     return true;
 }
 
+void GameScene::zoomCamera(int key) {
+    for (int player_num = 1; player_num <= 2; player_num++) {
+        if (m_players[playerIdx(player_num)]) {
+            Camera *cam = getCamera("p" + std::to_string(player_num));
+            if (cam) {
+                if (key == SDLK_KP_PLUS) {
+                    cam->zoomPlus();
+                }
+                else {
+                    cam->zoomMinus();
+                }
+            }
+        }
+    }
+}
+
 bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
     m_playlist.update();
+
+    if (input.getKey(SDLK_KP_PLUS)) {
+        zoomCamera(SDLK_KP_PLUS);
+    }
+    else if (input.getKey(SDLK_KP_MINUS)) {
+        zoomCamera(SDLK_KP_MINUS);
+    }
 
     std::list<AGameObject*> new_objects;
 

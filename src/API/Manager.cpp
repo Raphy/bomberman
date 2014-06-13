@@ -5,14 +5,16 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Thu Jun  5 10:41:01 2014 raphael defreitas
-// Last update Fri Jun 13 22:57:42 2014 raphael defreitas
+// Last update Fri Jun 13 23:28:39 2014 raphael defreitas
 //
 
 #include	<lua.hpp>
 
+#include	"Bomb.hh"
 #include	"Box.hh"
 #include	"game/GameScene.hh"
 #include	"GameObject.hh"
+#include	"Item.hh"
 #include	"Lua/Script.hh"
 #include	"Manager.hh"
 #include	"Map.hh"
@@ -32,12 +34,14 @@ Manager& Manager::getInstance(void)
 
 void Manager::registerScript(Script& script)
 {
+  API::Box::registerScript(script);
+  API::Bomb::registerScript(script);
   GameObject::registerScript(script);
+  Item::registerScript(script);
   Map::registerScript(script);
   Me::registerScript(script);
   Player::registerScript(script);
   API::Wall::registerScript(script);
-  API::Box::registerScript(script);
 
   API::Map* udata = new API::Map();
   script.getVirtualMachine().setClass<API::Map>("luaL_Map", "map", udata);
