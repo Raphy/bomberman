@@ -10,6 +10,7 @@
 #include "Wall.hh"
 #include "Box.hh"
 #include "IA.hh"
+#include "Bomb.hh"
 
 const std::string GameScene::Tag = "game";
 
@@ -81,23 +82,11 @@ void GameScene::loadMap(std::string const& filename) {
             switch (type) {
                 case MapText::PLAYER_1: initPlayer(1, x, y); break;
                 case MapText::PLAYER_2: initPlayer(2, x, y); break;
-                case MapText::ENEMY:
-                    m_objects.push_back(new IA());
-                    m_objects.back()->setPosition(
-                        static_cast<double>(x), static_cast<double>(y));
-                    break;
-                case MapText::BOX:
-                    std::cout << "instantiate box" << std::endl;
-                    m_objects.push_back(new Box());
-                    m_objects.back()->setPosition(
-                        static_cast<double>(x), static_cast<double>(y));
-                case MapText::WALL:
-                    m_walls.push_back(new Wall());
-                    m_walls.back()->setPosition(
-                        static_cast<double>(x), static_cast<double>(y));
-                    break;
-                case MapText::BOMB: break;
-                // case MapText::FIRE: break;
+                case MapText::ENEMY:    instantiateObject<IA>(x, y); break;
+                case MapText::BOX:      instantiateObject<Box>(x, y); break;
+                case MapText::WALL:     instantiateObject<Wall>(x, y); break;
+                case MapText::BOMB:     instantiateObject<Bomb>(x, y); break;
+                //case MapText::FIRE:   instantiateObject<Fire>(x, y); break;
                 default: break;
             }
         });

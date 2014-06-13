@@ -35,7 +35,9 @@ bool AMenuScene::initialize()
       return false;
     }
 
-  _camera->initialize();
+  if (_camera->initialize() == false) {
+    return false;
+  }
 
   _camera->setPosition(glm::vec3(0, 0, 0));
   _camera->setLookAt(glm::vec3(0, 0, 1));
