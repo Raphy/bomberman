@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 12:12:44 2014 raphael defreitas
-// Last update Fri Jun 13 22:17:24 2014 raphael defreitas
+// Last update Fri Jun 13 22:38:10 2014 raphael defreitas
 //
 
 #include	<cstring>
@@ -36,7 +36,7 @@ Map::~Map(void)
 {
 }
 
-std::vector<GameObject*> Map::get(int x, int y, int d/*, Me* me*/)
+std::vector<GameObject*> Map::get(int x, int y, int d, Me* me)
 {
   std::vector<GameObject*> objects;
   std::list<AGameObject*> list_go;
@@ -48,15 +48,21 @@ std::vector<GameObject*> Map::get(int x, int y, int d/*, Me* me*/)
   // Creating our own vector of API::GameObjects
   for (std::list<AGameObject*>::iterator it = list_go.begin(); it != list_go.end(); it++)
     {
-      /*std::cout << "[ " << *it << " ] [ " << me->getAGameObject() << " ]" << std::endl;*/
+      std::cout << "type: " << (*it)->getType() << std::endl;
       if ((*it)->getType() == "marvin")
 	objects.push_back(new Player((Marvin*)*it));
       else if ((*it)->getType() == "wall")
 	objects.push_back(new API::Wall((::Wall*)*it));
-      /*else if ((*it)->getType() == "ia" && (void*)(*it) == (void*)me->getAGameObject())
-	objects.push_back(new Me((IA*)*it));*/
-      else if ((*it)->getType() == "ia")
-	objects.push_back(new Player((Marvin*)*it));
+      /*else if ((*it)->getType() == "ia" && *it == me->getAGameObject())
+	{
+	  std::cout << "me [ " << *it << " ] [ " << me->getAGameObject() << " ]" << std::endl;
+	  objects.push_back(new Me((IA*)*it));
+	  }*/
+      /*else if ((*it)->getType() == "ia")
+	{
+	  std::cout << "ia [ " << *it << " ] [ " << me->getAGameObject() << " ]" << std::endl;
+	  objects.push_back(new Player((Marvin*)*it));
+	  }*/
       else
 	std::cout << "GAMEOBJECT NOT HANDLED (Api::Map::get) : " << (*it)->getType() << std::endl;
     }
@@ -91,13 +97,9 @@ int Map::get(lua_State* L)
   int x = luaL_checkinteger(L, 2);
   int y = luaL_checkinteger(L, 3);
   int distance = luaL_checkinteger(L, 4);
-  Me* me = *(Me**)lua_touserdata(L, 5);
+  Me* me = *(Me**)luaL_checkudata(L, 5, "luaL_Me");
 
-  /*Me* me = vm.getClass<Me>("me");*/
-
-  std::cout << "map:get " << me->getType() << std::endl;
-
-  std::vector<GameObject*> vec = udata->get(x, y, distance/*, me*/);
+  std::vector<GameObject*> vec = udata->get(x, y, distance, me);
 
   lua_newtable(vm.getState());
   int i = 0;
