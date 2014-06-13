@@ -10,10 +10,7 @@ OptionMenu::OptionMenu(SceneArguments const& arg)
   addButton(ResourcesPath::asset("img/soundmusic.tga"), glm::vec3(60, 180, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&OptionMenu::soundmusichandler), 1);
   addButton(ResourcesPath::asset("img/back.tga"), glm::vec3(60, 450, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&OptionMenu::backhandler), 2);
 
-
-
   _cursorbson = new Cursor( ResourcesPath::asset("img/barson.tga"), glm::vec3(200, 100, 1), glm::vec3(300, 20, 0));
-
 
   _cursor = new Cursor(ResourcesPath::asset("img/bombe.tga"), glm::vec3(30, 100, 1), glm::vec3(50, 50, 0));
   _cursorFx = new Cursor(ResourcesPath::asset("img/bombe.tga"), glm::vec3(250, 70, 1), glm::vec3(50, 50, 0));
@@ -33,10 +30,10 @@ bool OptionMenu::initialize()
 {
   setTexture(ResourcesPath::asset("img/menu.tga"));
   if (AMenuScene::initialize() == false
-    || _cursor->initialize() == false
-    || _cursorbson->initialize() == false
-    || _cursorFx->initialize() == false
-    || _cursorMusic->initialize() == false) {
+      || _cursor->initialize() == false
+      || _cursorbson->initialize() == false
+      || _cursorFx->initialize() == false
+      || _cursorMusic->initialize() == false) {
     return false;
   }
 
@@ -158,10 +155,6 @@ bool OptionMenu::update(gdl::Clock const& clock, gdl::Input& input)
 bool OptionMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 {
   AMenuScene::draw(shader, clock);
-
-  //glDisable(GL_DEPTH_TEST);
-  //glAlphaFunc(GL_GREATER, 0.3f);
-  //glEnable(GL_ALPHA_TEST);
 
 
   std::map<AWidget* , ButtonHandler>::iterator it;
