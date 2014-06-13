@@ -2,7 +2,7 @@
 
 #include    "AGameObject.hh"
 
-void AGameObject::restoreLastState(AGameObject const& other) {
+void AGameObject::restoreLastState() {
 
     _position = _state.position;
     Rectangle const& collider = getCollider();
