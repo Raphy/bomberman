@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 12:12:44 2014 raphael defreitas
-// Last update Fri Jun 13 22:03:55 2014 raphael defreitas
+// Last update Fri Jun 13 22:17:24 2014 raphael defreitas
 //
 
 #include	<cstring>
@@ -91,9 +91,11 @@ int Map::get(lua_State* L)
   int x = luaL_checkinteger(L, 2);
   int y = luaL_checkinteger(L, 3);
   int distance = luaL_checkinteger(L, 4);
-  /*Me* me = vm.getClass<Me>("me");
+  Me* me = *(Me**)lua_touserdata(L, 5);
 
-    std::cout << "map:get " << me << std::endl;*/
+  /*Me* me = vm.getClass<Me>("me");*/
+
+  std::cout << "map:get " << me->getType() << std::endl;
 
   std::vector<GameObject*> vec = udata->get(x, y, distance/*, me*/);
 
