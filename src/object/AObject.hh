@@ -35,8 +35,6 @@ public:
 
     virtual bool instanciatedObjects() const { return false; }
     
-    // Need to remove the objects from the vector
-    virtual std::vector<AObject*> &getInstanciatedObjects() { return this->_objects; }
     
     virtual bool initialize() = 0;
     virtual void update(gdl::Clock const& clock, gdl::Input& input) = 0;
@@ -52,18 +50,8 @@ public:
     
     void setPosition(double x, double y) { _position = glm::vec3(x, 0, y); }
     void setSpeed(float speed) { this->_speed = speed; }
-    
-    // Returns the objects and clean the list
-    std::vector<AObject*> getObjectsAndReset() {
-        std::vector<AObject*> result = this->_objects;
-        this->_objects.clear();
-        return result;
-    }
 
 protected:
-    
-    //Instantiated object list
-    std::vector<AObject*> _objects;
     
     glm::vec3 _position;
     glm::vec3 _rotation;

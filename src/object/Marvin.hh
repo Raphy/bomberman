@@ -20,6 +20,7 @@ struct inputBinding {
     int down;
     int left;
     int right;
+    int bomb;
 };
 
 
@@ -35,7 +36,7 @@ public:
 
     virtual void onCollision(AGameObject&);
     virtual Rectangle getCollider() const;
-    virtual void setBindKeys(inputBinding const& bind = {SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT});
+    virtual void setBindKeys(inputBinding const& bind = {SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT, SDLK_RCTRL});
     
     static std::string const Tag;
     
@@ -48,7 +49,7 @@ private:
     void onDownPressed(gdl::Clock const& clock);
     void onLeftPressed(gdl::Clock const& clock);
     void onRightPressed(gdl::Clock const& clock);
-
+    void onBombPressed(gdl::Clock const& clock);
 };
 
 #endif // !MARVIN_HH_

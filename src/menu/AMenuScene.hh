@@ -16,7 +16,6 @@ protected:
   gdl::Texture _texture;
   gdl::Geometry _geometry;
 
-
   Camera *_camera;
 
   glm::mat4 _projection;
