@@ -1,17 +1,10 @@
+#include <iostream>
 #include "AWidget.hh"
 
-#include <iostream>
-
-/*
-  Penser a add le Son Menu + add dans le widget le son !!
-*/
-
 AWidget::AWidget(const std::string& path, const glm::vec3& position, const glm::vec3& scale, int cur)
+  : _texturePath(path), _position(position), _scale(scale), _cur(cur)
 {
-  _texturePath = path;
-  _position = position;
-  _scale = scale;
-  _cur = cur;
+
 }
 
 AWidget::~AWidget()

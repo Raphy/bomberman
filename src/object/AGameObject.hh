@@ -26,6 +26,8 @@ public:
     // Get the type of the object.
     std::string const& getType() const { return m_type; }
 
+    virtual bool instanciatedObjects() const { return !this->_objects.empty(); }
+
     // Need to remove the objects from the vector
     virtual std::vector<AGameObject*> &getInstanciatedObjects() { return this->_objects; }
     
