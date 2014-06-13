@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 11:49:12 2014 raphael defreitas
-// Last update Wed Jun 11 19:40:35 2014 raphael defreitas
+// Last update Thu Jun 12 20:37:07 2014 raphael defreitas
 //
 
 #include	<lua.hpp>
@@ -52,7 +52,11 @@ lua_State* VirtualMachine::getState(void)
 
 std::string VirtualMachine::getError(void)
 {
-  return (std::string(lua_tostring(this->_state, lua_gettop(this->_state))));
+  std::string err("Unknown");
+  const char* str = lua_tostring(this->_state, lua_gettop(this->_state));
+  if (str)
+    err = str;
+  return (err);
 }
 
 void VirtualMachine::setError(const std::string& error)

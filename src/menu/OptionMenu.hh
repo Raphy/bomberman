@@ -3,6 +3,7 @@
 
 #include "AMenuScene.hh"
 #include "Cursor.hh"
+#include "SoundManager.hh"
 
 class OptionMenu : public AMenuScene
 {
@@ -21,6 +22,7 @@ public:
 
 private:
   Cursor *_cursor;
+  Cursor *_cursorbson;
 
   Cursor *_cursorFx;
   Cursor *_cursorMusic;
@@ -28,6 +30,8 @@ private:
   bool _btnUp = false;
   bool _btnDown = false;
   bool _btnSpace = false;
+
+  static SoundManager& _son;
 
 };
 

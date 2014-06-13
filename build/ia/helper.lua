@@ -1,8 +1,15 @@
 
-require 'api'
-require 'tags'
+require "api"
+require "tags"
 
 Helper = {}
+
+function Helper:initialization_base(repeat_max, vision_size)
+	math.randomseed(os.time())
+	Coord:init()
+	MapManager:init(100,100, vision_size)
+	Actions:init(repeat_max)
+end
 
 -- * TIME_HELPER *
 
@@ -33,17 +40,23 @@ end
 function Helper:debug_print(msg)
 	-- print("DEBUG : "..msg)
 end
-
+function Helper:debug_dump_list(list)
+	self:debug_print("DUMP ",list._name," : ")
+	for elem in List:iter_case(list) do
+		self:debug_print(elem.idx)
+	end
+	self:debug_print("...DUMP END")
+end
 
 -- * OBJECTS_HELPER *
 
 function Helper:get_my_coord()
-	return Coord:new(me:getX(), me:getY())
+	return Coord:new(me:getPosition())
 end
 
 function Helper:are_objects_in_case(x,y,type)
-	local case = map:get(x,y)
-	if x == 5.0 and y == 5.0 then return true end
+	local case = map:get(x,y,1)
+	-- if x == 5.0 and y == 5.0 then return true end
 	-- local case = map:get(5.0,5.0)
 	if case == nil then
 		return false end
@@ -57,8 +70,8 @@ end
 function Helper:are_objects_in_case_except(x,y,type)
 	assert(type ~= nil, "are_objects_in_case_except : type expected")
 	do return false end--debug
-	local case = map:get(x,y)
-	if x == 5.0 and y == 5.0 then return true end
+	local case = map:get(x,y,1)
+	-- if x == 5.0 and y == 5.0 then return true end
 	-- local case = map:get(5.0,5.0)
 	if case == nil then
 		return false end
@@ -70,7 +83,7 @@ function Helper:are_objects_in_case_except(x,y,type)
 end
 function Helper:get_objects_from_case(x,y,type,objects)
 	local o = objects or {}
-	local case = map:get(x,y)
+	local case = map:get(x,y,1)
 	if case == nil then
 		return nil end
 	for _,obj in pairs(case) do
@@ -113,16 +126,16 @@ function Helper:get_objects_around(type,x,y,radius)
 	if not vision_state then MapManager:desactivate_vision() end
 	return o
 end
-function Helper:are_objects_in_front(type,x,y,direction)
-	local dir = direction or 0
-	self:to_implement()
-	return false
-end
-function Helper:get_objects_in_front(type,x,y,direction)
-	local dir = direction or 0
-	self:to_implement()
-	return nil
-end
+-- function Helper:are_objects_in_front(type,x,y,direction)
+-- 	local dir = direction or 0
+-- 	self:to_implement()
+-- 	return false
+-- end
+-- function Helper:get_objects_in_front(type,x,y,direction)
+-- 	local dir = direction or 0
+-- 	self:to_implement()
+-- 	return nil
+-- end
 
 
 -- * BOMB_HELPER *
@@ -135,8 +148,8 @@ end
 -- TODO: calculer le rayon en fonction du temps de la bombe ou de son etendu
 
 function Helper:is_place_safe()
-	-- TODO : checker les previews a la place ?
-	return not Helper:are_objects_around("bomb",me:getX(),me:getY(),3)
+	-- TODO : checker les previews en plus ?
+	return not Helper:are_objects_around("bomb",me:getPosition(),3)
 end
 
 function Helper:get_dangerous_cases_around_bomb(bomb_position)

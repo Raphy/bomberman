@@ -6,6 +6,7 @@
  */
 
 #include "Box.hh"
+#include "ResourcesPath.hh"
 
 std::string const Box::Tag = "box";
 
@@ -18,7 +19,7 @@ Box::~Box() {
 bool Box::initialize() {
     this->setSpeed(10);
     this->scale(glm::vec3(0.8, 0.8, 0.8));
-    return this->setTexture("./build/assets/textures/box.tga");
+    return this->setTexture(ResourcesPath::asset("textures/box.tga"));
 }
 
 void Box::update(gdl::Clock const &clock, gdl::Input &input)

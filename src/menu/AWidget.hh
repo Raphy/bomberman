@@ -1,8 +1,9 @@
 #ifndef AWIDGET_HH_
 # define AWIDGET_HH_
 
-#include <string>
-#include "AObject.hh"
+# include <string>
+
+# include "AObject.hh"
 
 class AWidget : public AObject
 {
@@ -18,15 +19,13 @@ public:
   glm::vec3 getPos() const;
 
 protected:
-  gdl::Texture _texture;
-  gdl::Geometry _geometry;
-
   std::string _texturePath;
-  glm::vec3 _scale;
   glm::vec3 _position;
-
+  glm::vec3 _scale;
   int _cur;
 
+  gdl::Texture _texture;
+  gdl::Geometry _geometry;
 };
 
 #endif

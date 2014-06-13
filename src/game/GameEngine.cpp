@@ -5,6 +5,7 @@
 #include "Exception.hh"
 #include "MainMenu.hh"
 #include "SoundsLoader.hh"
+#include "ResourcesPath.hh"
 
 GameEngine::GameEngine():
     m_scenes_manager()
@@ -23,11 +24,11 @@ bool GameEngine::initialize() {
 
     glEnable(GL_DEPTH_TEST);
 
-    if (!m_shader.load("./build/shaders/basic.fp", GL_FRAGMENT_SHADER)) {
-        throw Exception("fail to load './build/shaders/basic.fp'");
+    if (!m_shader.load(ResourcesPath::shader("basic.fp"), GL_FRAGMENT_SHADER)) {
+        throw Exception("fail to load '" + ResourcesPath::shader("basic.fp") + "'");
     }
-    if (!m_shader.load("./build/shaders/basic.vp", GL_VERTEX_SHADER)) {
-        throw Exception("fail to load './build/shaders/basic.vp'");
+    if (!m_shader.load(ResourcesPath::shader("basic.vp"), GL_VERTEX_SHADER)) {
+        throw Exception("fail to load '" + ResourcesPath::shader("basic.vp") + "'");
     }
     if (!m_shader.build()) {
         throw Exception("fail to build shader");
@@ -36,7 +37,6 @@ bool GameEngine::initialize() {
     SoundsLoader()();
 
     SceneArguments scene_args;
-    scene_args.set("file", "map");
     m_scenes_manager.start<FirstScene>(scene_args);
 
     return true;
@@ -56,13 +56,19 @@ bool GameEngine::update() {
     }
 
     if (m_scenes_manager.applyChanges() == false) {
-        throw Exception("fail to apply scene changes");
+        throw Exception("critical error");
+    }
+
+    if (m_scenes_manager.empty()) {
+        return false;
     }
 
     IScene& scene = m_scenes_manager.getCurrentScene();
     if (scene.update(m_clock, m_input) == false) {
         throw Exception("fail to update scene '" + scene.getId().unwrap() + "'");
     }
+
+
     return true;
 }
 

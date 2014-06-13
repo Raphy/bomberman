@@ -3,7 +3,7 @@
 # define QUAD_TREE_HH_
 
 # include <list>
-# include <cstdlib>
+# include <iostream>
 
 # include "Rectangle.hh"
 # include "AGameObject.hh"
@@ -27,7 +27,7 @@ class QuadTree {
 private:
     // The maximum number of objects that a node can contains
     // before splitting it self.
-    static const size_t MAX_OBJECTS = 100000; 
+    static const size_t MAX_OBJECTS = 50; 
 
     // List of objects contained in the node.
     std::list<AGameObject*> m_objects;

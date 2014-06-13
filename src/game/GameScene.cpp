@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <cassert>
+#include <iterator>
 
 #include "GameScene.hh"
 #include "Exception.hh"
@@ -11,6 +12,8 @@
 #include "Box.hh"
 #include "IA.hh"
 #include "MapGenerator.hh"
+#include "Bomb.hh"
+#include "Fire.hh"
 
 const std::string GameScene::Tag = "game";
 
@@ -66,7 +69,7 @@ void GameScene::initPlayer(int num, int x, int y) {
     Marvin* player = new Marvin();
     player->setPosition(static_cast<double>(x), static_cast<double>(y));
     if (num == 1) player->setBindKeys();
-    else player->setBindKeys({SDLK_z, SDLK_s, SDLK_q, SDLK_d});
+    else player->setBindKeys({SDLK_z, SDLK_s, SDLK_q, SDLK_d, SDLK_LCTRL});
     m_players[idx] = player;
     m_objects.push_back(player);
 }
@@ -82,23 +85,11 @@ void GameScene::loadMap(std::string const& filename) {
             switch (type) {
                 case MapText::PLAYER_1: initPlayer(1, x, y); break;
                 case MapText::PLAYER_2: initPlayer(2, x, y); break;
-                case MapText::ENEMY:
-                    m_objects.push_back(new IA());
-                    m_objects.back()->setPosition(
-                        static_cast<double>(x), static_cast<double>(y));
-                    break;
-                case MapText::BOX:
-                    std::cout << "instantiate box" << std::endl;
-                    m_objects.push_back(new Box());
-                    m_objects.back()->setPosition(
-                        static_cast<double>(x), static_cast<double>(y));
-                case MapText::WALL:
-                    m_walls.push_back(new Wall());
-                    m_walls.back()->setPosition(
-                        static_cast<double>(x), static_cast<double>(y));
-                    break;
-                case MapText::BOMB: break;
-                // case MapText::FIRE: break;
+                case MapText::ENEMY:    instantiateObject<IA>(x, y); break;
+                case MapText::BOX:      instantiateObject<Box>(x, y); break;
+                case MapText::WALL:     instantiateObject<Wall>(x, y); break;
+                case MapText::BOMB:     instantiateObject<Bomb>(x, y); break;
+                case MapText::FIRE:   instantiateObject<Fire>(x, y); break;
                 default: break;
             }
         });
@@ -183,11 +174,20 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
     m_playlist.update();
 
+    std::list<AGameObject*> new_objects;
+
     // Foreach object, update and insert in the new quad tree.
     foreachObject([&](AGameObject& obj) {
-
         obj.update(clock, input);
+        if (obj.instanciatedObjects()) {
+            obj.getObjectsAndReset(std::back_inserter(new_objects));
+        }
     });
+
+    for (auto obj : new_objects) {
+        obj->initialize();
+    }
+    std::copy(new_objects.begin(), new_objects.end(), std::back_inserter(m_objects));
 
     rebuildQuadTree();
 

@@ -1,21 +1,29 @@
 #include "OptionMenu.hh"
+#include "SceneStatus.hh"
+
+SoundManager& OptionMenu::_son = SoundManager::getInstance();
 
 OptionMenu::OptionMenu(SceneArguments const& arg)
   : AMenuScene("OptionMenu")
 {
-  addButton("./build/assets/img/soundfx.tga", glm::vec3(60, 50, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&OptionMenu::soundfxhandler), 0);
-  addButton("./build/assets/img/soundmusic.tga", glm::vec3(60, 180, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&OptionMenu::soundmusichandler), 1);
-  addButton("./build/assets/img/back.tga", glm::vec3(60, 450, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&OptionMenu::backhandler), 2);
+  addButton(ResourcesPath::asset("img/soundfx.tga"), glm::vec3(60, 50, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&OptionMenu::soundfxhandler), 0);
+  addButton(ResourcesPath::asset("img/soundmusic.tga"), glm::vec3(60, 180, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&OptionMenu::soundmusichandler), 1);
+  addButton(ResourcesPath::asset("img/back.tga"), glm::vec3(60, 450, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&OptionMenu::backhandler), 2);
 
-  _cursor = new Cursor("./build/assets/img/bombe.tga", glm::vec3(30, 100, 1), glm::vec3(50, 50, 0));
 
-  _cursorFx = new Cursor("./build/assets/img/bombe.tga", glm::vec3(250, 70, 1), glm::vec3(50, 50, 0));
-  _cursorMusic = new Cursor("./build/assets/img/bombe.tga", glm::vec3(250, 200, 1), glm::vec3(50, 50, 0));
+
+  _cursorbson = new Cursor( ResourcesPath::asset("img/barson.tga"), glm::vec3(200, 100, 1), glm::vec3(300, 20, 0));
+
+
+  _cursor = new Cursor(ResourcesPath::asset("img/bombe.tga"), glm::vec3(30, 100, 1), glm::vec3(50, 50, 0));
+  _cursorFx = new Cursor(ResourcesPath::asset("img/bombe.tga"), glm::vec3(250, 70, 1), glm::vec3(50, 50, 0));
+  _cursorMusic = new Cursor(ResourcesPath::asset("img/bombe.tga"), glm::vec3(250, 200, 1), glm::vec3(50, 50, 0));
 
 }
 
 OptionMenu::~OptionMenu()
 {
+  delete _cursorbson;
   delete _cursor;
   delete _cursorFx;
   delete _cursorMusic;
@@ -23,19 +31,23 @@ OptionMenu::~OptionMenu()
 
 bool OptionMenu::initialize()
 {
-  setTexture("./build/assets/img/menu.tga");
-  AMenuScene::initialize();
-
-  _cursor->initialize();
-  _cursorFx->initialize();
-  _cursorMusic->initialize();
+  setTexture(ResourcesPath::asset("img/menu.tga"));
+  if (AMenuScene::initialize() == false
+    || _cursor->initialize() == false
+    || _cursorbson->initialize() == false
+    || _cursorFx->initialize() == false
+    || _cursorMusic->initialize() == false) {
+    return false;
+  }
 
   std::map<AWidget* , ButtonHandler>::iterator it;
   it = _mapButton.begin();
 
   while (it != _mapButton.end())
     {
-      it->first->initialize();
+      if (it->first->initialize() == false) {
+        return false;
+      }
       it++;
     }
   return true;
@@ -43,15 +55,62 @@ bool OptionMenu::initialize()
 
 bool OptionMenu::update(gdl::Clock const& clock, gdl::Input& input)
 {
+  glm::vec3 tmp;
+  int v;
+
   // j'avoue c'est crade mais il est 2h30 du mat' A REGLER
+
   if (input.getKey(SDLK_RIGHT))
     {
+
+      if (_cursorPos == 0)
+	{
+	  tmp = _cursorFx->getPosition();
+	  tmp.x = tmp.x + 2;
+	  _cursorFx->setPosX(tmp);
+
+
+	}
+      else if (_cursorPos == 1)
+	{
+	  tmp = _cursorMusic->getPosition();
+	  tmp.x = tmp.x + 2;
+	  _cursorMusic->setPosX(tmp);
+
+
+	  v = _son.getVolumeMusic();
+	  v++;
+
+	  _son.setVolumeMusic(v);
+
+	}
 
     }
 
   if (input.getKey(SDLK_LEFT))
     {
 
+      if (_cursorPos == 0)
+	{
+	  tmp = _cursorFx->getPosition();
+	  tmp.x = tmp.x - 2;
+	  _cursorFx->setPosX(tmp);
+
+
+
+	}
+      else if (_cursorPos == 1)
+	{
+	  tmp = _cursorMusic->getPosition();
+	  tmp.x = tmp.x - 2;
+	  _cursorMusic->setPosX(tmp);
+
+	  v = _son.getVolumeMusic();
+	  v--;
+
+	  _son.setVolumeMusic(v);
+
+	}
     }
 
 
@@ -74,6 +133,8 @@ bool OptionMenu::update(gdl::Clock const& clock, gdl::Input& input)
     }
   if (!input.getKey(SDLK_DOWN) && _btnDown)
     _btnDown = false;
+
+
 
   if (input.getKey(SDLK_SPACE) && !_btnSpace)
     {
@@ -98,9 +159,10 @@ bool OptionMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 {
   AMenuScene::draw(shader, clock);
 
-  glDisable(GL_DEPTH_TEST);
-  glAlphaFunc(GL_GREATER, 0.3f);
-  glEnable(GL_ALPHA_TEST);
+  //glDisable(GL_DEPTH_TEST);
+  //glAlphaFunc(GL_GREATER, 0.3f);
+  //glEnable(GL_ALPHA_TEST);
+
 
   std::map<AWidget* , ButtonHandler>::iterator it;
   it = _mapButton.begin();
@@ -117,6 +179,9 @@ bool OptionMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 
   _cursorFx->draw(shader, clock);
   _cursorMusic->draw(shader, clock);
+  _cursorbson->draw(shader, clock);
+
+
 
   return true;
 }
@@ -134,6 +199,8 @@ void OptionMenu::soundmusichandler(int t)
 void OptionMenu::backhandler(int t)
 {
   std::cout << "back handler ok\n";
+
+  setStatusBack();
 }
 
 
