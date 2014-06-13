@@ -49,7 +49,9 @@ private:
     void onDownPressed(gdl::Clock const& clock);
     void onLeftPressed(gdl::Clock const& clock);
     void onRightPressed(gdl::Clock const& clock);
-
+    void onBombPressed(gdl::Clock const& clock);
+    
+    void addObject(AObject *);
 };
 
 #endif // !MARVIN_HH_
