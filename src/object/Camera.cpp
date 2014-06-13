@@ -49,3 +49,14 @@ glm::vec3 Camera::getPosition() const {
         return this->_follow->getPosition() + this->_offset;
     return this->_position;
 }
+
+void Camera::zoom(double diff) {
+    this->_offset.y -= diff;
+    this->_offset.z += diff;
+}
+void Camera::zoomPlus() {
+    zoom(0.2);
+}
+void Camera::zoomMinus() {
+    zoom(-0.2);
+}

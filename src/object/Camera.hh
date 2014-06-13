@@ -26,7 +26,10 @@ public:
     
     // Define the offset from the follow position and the camera
     void setOffset(glm::vec3 offset) { this->_offset = offset; }
-    
+    void zoom(double diff);
+    void zoomPlus();
+    void zoomMinus();
+
     // Force update should only be used in the IScene::metadraw
     void forceUpdate(gdl::AShader &, unsigned int cameraNumber = 1) const;
     
