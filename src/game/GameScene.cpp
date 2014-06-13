@@ -157,7 +157,7 @@ bool GameScene::initialize() {
         size_t idx = playerIdx(player_num);
         if (m_players[idx] != nullptr) { 
             Camera* camera = new Camera(m_players[idx]);    
-            camera->setOffset(glm::vec3(0, 5, -5));
+            camera->setOffset(glm::vec3(0, 3, -3));
             camera->initialize();
             addCamera("p" + std::to_string(player_num), camera);
         }
@@ -178,12 +178,12 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
     std::list<AGameObject*> new_objects;
 
     // Foreach object, update and insert in the new quad tree.
-    foreachObject([&](AGameObject& obj) {
-        obj.update(clock, input);
-        if (obj.instanciatedObjects()) {
-            obj.getObjectsAndReset(std::back_inserter(new_objects));
+    for (auto obj : m_objects) {
+        obj->update(clock, input);
+        if (obj->instanciatedObjects()) {
+            obj->getObjectsAndReset(std::back_inserter(new_objects));
         }
-    });
+    }
 
     if (new_objects.empty() == false) {
         for (auto obj : new_objects) {
@@ -198,31 +198,33 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
     // Foreach movable object, check collision with others
     // and call onCollision().
-    foreachObject(m_objects, [&](AGameObject& obj) {
-
-        if (obj.isDead()) return;
-
-        std::list<AGameObject*> list;
-        m_quad_tree->retrieve(list, obj.getCollider());
-        foreachObject(list, [&](AGameObject& near_obj) {
-
-            if (near_obj.isDead()) return ;
-
-            if (&obj != &near_obj && obj.getCollider().overlapping(near_obj.getCollider())) {
-                obj.onCollision(near_obj);
+    for (auto obj : m_objects) {
+        if (obj->isDead()) continue;
+        std::list<AGameObject*> near_list;
+        m_quad_tree->retrieve(near_list, obj->getCollider());
+        for (auto near_obj : near_list) {
+            if (near_obj->isDead()) continue;
+            if (obj != near_obj && obj->getCollider().overlapping(near_obj->getCollider())) {
+                obj->onCollision(*near_obj);
             }
-        });
-    });
+        }
+    }
 
     // then, remove all dead objects.
-    removeObjectsIf([&](AGameObject& obj) -> bool {
-        return obj.isDead();
-    });
+    for (auto it = m_objects.begin(); it != m_objects.end();) {
+        if ((*it)->isDead()) {
+            m_objects.erase(it++);
+        }
+        else {
+            it++;
+        }
+    }
 
     return true;
 }
 
 bool GameScene::draw(gdl::AShader& shader, gdl::Clock const& clock) {
+
 
     
     
