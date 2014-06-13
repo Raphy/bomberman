@@ -18,6 +18,7 @@ public:
     virtual ~Bomb() {}
     virtual bool initialize();
     virtual void update(const gdl::Clock& clock, gdl::Input& input);
+    virtual double getTime() const { return this->_time; }
     
     static std::string const Tag;
    
