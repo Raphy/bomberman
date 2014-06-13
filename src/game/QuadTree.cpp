@@ -1,3 +1,4 @@
+#include <cstring>
 
 #include "QuadTree.hh"
 
@@ -62,26 +63,28 @@ std::list<AGameObject*>& QuadTree::retrieve(
 }
 
 void QuadTree::split() {
+    assert(m_nodes[0] == nullptr);
+
     double new_w = m_bounds.getW() / 2;
     double new_h = m_bounds.getH() / 2;
     double x = m_bounds.getX();
     double y = m_bounds.getY();
 
-    m_nodes[0] = new QuadTree(Rectangle(x,          y,          new_w, new_h));
+    m_nodes[0] = new QuadTree(Rectangle(x + new_w,  y + new_h,  new_w, new_h));
     m_nodes[1] = new QuadTree(Rectangle(x,          y + new_h,  new_w, new_h));
     m_nodes[2] = new QuadTree(Rectangle(x + new_w,  y,          new_w, new_h));
-    m_nodes[3] = new QuadTree(Rectangle(x + new_w,  y + new_h,  new_w, new_h));
+    m_nodes[3] = new QuadTree(Rectangle(x,          y,          new_w, new_h));
 }
 
 int QuadTree::getIndex(Rectangle const& area) {
     double mid_w = m_bounds.getX() + m_bounds.getW() / 2;
     double mid_h = m_bounds.getY() + m_bounds.getH() / 2;
 
-    bool top_fit = (area.getY2() < mid_h);
-    bool bottom_fit = (area.getY() > mid_h);
+    bool top_fit = (area.getY() > mid_h);
+    bool bottom_fit = (area.getY2() < mid_h);
 
-    bool left_fit = (area.getX2() < mid_w);
-    bool right_fit = (area.getX() > mid_w);
+    bool left_fit = (area.getX() > mid_w);
+    bool right_fit = (area.getX2() < mid_w);
 
     int index = -1;
     if (top_fit) {
