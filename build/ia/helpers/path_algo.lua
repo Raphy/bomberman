@@ -51,13 +51,6 @@ function Astar:open_side_cases(open_list, curr_idx, side_cases, dest)
 	end
 end
 function Astar:get_next_open_case(open_list)
-	-- local min = -1
-	-- for case in List:iter_case(open_list) do
-	-- 	if min > case.f or min == -1 then min = case.f end
-	-- end
-	-- for case in List:iter_case(open_list) do
-	-- 	if case.f == min then return case end
-	-- end
 	return List:front_case(open_list)
 end
 function Astar:check_side_open_cases(curr, side_open_cases, dest)

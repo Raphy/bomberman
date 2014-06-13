@@ -12,20 +12,23 @@ GetCloserOfEnemyState = State:new("get_closer_of_enemy_state")
 
 function GetCloserOfEnemyState:action()
   Actions:get_closer_of_one_enemy()
-
-  if true --[[enemy found]] then StateMachine:action_terminated() end
+  return Helper:are_objects_around("enemy",me:getPosition(),2) then
+    StateMachine:action_terminated() end
 end
 
 GetCloserOfEnemyState.pre_conditions = {
-  -- { function()
-  --     return not Helper:is_place_safe() end,
-  --   "push", "avoid_bomb_state", },
-  -- { function()
-  --     return Helper:are_objects_around("enemy",me:getPosition(),2) end,
-  --   "push", "kill_enemy_state", },
-  -- { function()
-  --     return Helper:are_objects_around("enemy",me:getPosition(),(MapManager.size / 2)) end,
-  --   "push", "get_bonus_state", },
+  { function()-- en danger
+      return not Helper:is_place_safe() end,
+    "push", "avoid_bomb_state", },
+  { function()-- enemy assez pres
+      return Helper:are_objects_around("enemy",me:getPosition(),2) end,
+    "push", "kill_enemy_state", },--pop ?
+  { function()-- impossible de l'atteindre
+      return not Helper:are_objects_around("enemy",me:getPosition(),MapManager.size / 2) end,
+    "push", "break_wall_state", },
+  { function()-- pas d'enemy sur la map
+      return not Helper:are_objects_around("enemy",me:getPosition(),MapManager.size / 2) end,
+    "push", "kill_enemy_state", },
 }
 
 -- * AVOID_BOMB *
@@ -33,18 +36,20 @@ GetCloserOfEnemyState.pre_conditions = {
 AvoidBombState = State:new("avoid_bomb_state")
 
 function AvoidBombState:action()
-  print("action : avoid_bomb_state")
-  Actions:avoid_bomb_state()
-  if Helper:is_place_safe() then StateMachine:action_terminated() end
+  Helper:debug_print("action : avoid_bomb_state")
+  -- if not Actions:avoid_bomb() then
+  --   "push", "break_wall_state"
+  if Helper:is_place_safe() then
+    StateMachine:action_terminated() end
 end
 
 AvoidBombState.pre_conditions = {
-  -- { function()
-  --     return false end,
-  --   "push", "get_closer_of_enemy_state", },
-  -- { function()
-  --   return Helper:is_place_safe() end,
-  --   "pop", },
+  { function()-- impossible de s'enfuir
+      return not Helper:are_objects_around("enemy",me:getPosition(),MapManager.size / 2) end,
+    "push", "break_wall_state", },
+  { function()
+    return Helper:is_place_safe() end,
+    "pop", },
 }
 
 
@@ -137,31 +142,21 @@ StateList = {
 
 function initialization()
   print("\n\nis_state : initialization...")
-  Helper:initialization_base()
+  Helper:initialization_base(10,10)
   StateMachine:init()
-  local x,y = MapManager:idx_to_coord(45)
-  print("x,y = "..x.." "..y)
-  print(Helper:are_objects_in_case(x,y,type))
-  print(Helper:are_objects_in_case(5.0,5.0,type))
 end
+
+DEBUG = 0
+DEBUG_MAX = 100
+
+active_debug = true
 
 function play()
-  -- print("\n\nis_state : play...")
-  StateMachine:play()
-  -- StateMachine._executed = false
-  -- local i = 1
-  -- while i <= 3 and StateMachine._executed == false do
-  --   StateMachine:update()
-  --   i = i + 1
-  -- end
+  if DEBUG == DEBUG_MAX then
+    MapManager:update()
+    StateMachine:play()
+    DEBUG = 0
+  end
+  DEBUG = DEBUG + 1
+  -- Helper:debug_print("\n\nIA_SIMPLE) play")
 end
-
--- print("-----init----")
--- initialization()
--- print("-----fin init----")
-
--- for i=0, 2 do
--- print("\n-----myturn-----")
--- play()
--- print("-----fin myturn-----")
--- end

@@ -1,5 +1,5 @@
 #ifndef MAINMENU_HH_
-#define MAINMENU_HH_
+# define MAINMENU_HH_
 
 # include "AMenuScene.hh"
 # include "AWidget.hh"
@@ -15,7 +15,6 @@ public:
   virtual bool update(gdl::Clock const& clock, gdl::Input& input);
   virtual bool draw(gdl::AShader & shader, gdl::Clock const &clock);
 
-  /* definir le handler de chaque boutton*/
   void playhandler(int);
   void optionhandler(int);
   void exithandler(int);

@@ -30,10 +30,9 @@ end
 function Path:register_case_open(open_list, case, sort)
 	case.status = "open"
 	List:add_case_in_list(open_list, case)
-	-- if sort ~= nil and sort ~= false then
-	-- 	List:sort(open_list) end
+	if sort ~= nil and sort ~= false then
+		List:sort(open_list) end
 end
-
 function Path:register_case_closed(open_list, closed_list, case)
 	case.status = "closed"
 	List:remove_case_from_list(open_list, case)
@@ -64,9 +63,6 @@ function Path:get_side_cases(curr_idx)
 	return side_cases,side_open_cases
 end
 
-local DEBUG = 0
-local DEBUG_MAX = 2
-
 
 --[[ 
 A SAVOIR :
@@ -92,12 +88,12 @@ local function check_finish(start, curr, dest, type)
 	return false
 end
 
--- TODO : trouver moyen d'optimiser en ne cleanant pas (toute ?) la map à chaque fois
+-- local DEBUG = 0
+-- local DEBUG_MAX = 2
 
---retourne le path le plus court pour aller des current a destination
 function Path:calc_path(algo_name, start_idx, dest_idx, type)
-	start_idx = math.ceil(start_idx)
-	dest_idx = math.ceil(dest_idx)
+	start_idx = math.floor(start_idx)
+	dest_idx = math.floor(dest_idx)
   	MapManager:clean_map()
 	local algoModule = PathAlgos[algo_name]
 	local open_list = List:new("open_list")
@@ -109,7 +105,7 @@ function Path:calc_path(algo_name, start_idx, dest_idx, type)
 	local function _calc_path(start, curr, open_list, closed_list)
 		-- if DEBUG == DEBUG_MAX then return true end
 
-		Helper:debug_print("_calc_path : node "..curr.idx)
+		if active_debug_list then Helper:debug_print("_calc_path : node "..curr.idx) end
 		local finish, finish_path = check_finish(start, curr, dest, type)
 		if finish == true then return finish_path end
 
