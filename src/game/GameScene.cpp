@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <cassert>
+#include <iterator>
 
 #include "GameScene.hh"
 #include "Exception.hh"
@@ -11,6 +12,7 @@
 #include "Box.hh"
 #include "IA.hh"
 #include "Bomb.hh"
+
 
 const std::string GameScene::Tag = "game";
 
@@ -166,10 +168,20 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
     m_playlist.update();
 
+    std::list<AGameObject*> new_objects;
+
     // Foreach object, update and insert in the new quad tree.
     foreachObject([&](AGameObject& obj) {
         obj.update(clock, input);
+        if (obj.instanciatedObjects()) {
+            obj.getObjectsAndReset(std::back_inserter(new_objects));
+        }
     });
+
+    for (auto obj : new_objects) {
+        obj->initialize();
+    }
+    std::copy(new_objects.begin(), new_objects.end(), std::back_inserter(m_objects));
 
     rebuildQuadTree();
 
