@@ -20,6 +20,7 @@ struct inputBinding {
     int down;
     int left;
     int right;
+    int bomb;
 };
 
 
@@ -35,7 +36,7 @@ public:
 
     virtual void onCollision(AGameObject&);
     virtual Rectangle getCollider() const;
-    virtual void setBindKeys(inputBinding const& bind = {SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT});
+    virtual void setBindKeys(inputBinding const& bind = {SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT, SDLK_SPACE});
     
     static std::string const Tag;
     
