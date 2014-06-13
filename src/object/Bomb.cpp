@@ -6,6 +6,7 @@
  */
 
 #include "Bomb.hh"
+#include "Fire.hh"
 
 std::string const Bomb::Tag = "bomb";
 
@@ -29,5 +30,11 @@ void Bomb::update(const gdl::Clock& clock, gdl::Input& input) {
 
 void Bomb::createFire() {
     
-    // TO DO
+    Fire* obj = new Fire();
+    
+    obj->setStep(0);
+    obj->setPosition(this->_position);
+    obj->setDirection(Fire::None);
+    
+    addObject(obj);
 }

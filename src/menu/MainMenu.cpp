@@ -5,7 +5,7 @@
 #include "MapMenu.hh"
 #include "OptionMenu.hh"
 
-
+SoundManager& MainMenu::_son = SoundManager::getInstance();
 
 MainMenu::MainMenu(SceneArguments const& arg)
   : AMenuScene("MainMenu")
@@ -43,9 +43,6 @@ bool MainMenu::initialize()
 	}
       it++;
     }
-
-
-
 
   return true;
 }

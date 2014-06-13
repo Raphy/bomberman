@@ -29,6 +29,7 @@ private:
   bool _btnSpace = false;
 
   static SoundManager& _son;
+
 };
 
 #endif
