@@ -5,6 +5,7 @@
 # include "AWidget.hh"
 # include "Cursor.hh"
 # include "SoundManager.hh"
+# include "PlaylistManager.hh"
 
 class MainMenu : public AMenuScene
 {
@@ -20,8 +21,11 @@ public:
   void optionhandler(int);
   void exithandler(int);
   void loadhandler(int);
+  void initPlaylist();
 
 private:
+
+  PlaylistManager _playlist;
   Cursor *_cursor;
 
   bool _btnUp = false;
@@ -29,6 +33,7 @@ private:
   bool _btnSpace = false;
 
   static SoundManager& _son;
+
 
 };
 

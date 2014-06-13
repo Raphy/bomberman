@@ -8,7 +8,7 @@
 SoundManager& MainMenu::_son = SoundManager::getInstance();
 
 MainMenu::MainMenu(SceneArguments const& arg)
-  : AMenuScene("MainMenu")
+  : AMenuScene("MainMenu"), _playlist()
 {
   addButton(ResourcesPath::asset("img/play.tga"), glm::vec3(60, 50, 1), glm::vec3(150, 70, 0) , static_cast<ButtonHandler>(&MainMenu::playhandler), 0);
   addButton(ResourcesPath::asset("img/option.tga"), glm::vec3(60, 130, 1), glm::vec3(180, 70, 0) , static_cast<ButtonHandler>(&MainMenu::optionhandler), 1);
@@ -22,6 +22,13 @@ MainMenu::MainMenu(SceneArguments const& arg)
 MainMenu::~MainMenu()
 {
   delete _cursor;
+}
+
+void MainMenu::initPlaylist()
+{
+  _playlist.deletePlaylist();
+  _playlist.addPlaylist("menu");
+  _playlist.playPlaylist();
 }
 
 bool MainMenu::initialize()
@@ -44,13 +51,18 @@ bool MainMenu::initialize()
       it++;
     }
 
+  initPlaylist();
+
   return true;
 }
 
 bool MainMenu::update(gdl::Clock const& clock, gdl::Input& input)
 {
+  _playlist.update();
+
   if (input.getKey(SDLK_UP) && !_btnUp)
     {
+      _son.playFx("button");
       _cursorPos--;
       _btnUp = true;
       if (_cursorPos < 0)
@@ -61,6 +73,7 @@ bool MainMenu::update(gdl::Clock const& clock, gdl::Input& input)
 
   if (input.getKey(SDLK_DOWN) && !_btnDown)
     {
+      _son.playFx("button");
       _btnDown = true;
       _cursorPos++;
       if (_cursorPos == 4)
@@ -72,7 +85,7 @@ bool MainMenu::update(gdl::Clock const& clock, gdl::Input& input)
   if (input.getKey(SDLK_SPACE) && !_btnSpace)
     {
       std::map<AWidget* , ButtonHandler>::iterator it;
-
+      _son.playFx("button");
       _btnSpace = true;
 
       it = _mapButton.begin();
