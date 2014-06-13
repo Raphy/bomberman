@@ -13,14 +13,18 @@
 
 class Bomb: public AModel {
 
-    public:
-    Bomb(): AModel(ResourcesPath::asset("bomb.fbx"), "bomb") { setPosition(glm::vec3(0, 0, 0)); setSpeed(0); scale(glm::vec3(0.02, 0.02, 0.02)); }
+public:
+    Bomb(): AModel(ResourcesPath::asset("bomb.fbx"), "bomb"), _time(0) { setPosition(glm::vec3(0, 0, 0)); setSpeed(0); scale(glm::vec3(0.02, 0.02, 0.02)); }
     virtual ~Bomb() {}
     virtual bool initialize() { return true; };
     virtual void update(const gdl::Clock& clock, gdl::Input& input);
     
     static std::string const Tag;
-
+   
+protected:
+    double _time;
+    
+    void createFire();
 };
 
 #endif	/* BOMB_HH */

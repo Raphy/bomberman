@@ -26,13 +26,27 @@ public:
     // Get the type of the object.
     std::string const& getType() const { return m_type; }
 
+    // Need to remove the objects from the vector
+    virtual std::vector<AGameObject*> &getInstanciatedObjects() { return this->_objects; }
+    
     std::tuple<double, double> getPosition() const {
         return std::make_tuple(_position.x, _position.z);
     }
 
+    // Returns the objects and clean the list
+    std::vector<AGameObject*> getObjectsAndReset() {
+        std::vector<AGameObject*> result = this->_objects;
+        this->_objects.clear();
+        return result;
+    }
+    
     virtual Rectangle getCollider() const;
 
 protected:
+    
+    //Instantiated object list
+    std::vector<AGameObject*> _objects;
+    
     // A type (string) used to dinstinguish
     // differents AGameObject (in onCollision() for example)
     std::string const m_type;
@@ -47,8 +61,9 @@ protected:
 
     void restoreLastState();
     void saveCurrentState();
-    
-    
+
+    void addObject(AGameObject *);
+
     // Used by children to set their m_dead attribute to true. 
     void die() { m_dead = true; }
 };

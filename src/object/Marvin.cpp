@@ -1,5 +1,6 @@
 
 #include        "Marvin.hh"
+#include "Bomb.hh"
 
 std::string const Marvin::Tag = "marvin";
 
@@ -57,6 +58,7 @@ void Marvin::setBindKeys(const inputBinding& bind) {
     this -> _inputs.push_back({bind.down, false, &Marvin::onDownPressed});
     this -> _inputs.push_back({bind.left, false, &Marvin::onLeftPressed});
     this -> _inputs.push_back({bind.right, false, &Marvin::onRightPressed});
+    this -> _inputs.push_back({bind.bomb, false, &Marvin::onBombPressed});
 }
 
 void Marvin::onCollision(AGameObject& obj) {
@@ -88,6 +90,15 @@ void Marvin::onRightPressed(gdl::Clock const &clock)
 {
     translate(glm::vec3(-1, 0, 0) * static_cast<float>(clock.getElapsed()) * _speed);
     this -> lookEast();
+}
+
+void Marvin::onBombPressed(const gdl::Clock& clock) {
+    AGameObject* bomb = new Bomb();
+    
+    bomb->setPosition(glm::vec3(static_cast<int>(this->_position.x),
+                                static_cast<int>(this->_position.y),
+                                static_cast<int>(this->_position.z)));
+    this->addObject(bomb);
 }
 
 static const double COLLIDER_SIZE = 0.7;
