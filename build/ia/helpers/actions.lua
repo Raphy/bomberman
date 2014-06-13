@@ -71,7 +71,7 @@ function Actions:get_closer_of_one_enemy(enemy_id)
 	if self:path_recalc_needed() then
 		local start_idx = MapManager:coord_to_idx(me:getPosition())
 		local dest_idx = -1
-		self._path = Path:calc_path("dijkstra", start_idx, -1, "enemy")
+		self._path = Path:calc_path("dijkstra", start_idx, -1, "Player")
 	end
 	return self:follow_path()
 end

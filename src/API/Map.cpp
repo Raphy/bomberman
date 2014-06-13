@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 12:12:44 2014 raphael defreitas
-// Last update Fri Jun 13 22:52:17 2014 raphael defreitas
+// Last update Fri Jun 13 23:32:40 2014 raphael defreitas
 //
 
 #include	<cstring>
@@ -14,15 +14,19 @@
 #include	<list>
 #include	<vector>
 
-#include	"game/GameScene.hh"
+#include	"Bomb.hh"
+#include	"Box.hh"
 #include	"game/Rectangle.hh"
 #include	"game/GameAPI.hh"
 #include	"GameObject.hh"
 #include	"Map.hh"
 #include	"Me.hh"
 #include	"object/AGameObject.hh"
-#include	"object/Marvin.hh"
+#include	"object/Bomb.hh"
+#include	"object/Box.hh"
 #include	"object/IA.hh"
+#include	"object/Marvin.hh"
+#include	"object/Wall.hh"
 #include	"Player.hh"
 #include	"Wall.hh"
 
@@ -48,21 +52,18 @@ std::vector<GameObject*> Map::get(int x, int y, int d, Me* me)
   // Creating our own vector of API::GameObjects
   for (std::list<AGameObject*>::iterator it = list_go.begin(); it != list_go.end(); it++)
     {
-      std::cout << "[CPP] type du AGameObject: " << (*it)->getType() << std::endl;
       if ((*it)->getType() == "marvin")
 	objects.push_back(new Player((Marvin*)*it));
       else if ((*it)->getType() == "wall")
 	objects.push_back(new API::Wall((::Wall*)*it));
-      /*else if ((*it)->getType() == "ia" && *it == me->getAGameObject())
-	{
-	  std::cout << "me [ " << *it << " ] [ " << me->getAGameObject() << " ]" << std::endl;
-	  objects.push_back(new Me((IA*)*it));
-	  }*/
-      /*else if ((*it)->getType() == "ia")
-	{
-	  std::cout << "ia [ " << *it << " ] [ " << me->getAGameObject() << " ]" << std::endl;
-	  objects.push_back(new Player((Marvin*)*it));
-	  }*/
+      else if ((*it)->getType() == "ia" && *it == me->getAGameObject())
+	objects.push_back(new Me((IA*)*it));
+      else if ((*it)->getType() == "ia")
+	objects.push_back(new Player((Marvin*)*it));
+      else if ((*it)->getType() == "bomb")
+	objects.push_back(new API::Bomb((::Bomb*)*it));
+      else if ((*it)->getType() == "box")
+	objects.push_back(new API::Box((::Box*)*it));
       else
 	std::cout << "GAMEOBJECT NOT HANDLED (Api::Map::get) : " << (*it)->getType() << std::endl;
     }

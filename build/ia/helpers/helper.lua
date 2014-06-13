@@ -69,7 +69,7 @@ function Helper:get_my_coord()
 end
 
 local function search_obj(filter, found,default, x,y,type)
-	local case = map:get(x,y,1)
+	local case = map:get(x,y,1,me)
 	if case == nil then
 		return default end
 	for _,obj in pairs(case) do
@@ -84,7 +84,7 @@ function Helper:are_objects_in_case(x,y,type)
 		return type == nil or type == obj:getType()
 	end
 	return search_obj(_filter, true,false, x,y,type)
-	-- local case = map:get(x,y,1)
+	-- local case = map:get(x,y,1,me)
 	-- if case == nil then
 	-- 	return false end
 	-- for _,obj in pairs(case) do
@@ -99,7 +99,7 @@ function Helper:are_objects_in_case_except(x,y,type)
 		return type ~= obj:getType()
 	end
 	return search_obj(_filter, true,false, x,y,type)
-	-- local case = map:get(x,y,1)
+	-- local case = map:get(x,y,1,me)
 	-- if case == nil then
 	-- 	return false end
 	-- for _,obj in pairs(case) do
@@ -152,14 +152,14 @@ function Helper:get_objects_around(type,x,y,radius)
 	return o
 end
 function Helper:enemy_in_view()
-	return not Helper:are_objects_around("enemy",me:getPosition(),MapManager.size / 2)
+	return not Helper:are_objects_around("Player",me:getPosition(),MapManager.size / 2)
 end
 
 
 -- * BOMB_HELPER *
 
 local function is_case_safe(case)
-	return not Helper:are_objects_in_case_except(case.x,case.y,"enemy")
+	return not Helper:are_objects_in_case_except(case.x,case.y,"Player")
 		and List:empty(case.previews)
 end
 
