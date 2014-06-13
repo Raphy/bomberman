@@ -24,16 +24,19 @@ MapMenu::~MapMenu()
 bool MapMenu::initialize()
 {
   setTexture(ResourcesPath::asset("img/menu.tga"));
-  AMenuScene::initialize();
-
-  _cursor->initialize();
+  if (AMenuScene::initialize() == false
+    || _cursor->initialize() == false) {
+    return false;
+  }
 
   std::map<AWidget* , ButtonHandler>::iterator it;
   it = _mapButton.begin();
 
   while (it != _mapButton.end())
     {
-      it->first->initialize();
+      if (it->first->initialize() == false) {
+        return false;
+      }
       it++;
     }
   return true;

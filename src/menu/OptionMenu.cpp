@@ -32,21 +32,22 @@ OptionMenu::~OptionMenu()
 bool OptionMenu::initialize()
 {
   setTexture(ResourcesPath::asset("img/menu.tga"));
-  AMenuScene::initialize();
-
-  _cursor->initialize();
-
-  _cursorbson->initialize();
-
-  _cursorFx->initialize();
-  _cursorMusic->initialize();
+  if (AMenuScene::initialize() == false
+    || _cursor->initialize() == false
+    || _cursorbson->initialize() == false
+    || _cursorFx->initialize() == false
+    || _cursorMusic->initialize() == false) {
+    return false;
+  }
 
   std::map<AWidget* , ButtonHandler>::iterator it;
   it = _mapButton.begin();
 
   while (it != _mapButton.end())
     {
-      it->first->initialize();
+      if (it->first->initialize() == false) {
+        return false;
+      }
       it++;
     }
   return true;

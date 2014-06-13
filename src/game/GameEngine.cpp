@@ -56,7 +56,7 @@ bool GameEngine::update() {
     }
 
     if (m_scenes_manager.applyChanges() == false) {
-        throw Exception("fail to apply scene changes");
+        throw Exception("critical error");
     }
 
     if (m_scenes_manager.empty()) {
