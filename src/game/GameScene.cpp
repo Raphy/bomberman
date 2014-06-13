@@ -11,8 +11,9 @@
 #include "Wall.hh"
 #include "Box.hh"
 #include "IA.hh"
+#include "MapGenerator.hh"
 #include "Bomb.hh"
-
+#include "Fire.hh"
 
 const std::string GameScene::Tag = "game";
 
@@ -88,7 +89,7 @@ void GameScene::loadMap(std::string const& filename) {
                 case MapText::BOX:      instantiateObject<Box>(x, y); break;
                 case MapText::WALL:     instantiateObject<Wall>(x, y); break;
                 case MapText::BOMB:     instantiateObject<Bomb>(x, y); break;
-                //case MapText::FIRE:   instantiateObject<Fire>(x, y); break;
+                case MapText::FIRE:   instantiateObject<Fire>(x, y); break;
                 default: break;
             }
         });
@@ -104,6 +105,11 @@ void GameScene::loadMap(std::string const& filename) {
 void GameScene::genMap(int width, int height) {
     m_map_width = width;
     m_map_height = height;
+    MapGenerator    map;
+    std::pair<std::list<AGameObject*>, std::list<AGameObject*>> tmp = map.Generate(width, height);
+    this -> m_walls.merge(tmp.first);
+    this -> m_objects.merge(tmp.second);
+    initPlayer(1, 5, 5);
 }
 
 void GameScene::save(std::string const& filename) const {
@@ -213,11 +219,23 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
 bool GameScene::draw(gdl::AShader& shader, gdl::Clock const& clock) {
 
-    foreachObject([&] (AGameObject& obj) {
+    
+    
+    foreachObject(m_objects, [&] (AGameObject& obj) {
         if (obj.isDead() == false) {
             obj.draw(shader, clock);
         }
     });
+
+   if (m_walls.empty() == false) { 
+       reinterpret_cast<AGeometry*>(m_walls.front())->drawTexture();
+   foreachObject(m_walls, [&] (AGameObject& obj) {
+        if (obj.isDead() == false) {
+            reinterpret_cast<AGeometry*>(m_walls.front())->drawGeometry(shader, clock);
+        }
+    });
+   }
+
     return true;
 }
 

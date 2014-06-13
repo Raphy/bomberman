@@ -1,11 +1,9 @@
 # include "Cursor.hh"
 
 Cursor::Cursor(const std::string& path, const glm::vec3& position, const glm::vec3& scale)
+  : _texturePath(path), _position(position), _scale(scale)
 {
-  _texturePath = path;
-  _position = position;
   _position.x += -30;
-  _scale = scale;
 }
 
 Cursor::~Cursor()
@@ -46,8 +44,6 @@ void Cursor::update(gdl::Clock const& clock, gdl::Input& input)
 void Cursor::draw(gdl::AShader & shader, gdl::Clock const& clock)
 {
   (void)clock;
-
-  shader.bind();
 
   glm::mat4 transform(1);
 
