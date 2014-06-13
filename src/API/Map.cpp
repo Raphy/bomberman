@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 12:12:44 2014 raphael defreitas
-// Last update Fri Jun 13 22:38:10 2014 raphael defreitas
+// Last update Fri Jun 13 22:52:17 2014 raphael defreitas
 //
 
 #include	<cstring>
@@ -16,6 +16,7 @@
 
 #include	"game/GameScene.hh"
 #include	"game/Rectangle.hh"
+#include	"game/GameAPI.hh"
 #include	"GameObject.hh"
 #include	"Map.hh"
 #include	"Me.hh"
@@ -27,8 +28,7 @@
 
 using namespace API;
 
-Map::Map(GameScene* gs) :
-  _gs(gs)
+Map::Map(void)
 {
 }
 
@@ -43,12 +43,12 @@ std::vector<GameObject*> Map::get(int x, int y, int d, Me* me)
 
   // Retrieveing the objects from the map
   Rectangle rect((double)x - (double)d, (double)y - (double)d, (double)d * 2, (double)d * 2);
-  this->_gs->getQuadTree().retrieve(list_go, rect);
+  GameAPI::getInstance().getObjectsIn(rect, list_go);
 
   // Creating our own vector of API::GameObjects
   for (std::list<AGameObject*>::iterator it = list_go.begin(); it != list_go.end(); it++)
     {
-      std::cout << "type: " << (*it)->getType() << std::endl;
+      std::cout << "[CPP] type du AGameObject: " << (*it)->getType() << std::endl;
       if ((*it)->getType() == "marvin")
 	objects.push_back(new Player((Marvin*)*it));
       else if ((*it)->getType() == "wall")
