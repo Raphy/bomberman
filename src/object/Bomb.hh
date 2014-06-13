@@ -9,11 +9,12 @@
 #define	BOMB_HH
 
 #include    "AModel.hh"
+#include    "ResourcesPath.hh"
 
 class Bomb: public AModel {
 
     public:
-    Bomb(): AModel("./build/assets/bomb.fbx", "bomb") { setPosition(glm::vec3(0, 0, 0)); setSpeed(10); scale(glm::vec3(0.02, 0.02, 0.02)); }
+    Bomb(): AModel(ResourcesPath::asset("bomb.fbx"), "bomb") { setPosition(glm::vec3(0, 0, 0)); setSpeed(0); scale(glm::vec3(0.02, 0.02, 0.02)); }
     virtual ~Bomb() {}
     virtual bool initialize() { return true; };
     virtual void update(const gdl::Clock& clock, gdl::Input& input);
