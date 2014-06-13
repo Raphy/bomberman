@@ -63,15 +63,10 @@ void Marvin::setBindKeys(const inputBinding& bind) {
 
 void Marvin::onCollision(AGameObject& obj) {
     
-<<<<<<< HEAD
-    if (obj.getType() == "wall") {
-        this->restoreLastState(obj);
-=======
     if (obj.getType() == "fire") {
         this->die();
     } else if (obj.getType() == "wall") {
         this->restoreLastState();
->>>>>>> bb80d594587cd8e0e91e5e0250a78e0287c3da0d
     }
 }
 

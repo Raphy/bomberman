@@ -37,5 +37,5 @@ void Box::update(gdl::Clock const &clock, gdl::Input &input)
 
 void Box::onCollision(AGameObject& obj) {
     if (obj.getType() == "wall")
-        this->restoreLastState(obj);
+        this->restoreLastState();
 }
