@@ -9,3 +9,4 @@
 
 int Configuration::s_window_height = 1080;
 int Configuration::s_window_width = 720;
+float Configuration::s_fov_horizontal = 60.0f;

@@ -9,15 +9,17 @@
 #define	CONFIGURATION_HH
 
 class Configuration {
-public:
+private:
     
     static int s_window_width;
     static int s_window_height;
+    static float s_fov_horizontal;
     
-private:
+public:
 
     static int WindowWidth() { return s_window_width; }
     static int WindowHeight() { return s_window_height; }
+    static float FOV() { return s_fov_horizontal; }
     
 };
 
