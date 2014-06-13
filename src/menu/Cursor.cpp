@@ -1,11 +1,9 @@
 # include "Cursor.hh"
 
 Cursor::Cursor(const std::string& path, const glm::vec3& position, const glm::vec3& scale)
+  : _texturePath(path), _position(position), _scale(scale)
 {
-  _texturePath = path;
-  _position = position;
   _position.x += -30;
-  _scale = scale;
 }
 
 Cursor::~Cursor()

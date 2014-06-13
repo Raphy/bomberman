@@ -17,7 +17,6 @@ public:
   virtual bool update(gdl::Clock const& clock, gdl::Input& input);
   virtual bool draw(gdl::AShader & shader, gdl::Clock const &clock);
 
-  /* definir le handler de chaque boutton*/
   void map1handler(int);
   void map2handler(int);
   void maprandomhandler(int);

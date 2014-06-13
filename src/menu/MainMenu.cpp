@@ -1,4 +1,5 @@
 #include <iostream> // debug !
+
 #include "MainMenu.hh"
 #include "GameScene.hh"
 #include "MapMenu.hh"
@@ -45,7 +46,6 @@ bool MainMenu::initialize()
 
 bool MainMenu::update(gdl::Clock const& clock, gdl::Input& input)
 {
-  // j'avoue c'est crade mais il est 2h30 du mat' A REGLER
 
   if (input.getKey(SDLK_UP) && !_btnUp)
     {
@@ -83,6 +83,7 @@ bool MainMenu::update(gdl::Clock const& clock, gdl::Input& input)
     }
   if (!input.getKey(SDLK_SPACE) && _btnSpace)
     _btnSpace = false;
+
   return true;
 }
 
@@ -91,8 +92,6 @@ bool MainMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
   AMenuScene::draw(shader, clock);
 
   std::map<AWidget* , ButtonHandler>::iterator it = _mapButton.begin();
-
-  //  shader.bind();
 
   while (it != _mapButton.end())
     {
