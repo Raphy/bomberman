@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 11:55:16 2014 raphael defreitas
-// Last update Thu Jun 12 20:26:18 2014 raphael defreitas
+// Last update Fri Jun 13 22:02:18 2014 raphael defreitas
 //
 
 #include	<lua.hpp>
@@ -36,6 +36,11 @@ const std::string& GameObject::getType(void) const
 std::tuple<double, double> GameObject::getPosition(void) const
 {
   return this->_go->getPosition();
+}
+
+AGameObject* GameObject::getAGameObject(void)
+{
+  return this->_go;
 }
 
 void GameObject::registerScript(Script& script)

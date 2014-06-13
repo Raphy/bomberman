@@ -15,13 +15,18 @@ end
 BeginState.pre_conditions = {
 	--conditions
 }
+BeginState.post_conditions = {
+	--conditions
+}
 
 StateList = {
   ["begin_state"] = BeginState
 }
 
 active_debug = true
-active_debug_list = false
+active_debug_list = true
+DEBUG = 0
+DEBUG_MAX = 100
 
 function initialization()
 	Helper:debug_print("\n\nIA_SIMPLE) initialization")
@@ -29,18 +34,25 @@ function initialization()
 	StateMachine:init(1)
 
 	MapManager:update()
-	Actions:get_closer_of_one_enemy()
+	-- Actions:get_closer_of_one_enemy()
+
+	local id = enemy_id or -1
+	-- if self:path_recalc_needed() then
+		local start_idx = MapManager:coord_to_idx(me:getPosition())
+		local dest_idx = -1
+		-- Path:calc_path("dijkstra", start_idx, -1, "enemy")
+		Path:calc_path("dijkstra", start_idx, start_idx + 1, "enemy")
+	-- end
+	-- return self:follow_path()
 end
 
-DEBUG = 0
-DEBUG_MAX = 100
 
 function play()
-	if DEBUG == DEBUG_MAX then
-		MapManager:update()
-		StateMachine:play()
-		DEBUG = 0
-	end
-	DEBUG = DEBUG + 1
+	-- if DEBUG == DEBUG_MAX then
+	-- 	MapManager:update()
+	-- 	StateMachine:play()
+	-- 	DEBUG = 0
+	-- end
+	-- DEBUG = DEBUG + 1
 	-- Helper:debug_print("\n\nIA_SIMPLE) play")
 end

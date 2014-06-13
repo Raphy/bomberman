@@ -75,6 +75,7 @@ function List:size(list)
 	return list._nb_elem
 end
 function List:empty(list)
+	if list == nil then print(debug.traceback()) end
 	return list._nb_elem == 0
 end
 function List:clear(list)

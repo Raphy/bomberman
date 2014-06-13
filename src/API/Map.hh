@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Fri Jun 13 21:00:23 2014 raphael defreitas
+// Last update Fri Jun 13 22:25:07 2014 raphael defreitas
 */
 
 #ifndef		MAP_HH_
@@ -15,6 +15,7 @@
 
 # include	"game/GameScene.hh"
 # include	"GameObject.hh"
+# include	"Me.hh"
 
 namespace API
 {
@@ -24,7 +25,7 @@ namespace API
     Map(GameScene* gs);
     ~Map(void);
 
-    std::vector<GameObject*> get(int x, int y, int distance);
+    std::vector<GameObject*> get(int x, int y, int d, Me* me);
 
     // Lua implementation
     static void registerScript(Script& script);

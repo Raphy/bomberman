@@ -49,7 +49,8 @@ function Helper:to_override()
 	print(debug.traceback())
 end
 function Helper:debug_print(msg)
-	if active_debug then print("DEBUG : "..msg) end
+	if active_debug and msg == nil then print("DEBUG : ?") end
+	if active_debug and msg ~= nil then print("DEBUG : "..msg) end
 end
 function Helper:debug_dump_list(list)
 	if active_debug then

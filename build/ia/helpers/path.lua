@@ -94,13 +94,19 @@ end
 function Path:calc_path(algo_name, start_idx, dest_idx, type)
 	start_idx = math.floor(start_idx)
 	dest_idx = math.floor(dest_idx)
-  	MapManager:clean_map()
+  	MapManager:clean_map()--?????????
 	local algoModule = PathAlgos[algo_name]
 	local open_list = List:new("open_list")
 	local closed_list = List:new("closed_list")
 	local start = MapManager:get_case(start_idx)
 	Helper:debug_print("start calc_path : "..start_idx)
-	local dest = nil; if dest_idx ~= -1 then dest = MapManager:get_case(dest_idx) end
+	local dest = nil;
+	if dest_idx ~= -1 then
+		dest = MapManager:get_case(dest_idx)
+		if dest == nil then
+			Helper:debug_print("destination is not in vision")
+			return nil end
+	end
 
 	local function _calc_path(start, curr, open_list, closed_list)
 		-- if DEBUG == DEBUG_MAX then return true end

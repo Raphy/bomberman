@@ -4,6 +4,7 @@
 # include "AMenuScene.hh"
 # include "AWidget.hh"
 # include "Cursor.hh"
+# include "SoundManager.hh"
 
 class MainMenu : public AMenuScene
 {
@@ -27,6 +28,7 @@ private:
   bool _btnDown = false;
   bool _btnSpace = false;
 
+  static SoundManager& _son;
 };
 
 #endif
