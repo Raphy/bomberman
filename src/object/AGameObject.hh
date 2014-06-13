@@ -36,10 +36,14 @@ public:
     }
 
     // Returns the objects and clean the list
-    std::vector<AGameObject*> getObjectsAndReset() {
-        std::vector<AGameObject*> result = this->_objects;
-        this->_objects.clear();
-        return result;
+    template<class OutputIterator>
+    OutputIterator getObjectsAndReset(OutputIterator out_it) {
+        auto in_it = _objects.begin();
+        while (in_it != _objects.end()) {
+            *(out_it++) = *(in_it++);
+        }
+        _objects.clear();
+        return out_it;
     }
     
     virtual Rectangle getCollider() const;
