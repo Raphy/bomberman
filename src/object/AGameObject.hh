@@ -61,8 +61,9 @@ protected:
 
     void restoreLastState();
     void saveCurrentState();
-    
-    
+
+    void addObject(AGameObject *);
+
     // Used by children to set their m_dead attribute to true. 
     void die() { m_dead = true; }
 };

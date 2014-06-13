@@ -50,8 +50,6 @@ private:
     void onLeftPressed(gdl::Clock const& clock);
     void onRightPressed(gdl::Clock const& clock);
     void onBombPressed(gdl::Clock const& clock);
-    
-    void addObject(AGameObject *);
 };
 
 #endif // !MARVIN_HH_

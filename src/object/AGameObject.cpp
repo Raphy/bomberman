@@ -16,3 +16,7 @@ void AGameObject::saveCurrentState() {
 Rectangle AGameObject::getCollider() const {
     return Rectangle(_position, _scale);
 }
+
+void AGameObject::addObject(AGameObject * obj) {
+    this->_objects.push_back(obj);
+}

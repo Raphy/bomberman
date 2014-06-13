@@ -101,10 +101,6 @@ void Marvin::onBombPressed(const gdl::Clock& clock) {
     this->addObject(bomb);
 }
 
-void Marvin::addObject(AGameObject * obj) {
-    this->_objects.push_back(obj);
-}
-
 static const double COLLIDER_SIZE = 0.7;
 
 Rectangle Marvin::getCollider() const {
