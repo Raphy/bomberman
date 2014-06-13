@@ -1,11 +1,8 @@
-#include <iostream> // debug ?
-
 #include "AMenuScene.hh"
 
 AMenuScene::AMenuScene(const std::string& tag)
   : AScene(tag)
 {
-  // Set value screen size
   _projection = glm::ortho(0.0f, 600.0f, 600.0f, 0.0f, -1.0f, 1.0f);
 
   _cursorPos = 0;
@@ -28,24 +25,23 @@ AMenuScene::~AMenuScene()
 
 bool AMenuScene::initialize()
 {
-  // load texture
   if (_texture.load(_pathTexture) == false)
     {
       std::cerr << "Cannot load the background texture" << std::endl;
       return false;
     }
 
-  if (_camera->initialize() == false) {
-    return false;
-  }
+  if (_camera->initialize() == false)
+    {
+      return false;
+    }
 
   _camera->setPosition(glm::vec3(0, 0, 0));
   _camera->setLookAt(glm::vec3(0, 0, 1));
 
   addCamera("menu", _camera);
 
-
-  _geometry.setColor(glm::vec4(1,1, 1, 1)); // voir ici pour (ALPHA/GAMME)->TRansparence
+  _geometry.setColor(glm::vec4(1,1, 1, 1));
 
   _geometry.pushVertex(glm::vec3(0, 0, 0));
   _geometry.pushVertex(glm::vec3(1, 0, 0));
@@ -64,23 +60,22 @@ bool AMenuScene::initialize()
 
 bool AMenuScene::update(gdl::Clock const& clock, gdl::Input& input)
 {
-
   return true;
 }
 
 bool AMenuScene::draw(gdl::AShader& shader, gdl::Clock const& clock)
 {
-
   shader.bind();
   shader.setUniform("view", glm::mat4(1));
   shader.setUniform("projection", _projection);
 
-  glm::vec3 size(600, 600, 0); // taille img final BACKGROUND !!!! EN FONCTION TAILLE ECRAN
+  glm::vec3 size(600, 600, 0);
   glm::mat4 transform(1);
 
   transform = glm::scale(transform, size);
   _texture.bind();
   _geometry.draw(shader, transform, GL_QUADS);
+
   _camera->draw(shader, clock);
 
   glEnable(GL_BLEND);
