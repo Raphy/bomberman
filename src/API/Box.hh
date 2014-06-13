@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Fri Jun 13 22:58:18 2014 raphael defreitas
+// Last update Fri Jun 13 23:37:07 2014 raphael defreitas
 */
 
 #ifndef		BOX_HH_
@@ -27,8 +27,6 @@ namespace API
   public:
     Box(::Box* box);
     ~Box(void);
-
-    const std::string& getName(void) const;
 
     // Lua implementation
     static void registerScript(Script& script);
