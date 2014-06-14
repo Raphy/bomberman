@@ -83,7 +83,7 @@ function Helper:get_my_coord()
 end
 function Helper:get_my_position()
 	local x,y = me:getPosition()
-	return x+1,y+1
+	return x+1,y+1--arrondir directement ici ?
 end
 
 function Helper:map_get(x,y,distance)

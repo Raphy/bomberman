@@ -100,8 +100,6 @@ end
 -- local DEBUG_MAX = 2
 
 function Path:calc_path(algo_name, start_idx, dest_idx, type)
-	start_idx = math.floor(start_idx)
-	dest_idx = math.floor(dest_idx)
 	if start_idx == dest_idx then
 		return List:new("empty_path") end
   	-- MapManager:clean_map()--?????????

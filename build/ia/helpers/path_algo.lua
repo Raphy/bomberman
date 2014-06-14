@@ -56,7 +56,8 @@ end
 function Astar:check_side_open_cases(curr, side_open_cases, dest)
 	assert(dest ~= nil, "astar needs a destination")
 	for case in List:iter_case(side_open_cases) do
-		if case.g > curr.g + 1 then
+		if case.g > curr.g + 1
+			and Case:are_adjacents(case,curr) then
 			case.parent = curr.idx
 			case.g = curr.g + 1
 			case.h = calc_h_cost(case, dest)
@@ -87,7 +88,8 @@ function Dijkstra:get_next_open_case(open_list)
 end
 function Dijkstra:check_side_open_cases(curr, side_open_cases, dest)
 	for case in List:iter(side_open_cases) do
-		if case.g > curr.g + 1 then
+		if case.g > curr.g + 1
+			and Case:are_adjacents(case,curr) then
 			case.parent = curr.idx
 			case.g = curr.g + 1
 			if dest ~= nil then
