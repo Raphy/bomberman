@@ -17,8 +17,7 @@ AMenuScene::~AMenuScene()
   while (it != _mapButton.end())
     {
       delete it->first;
-      _mapButton.erase(it);
-      it++;
+      _mapButton.erase(it++);
     }
   delete _camera;
 }
