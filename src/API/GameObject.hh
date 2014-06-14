@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Sat Jun 14 03:02:29 2014 raphael defreitas
+// Last update Sat Jun 14 03:07:56 2014 raphael defreitas
 */
 
 #ifndef		GAMEOBJECT_HH_
@@ -28,8 +28,9 @@ namespace API
     virtual ~GameObject(void);
 
     const std::string& getType(void) const;
-    std::tuple<double, double> getPosition(void) const;
     AGameObject* getAGameObject();
+    std::tuple<double, double> getPosition(void) const;
+    float getSpeed(void) const;
 
     // Lua implementation
     static void registerScript(Script& script);
