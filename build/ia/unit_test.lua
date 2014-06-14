@@ -87,17 +87,17 @@ do
 	print("are_objects_in_case(coo.x,coo.y) : ",
 			Helper:are_objects_in_case(coo.x,coo.y))
 	print("are_objects_in_case(coo.x,coo.y,\"enemy\") : ",
-			Helper:are_objects_in_case(coo.x,coo.y,"enemy"))
+			Helper:are_objects_in_case(coo.x,coo.y,"Player"))
 	-- print("are_objects_in_case_except(coo.x,coo.y) : ",
 	-- 		Helper:are_objects_in_case_except(coo.x,coo.y))
 	print("are_objects_in_case_except(coo.x,coo.y,\"enemy\") : ",
-			Helper:are_objects_in_case_except(coo.x,coo.y,"enemy"))
+			Helper:are_objects_in_case_except(coo.x,coo.y,"Player"))
 	print("are_objects(\"enemy\") : ",
-			Helper:are_objects("enemy"))
+			Helper:are_objects("Player"))
 	print("are_objects_around(\"enemy\",coo.x,coo.y) : ",
-			Helper:are_objects_around("enemy",coo.x,coo.y))
+			Helper:are_objects_around("Player",coo.x,coo.y))
 	print("are_objects_around(\"enemy\",coo.x,coo.y,3) : ",
-			Helper:are_objects_around("enemy",coo.x,coo.y,3))
+			Helper:are_objects_around("Player",coo.x,coo.y,3))
 	print("is_place_safe() : ",
 			Helper:is_place_safe())
 

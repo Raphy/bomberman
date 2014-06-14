@@ -40,8 +40,8 @@ function initialization()
 	-- if self:path_recalc_needed() then
 		local start_idx = MapManager:coord_to_idx(me:getPosition())
 		local dest_idx = -1
-		-- Path:calc_path("dijkstra", start_idx, -1, "enemy")
-		Path:calc_path("dijkstra", start_idx, start_idx + 1, "enemy")
+		-- Path:calc_path("dijkstra", start_idx, -1, "Player")
+		Path:calc_path("dijkstra", start_idx, start_idx + 1, "Player")
 	-- end
 	-- return self:follow_path()
 end

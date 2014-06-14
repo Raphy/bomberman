@@ -19,13 +19,13 @@ GetCloserOfEnemyState.pre_conditions = {
       return not Helper:is_place_safe() end,
     "push", "avoid_bomb_state", },
   { function()-- enemy assez pres
-      return Helper:are_objects_around("enemy",me:getPosition(),2) end,
+      return Helper:are_objects_around("Player",me:getPosition(),2) end,
     "push", "kill_enemy_state", },--pop ?
   { function()-- impossible de l'atteindre
-      return not Helper:are_objects_around("enemy",me:getPosition(),MapManager.size / 2) end,
+      return not Helper:are_objects_around("Player",me:getPosition(),MapManager.size / 2) end,
     "push", "break_wall_state", },
   { function()-- pas d'enemy sur la map
-      return not Helper:are_objects_around("enemy",me:getPosition(),MapManager.size / 2) end,
+      return not Helper:are_objects_around("Player",me:getPosition(),MapManager.size / 2) end,
     "push", "kill_enemy_state", },
 }
 
@@ -46,7 +46,7 @@ end
 
 AvoidBombState.pre_conditions = {
   { function()-- impossible de s'enfuir
-      return not Helper:are_objects_around("enemy",me:getPosition(),MapManager.size / 2) end,
+      return not Helper:are_objects_around("Player",me:getPosition(),MapManager.size / 2) end,
     "push", "break_wall_state", },
   { function()
     return Helper:is_place_safe() end,

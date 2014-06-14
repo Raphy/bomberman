@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Fri Jun 13 21:34:50 2014 raphael defreitas
+// Last update Fri Jun 13 23:36:51 2014 raphael defreitas
 */
 
 #ifndef		WALL_HH_
@@ -27,8 +27,6 @@ namespace API
   public:
     Wall(::Wall* wall);
     ~Wall(void);
-
-    const std::string& getName(void) const;
 
     // Lua implementation
     static void registerScript(Script& script);

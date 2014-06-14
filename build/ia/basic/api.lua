@@ -13,10 +13,10 @@ end
 
 map = Class:new()
 
-function map:get(x,y,distance)
+function map:get(x,y,distance,me)
 	if type(x) ~= "number" or type(y) ~= "number"
 		then print("map:get expects a number"); print(debug.traceback()) end
-	if x == 5.0 and y == 5.0 then print("map:get enemy !!!!!!"); return {[1]=Enemy} end
+	if x == 5.0 and y == 5.0 then print("map:get enemy !!!!!!"); return {[1]=Player} end
 	if x == 1.0 and y == 9.0 then print("map:get bonus !!!!!!"); return {[1]=Bonus} end
 	if x == 9.0 and y == 1.0 then print("map:get bomb !!!!!!"); return {[1]=Bomb} end
 	return nil
@@ -25,7 +25,7 @@ end
 GameObject = {_type = "GameObject"}
 
 function GameObject:getType()
-	return "Enemy"
+	return "Player"
 end
 
 function GameObject:getX()
@@ -69,17 +69,17 @@ end
 -- 	return true
 -- end
 
-Enemy = {_type = "Enemy", _name = "TheEnemy"}
+Player = {_type = "Player", _name = "ThePlayer"}
 
-function Enemy:getType()
-	return "Enemy"
+function Player:getType()
+	return "Player"
 end
 
-function Enemy:getX()
+function Player:getX()
 	return 5.0
 end
 
-function Enemy:getY()
+function Player:getY()
 	return 5.0
 end
 
