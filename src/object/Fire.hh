@@ -10,7 +10,7 @@
 
 #include "ACube.hh"
 
-class Fire: public ACube{
+class Fire: public ACube {
 
 public:
     
@@ -37,11 +37,15 @@ public:
 
 private:
     
-    int _steps;
-    Direction _direction;
-    bool _created;
+    int         _steps;
+    Direction   _direction;
+    bool        _created;
+    double      _time;
 
-    Direction getDirection() const { return this -> _direction; }
+    Direction   getDirection() const { return this -> _direction; }
+    void        setTime(double time) { this->_time = time; }
+    double      getTime() const { return this->_time; }
+    
     int getStep() const { return _steps; }
     int isFirst() const { return _direction == None; }
     

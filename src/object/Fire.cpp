@@ -8,12 +8,12 @@
 #include "Fire.hh"
 #include "ResourcesPath.hh"
 
-Fire::Fire() : ACube("fire"), _steps(0), _direction(None), _created(false) {
+Fire::Fire() : ACube("fire"), _steps(0), _direction(None), _created(false), _time(0.5) {
 }
 
 bool Fire::initialize()
 {
-    this -> scale(glm::vec3(1, 0.7, 1));
+    this -> scale(glm::vec3(1, 0.2, 1));
 
     return this -> setTexture(ResourcesPath::asset("textures/fire.tga"));
 }
@@ -45,9 +45,9 @@ void Fire::update(const gdl::Clock & clock, gdl::Input & input)
         this->_created = true;
     }
     
-    this->_steps--;
-    if (this->_steps <= 0)
-        this -> die();
+    this->_time -= clock.getElapsed();
+    if (this->_time <= 0)
+        this->die();
 }
 
 void Fire::createFire(glm::vec3 const& position, Direction direction) {
