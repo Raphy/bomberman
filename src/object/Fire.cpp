@@ -62,8 +62,9 @@ void Fire::createFire(glm::vec3 const& position, Direction direction) {
 }
 
 void Fire::onCollision(AGameObject& other) {
-    if (other.getType() == "wall"
-            && other.getPosition() == this->getPosition()) {
+    if ((other.getType() == "wall"
+         || other.getType() == "box")
+         && other.getPosition() == this->getPosition()) {
         this->die();
     }
 }
