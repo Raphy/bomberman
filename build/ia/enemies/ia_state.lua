@@ -19,7 +19,7 @@ GetCloserOfEnemyState.pre_conditions = {
       return Helper:is_place_dangerous() end,
     "push", "avoid_bomb_state", },
   { function()
-    return Helper:enemy_in_view() end,
+    return Helper:obj_in_action_range("Player") end,
     "push", "kill_enemy_state", },
 
   -- { function()-- enemy assez pres
@@ -27,7 +27,7 @@ GetCloserOfEnemyState.pre_conditions = {
   --   "push", "kill_enemy_state", },--pop ?
   -- { function()-- impossible de l'atteindre
   --     return not Helper:are_objects_around("Player",Helper:get_my_position(),MapManager.size / 2) end,
-  --   "push", "break_wall_state", },
+  --   "push", "break_box_state", },
   -- { function()-- pas d'enemy sur la map
   --     return not Helper:are_objects_around("Player",Helper:get_my_position(),MapManager.size / 2) end,
   --   "push", "kill_enemy_state", },
@@ -35,7 +35,7 @@ GetCloserOfEnemyState.pre_conditions = {
 
 GetCloserOfEnemyState.post_conditions = {
   -- { function()
-  --   return Helper:enemy_in_view() end,
+  --   return Helper:obj_in_view("Player") end,
   --   "pop", },
 }
 
@@ -51,7 +51,7 @@ end
 AvoidBombState.pre_conditions = {
   { function()-- impossible de s'enfuir
       return not Helper:are_objects_around("Player",Helper:get_my_position(),MapManager.size / 2) end,
-    "push", "break_wall_state", },
+    "push", "break_box_state", },
   { function()
     return Helper:is_place_safe() end,
     "pop", },
@@ -60,7 +60,7 @@ AvoidBombState.pre_conditions = {
 AvoidBombState.post_conditions = {
   { function()
     return true end,-- impossible de s'enfuir
-    "push", "break_wall_state", },
+    "push", "break_box_state", },
 }
 
 -- * KILL_ENEMY *
@@ -77,16 +77,16 @@ KillEnemyState.pre_conditions = {
     return Helper:is_place_dangerous() end,
     "push", "avoid_bomb_state", },
   { function()
-    return not Helper:enemy_in_view() end,
+    return not Helper:obj_in_view("Player") end,
     "push", "get_closer_of_enemy_state", },
   { function()
-    return Helper:enemy_in_view() end,
+    return Helper:obj_in_view("Player") end,
     "push", "put_bomb_state", },
 }
 
 KillEnemyState.post_conditions = {
   { function()
-    return not Helper:enemy_in_view() end,
+    return not Helper:obj_in_view("Player") end,
     "pop", },
 }
 
@@ -140,6 +140,33 @@ GetBonusState.post_conditions = {
 }
 
 
+-- * BREAK_BOX_STATE *
+
+BreakBoxState = State:new("break_box_state")
+
+function BreakBoxState:action()
+  Helper:debug_print("action : ".."break_box_state")
+  return false
+end
+
+BreakBoxState.pre_conditions = {
+  -- { function()
+  --   return Helper:cond() end,--mur trop loin
+  --   "push", "get_closer_of_box", },
+  { function()
+    return true end,
+    "push", "put_bomb_state", },
+}
+
+BreakBoxState.post_conditions = {
+  { function()
+    return StateMachine._action_status.status end,
+    "pop", },
+}
+
+
+
+
 -- * BEGIN *
 
 BeginState = State:new("begin_state")
@@ -163,6 +190,7 @@ StateList = {
   ["put_bomb_state"] = PutBombState,--a copier dans StateList
   ["begin_state"] = BeginState,--a copier dans StateList
   ["get_bonus_state"] = GetBonusState,--a copier dans StateList
+  ["break_box_state"] = BreakBoxState,--a copier dans StateList
 }
 
 
@@ -173,17 +201,17 @@ function initialization()
 end
 
 DEBUG = 0
-DEBUG_MAX = 10
+DEBUG_MAX = 50
 
--- active_debug = true
+active_debug = true
 
 function play()
-  StateMachine:play()
-  -- if DEBUG == DEBUG_MAX then
-  --   MapManager:update()
-  --   StateMachine:play()
-  --   DEBUG = 0
-  -- end
-  -- DEBUG = DEBUG + 1
+  -- StateMachine:play()
+  if DEBUG == DEBUG_MAX then
+    MapManager:update()
+    StateMachine:play()
+    DEBUG = 0
+  end
+  DEBUG = DEBUG + 1
   -- Helper:debug_print("\n\nIA_SIMPLE) play")
 end

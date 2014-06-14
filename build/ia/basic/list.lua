@@ -141,7 +141,7 @@ function List:add_case_in_list(list, case)
 		Helper:warning("try to add idx "..case.idx.." already in list "..list._name)
 	end
 	if active_debug_list then
-		Helper:debug_print("add_case_in_list : "..list._name..". _idx = "..case.idx) end
+		Helper:debug_print("add_case_in_list : "..list._name..". x,y = ",case.x,case.y) end
 	list._nb_elem = list._nb_elem + 1
 	table.insert(list, list._nb_elem, case.idx)
 end
@@ -150,7 +150,7 @@ function List:remove_case_from_list(list, case)
 		Helper:warning("try to remove unexisted idx "..case.idx.." from list "..list._name)
 	end
 	if active_debug_list then
-		Helper:debug_print("remove_case_from_list : "..list._name..". _idx = "..case.idx) end
+		Helper:debug_print("remove_case_from_list : "..list._name..". x,y = ",case.x,case.y) end
 	for i,v in ipairs(list) do
 		if v == case.idx then
 			table.remove(list, i)

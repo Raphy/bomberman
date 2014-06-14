@@ -1,12 +1,11 @@
 
 TagsList = { "up","down","left","right","put_bomb",
-				"player","me","Player",
-				"item","bomb",
+				"player","Me","Player",
+				"Item","Bomb",
 				"preview_bomb","preview_fire",
 				"open","closed","unknown",
 				"astar","dijkstra","glouton",
-				"push","pop","continue",
-				"begin","in_progress","end" }
+				"push","pop","continue", }
 Tags = {}
 for i,v in ipairs(TagsList) do
 	Tags[v] = i
