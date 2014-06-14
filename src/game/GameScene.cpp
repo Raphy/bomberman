@@ -16,6 +16,7 @@
 #include "Bomb.hh"
 #include "Fire.hh"
 #include "SkyBox.hh"
+#include "Floor.hh"
 
 #include "OptionMenu.hh"
 
@@ -97,19 +98,19 @@ void GameScene::loadMap(std::string const& filename) {
             switch (type) {
                 case MapText::PLAYER_1: initPlayer(1, x, y); break;
                 case MapText::PLAYER_2: initPlayer(2, x, y); break;
-                case MapText::ENEMY:    instantiateObject<IA>(x, y); break;
-                case MapText::BOX:      instantiateObject<Box>(x, y); break;
-                case MapText::WALL:     instantiateObject<Wall>(x, y); break;
-                case MapText::BOMB:     instantiateObject<Bomb>(x, y); break;
-                case MapText::FIRE:   instantiateObject<Fire>(x, y); break;
+                case MapText::ENEMY:    instantiateObject<IA>(x, y, m_objects); break;
+                case MapText::BOX:      instantiateObject<Box>(x, y, m_objects); break;
+                case MapText::WALL:     instantiateObject<Wall>(x, y, m_walls); break;
+                case MapText::BOMB:     instantiateObject<Bomb>(x, y, m_objects); break;
+                case MapText::FIRE:   instantiateObject<Fire>(x, y, m_objects); break;
                 default: break;
             }
         });
         
         //SkyBox
-        m_objects.push_back(new SkyBox());
-        m_objects.back()->setScale(glm::vec3(getMapWidth() + SKYBOX_OFFSET, SKYBOX_OFFSET * 1, getMapHeight() + SKYBOX_OFFSET));
-        m_objects.back()->setPosition(glm::vec3(getMapWidth() / 2, -(SKYBOX_OFFSET * 0.5), getMapHeight() / 2));
+        m_objects.push_back(createSkybox());
+
+        this -> createFloor();
         
         if (!m_players[0] && !m_players[1]) {
             throw Exception("the map '" + filename + "' doesn't contain any player");
@@ -120,6 +121,24 @@ void GameScene::loadMap(std::string const& filename) {
     }
 }
 
+void GameScene::createFloor() {
+        for (int i = 0; i < getMapHeight(); i++) {
+            for (int j = 0; j < getMapWidth(); j++) {
+                m_walls.push_back(new Floor());
+                m_walls.back()->isStatic();
+                m_walls.back()->setPosition(glm::vec3(j, 0, i));
+            }
+        }
+}
+
+
+SkyBox* GameScene::createSkybox() const {
+    SkyBox * result = new SkyBox();
+    result->setScale(glm::vec3(getMapWidth() + SKYBOX_OFFSET, SKYBOX_OFFSET * 1, getMapHeight() + SKYBOX_OFFSET));
+    result->setPosition(glm::vec3(getMapWidth() / 2, -(SKYBOX_OFFSET * 0.5), getMapHeight() / 2));
+    return result;
+}
+
 void GameScene::genMap(int width, int height) {
     m_map_width = width;
     m_map_height = height;
@@ -127,6 +146,12 @@ void GameScene::genMap(int width, int height) {
     std::pair<std::list<AGameObject*>, std::list<AGameObject*>> tmp = map.Generate(width, height);
     this -> m_walls.merge(tmp.first);
     this -> m_objects.merge(tmp.second);
+    
+    //add skybox
+    this -> m_objects.push_back(createSkybox());
+    
+    this -> createFloor();
+    
     initPlayer(1, 5, 5);
 }
 
@@ -222,6 +247,7 @@ void GameScene::zoomCamera(int key) {
 
 bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
+    m_walls.empty() ? (std::cout << "EMPTY" << std::endl) : (std::cout << "NOT EMPTY" << std::endl);
     m_playlist.update();
 
     if (input.getKey(SDLK_ESCAPE)) {

@@ -10,6 +10,7 @@
 # include "QuadTree.hh"
 # include "Marvin.hh"
 # include "PlaylistManager.hh"
+# include "SkyBox.hh"
 
 /*
 ** Should need these arguments:
@@ -67,9 +68,9 @@ private:
     }
 
     template<typename T>
-    void instantiateObject(int x, int y) {
-        m_objects.push_back(new T());
-        m_objects.back()->setPosition(
+    void instantiateObject(int x, int y, std::list<AGameObject*> & list) {
+        list.push_back(new T());
+        list.back()->setPosition(
             static_cast<double>(x), static_cast<double>(y));
     }
 
@@ -77,6 +78,8 @@ private:
     void genMap(int width, int height);
     void initPlayer(int num, int x, int y);
 
+    SkyBox * createSkybox() const;
+    
     void initPlaylist();
 
     // Call a closure/functor for each object in the list.
@@ -132,7 +135,9 @@ private:
 
     void zoomCamera(int key);
 
-    bool isGameOver() const; 
+    bool isGameOver() const;
+    
+    void createFloor();
 };
 
 #endif
