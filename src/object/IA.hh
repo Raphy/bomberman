@@ -25,7 +25,7 @@ public:
     };
     
     IA(): AModel(ResourcesPath::asset("bomb.fbx"), "ia"), _direction(None), pressed(false) {}
-    virtual ~IA() {};
+    virtual ~IA();
 
     virtual bool initialize();
     
