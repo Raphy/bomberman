@@ -36,8 +36,9 @@ end
 
 -- * DEV_HELPER *
 
-function Helper:warning(msg)
-	print("WARNING : ",msg)
+function Helper:warning(...)
+	print("WARNING : ")
+	print(...)
 	print(debug.traceback())
 	print("...WARNING")
 end
