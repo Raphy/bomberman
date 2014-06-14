@@ -51,6 +51,7 @@ void Box::onCollision(AGameObject& obj) {
 	    buff->setPosition(glm::vec3(static_cast<int>(this->_position.x),
 					static_cast<int>(this->_position.y),
 					static_cast<int>(this->_position.z)));
+	    buff->initialize();
 	    this->addObject(buff);
 	    std::cout << "Buff: " << buff->getType() << std::endl;
 	    /*}*/
