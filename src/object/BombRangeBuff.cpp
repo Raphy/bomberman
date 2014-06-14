@@ -5,9 +5,10 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Sat Jun 14 01:33:58 2014 raphael defreitas
-// Last update Sat Jun 14 03:38:54 2014 raphael defreitas
+// Last update Sun Jun 15 01:34:00 2014 raphael defreitas
 //
 
+#include	"APlayer.hh"
 #include	"BombRangeBuff.hh"
 #include	"ResourcesPath.hh"
 
@@ -35,5 +36,11 @@ void BombRangeBuff::update(gdl::Clock const &clock, gdl::Input &input)
 
 void BombRangeBuff::onCollision(AGameObject& obj)
 {
-  std::cout << "Buff taken by " << obj.getType() << std::endl;
+  if (obj.getType() == "ia" || obj.getType() == "marvin")
+    {
+      APlayer* player = static_cast<APlayer*>(&obj);
+      if (player->getBombRange() < 5)
+        player->setBombRange(player->getBombRange() + 1);
+      this->die();
+    }
 }
