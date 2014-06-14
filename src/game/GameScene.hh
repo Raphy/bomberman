@@ -51,6 +51,8 @@ private:
     Marvin* m_players[2];
     std::list<AGameObject*> m_objects;
     std::list<AGameObject*> m_walls;
+    std::list<AGameObject*> m_loadObj;
+    std::list<std::pair<AGameObject*, int>> m_garbageCollector;
     // The magic data structure !
     QuadTree* m_quad_tree;
 
@@ -100,7 +102,7 @@ private:
     template<typename Funct>
     void foreachObject(Funct closure) const {
         foreachObject(m_objects, closure);
-        foreachObject(m_walls, closure);   
+        foreachObject(m_walls, closure);
     }
 
     // Foreach object of the list, remove it if closure return true.
