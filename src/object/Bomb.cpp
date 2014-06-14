@@ -14,6 +14,7 @@ static const double BOMBTIME = 2;
 
 bool Bomb::initialize() {
     this->scale(glm::vec3(0.10, 0.10, 0.10));
+    this->_position.y += 0.25;
     return true;
 }
 
@@ -33,7 +34,7 @@ void Bomb::createFire() {
     Fire* obj = new Fire();
     
     obj->setStep(1);
-    obj->setPosition(this->_position);
+    obj->setPosition(this->_position.x, this->_position.z);
     obj->setDirection(Fire::None);
     
     addObject(obj);
