@@ -7,6 +7,7 @@
 
 #include <cstdlib>
 
+#include "BombCapacityBuff.hh"
 #include "BombRangeBuff.hh"
 #include "Box.hh"
 #include "ResourcesPath.hh"
@@ -39,7 +40,7 @@ void Box::onCollision(AGameObject& obj) {
 	/*if (rand() % 10 == 0)
 	  {*/
 	    AGameObject* buff;
-	    switch(rand() % 2)
+	    switch(rand() % 3)
 	      {
 	      case 0:
 		{
@@ -49,6 +50,11 @@ void Box::onCollision(AGameObject& obj) {
 	      case 1:
 		{
 		  buff = new BombRangeBuff();
+		  break;
+		}
+	      case 3:
+		{
+		  buff = new BombCapacityBuff();
 		  break;
 		}
 	      }
