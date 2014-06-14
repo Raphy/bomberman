@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Sat Jun 14 01:33:58 2014 raphael defreitas
-// Last update Sun Jun 15 01:34:00 2014 raphael defreitas
+// Last update Sun Jun 15 01:39:52 2014 raphael defreitas
 //
 
 #include	"APlayer.hh"
@@ -26,7 +26,7 @@ BombRangeBuff::~BombRangeBuff()
 bool BombRangeBuff::initialize()
 {
   this->setSpeed(0);
-  return this->setTexture(ResourcesPath::asset("textures/wall.tga"));
+  return this->setTexture(ResourcesPath::asset("textures/box.tga"));
 }
 
 
