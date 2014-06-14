@@ -109,16 +109,17 @@ void Marvin::onRightPressed(gdl::Clock const &clock)
     this -> lookEast();
 }
 
+static const double COLLIDER_SIZE = 0.7;
+
 void Marvin::onBombPressed(const gdl::Clock& clock) {
     AGameObject* bomb = new Bomb();
     
-    bomb->setPosition(glm::vec3(static_cast<int>(this->_position.x),
+     bomb->setPosition(glm::vec3(static_cast<int>(this->_position.x + 0.5),
                                 static_cast<int>(this->_position.y),
-                                static_cast<int>(this->_position.z)));
+                                static_cast<int>(this->_position.z + 0.5)));
     this->addObject(bomb);
 }
 
-static const double COLLIDER_SIZE = 0.7;
 
 Rectangle Marvin::getCollider() const {
     return Rectangle(
