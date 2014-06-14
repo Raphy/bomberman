@@ -13,6 +13,8 @@ struct inputStructure {
     int value;
     bool isPressed;
     inputFunction function;
+    inputFunction functionPressed;
+    inputFunction functionReleased;
 };
 
 struct inputBinding {
@@ -45,6 +47,9 @@ private:
     std::vector<inputStructure> _inputs;
     int totalPressed = 0;
     
+    void run(gdl::Clock const&);
+    void stop(gdl::Clock const&);
+    void none(gdl::Clock const &clock);
     void onUpPressed(gdl::Clock const& clock);
     void onDownPressed(gdl::Clock const& clock);
     void onLeftPressed(gdl::Clock const& clock);

@@ -21,7 +21,7 @@ Box::~Box() {
 }
 
 bool Box::initialize() {
-    this->scale(glm::vec3(0.8, 0.8, 0.8));
+    this->scale(glm::vec3(0.95, 0.95, 0.95));
     return this->setTexture(ResourcesPath::asset("textures/box.tga"));
 }
 

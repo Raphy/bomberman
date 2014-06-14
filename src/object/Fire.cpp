@@ -55,7 +55,7 @@ void Fire::createFire(glm::vec3 const& position, Direction direction) {
 
     obj->setPosition(this->_position + position);
     obj->setDirection(direction);
-    obj->scale(glm::vec3(1, 0.2 * this->getStep(), 1));
+    obj->scale(glm::vec3(1, 1, 1));
     obj->setStep(this->getStep() - 1);
 
     this->addObject(obj);

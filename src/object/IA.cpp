@@ -94,10 +94,11 @@ void IA::update(const gdl::Clock & clock, gdl::Input & input)
 void IA::onCollision(AGameObject& obj) {
     if (obj.getType() == "fire") {
         this->die();
-    } else if (obj.getType() == "wall") {
+    } else if (obj.getType() == "wall"
+            || obj.getType() == "box") {
+        this->_direction = None;
         this->restoreLastState();
     }
-    this->_direction = None;
 }
 
 
