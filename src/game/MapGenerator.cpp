@@ -37,6 +37,7 @@ MapGenerator::~MapGenerator(){}
 /* MEMBER FUNCTIONS */
 std::pair<std::list<AGameObject*>, std::list<AGameObject*>> MapGenerator::Generate(int width, int height)
 {
+    std::cout << "Generating Map....." << std::endl;
     this -> _width  = width;
     this -> _height = height;
     this -> _field  = new std::vector<std::vector<char> >(this -> _height,
@@ -156,6 +157,7 @@ std::pair<std::list<AGameObject*>, std::list<AGameObject*>> MapGenerator::ToList
             }
         }
     }
+    std::cout << "Completed!" << std::endl;
     return this -> _objects;
 }
 
