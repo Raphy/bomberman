@@ -109,7 +109,7 @@ void Marvin::onRightPressed(gdl::Clock const &clock)
     this -> lookEast();
 }
 
-static const double COLLIDER_SIZE = 0.7;
+static const double COLLIDER_SIZE = 0.8;
 
 void Marvin::onBombPressed(const gdl::Clock& clock) {
     AGameObject* bomb = new Bomb();
