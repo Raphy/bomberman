@@ -22,7 +22,7 @@ void Bomb::update(const gdl::Clock& clock, gdl::Input& input) {
     this->_time += clock.getElapsed();
     
     if (this -> _time >= BOMBTIME) {
-        std::cout << "BOOM" << std::endl;
+        std::cout << "BOOM: " << this << std::endl;
         this -> die();
         this -> createFire();
     }
@@ -32,7 +32,7 @@ void Bomb::createFire() {
     
     Fire* obj = new Fire();
     
-    obj->setStep(0);
+    obj->setStep(3);
     obj->setPosition(this->_position);
     obj->setDirection(Fire::None);
     

@@ -35,6 +35,12 @@ public:
     void goOneCaseUp();
     void goOneCaseLeft();
     void goOneCaseRight();
+
+
+    virtual void onCollision(AGameObject&);
+
+    virtual Rectangle getCollider() const;
+
     
 private:
     

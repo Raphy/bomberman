@@ -8,6 +8,9 @@
 #include "Fire.hh"
 #include "ResourcesPath.hh"
 
+Fire::Fire() : ACube("fire"), _steps(0), _direction(None), _created(false) {
+}
+
 bool Fire::initialize()
 {
     this -> scale(glm::vec3(1, 0.7, 1));
@@ -17,7 +20,7 @@ bool Fire::initialize()
 
 void Fire::update(const gdl::Clock & clock, gdl::Input & input)
 {
-    if (this -> _steps > 0) {
+    if (this -> _created == false && _steps > 0) {
         switch (this -> getDirection()) {
             case North :
                 this -> createFire(glm::vec3(1, 0, 0), North);
@@ -39,9 +42,12 @@ void Fire::update(const gdl::Clock & clock, gdl::Input & input)
                 this -> createRoot();
                 break;
         }
+        this->_created = true;
     }
     
-    this -> die();
+    this->_steps--;
+    if (this->_steps <= 0)
+        this -> die();
 }
 
 void Fire::createFire(glm::vec3 const& position, Direction direction) {
@@ -55,6 +61,17 @@ void Fire::createFire(glm::vec3 const& position, Direction direction) {
     this->addObject(obj);
 }
 
-void Fire::createRoot() {
+void Fire::onCollision(AGameObject& other) {
+    if (other.getType() == "wall"
+            && other.getPosition() == this->getPosition()) {
+        this->die();
+    }
+}
 
+
+void Fire::createRoot() {
+    this -> createFire(glm::vec3(1, 0, 0), North);
+    this -> createFire(glm::vec3(-1, 0, 0), South);
+    this -> createFire(glm::vec3(0, 0, -1), East);
+    this -> createFire(glm::vec3(0, 0, 1), West);
 }
