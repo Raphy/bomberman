@@ -3,8 +3,9 @@
 #include "LoadingMenu.hh"
 
 LoadingMenu::LoadingMenu(SceneArguments const& arg)
-  : AMenuScene("LoadMenu")
+  : AMenuScene("LoadMenu"), _args(*new SceneArguments())
 {
+  _args = arg;
 }
 
 LoadingMenu::~LoadingMenu()
@@ -18,16 +19,12 @@ bool LoadingMenu::initialize()
     {
       return false;
     }
-
   return true;
 }
 
 bool LoadingMenu::update(gdl::Clock const& clock, gdl::Input& input)
 {
-  SceneArguments& args = *new SceneArguments();
-  args.set("file", ResourcesPath::map("map1.bmap"));
-  setStatusGoOn<GameScene>(args);
-
+  setStatusGoOn<GameScene>(_args);
   return true;
 }
 
