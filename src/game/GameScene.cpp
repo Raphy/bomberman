@@ -15,9 +15,11 @@
 #include "MapGenerator.hh"
 #include "Bomb.hh"
 #include "Fire.hh"
+#include "SkyBox.hh"
 
 #include "OptionMenu.hh"
 
+const int GameScene::SKYBOX_OFFSET = 50;
 const std::string GameScene::Tag = "game";
 static int const GARBAGE_FRAME_COUNTER = 10;
 
@@ -103,6 +105,12 @@ void GameScene::loadMap(std::string const& filename) {
                 default: break;
             }
         });
+        
+        //SkyBox
+        m_objects.push_back(new SkyBox());
+        m_objects.back()->setScale(glm::vec3(getMapWidth() + SKYBOX_OFFSET, SKYBOX_OFFSET * 1, getMapHeight() + SKYBOX_OFFSET));
+        m_objects.back()->setPosition(glm::vec3(getMapWidth() / 2, -(SKYBOX_OFFSET * 0.5), getMapHeight() / 2));
+        
         if (!m_players[0] && !m_players[1]) {
             throw Exception("the map '" + filename + "' doesn't contain any player");
         }
@@ -178,7 +186,7 @@ bool GameScene::initialize() {
         if (m_players[idx] != nullptr) { 
             Camera* camera = new Camera(m_players[idx]);    
 //            camera->setOffset(glm::vec3(0, 4, -4));
-            camera->setOffset(glm::vec3(0, 10, -0.01));
+            camera->setOffset(glm::vec3(0, 4, -4));
             camera->initialize();
             addCamera("p" + std::to_string(player_num), camera);
         }
