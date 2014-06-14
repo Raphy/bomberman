@@ -19,6 +19,7 @@
 #include "OptionMenu.hh"
 
 const std::string GameScene::Tag = "game";
+static int const GARBAGE_FRAME_COUNTER = 10;
 
 GameScene::GameScene(SceneArguments const & args)
     : AScene(Tag), m_map_width(0), m_map_height(0),
@@ -44,7 +45,7 @@ GameScene::GameScene(SceneArguments const & args)
         }
         genMap(atoi(str_width.c_str()), atoi(str_height.c_str()));
     }
-
+    
     // api registration
     GameAPI::getInstance().set(*this);
 }
@@ -58,6 +59,12 @@ GameScene::~GameScene() {
     foreachObject([] (AGameObject& obj) {
         delete &obj;
     });
+    foreachObject(m_loadObj, [] (AGameObject& obj) {
+        delete &obj;
+    });    
+    for (auto it = this -> m_garbageCollector.begin(); it != this -> m_garbageCollector.end(); ++it) {
+        delete (*it).first;
+    }
 }
 
 void GameScene::initPlayer(int num, int x, int y) {
@@ -175,11 +182,16 @@ bool GameScene::initialize() {
             addCamera("p" + std::to_string(player_num), camera);
         }
     }
-
+    
     initPlaylist();
 
     rebuildQuadTree();
 
+    // pre-loading those objects so to have their .fbx already in memory
+    this -> m_loadObj.push_back(new Bomb());
+    this -> m_loadObj.push_back(new Fire());
+    this -> m_loadObj.push_back(new IA());
+    
     return true;
 }
 
@@ -258,7 +270,7 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
     // then, remove all dead objects.
     for (auto it = m_objects.begin(); it != m_objects.end();) {
         if ((*it)->getType() != "marvin" && (*it)->isDead()) {
-            delete *it;
+            this -> m_garbageCollector.push_back(std::pair<AGameObject*, int>(*it, GARBAGE_FRAME_COUNTER));
             m_objects.erase(it++);
         }
         else {
@@ -266,6 +278,17 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
         }
     }
 
+    for (auto it = this -> m_garbageCollector.begin(); it != this -> m_garbageCollector.end();) {
+        (*it).second--;
+        if ((*it).second == 0) {
+            delete (*it).first;
+            this -> m_garbageCollector.erase(it++);
+        }
+        else {
+            ++it;
+        }
+    }
+    
     return true;
 }
 
