@@ -5,6 +5,7 @@ TestBomberman/
 bomberman
 nbproject/
 ./build/bomberman
+./build/sounds/
 *.autosave
 nbproject
-./build/sounds/volume.conf
+
