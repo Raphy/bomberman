@@ -48,6 +48,9 @@ public:
   bool isMuteMusic();
   bool isMuteFx();
 
+  bool getVolumeFile();
+  bool setVolumeFile();
+
 private:
   SoundManager();
   ~SoundManager();
@@ -63,6 +66,9 @@ private:
   bool _mute;
   bool _muteFx;
   bool _muteMusic;
+
+  static std::string const CONF_FILE;
+
 };
 
 #endif /* !_SOUND_MANAGER_HH_ */
