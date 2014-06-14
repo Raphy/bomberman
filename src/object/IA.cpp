@@ -13,7 +13,7 @@
 
 IA::~IA()
 {
-  delete this->_script;
+  //delete this->_script;
 }
 
 bool IA::initialize()
