@@ -95,9 +95,9 @@ void IA::onCollision(AGameObject& obj) {
     if (obj.getType() == "fire") {
         this->die();
     } else if (obj.getType() == "wall") {
+        this->_direction = None;
         this->restoreLastState();
     }
-    this->_direction = None;
 }
 
 
