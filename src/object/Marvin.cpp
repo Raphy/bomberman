@@ -33,9 +33,7 @@ void Marvin::update(gdl::Clock const &clock,
         if (input.getKey(it -> value)) {
             if (it -> isPressed == false) {
                 it -> isPressed = true;
-                this->totalPressed++;
-                _model.setCurrentSubAnim("run");
-                
+                (this->*it -> functionPressed)(clock);
             }
             
             // Call the method pointer
@@ -43,22 +41,38 @@ void Marvin::update(gdl::Clock const &clock,
             
         } else if (it -> isPressed) { //Replace getKeyUp which is not implemented yet
             it -> isPressed = false;
-            this->totalPressed--;
-            if (this->totalPressed == 0)
-            _model.setCurrentSubAnim("stop", false);
+            (this->*it -> functionReleased)(clock);
         }
     }
     
 }
 
+void Marvin::stop(const gdl::Clock&) {
+    this->totalPressed--;
+    if (this->totalPressed == 0)
+        _model.setCurrentSubAnim("stop", false);
+}
+
+
+void Marvin::run(const gdl::Clock&) {
+    this->totalPressed++;
+    _model.setCurrentSubAnim("run");
+}
+
+
+void Marvin::none(gdl::Clock const &clock) {
+    (void) clock;
+}
+
 void Marvin::setBindKeys(const inputBinding& bind) {
     this -> _inputs.clear();
     
-    this -> _inputs.push_back({bind.up, false, &Marvin::onUpPressed});
-    this -> _inputs.push_back({bind.down, false, &Marvin::onDownPressed});
-    this -> _inputs.push_back({bind.left, false, &Marvin::onLeftPressed});
-    this -> _inputs.push_back({bind.right, false, &Marvin::onRightPressed});
-    this -> _inputs.push_back({bind.bomb, false, &Marvin::onBombPressed});
+    // Key, pressed status, onKey, onPressed, OnReleased
+    this -> _inputs.push_back({bind.up, false, &Marvin::onUpPressed, &Marvin::run, &Marvin::stop});
+    this -> _inputs.push_back({bind.down, false, &Marvin::onDownPressed, &Marvin::run, &Marvin::stop});
+    this -> _inputs.push_back({bind.left, false, &Marvin::onLeftPressed, &Marvin::run, &Marvin::stop});
+    this -> _inputs.push_back({bind.right, false, &Marvin::onRightPressed, &Marvin::run, &Marvin::stop});
+    this -> _inputs.push_back({bind.bomb, false, &Marvin::none, &Marvin::onBombPressed, &Marvin::none});
 }
 
 void Marvin::onCollision(AGameObject& obj) {
