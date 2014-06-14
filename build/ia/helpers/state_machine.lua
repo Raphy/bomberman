@@ -75,7 +75,10 @@ function StateMachine:register_status(status)
 end
 
 function StateMachine:push_state(state_name)
-	Helper:debug_print("push_state "..state_name)
+	Helper:debug_print("push_state ",state_name)
+	if StateList[state_name] == nil then
+		print("unexisting state ",state_name)
+	end
 	assert(StateList[state_name] ~= nil)
 	List:push_back(self._states, StateList[state_name])
 	self._current = List:back(self._states)

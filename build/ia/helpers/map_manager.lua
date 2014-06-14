@@ -43,6 +43,7 @@ function MapManager:init(w,h, vision_size)
 		local curr_idx = MapManager:coord_to_idx(j,i)
 	   self._map[curr_idx] = Case:create_case(curr_idx,i,j)
 	end
+	-- self:make_type_unwalkable("Wall")
 end
 function MapManager:update()
 	self:set_vision(Helper:get_my_coord(), self._vision.size, true)
@@ -50,6 +51,11 @@ function MapManager:update()
 		local curr_idx = MapManager:coord_to_idx(j,i)
 	   self._map[curr_idx] = Case:create_case(curr_idx,i,j)
 	end
+	-- self:make_type_unwalkable("Wall")
+end
+function MapManager:clean_map()
+	for case in self:iter() do Case:clean_case(case) end
+	-- self:make_type_unwalkable("Wall")
 end
 
 -- * VISION *
@@ -102,9 +108,6 @@ end
 
 -- * CASE/ACCESS *
 
-function MapManager:clean_map()
-	for case in self:iter() do Case:clean_case(case) end
-end
 
 function MapManager:get_case(i)
 	assert(i ~= nil, "get_case expect an index")
@@ -155,10 +158,12 @@ end
 
 function MapManager:make_type_unwalkable(type)
 	for case in self:iter() do
-		if string.find(type, "preview") ~= nil then
-			case.walkable = List:empty(case.previews)
-		else
-			case.walkable = not Helper:are_objects_in_case(case.x,case.y,type)
+		if case.walkable then
+			if string.find(type, "preview") ~= nil then
+				case.walkable = List:empty(case.previews)
+			else
+				case.walkable = not Helper:are_objects_in_case(case.x,case.y,type)
+			end
 		end
 	end
 end

@@ -9,7 +9,7 @@ Helper = {
 function Helper:initialization_base(repeat_max, vision_size)
 	math.randomseed(os.time())
 	Coord:init()
-	MapManager:init(100,100, vision_size)
+	MapManager:init(10,10, vision_size)
 	Actions:init(repeat_max)
 end
 
@@ -36,9 +36,9 @@ end
 -- * DEV_HELPER *
 
 function Helper:warning(msg)
-	print("WARNING...")
+	print("WARNING : ",msg)
 	print(debug.traceback())
-	print("...WARNING : "..msg)
+	print("...WARNING")
 end
 function Helper:to_implement()
 	print("ERROR : FUNCTION NOT IMPLEMENTED")
@@ -48,9 +48,11 @@ function Helper:to_override()
 	print("WARNING : this method should be override")
 	print(debug.traceback())
 end
-function Helper:debug_print(msg)
-	if active_debug and msg == nil then print("DEBUG : ?") end
-	if active_debug and msg ~= nil then print("DEBUG : "..msg) end
+function Helper:debug_print(...)
+	if active_debug then
+		print("DEBUG : ")
+		print(...)
+	end
 end
 function Helper:debug_dump_list(list)
 	if active_debug then
@@ -143,9 +145,7 @@ function Helper:get_objects_around(type,x,y,radius)
 	if not vision_state then MapManager:desactivate_vision() end
 	return o
 end
-function Helper:enemy_in_view()
-	return not self:are_objects_around("Player",Helper:get_my_position(),MapManager.size / 2)
-end
+
 
 
 -- * BOMB_HELPER *
@@ -155,12 +155,6 @@ local function is_case_safe(case)
 		and List:empty(case.previews)
 end
 
-function Helper:is_place_safe()
-	return not self:are_objects_around("bomb",Helper:get_my_position(),3)
-end
-function Helper:is_place_dangerous()
-	return not self:is_place_safe()
-end
 
 function Helper:clean_preview()
 	for case in MapManager:iter() do
@@ -195,9 +189,36 @@ function Helper:mark_all_safe_cases()
 end
 function Helper:preview_all_bombs()
 	for case in MapManager:iter() do
-		if self:are_objects_in_case(case.x,case.y,"bomb")
+		if self:are_objects_in_case(case.x,case.y,"Bomb")
 			or List:is_elem_in_list(case.previews, "preview_bomb") then
 				self:preview_bomb(Coord:new(case.x,case.y))
 		end
 	end
+end
+
+
+-- * WRAPPERS *
+
+function Helper:last_action_succeed()
+	assert(StateMachine ~= nil, "this check could only be done with a StateMachine")
+	return StateMachine._action_status.status
+end
+function Helper:last_action_failed()
+	assert(StateMachine ~= nil, "this check could only be done with a StateMachine")
+	return not StateMachine._action_status.status
+end
+function Helper:obj_in_view(type)
+	return self:are_objects_around(type,Helper:get_my_position(),MapManager.size / 2)
+end
+function Helper:obj_in_map(type) --[[ est ce une bonne idee ?? ]]
+	return self:are_objects_around(type,Helper:get_my_position(),MapManager.size / 2)
+end
+function Helper:obj_in_action_range(type)
+	return self:are_objects_around(type,Helper:get_my_position(),2)
+end
+function Helper:is_place_safe()
+	return not self:are_objects_around("Bomb",Helper:get_my_position(),3)
+end
+function Helper:is_place_dangerous()
+	return self:are_objects_around("Bomb",Helper:get_my_position(),3)
 end

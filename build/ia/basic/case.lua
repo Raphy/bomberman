@@ -36,6 +36,7 @@ end
 function Case:clean_case(case)
 	List:clear(case.previews)
 	List:clear(case.marks)
+	case.walkable = true
   	case.status = "unknown"
   	case.parent = -1
 	case.g,case.h,case.f = 0,0,0
