@@ -177,7 +177,8 @@ bool GameScene::initialize() {
         size_t idx = playerIdx(player_num);
         if (m_players[idx] != nullptr) { 
             Camera* camera = new Camera(m_players[idx]);    
-            camera->setOffset(glm::vec3(0, 4, -4));
+//            camera->setOffset(glm::vec3(0, 4, -4));
+            camera->setOffset(glm::vec3(0, 10, -0.01));
             camera->initialize();
             addCamera("p" + std::to_string(player_num), camera);
         }

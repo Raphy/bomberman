@@ -31,6 +31,9 @@ end
 
 function Path:register_case_open(open_list, case, sort)
 	case.status = "open"
+	if case.walkable == false then
+		Helper:warning("register_case_open but case unwalkable. x,y = ",case.x,case.y) end
+	assert(case.walkable)
 	List:add_case_in_list(open_list, case)
 	if sort ~= nil and sort ~= false then
 		List:sort(open_list) end

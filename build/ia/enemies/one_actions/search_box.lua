@@ -5,8 +5,8 @@ function initialization()
 	Helper:initialization_base(10, 10)
 end
 
-DEBUG = 0
 DEBUG_MAX = 100
+DEBUG = DEBUG_MAX
 
 -- active_debug = true
 -- active_debug_list = true
@@ -20,10 +20,10 @@ DEBUG_MAX = 100
 -- end
 
 function play()
-	-- if DEBUG >= DEBUG_MAX then
+	if DEBUG >= DEBUG_MAX then
 		-- print("Actions:get_closer_of_obj(\"Player\")")
 		Actions:get_closer_of_obj("Player")
-    -- DEBUG = 0
-  -- end
-  -- DEBUG = DEBUG + 1
+    DEBUG = 0
+  end
+  DEBUG = DEBUG + 1
 end

@@ -8,7 +8,7 @@ bool Marvin::initialize() {
 
     this->setSpeed(5);
     
-    if (_model.createSubAnim(0, "start", 0, 37) == false
+/*    if (_model.createSubAnim(0, "start", 0, 37) == false
             || _model.createSubAnim(0, "run", 37, 59) == false
             || _model.createSubAnim(0, "stop", 75, 130) == false) {
        
@@ -16,8 +16,9 @@ bool Marvin::initialize() {
         return false;
     
     }
-
-    this->scale(glm::vec3(0.0025, 0.0025, 0.0025));
+*/
+    this->scale(glm::vec3(0.01, 0.01, 0.01));
+//    this->scale(glm::vec3(1,1,1));
     
     return (true);
 }
