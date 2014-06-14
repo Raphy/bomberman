@@ -292,15 +292,18 @@ bool SoundManager::setVolumeFile()
 {
   ResourcesPath::setRootDir("./build");
   std::string filename = ResourcesPath::sound(CONF_FILE);
-  std::fstream f(filename);
+  std::fstream f;
 
-  if (f)
+  f.open(filename.c_str(), std::ios::out);
+
+  if (f.is_open())
     {
       f.clear();
       f << getVolumeFx() << std::endl;
       f << getVolumeMusic() << std::endl;
       return true;
     }
+
   return false;
 }
 

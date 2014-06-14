@@ -71,7 +71,6 @@ bool OptionMenu::update(gdl::Clock const& clock, gdl::Input& input)
 
   if (input.getKey(SDLK_RIGHT))
     {
-      _son.playFx("button");
       if (_cursorPos == 0)
 	{
 	  if (_son.getVolumeFx() <= 126 && _son.isMute() == false)
@@ -96,7 +95,6 @@ bool OptionMenu::update(gdl::Clock const& clock, gdl::Input& input)
 
   if (input.getKey(SDLK_LEFT))
     {
-      _son.playFx("button");
       if (_cursorPos == 0)
 	{
 	  if (_son.getVolumeFx() >= 2 && _son.isMute() == false)
