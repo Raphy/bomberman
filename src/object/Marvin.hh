@@ -3,7 +3,7 @@
 
 # include  <map>
 
-# include  "AModel.hh"
+# include  "APlayer.hh"
 # include  "ResourcesPath.hh"
 
 class Marvin;
@@ -26,11 +26,11 @@ struct inputBinding {
 };
 
 
-class Marvin: public AModel
+class Marvin: public APlayer
 {
 public:
 
-    Marvin() : AModel(ResourcesPath::asset("minion/minion.obj"), "marvin"), totalPressed(0) {}
+    Marvin() : APlayer(ResourcesPath::asset("minion/minion.obj"), "marvin"), totalPressed(0) {}
     virtual ~Marvin() {}
     
     virtual bool initialize();
