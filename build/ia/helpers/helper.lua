@@ -1,6 +1,7 @@
 
 require "api"
 require "tags"
+require "helper_private"
 
 Helper = {
 	_frames_since_action = 0,
@@ -50,21 +51,31 @@ function Helper:to_override()
 end
 function Helper:debug_print(...)
 	if active_debug then
-		print("DEBUG : ")
+		print("\t ")
 		print(...)
 	end
 end
 function Helper:debug_dump_list(list)
 	if active_debug then
 		self:debug_print("DUMP ",list._name," : ")
-		for elem in List:iter_case(list) do
-			self:debug_print(elem.idx)
+		for elem in List:iter(list) do
+			self:debug_print(elem)
+			-- self:debug_print(elem.idx)
 		end
 		self:debug_print("...DUMP END")
 	end
 end
+function Helper:display_objects(objects)
+	if active_debug_objects then
+  		for i,obj in ipairs(objects) do
+  		   local x, y = obj:getPosition()
+  		   local type = obj:getType()
+			print("[IA] obj ",type,"-> ",x,y)
+  		end
+  end
+end
 
--- * OBJECTS_HELPER *
+-- * API_HELPER *
 
 function Helper:get_my_coord()
 	return Coord:new(self:get_my_position())
@@ -73,34 +84,29 @@ function Helper:get_my_position()
 	local x,y = me:getPosition()
 	return x+1,y+1
 end
+
 function Helper:map_get(x,y,distance)
-	return map:get(x-1,y-1,distance,me)
+	local x,y = math.ceil(x)-1,math.ceil(y)-1
+	return HelperPrivate:filter_objects(map:get(x,y,2,me), x,y)
 end
 --[[TODO : faire la meme chose avec la position des gameobjects]]
 
-local function search_obj(filter, found,default, x,y,type)
-	local case = Helper:map_get(x,y,1)
-	if case == nil then
-		return default end
-	for _,obj in pairs(case) do
-		if filter(obj,type) then
-			return found end
-	end
-	return default
-end
+
+
+-- * OBJECTS_HELPER *
 
 function Helper:are_objects_in_case(x,y,type)
 	local function _filter(obj,type)
 		return type == nil or type == obj:getType()
 	end
-	return search_obj(_filter, true,false, x,y,type)
+	return HelperPrivate:search_obj(_filter, true,false, x,y,type)
 end
 function Helper:are_objects_in_case_except(x,y,type)
 	assert(type ~= nil, "are_objects_in_case_except : type expected")
 	local function _filter(obj,type)
 		return type ~= obj:getType()
 	end
-	return search_obj(_filter, true,false, x,y,type)
+	return HelperPrivate:search_obj(_filter, true,false, x,y,type)
 end
 function Helper:get_objects_from_case(x,y,type,objects)
 	local o = objects or {}
@@ -150,12 +156,6 @@ end
 
 -- * BOMB_HELPER *
 
-local function is_case_safe(case)
-	return not Helper:are_objects_in_case_except(case.x,case.y,"Player")
-		and List:empty(case.previews)
-end
-
-
 function Helper:clean_preview()
 	for case in MapManager:iter() do
 		List:clear(case.previews)
@@ -182,7 +182,7 @@ end
 
 function Helper:mark_all_safe_cases()
 	for case in MapManager:iter() do
-		if is_case_safe(case)
+		if HelperPrivate:is_case_safe(case)
 			and not List:is_elem_in_list(case.marks, "safe_place") then
 				List:push_back(case.marks, "safe_place") end
 	end

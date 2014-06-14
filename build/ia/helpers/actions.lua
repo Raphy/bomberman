@@ -72,6 +72,7 @@ function Actions:get_closer_of_obj(type)
 	if self:path_recalc_needed() then
 		local start_idx = MapManager:coord_to_idx(Helper:get_my_position())
 		local dest_idx = -1
+		MapManager:clean_map()--update?
 		self._path = Path:calc_path("dijkstra", start_idx, -1, type)
 	end
 	return self:follow_path()
