@@ -17,12 +17,16 @@ public:
 
   void soundfxhandler(int);
   void soundmusichandler(int);
+  void mutehandler(int);
   void backhandler(int);
-  float getPosWithSoundFx() const;
+
+ float getPosWithSoundFx() const;
   float getPosWithSoundMusic() const;
 
 private:
   Cursor *_cursor;
+  Cursor *_cursormute;
+  Cursor *_cursorson;
   Cursor *_cursorbsonfx;
   Cursor *_cursorbsonmusic;
 
