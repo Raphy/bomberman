@@ -27,7 +27,7 @@ DEBUG_MAX = 100
 
 function initialization()
 	Helper:debug_print("\n\nUNIT_TEST ) initialization")
-	local x,y = me:getPosition()
+	local x,y = Helper:get_my_position()
 	print("ME : x == "..x.." and y == "..y.." !!!!!!")
 	print("x == 5.0 and y == 5.0 map -> get enemy !!!!!!")
 	print("x == 1.0 and y == 9.0 map -> get bonus !!!!!!")

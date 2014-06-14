@@ -22,8 +22,7 @@ public:
         None //the first one is None
     };
     
-    Fire(): ACube("fire"), _steps(0), _direction(None) {}
-    Fire(Fire const& obj);
+    Fire();
     virtual ~Fire() {}
 
     virtual bool initialize();
@@ -34,10 +33,13 @@ public:
     void setStep(int steps) { this -> _steps = steps; }
     void setDirection(Direction direction) { this->_direction = direction; }
 
+    virtual void onCollision(AGameObject&);
+
 private:
     
     int _steps;
     Direction _direction;
+    bool _created;
 
     Direction getDirection() const { return this -> _direction; }
     int getStep() const { return _steps; }

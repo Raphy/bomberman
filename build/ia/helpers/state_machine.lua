@@ -59,7 +59,7 @@ function StateMachine:cool_down()
 		self._cool_down.duration = self._cool_down.duration + 1
 		if self._cool_down.duration == self._cool_down.duration_max then
 			self._cool_down.duration = 0
-			self._cool_down = false
+			self._cool_down.active = false
 		end
 		return true
 	end
@@ -123,5 +123,5 @@ function StateMachine:execute()
 	self._executed = true
 	self._action_duration = self._action_duration + 1
 	if status == false and self._action_status.duration > 10 then
-		self._cool_down = true end
+		self._cool_down.active = true end
 end

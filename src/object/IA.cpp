@@ -73,6 +73,8 @@ void IA::update(const gdl::Clock & clock, gdl::Input & input)
 //        this -> pressed = true;
 //    }
 
+    this->saveCurrentState();
+    
   if (!this -> _script -> play())
     {
       std::cerr << "[Lua] " << this -> _script -> getVirtualMachine() . getError() << std::endl;
@@ -88,6 +90,15 @@ void IA::update(const gdl::Clock & clock, gdl::Input & input)
         onRightPressed(clock);
     }
 }
+
+void IA::onCollision(AGameObject& obj) {
+    if (obj.getType() == "fire") {
+        this->die();
+    } else if (obj.getType() == "wall") {
+        this->restoreLastState();
+    }
+}
+
 
 void IA::goOneCaseDown()
 {
@@ -168,4 +179,14 @@ void IA::onRightPressed(gdl::Clock const &clock)
         this -> _position.x = this -> _to;
         this -> pressed     = false;
     }
+}
+
+static const double COLLIDER_SIZE = 0.7;
+
+Rectangle IA::getCollider() const {
+    return Rectangle(
+        this->_position.x + 0.5 - COLLIDER_SIZE / 2,
+        this->_position.z + 0.5 - COLLIDER_SIZE / 2,
+        COLLIDER_SIZE,
+        COLLIDER_SIZE);
 }

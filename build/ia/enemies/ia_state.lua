@@ -16,23 +16,27 @@ end
 
 GetCloserOfEnemyState.pre_conditions = {
   { function()-- en danger
-      return not Helper:is_place_safe() end,
+      return Helper:is_place_dangerous() end,
     "push", "avoid_bomb_state", },
-  { function()-- enemy assez pres
-      return Helper:are_objects_around("Player",me:getPosition(),2) end,
-    "push", "kill_enemy_state", },--pop ?
-  { function()-- impossible de l'atteindre
-      return not Helper:are_objects_around("Player",me:getPosition(),MapManager.size / 2) end,
-    "push", "break_wall_state", },
-  { function()-- pas d'enemy sur la map
-      return not Helper:are_objects_around("Player",me:getPosition(),MapManager.size / 2) end,
+  { function()
+    return Helper:enemy_in_view() end,
     "push", "kill_enemy_state", },
+
+  -- { function()-- enemy assez pres
+  --     return Helper:are_objects_around("Player",Helper:get_my_position(),2) end,
+  --   "push", "kill_enemy_state", },--pop ?
+  -- { function()-- impossible de l'atteindre
+  --     return not Helper:are_objects_around("Player",Helper:get_my_position(),MapManager.size / 2) end,
+  --   "push", "break_wall_state", },
+  -- { function()-- pas d'enemy sur la map
+  --     return not Helper:are_objects_around("Player",Helper:get_my_position(),MapManager.size / 2) end,
+  --   "push", "kill_enemy_state", },
 }
 
 GetCloserOfEnemyState.post_conditions = {
-  { function()
-    return Helper:enemy_in_view() end,
-    "pop", },
+  -- { function()
+  --   return Helper:enemy_in_view() end,
+  --   "pop", },
 }
 
 -- * AVOID_BOMB *
@@ -46,7 +50,7 @@ end
 
 AvoidBombState.pre_conditions = {
   { function()-- impossible de s'enfuir
-      return not Helper:are_objects_around("Player",me:getPosition(),MapManager.size / 2) end,
+      return not Helper:are_objects_around("Player",Helper:get_my_position(),MapManager.size / 2) end,
     "push", "break_wall_state", },
   { function()
     return Helper:is_place_safe() end,
@@ -65,7 +69,7 @@ KillEnemyState = State:new("kill_enemy_state")
 
 function KillEnemyState:action()
   Helper:debug_print("action : ".."kill_enemy_state")
-  return false
+  return true
 end
 
 KillEnemyState.pre_conditions = {
@@ -107,14 +111,13 @@ PutBombState = State:new("put_bomb_state")
 
 function PutBombState:action()
   Helper:debug_print("action : ".."put_bomb_state")
-  if Actions:place_bomb() then
-    StateMachine:action_terminated() end
+  return Actions:place_bomb()
 end
 
 PutBombState.pre_conditions = {
   { function()
-    return not Helper:is_place_safe() end,
-    "push", "avoid_bomb_state", },  
+    return Helper:is_place_dangerous() end,
+    "push", "avoid_bomb_state", },
 }
 
 
@@ -124,11 +127,16 @@ GetBonusState = State:new("get_bonus_state")
 
 function GetBonusState:action()
   Helper:debug_print("action : ".."get_bonus_state")
-  StateMachine:action_terminated()
+  return false
 end
 
 GetBonusState.pre_conditions = {
   --conditions
+}
+GetBonusState.post_conditions = {
+  { function()
+    return true end,
+    "pop", },
 }
 
 
@@ -161,20 +169,21 @@ StateList = {
 function initialization()
   print("\n\nis_state : initialization...")
   Helper:initialization_base(10,10)
-  StateMachine:init()
+  StateMachine:init(1,1000,10,10)
 end
 
 DEBUG = 0
-DEBUG_MAX = 100
+DEBUG_MAX = 10
 
-active_debug = true
+-- active_debug = true
 
 function play()
-  if DEBUG == DEBUG_MAX then
-    MapManager:update()
-    StateMachine:play()
-    DEBUG = 0
-  end
-  DEBUG = DEBUG + 1
+  StateMachine:play()
+  -- if DEBUG == DEBUG_MAX then
+  --   MapManager:update()
+  --   StateMachine:play()
+  --   DEBUG = 0
+  -- end
+  -- DEBUG = DEBUG + 1
   -- Helper:debug_print("\n\nIA_SIMPLE) play")
 end
