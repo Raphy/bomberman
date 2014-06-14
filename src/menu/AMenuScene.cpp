@@ -1,7 +1,7 @@
 #include "AMenuScene.hh"
 
 AMenuScene::AMenuScene(const std::string& tag)
-  : AScene(tag), _conf() , _windowX((float)_conf.WindowWidth()), _windowY((float)_conf.WindowHeight())
+  : AScene(tag), _conf() , _windowX((float)_conf.WindowHeight()), _windowY((float)_conf.WindowWidth())
 {
   _projection = glm::ortho(0.0f, getWindowX(), getWindowY(), 0.0f, -1.0f, 1.0f);
 
@@ -68,7 +68,7 @@ bool AMenuScene::draw(gdl::AShader& shader, gdl::Clock const& clock)
   shader.setUniform("view", glm::mat4(1));
   shader.setUniform("projection", _projection);
 
-  glm::vec3 size(getWindowX(), getWindowY(), 0);
+  glm::vec3 size(1080, 720, 0);
   glm::mat4 transform(1);
 
   transform = glm::scale(transform, size);

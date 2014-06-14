@@ -24,7 +24,6 @@ public:
   void initPlaylist();
 
 private:
-
   PlaylistManager _playlist;
   Cursor *_cursor;
 
@@ -33,7 +32,6 @@ private:
   bool _btnSpace = false;
 
   static SoundManager& _son;
-
 
 };
 

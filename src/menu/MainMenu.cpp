@@ -10,13 +10,12 @@ SoundManager& MainMenu::_son = SoundManager::getInstance();
 MainMenu::MainMenu(SceneArguments const& arg)
   : AMenuScene("MainMenu"), _playlist()
 {
-  addButton(ResourcesPath::asset("img/play.tga"), glm::vec3(60, 50, 1), glm::vec3(150, 70, 0) , static_cast<ButtonHandler>(&MainMenu::playhandler), 0);
-  addButton(ResourcesPath::asset("img/option.tga"), glm::vec3(60, 130, 1), glm::vec3(180, 70, 0) , static_cast<ButtonHandler>(&MainMenu::optionhandler), 1);
-  addButton(ResourcesPath::asset("img/load.tga"), glm::vec3(60, 210, 1), glm::vec3(150, 70, 0) , static_cast<ButtonHandler>(&MainMenu::loadhandler), 2);
-  addButton(ResourcesPath::asset("img/exit.tga"), glm::vec3(60, 450, 1), glm::vec3(150, 70, 0) , static_cast<ButtonHandler>(&MainMenu::exithandler), 3);
+  addButton(ResourcesPath::asset("img/play.tga"), glm::vec3(getXPercent(8), getYPercent(8), 1), glm::vec3(getXPercent(20), getYPercent(10), 0) , static_cast<ButtonHandler>(&MainMenu::playhandler), 0);
+  addButton(ResourcesPath::asset("img/option.tga"), glm::vec3(getXPercent(8), getYPercent(20), 1), glm::vec3(getXPercent(25), getYPercent(10), 0) , static_cast<ButtonHandler>(&MainMenu::optionhandler), 1);
+  addButton(ResourcesPath::asset("img/load.tga"), glm::vec3(getXPercent(8), getYPercent(32), 1), glm::vec3(getXPercent(20), getYPercent(10), 0) , static_cast<ButtonHandler>(&MainMenu::loadhandler), 2);
+  addButton(ResourcesPath::asset("img/exit.tga"), glm::vec3(getXPercent(8), getYPercent(80), 1), glm::vec3(getXPercent(10), getYPercent(10), 0) , static_cast<ButtonHandler>(&MainMenu::exithandler), 3);
 
-  _cursor = new Cursor(ResourcesPath::asset("img/bombe.tga"), glm::vec3(30, 100, 1), glm::vec3(30, 40, 0));
-
+  _cursor = new Cursor(ResourcesPath::asset("img/bombe.tga"), glm::vec3(getXPercent(5), getYPercent(8), 1), glm::vec3(getXPercent(5), getYPercent(5), 0));
 }
 
 MainMenu::~MainMenu()
