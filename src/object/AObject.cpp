@@ -12,6 +12,8 @@ glm::mat4 AObject::getTransformation()
 
 glm::mat4 AObject::getForceTransformation()
 {
+    glm::vec3 wordPosition = _position;
+    wordPosition.y += _scale.y / 2;
     glm::mat4 transform(1);
 
     /*
@@ -19,7 +21,7 @@ glm::mat4 AObject::getForceTransformation()
      * In this case the transformation is scale, rotation and translation
      */
     
-    transform = glm::translate(transform, _position);
+    transform = glm::translate(transform, wordPosition);
     
     transform = glm::rotate(transform, _rotation.x, glm::vec3(1, 0, 0));
     transform = glm::rotate(transform, _rotation.y, glm::vec3(0, 1, 0));
