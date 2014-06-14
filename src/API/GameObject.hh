@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Fri Jun 13 21:40:40 2014 raphael defreitas
+// Last update Sat Jun 14 03:02:29 2014 raphael defreitas
 */
 
 #ifndef		GAMEOBJECT_HH_
@@ -36,6 +36,7 @@ namespace API
     static void registerMethods(Script& script);
     static int getType(lua_State* L);
     static int getPosition(lua_State* L);
+    static int getSpeed(lua_State* L);
 
   protected:
     std::string _type;

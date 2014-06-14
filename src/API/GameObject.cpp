@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 11:55:16 2014 raphael defreitas
-// Last update Fri Jun 13 22:02:18 2014 raphael defreitas
+// Last update Sat Jun 14 03:02:01 2014 raphael defreitas
 //
 
 #include	<lua.hpp>
@@ -58,6 +58,7 @@ void GameObject::registerMethods(Script& script)
     {
       {"getType", GameObject::getType},
       {"getPosition", GameObject::getPosition},
+      {"getSpeed", GameObject::getSpeed},
       {NULL, NULL}
     };
   luaL_setfuncs(script.getVirtualMachine().getState(), methods, 0);
@@ -79,4 +80,12 @@ int GameObject::getPosition(lua_State* L)
   lua_pushnumber(L, std::get<0>(position));
   lua_pushnumber(L, std::get<1>(position));
   return 2;
+}
+
+int GameObject::getSpeed(lua_State* L)
+{
+  VirtualMachine vm(L);
+  GameObject* udata = vm.toClass<GameObject>();
+  lua_pushnumber(L, udata->getSpeed());
+  return 1;
 }

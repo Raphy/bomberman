@@ -49,6 +49,7 @@ public:
     
     void setPosition(double x, double y) { _position = glm::vec3(x, 0, y); }
     void setSpeed(float speed) { this->_speed = speed; }
+    float getSpeed(void) const { return this->_speed; }
 
 protected:
     
