@@ -3,6 +3,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <cstdlib>
 #include <string>
+#include <ctime>
 
 #include <unistd.h>
 #include <iostream>
@@ -14,7 +15,10 @@
 int main()
 {
     ResourcesPath::setRootDir("./build");
-    
+
+    // Initialization of the random system
+    srand(time(NULL));
+
     try {
         GameEngine engine;
 
