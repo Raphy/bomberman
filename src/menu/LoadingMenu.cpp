@@ -19,14 +19,12 @@ bool LoadingMenu::initialize()
       return false;
     }
 
-
-
   return true;
 }
 
 bool LoadingMenu::update(gdl::Clock const& clock, gdl::Input& input)
 {
-    SceneArguments& args = *new SceneArguments();
+  SceneArguments& args = *new SceneArguments();
   args.set("file", ResourcesPath::map("map1.bmap"));
   setStatusGoOn<GameScene>(args);
 
