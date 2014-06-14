@@ -24,7 +24,7 @@ function Actions:path_recalc_needed(new_dest)
 		or self._path == nil
 		or List:empty(self._path)
 		or (new_dest and new_dest ~= self._current_dest)
-		-- or Helper:last_action_failed() ??
+		-- or Helper:last_action_failed()
 end
 function Actions:follow_path()
 	if self._path == nil or List:empty(self._path) then

@@ -74,6 +74,10 @@ function Coord:cpy(rhs)
 	return o
 end
 
+function Coord:are_adjacents(c1,c2)
+	return abs(c1.x - c2.x) <= 1 and abs(c1.y - c2.y) <= 1
+end
+
 function Coord:to_direction(c1,c2)
 	local function _check_dir(dir_value,c1,c2)
 		local dir_key = Tags:k(dir_value)

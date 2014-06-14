@@ -112,6 +112,7 @@ function MapManager:check_coord(x,y)
 	return pos >= vision.min and pos <= vision.max
 end
 function MapManager:coord_to_idx(x,y)
+	local x,y = math.floor(x),math.floor(y)
 	local idx = (y - 1) * self.w + x
 	return idx
 end
