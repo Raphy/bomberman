@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 12:12:44 2014 raphael defreitas
-// Last update Fri Jun 13 23:32:40 2014 raphael defreitas
+// Last update Sat Jun 14 03:41:54 2014 raphael defreitas
 //
 
 #include	<cstring>
@@ -64,8 +64,8 @@ std::vector<GameObject*> Map::get(int x, int y, int d, Me* me)
 	objects.push_back(new API::Bomb((::Bomb*)*it));
       else if ((*it)->getType() == "box")
 	objects.push_back(new API::Box((::Box*)*it));
-      else
-	std::cout << "GAMEOBJECT NOT HANDLED (Api::Map::get) : " << (*it)->getType() << std::endl;
+      /*else
+	std::cout << "GAMEOBJECT NOT HANDLED (Api::Map::get) : " << (*it)->getType() << std::endl;*/
     }
 
   return objects;

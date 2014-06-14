@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Sat Jun 14 01:33:58 2014 raphael defreitas
-// Last update Sat Jun 14 01:41:12 2014 raphael defreitas
+// Last update Sat Jun 14 03:38:46 2014 raphael defreitas
 //
 
 #include	"SpeedBuff.hh"
@@ -35,5 +35,5 @@ void SpeedBuff::update(gdl::Clock const &clock, gdl::Input &input)
 
 void SpeedBuff::onCollision(AGameObject& obj)
 {
-
+  std::cout << "Buff taken by " << obj.getType() << std::endl;
 }
