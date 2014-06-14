@@ -14,6 +14,7 @@ function Path:get_final_path(start_idx, curr_idx)
 		List:add_case_in_list(rev_path, tmp)
 		tmp = MapManager:get_case(tmp.parent)
 	end
+	List:add_case_in_list(rev_path, tmp)
 	local path = List:rev("path", rev_path)
 	tmp = nil
 	local dir_path = List:new("dir_path")
@@ -24,11 +25,15 @@ function Path:get_final_path(start_idx, curr_idx)
 		end
 		tmp = case
 	end
+	Helper:debug_dump_list(dir_path)
 	return dir_path
 end
 
 function Path:register_case_open(open_list, case, sort)
 	case.status = "open"
+	if case.walkable == false then
+		Helper:warning("register_case_open but case unwalkable. x,y = ",case.x,case.y) end
+	assert(case.walkable)
 	List:add_case_in_list(open_list, case)
 	if sort ~= nil and sort ~= false then
 		List:sort(open_list) end
@@ -84,7 +89,10 @@ local function check_finish(start, curr, dest, type)
 			or List:is_elem_in_list(curr.marks, type) then
 				finish = true end
 	end
-	if finish then return true, Path:get_final_path(start.idx, curr.idx) end
+	if finish then
+		Helper:debug_print("path found x=",curr.x," y=",curr.y," !!")
+		return true, Path:get_final_path(start.idx, curr.idx) end
+	-- Helper:debug_print("path not found...x=",curr.x," y=",curr.y)
 	return false
 end
 
@@ -92,16 +100,14 @@ end
 -- local DEBUG_MAX = 2
 
 function Path:calc_path(algo_name, start_idx, dest_idx, type)
-	start_idx = math.floor(start_idx)
-	dest_idx = math.floor(dest_idx)
 	if start_idx == dest_idx then
 		return List:new("empty_path") end
-  	MapManager:clean_map()--?????????
+  	-- MapManager:clean_map()--?????????
 	local algoModule = PathAlgos[algo_name]
 	local open_list = List:new("open_list")
 	local closed_list = List:new("closed_list")
 	local start = MapManager:get_case(start_idx)
-	Helper:debug_print("start calc_path : "..start_idx)
+	Helper:debug_print("start calc_path : x=",start.x," y=",start.y)
 	local dest = nil;
 	if dest_idx ~= -1 then
 		dest = MapManager:get_case(dest_idx)
@@ -111,9 +117,10 @@ function Path:calc_path(algo_name, start_idx, dest_idx, type)
 	end
 
 	local function _calc_path(start, curr, open_list, closed_list)
+		MapManager:debug_dump()
 		-- if DEBUG == DEBUG_MAX then return true end
 
-		if active_debug_list then Helper:debug_print("_calc_path : node "..curr.idx) end
+		if active_debug_list then Helper:debug_print("_calc_path : node x=",start.x," y=",start.y) end
 		local finish, finish_path = check_finish(start, curr, dest, type)
 		if finish == true then return finish_path end
 
@@ -129,8 +136,5 @@ function Path:calc_path(algo_name, start_idx, dest_idx, type)
 	end
 
 	Path:register_case_open(open_list, start)
-	-- return _calc_path(start, start, open_list, closed_list)
-	local res = _calc_path(start, start, open_list, closed_list)
-	if res == nil then Helper:debug_print("path not found....") else Helper:debug_print("path found "..start.idx.."!!") end
-	return res
+	return _calc_path(start, start, open_list, closed_list)
 end

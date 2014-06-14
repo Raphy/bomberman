@@ -21,6 +21,7 @@ class GameScene : public AScene
 {
 public:
     static const std::string Tag;
+    static const int SKYBOX_OFFSET;
 
 public:
     GameScene(SceneArguments const& args);

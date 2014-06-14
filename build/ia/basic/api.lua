@@ -42,7 +42,7 @@
 -- -- 	return "the_name"
 -- -- end
 
--- -- me = Player:new({_type = "me", _name = "Marie"})
+-- -- me = Player:new({_type = "Me", _name = "Marie"})
 
 -- -- function me:moveUp()
 -- -- 	print("moveUp")

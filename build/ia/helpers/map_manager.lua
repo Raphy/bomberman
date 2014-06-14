@@ -29,6 +29,19 @@ MapManager = {
 	},
 }
 
+function MapManager:debug_dump()
+	if active_debug then
+		for i=1,self.w do
+			for j=1,self.h do
+				local idx = self:coord_to_idx(j,i)
+				local case = self._map[idx]
+				print("case x,y",j,i,"walkable : ",case.walkable)
+			end
+			print("")
+		end
+	end
+end
+
 -- * GENERAL *
 
 function MapManager:init(w,h, vision_size)
@@ -43,6 +56,8 @@ function MapManager:init(w,h, vision_size)
 		local curr_idx = MapManager:coord_to_idx(j,i)
 	   self._map[curr_idx] = Case:create_case(curr_idx,i,j)
 	end
+	self:make_type_unwalkable("Wall")
+	self:make_type_unwalkable("Box")
 end
 function MapManager:update()
 	self:set_vision(Helper:get_my_coord(), self._vision.size, true)
@@ -50,6 +65,13 @@ function MapManager:update()
 		local curr_idx = MapManager:coord_to_idx(j,i)
 	   self._map[curr_idx] = Case:create_case(curr_idx,i,j)
 	end
+	self:make_type_unwalkable("Wall")
+	self:make_type_unwalkable("Box")
+end
+function MapManager:clean_map()
+	for case in self:iter() do Case:clean_case(case) end
+	self:make_type_unwalkable("Wall")
+	self:make_type_unwalkable("Box")
 end
 
 -- * VISION *
@@ -90,6 +112,7 @@ function MapManager:check_coord(x,y)
 	return pos >= vision.min and pos <= vision.max
 end
 function MapManager:coord_to_idx(x,y)
+	local x,y = math.floor(x),math.floor(y)
 	local idx = (y - 1) * self.w + x
 	return idx
 end
@@ -102,9 +125,6 @@ end
 
 -- * CASE/ACCESS *
 
-function MapManager:clean_map()
-	for case in self:iter() do Case:clean_case(case) end
-end
 
 function MapManager:get_case(i)
 	assert(i ~= nil, "get_case expect an index")
@@ -155,10 +175,12 @@ end
 
 function MapManager:make_type_unwalkable(type)
 	for case in self:iter() do
-		if string.find(type, "preview") ~= nil then
-			case.walkable = List:empty(case.previews)
-		else
-			case.walkable = not Helper:are_objects_in_case(case.x,case.y,type)
+		if case.walkable then
+			if string.find(type, "preview") ~= nil then
+				case.walkable = List:empty(case.previews)
+			else
+				case.walkable = not Helper:are_objects_in_case(case.x,case.y,type)
+			end
 		end
 	end
 end

@@ -1,30 +1,48 @@
--- function initialization()
-
--- end
-
--- function play()
---    local objects = map:get(5, 5, 10, me)
---    for i=1, #objects do
---       local x, y = objects[i]:getPosition()
---       if objects[i]:getType() == "Bomb" then
--- 	 print("[IA] " .. objects[i]:getType() .. " (" .. x .. ", " .. y .. ") time " .. objects[i]:getTime())
---       end
---    end
--- end
-
 base_path = './build/ia/'
 package.path = base_path .. '?.lua;' .. package.path
 package.path = base_path .. 'enemies/?.lua;' .. package.path
+package.path = base_path .. 'enemies/one_actions/?.lua;' .. package.path
 package.path = base_path .. 'basic/?.lua;' .. package.path
 package.path = base_path .. 'helpers/?.lua;' .. package.path
 
+DEBUG = 0
+DEBUG_MAX = 50
 active_debug = false
 active_debug_list = false
+active_debug_objects = false
 
--- require "ia_state"
-require "ia_stalker"
--- require "ia_intro"
--- require "ia_simple"
--- require "ia_coward"
 
--- require "ia_unit_test"
+-- function initialization()
+-- 	print("[IA] initialization")
+-- end
+
+-- function play()
+--    if DEBUG >= DEBUG_MAX then
+-- 		print("\n\n--------------------\n")
+-- 		local my_x,my_y = me:getPosition()
+-- 		-- local my_x,my_y = Helper:get_my_position()
+-- 		-- print("[IA] getPosition -> ",my_x,my_y)
+
+--   --  	local objects = map:get(my_x,my_y, 1, me)
+-- 		-- print("[IA] tous  : ")
+--   --  	_display_objects(objects)
+--   --  	local objects = filter_objects(objects, my_x,my_y)
+--   		local objects = Helper:map_get(my_x,my_y, 1)
+-- 		print("[IA] filter : ")
+--    	_display_objects(objects)
+-- 		print("\n\n--------------------\n")
+--    	DEBUG = 0
+--   end
+--   DEBUG = DEBUG + 1
+-- end
+
+
+-- -- require "ia_state"
+-- -- require "ia_stalker"
+-- -- require "ia_intro"
+-- -- require "ia_simple"
+-- -- require "ia_coward"
+-- -- require "ia_intelligent_coward"
+require "search_box"
+
+-- -- require "ia_unit_test"

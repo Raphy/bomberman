@@ -28,12 +28,12 @@ end
 
 GetCloserOfEnemyState.pre_conditions = {
   { function()--pas d'enemy en vue
-      return not Helper:enemy_in_view() end,
+      return not Helper:obj_in_view("Player") end,
     "push", "random_state", },
 }
 GetCloserOfEnemyState.post_conditions = {
   { function()--pas d'enemy en vue
-      return not Helper:enemy_in_view() end,
+      return not Helper:obj_in_view("Player") end,
     "push", "random_state", },
 }
 
@@ -48,7 +48,7 @@ end
 
 RandomState.pre_conditions = {
   { function()--enemy en vue
-      return Helper:enemy_in_view() end,
+      return Helper:obj_in_view("Player") end,
     "push", "get_closer_of_enemy_state" },
 }
 
