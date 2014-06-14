@@ -48,14 +48,17 @@ void Box::onCollision(AGameObject& obj) {
 		  break;
 		}
 	      }
-	    buff->setPosition(glm::vec3(static_cast<int>(this->_position.x),
-					static_cast<int>(this->_position.y),
-					static_cast<int>(this->_position.z)));
+	    buff->setPosition(glm::vec3(static_cast<int>(this->_position.x + 0.5),
+					0,
+					static_cast<int>(this->_position.z + 0.5)));
 	    buff->initialize();
 	    this->addObject(buff);
 	    std::cout << "Buff: " << buff->getType() << std::endl;
 	    /*}*/
 	    this->die();
+            
+            // trick 'cause if box die the fire won't get onCollider(box) ..
+            obj.onCollision(*this);
       }
     else if (obj.getType() == "wall")
         this->restoreLastState();
