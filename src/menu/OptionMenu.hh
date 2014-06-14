@@ -18,6 +18,8 @@ public:
   void soundfxhandler(int);
   void soundmusichandler(int);
   void backhandler(int);
+  float getPosWithSoundFx() const;
+  float getPosWithSoundMusic() const;
 
 private:
   Cursor *_cursor;
