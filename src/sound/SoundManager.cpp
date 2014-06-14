@@ -1,7 +1,11 @@
 #include <iostream>
 #include <fstream>
 #include <exception>
+#include <sstream>
 #include "SoundManager.hh"
+#include "ResourcesPath.hh"
+
+std::string const SoundManager::CONF_FILE = "volume.conf";
 
 SoundManager::SoundManager()
   : _volume(128), _volumeFx(128), _volumeMusic(128), _mute(false), _muteFx(false), _muteMusic(false)
@@ -9,7 +13,7 @@ SoundManager::SoundManager()
   if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048) == -1)
     throw std::string("Init Mix_OpenAudio fail");
   Mix_AllocateChannels(64);
-  setVolume(_volume);
+  getVolumeFile();
 }
 
 SoundManager::~SoundManager()
@@ -185,21 +189,30 @@ void    SoundManager::setVolume(int v)
 
 void    SoundManager::setVolumeFx(int v)
 {
-  if (v >= 0 || v <= 128)
-    {
-      Mix_Volume(-1, v);
-      _volumeFx = v;
-    }
+  if (v < 0)
+    _volumeFx = 0;
+  else if (v > 128)
+    _volumeFx = 128;
+  else
+    _volumeFx = v;
+
+  Mix_Volume(-1, _volumeFx);
+  setVolumeFile();
 }
 
 void    SoundManager::setVolumeMusic(int v)
 {
-  if (v >= 0 || v <= 128)
-    {
-      Mix_VolumeMusic(v);
-      _volumeMusic = v;
-    }
+  if (v < 0)
+    _volumeMusic = 0;
+  else if (v > 128)
+    _volumeMusic = 128;
+  else
+  _volumeMusic = v;
+
+  Mix_VolumeMusic(_volumeMusic);
+  setVolumeFile();
 }
+
 
 int SoundManager::getVolume()
 {
@@ -273,4 +286,55 @@ bool SoundManager::isMuteFx()
 bool SoundManager::isMuteMusic()
 {
   return _muteMusic;
+}
+
+bool SoundManager::setVolumeFile()
+{
+  ResourcesPath::setRootDir("./build");
+  std::string filename = ResourcesPath::sound(CONF_FILE);
+  std::fstream f;
+
+  f.open(filename.c_str(), std::ios::out);
+
+  if (f.is_open())
+    {
+      f.clear();
+      f << getVolumeFx() << std::endl;
+      f << getVolumeMusic() << std::endl;
+      return true;
+    }
+
+  return false;
+}
+
+bool SoundManager::getVolumeFile()
+{
+  ResourcesPath::setRootDir("./build");
+  std::string filename = ResourcesPath::sound(CONF_FILE);
+  std::fstream f(filename);
+
+  if (f)
+    {
+      std::string line;
+      std::istringstream a;
+      size_t n = 0;
+      int t;
+
+      while (getline(f, line))
+	{
+	  a.str(std::string());
+	  a.clear();
+	  t = 0;
+	  a.str(line);
+	  a >> t;
+	  if (n == 0)
+	    setVolumeFx(t);
+	  else if (n == 1)
+	    setVolumeMusic(t);
+	  n++;
+	}
+      return true;
+    }
+  setVolume(128);
+  return false;
 }
