@@ -39,7 +39,7 @@ function MapManager:init(w,h, vision_size)
 	self.max = Coord:new(w,h)
 	self:set_vision(Helper:get_my_coord(), vision_size or 2)
 	self:set_vision(Helper:get_my_coord(), vision_size or 2, true)
-	for i,j in self:iter_ij() do
+	for i,j in self:complete_iter_ij() do
 		local curr_idx = MapManager:coord_to_idx(j,i)
 	   self._map[curr_idx] = Case:create_case(curr_idx,i,j)
 	end
@@ -138,6 +138,17 @@ function MapManager:iter_ij()
 	end
 	local vision = self:get_vision()
 	return _iter(vision.min, vision.max)
+end
+function MapManager:complete_iter_ij()
+	local function _iter(min, max)
+		local i,j = min.y, min.x - 1
+		return function ()
+			j = j + 1
+			if j > max.x then i = i + 1; j = min.x end
+			if i <= max.y then return i,j end
+		end
+	end
+	return _iter(self.min, self.max)
 end
 
 -- * MAP ALTERATIONS *

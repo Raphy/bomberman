@@ -65,11 +65,19 @@ end
 -- * OBJECTS_HELPER *
 
 function Helper:get_my_coord()
-	return Coord:new(me:getPosition())
+	return Coord:new(self:get_my_position())
 end
+function Helper:get_my_position()
+	local x,y = me:getPosition()
+	return x+1,y+1
+end
+function Helper:map_get(x,y,distance)
+	return map:get(x-1,y-1,distance,me)
+end
+--[[TODO : faire la meme chose avec la position des gameobjects]]
 
 local function search_obj(filter, found,default, x,y,type)
-	local case = map:get(x,y,1,me)
+	local case = Helper:map_get(x,y,1)
 	if case == nil then
 		return default end
 	for _,obj in pairs(case) do
@@ -84,14 +92,6 @@ function Helper:are_objects_in_case(x,y,type)
 		return type == nil or type == obj:getType()
 	end
 	return search_obj(_filter, true,false, x,y,type)
-	-- local case = map:get(x,y,1,me)
-	-- if case == nil then
-	-- 	return false end
-	-- for _,obj in pairs(case) do
-	-- 	if type == nil or type == obj:getType() then
-	-- 		return true end
-	-- end
-	-- return false
 end
 function Helper:are_objects_in_case_except(x,y,type)
 	assert(type ~= nil, "are_objects_in_case_except : type expected")
@@ -99,18 +99,10 @@ function Helper:are_objects_in_case_except(x,y,type)
 		return type ~= obj:getType()
 	end
 	return search_obj(_filter, true,false, x,y,type)
-	-- local case = map:get(x,y,1,me)
-	-- if case == nil then
-	-- 	return false end
-	-- for _,obj in pairs(case) do
-	-- 	if type ~= obj:getType() then
-	-- 		return true end
-	-- end
-	-- return false
 end
 function Helper:get_objects_from_case(x,y,type,objects)
 	local o = objects or {}
-	local case = map:get(x,y,1)
+	local case = self:map_get(x,y,1)
 	if case == nil then
 		return nil end
 	for _,obj in pairs(case) do
@@ -152,7 +144,7 @@ function Helper:get_objects_around(type,x,y,radius)
 	return o
 end
 function Helper:enemy_in_view()
-	return not Helper:are_objects_around("Player",me:getPosition(),MapManager.size / 2)
+	return not self:are_objects_around("Player",Helper:get_my_position(),MapManager.size / 2)
 end
 
 
@@ -164,7 +156,7 @@ local function is_case_safe(case)
 end
 
 function Helper:is_place_safe()
-	return not self:are_objects_around("bomb",me:getPosition(),3)
+	return not self:are_objects_around("bomb",Helper:get_my_position(),3)
 end
 function Helper:is_place_dangerous()
 	return not self:is_place_safe()
