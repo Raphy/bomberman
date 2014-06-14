@@ -258,6 +258,7 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
     // then, remove all dead objects.
     for (auto it = m_objects.begin(); it != m_objects.end();) {
         if ((*it)->getType() != "marvin" && (*it)->isDead()) {
+            delete *it;
             m_objects.erase(it++);
         }
         else {
