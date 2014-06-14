@@ -5,8 +5,12 @@
  * Created on 02 June 2014, 19:35
  */
 
+#include <cstdlib>
+
+#include "BombRangeBuff.hh"
 #include "Box.hh"
 #include "ResourcesPath.hh"
+#include "SpeedBuff.hh"
 
 std::string const Box::Tag = "box";
 
@@ -27,7 +31,31 @@ void Box::update(gdl::Clock const &clock, gdl::Input &input)
 void Box::onCollision(AGameObject& obj) {
     if (obj.getType() == "fire"
         && obj.getPosition() == this->getPosition())
-        this->die();
+      {
+	/*if (rand() % 10 == 0)
+	  {*/
+	    AGameObject* buff;
+	    switch(rand() % 2)
+	      {
+	      case 0:
+		{
+		  buff = new SpeedBuff();
+		  break;
+		}
+	      case 1:
+		{
+		  buff = new BombRangeBuff();
+		  break;
+		}
+	      }
+	    buff->setPosition(glm::vec3(static_cast<int>(this->_position.x),
+					static_cast<int>(this->_position.y),
+					static_cast<int>(this->_position.z)));
+	    this->addObject(buff);
+	    std::cout << "Buff: " << buff->getType() << std::endl;
+	    /*}*/
+	    this->die();
+      }
     else if (obj.getType() == "wall")
         this->restoreLastState();
 }

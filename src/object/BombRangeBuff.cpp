@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Sat Jun 14 01:33:58 2014 raphael defreitas
-// Last update Sat Jun 14 02:56:17 2014 raphael defreitas
+// Last update Sat Jun 14 03:38:54 2014 raphael defreitas
 //
 
 #include	"BombRangeBuff.hh"
@@ -35,5 +35,5 @@ void BombRangeBuff::update(gdl::Clock const &clock, gdl::Input &input)
 
 void BombRangeBuff::onCollision(AGameObject& obj)
 {
-
+  std::cout << "Buff taken by " << obj.getType() << std::endl;
 }
