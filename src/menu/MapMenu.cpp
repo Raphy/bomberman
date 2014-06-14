@@ -1,5 +1,6 @@
 #include "MapMenu.hh"
 #include "GameScene.hh"
+#include "LoadingMenu.hh"
 
 SoundManager& MapMenu::_son = SoundManager::getInstance();
 
@@ -49,6 +50,7 @@ bool MapMenu::update(gdl::Clock const& clock, gdl::Input& input)
 
   if (input.getKey(SDLK_UP) && !_btnUp)
     {
+      setTexture(ResourcesPath::asset("img/menu.tga"));
       _cursorPos--;
       _btnUp = true;
       if (_cursorPos < 0)
@@ -60,6 +62,7 @@ bool MapMenu::update(gdl::Clock const& clock, gdl::Input& input)
 
   if (input.getKey(SDLK_DOWN) && !_btnDown)
     {
+
       _btnDown = true;
       _cursorPos++;
       if (_cursorPos == 4)
@@ -114,8 +117,8 @@ bool MapMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 void MapMenu::map1handler(int t)
 {
   SceneArguments& args = *new SceneArguments();
-  args.set("file", ResourcesPath::map("map1.bmap"));
-  setStatusGoOn<GameScene>(args);
+  //  args.set("file", ResourcesPath::map("map1.bmap"));
+  setStatusGoOn<LoadingMenu>(args);
 }
 
 void MapMenu::map2handler(int t)

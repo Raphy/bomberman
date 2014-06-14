@@ -221,16 +221,12 @@ void SoundManager::mute()
   if (isMute() == false)
     {
       _mute = true;
-      _muteFx = true;
-      _muteMusic = true;
       muteMusic();
       muteFx();
     }
   else
     {
       _mute = false;
-      _muteFx = false;
-      _muteMusic = false;
       muteMusic();
       muteFx();
     }

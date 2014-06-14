@@ -61,6 +61,8 @@ bool MainMenu::update(gdl::Clock const& clock, gdl::Input& input)
 
   if (input.getKey(SDLK_UP) && !_btnUp)
     {
+      setTexture(ResourcesPath::asset("img/menu.tga"));
+      AMenuScene::initialize();
       _son.playFx("button");
       _cursorPos--;
       _btnUp = true;
@@ -72,6 +74,8 @@ bool MainMenu::update(gdl::Clock const& clock, gdl::Input& input)
 
   if (input.getKey(SDLK_DOWN) && !_btnDown)
     {
+      setTexture(ResourcesPath::asset("img/loading.tga"));
+      AMenuScene::initialize();
       _son.playFx("button");
       _btnDown = true;
       _cursorPos++;
