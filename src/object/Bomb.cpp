@@ -32,7 +32,7 @@ void Bomb::createFire() {
     
     Fire* obj = new Fire();
     
-    obj->setStep(3);
+    obj->setStep(1);
     obj->setPosition(this->_position);
     obj->setDirection(Fire::None);
     
