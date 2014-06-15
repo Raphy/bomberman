@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Sun Jun 15 19:51:05 2014 raphael defreitas
-// Last update Sun Jun 15 20:08:37 2014 raphael defreitas
+// Last update Sun Jun 15 20:13:47 2014 raphael defreitas
 //
 
 #include	"NumericChars.hh"
@@ -14,6 +14,14 @@
 NumericChars NumericChars::_instance = NumericChars();
 
 NumericChars::NumericChars()
+{
+}
+
+NumericChars::~NumericChars()
+{
+}
+
+void NumericChars::load(void)
 {
   this->_textures[0] = ResourcesPath::asset("img/alpha/0.tga");
   this->_textures[1] = ResourcesPath::asset("img/alpha/1.tga");
@@ -25,10 +33,6 @@ NumericChars::NumericChars()
   this->_textures[7] = ResourcesPath::asset("img/alpha/7.tga");
   this->_textures[8] = ResourcesPath::asset("img/alpha/8.tga");
   this->_textures[9] = ResourcesPath::asset("img/alpha/9.tga");
-}
-
-NumericChars::~NumericChars()
-{
 }
 
 NumericChars& NumericChars::getInstance()

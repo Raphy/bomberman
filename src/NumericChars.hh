@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Sun Jun 15 19:50:55 2014 raphael defreitas
-// Last update Sun Jun 15 20:07:46 2014 raphael defreitas
+// Last update Sun Jun 15 20:13:31 2014 raphael defreitas
 */
 
 #ifndef		NUMERICCHARS_HH_
@@ -20,6 +20,7 @@ class NumericChars
 public:
   static NumericChars& getInstance();
 
+  void load(void);
   std::stack<std::string> getTextures(unsigned int number);
 
 private:

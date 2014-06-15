@@ -15,6 +15,7 @@
 #include "Configuration.hh"
 #include "SoundManager.hh"
 #include "Scoring.hh"
+#include "NumericChars.hh"
 
 int main(int argc, char** argv)
 {
@@ -66,6 +67,7 @@ int main(int argc, char** argv)
     Configuration::load();
     SoundManager::getInstance().load();
     Scoring::getInstance().load();
+    NumericChars::getInstance().load();
 
     engine.setArgs(args);
     if (engine.initialize() == false) {
