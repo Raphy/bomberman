@@ -55,7 +55,7 @@ bool ScenesManager::applyChanges() {
         }
         
         case SceneStatus::Leave: {
-            while ((retval = m_scenes_stack.pop()) == true);
+            while (m_scenes_stack.pop() == true);
             break;
         }
 
