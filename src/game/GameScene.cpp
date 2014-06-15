@@ -20,6 +20,7 @@
 
 #include "OptionMenu.hh"
 #include "PauseMenu.hh"
+#include "LoseMenu.hh"
 
 const int GameScene::SKYBOX_OFFSET = 50;
 const std::string GameScene::Tag = "game";
@@ -145,12 +146,12 @@ void GameScene::genMap(int width, int height) {
     std::pair<std::list<AGameObject*>, std::list<AGameObject*>> tmp = map.Generate(width, height);
     this -> m_walls.merge(tmp.first);
     this -> m_objects.merge(tmp.second);
-    
+
     //add skybox
     this -> m_objects.push_back(createSkybox());
-    
+
     this -> createFloor();
-    
+
     initPlayer(1, 5, 5);
 }
 
@@ -260,7 +261,7 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
     }
 
     if (isGameOver()) {
-        setStatusBack();
+      setStatusGoOn<LoseMenu>(*new SceneArguments());
     }
 
     std::list<AGameObject*> new_objects;
