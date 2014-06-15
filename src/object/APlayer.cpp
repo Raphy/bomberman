@@ -7,6 +7,7 @@
 
 #include "APlayer.hh"
 #include "Bomb.hh"
+#include "Scoring.hh"
 
 bool APlayer::initialize() {
     this->setSpeed(5);
@@ -66,4 +67,17 @@ void APlayer::stop() {
 
 void APlayer::run() {
     _model.setCurrentSubAnim("run");
+}
+
+void APlayer::onCollision(AGameObject& obj) {
+    if (obj.getType() == "fire") {
+        if (obj.getParent() == "player1")
+            Scoring::getInstance().incrP1();
+        else if (obj.getParent() == "player2")
+            Scoring::getInstance().incrP2();
+        this->die();
+    } else if (obj.getType() == "wall"
+            || obj.getType() == "box") {
+        this->restoreLastState(obj);
+    }
 }
