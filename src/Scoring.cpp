@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Sun Jun 15 11:50:38 2014 raphael defreitas
-// Last update Sun Jun 15 13:03:33 2014 raphael defreitas
+// Last update Sun Jun 15 13:06:17 2014 raphael defreitas
 //
 
 #include	<iostream>
@@ -45,14 +45,14 @@ void Scoring::save(void)
   this->_saveListToFile(this->_scores_p2, "scores_player_2.conf");
 }
 
-void Scoring::incrP1(void)
+void Scoring::incrP1(unsigned int value)
 {
-  this->_score_p1++;
+  this->_score_p1 += value;
 }
 
-void Scoring::incrP2(void)
+void Scoring::incrP2(unsigned int value)
 {
-  this->_score_p2++;
+  this->_score_p2 += value;
 }
 
 void Scoring::flush(void)
