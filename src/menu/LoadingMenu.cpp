@@ -1,6 +1,3 @@
-
-#include <iostream>
-
 #include "GameScene.hh"
 #include "MapMenu.hh"
 #include "LoadingMenu.hh"
