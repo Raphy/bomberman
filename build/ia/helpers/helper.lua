@@ -32,6 +32,20 @@ function Helper:increase_frames()
 	self._frames_since_action = self._frames_since_action + 1
 end
 
+function Helper:no_more_wait()
+	-- print("no_more_wait ? ")
+	if Actions._wait.begin == -1 then-- or Actions._wait.duration == -1
+		return true end
+	local elapsed_time = self:get_elapsed_time(Actions._wait.begin)
+	print("elapsed_time = ", elapsed_time)
+	local res = elapsed_time >= Actions._wait.duration
+	if res then
+		Actions._wait.begin = -1
+		Actions._wait.duration = -1
+	end
+	return res
+end
+
 -- * DEV_HELPER *
 
 function Helper:warning(...)

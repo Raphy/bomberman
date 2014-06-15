@@ -144,50 +144,65 @@ std::pair<std::list<AGameObject*>, std::list<AGameObject*>> MapGenerator::ToList
             }
         }
     }
-    MapGenerator::printMap();
     std::cout << "Completed!" << std::endl;
     return this -> _objects;
 }
 
-std::pair<int, int> MapGenerator::seekSpot(int y, int x) 
-{    
-    for (int j = y; j < this -> _height; j++) {
-        for (int i = (j == x) ? (x) : (0); i < this -> _width; i++) {
+std::pair<int, int> MapGenerator::seekSpot(int y, int x) const
+{
+    for (int j = y; j > 0; j--) {
+        for (int i = ((j == y) ? (x) : (0)); i < this -> _width; i++) {
             if ((*this -> _field)[j][i] == PATH) {
-                std::cout << (*this -> _field)[j][i] << std::endl;
-                return std::pair<int, int>(y, x);
+                return std::pair<int, int>(j, i);
+            }
+        }
+        for (int i = ((j == y) ? (x) : (this -> _width - 1)); i > 0; i--) {
+            if ((*this -> _field)[j][i] == PATH) {
+                return std::pair<int, int>(j, i);
             }
         }
     }
     
-    for (int j = y; j > 0; j--) {
-        for (int i = (j == x) ? (x) : (this -> _width - 1); i > 0; i--) {
+    for (int j = y; j < this -> _height; j++) {
+        for (int i = ((j == y) ? (x) : (0)); i < this -> _width; i++) {
             if ((*this -> _field)[j][i] == PATH) {
-                std::cout << (*this -> _field)[j][i] << std::endl;
-                return std::pair<int, int>(y, x);
+                return std::pair<int, int>(j, i);
+            }
+        }
+        for (int i = ((j == y) ? (x) : (this -> _width - 1)); i > 0; i--) {
+            if ((*this -> _field)[j][i] == PATH) {
+                return std::pair<int, int>(j, i);
             }
         }
     }
     return std::pair<int, int>(-1, -1);
 }
 
-std::list<std::pair<int, int> > MapGenerator::setHumans(int players, int ai)
+std::list<std::pair<int, int> > MapGenerator::setHumans(int players, int ai) const
 {
     std::list<std::pair<int, int> >   playersList;
-    
-    assert(players <= 3 && "4 players max");
-    assert(this -> _field != nullptr && "You should call MapGenerator::Generate() before MapGenerator::setHumans()");
-        
-    int                 tab[4 * 2] = {1, 1, this -> _width - 1, 1, this -> _width - 1, this -> _height - 1, 1, this -> _height - 1};
     std::pair<int, int> coord;
+    int                 tab[4 * 2] = {1, 1,
+                                      this -> _height - 2, this -> _width - 2,
+                                      1, this -> _width - 2,
+                                      this -> _height - 2, 1};
 
+    assert(players <= 4 && "4 players max");
+    assert(this -> _field != nullptr && "You should call MapGenerator::Generate() before MapGenerator::setHumans()");    
     std::cout << "Spawning players" << std::endl;
-    MapGenerator::printMap();
+
+    // Players
     for (int i = 0; i < players * 2; i += 2) {
-        coord = MapGenerator::seekSpot(tab[i + 1], tab[i]);
+        coord = MapGenerator::seekSpot(tab[i], tab[i + 1]);
         if (coord.first == -1)
             throw Exception("Could not find available spot for player to spawn.");
         std::cout << "player " << (i + 1) / 2 << " [" << coord.first <<  ","  << coord.second << "]" << std::endl;
+        playersList.push_back(coord);
+    }
+    
+    // AI    
+    for (int i = 0; i < ai; i++) {
+        coord = MapGenerator::seekSpot((rand() % this -> _height - 2) + 1, (rand() % this -> _width - 2) + 1);
         playersList.push_back(coord);
     }
     std::cout << "END" << std::endl;

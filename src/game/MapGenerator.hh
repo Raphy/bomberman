@@ -20,7 +20,7 @@ class MapGenerator
         virtual ~MapGenerator();
 
         std::pair<std::list<AGameObject*>, std::list<AGameObject*>> Generate(int width, int height);
-        std::list<std::pair<int, int>>                              setHumans(int players, int ai);
+        std::list<std::pair<int, int>>                              setHumans(int players, int ai) const;
 
 private:
         int                               _width;
@@ -35,7 +35,7 @@ private:
         void Harden(int y, int x);
         void setExtra(int y, int x);
         std::pair<std::list<AGameObject*>, std::list<AGameObject*>> ToList();
-        std::pair<int, int> seekSpot(int y, int x);
+        std::pair<int, int> seekSpot(int y, int x) const;
         void printMap() const;
 };
 #endif   /* MAPGENERATOR_HH */
