@@ -13,7 +13,7 @@
 
 std::string const IA::Tag = "ia";
 IA::IA() : APlayer(ResourcesPath::asset("marvin_ia.fbx"), Tag), _direction(None), pressed(false) {
-    this->start();
+    //this->start();
 }
 
 IA::~IA()
@@ -55,32 +55,34 @@ bool IA::initialize()
 
 void IA::update(const gdl::Clock & clock, gdl::Input & input)
 {
-    {
+/*    {
         ScopedLock lk(this->_mutex);
-       this->_clock = clock;
-    }
+*/       this->_clock = clock;
+        this -> routine();
+
+/*    }
     this->_cv->signal();
     {
         ScopedLock lk(this->_mutex);
-        this->saveCurrentState();
-    }    
+*/        this->saveCurrentState();
+/*    }    */
 }
 
 void * IA::routine()
 {
-    std::cout << "I'm a little thread !!!" << std::endl;
+/*    std::cout << "I'm a little thread !!!" << std::endl;
     while (this->_status == ALIVE)
     {
         this->_cv->wait();
         std::cout << "I'm a thread !!!" << std::endl;
-        if (!this -> _script -> play())
+*/        if (!this -> _script -> play())
         {
           std::cerr << "[Lua] " << this -> _script -> getVirtualMachine() . getError() << std::endl;
         }
     
-        {
+/*        {
             ScopedLock lk(this->_mutex);
-            if (this -> _direction == Down) {
+*/            if (this -> _direction == Down) {
                 this -> onDownPressed(this -> _clock);
             } else if (this -> _direction == Up) {
                 this -> onUpPressed(this -> _clock);
@@ -89,9 +91,9 @@ void * IA::routine()
             } else if (this -> _direction == Right) {
                 this -> onRightPressed(this -> _clock);
             }
-        }
+/*        }
     }
-    return nullptr;
+*/    return nullptr;
 }
 
 void IA::onCollision(AGameObject& obj) {

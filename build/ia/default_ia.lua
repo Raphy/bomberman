@@ -8,18 +8,18 @@ package.path = base_path .. 'helpers/?.lua;' .. package.path
 DEBUG = 0
 DEBUG_MAX = 50
 active_debug = false
-active_debug_list = false
+-- active_debug_list = false
 active_debug_objects = false
 active_debug_walkable = false
 
 
-function initialization()
-	return true
-end
-function play()
-	return true
-end
-
+-- function initialization()
+-- 	return true
+-- end
+-- function play()
+-- 	return true
+-- end
+-- 
 -- function initialization()
 -- 	print("[IA] initialization")
 -- end
@@ -45,7 +45,8 @@ end
 -- end
 
 
--- -- require "ia_state"
+-- require "ia_breaker"
+-- require "ia_state"
 -- require "ia_stalker"
 -- require "ia_seeker"
 -- -- require "ia_intro"
@@ -55,5 +56,6 @@ end
 -- require "search_box"
 -- require "avoid_bomb"
 -- require "test_dangerous"
+require "put_bomb"
 
 -- -- require "ia_unit_test"

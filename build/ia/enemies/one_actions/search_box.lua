@@ -22,7 +22,7 @@ DEBUG = DEBUG_MAX
 function play()
 	-- if DEBUG >= DEBUG_MAX then
 		-- print("Actions:get_closer_of_obj(\"Player\")")
-		Actions:get_closer_of_obj("Player")
+		Actions:get_closer_of_obj("Box")
     -- DEBUG = 0
   -- end
   -- DEBUG = DEBUG + 1
