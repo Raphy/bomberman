@@ -24,6 +24,10 @@ int main()
     try {
         GameEngine engine;
 
+	// Force the volume setting of SoundManager becasue of Configuration Loading
+	SoundManager::getInstance().setVolumeFx(Configuration::get<int>("sound_volume_fx"));
+	SoundManager::getInstance().setVolumeMusic(Configuration::get<int>("sound_volume_music"));
+
          if (engine.initialize() == false) {
             return (EXIT_FAILURE);
         }

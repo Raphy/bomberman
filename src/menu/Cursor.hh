@@ -18,7 +18,8 @@ public:
   void setPosX(const glm::vec3&);
 
   glm::vec3 getPosition() const;
-
+  glm::vec3 getScale() const;
+  void setScale(const glm::vec3&);
 
 protected:
   std::string _texturePath;
