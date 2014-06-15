@@ -49,7 +49,8 @@ protected:
 private:
     int m_map_width;
     int m_map_height;
-
+    int m_view_size;
+    
     Marvin* m_players[2];
     std::list<AGameObject*> m_objects;
     std::list<AGameObject*> m_walls;
@@ -57,9 +58,9 @@ private:
     std::list<std::pair<AGameObject*, int>> m_garbageCollector;
     // The magic data structure !
     QuadTree* m_quad_tree;
-
+    SkyBox* m_skybox;
     PlaylistManager m_playlist;
-
+    
 
 private:
     static size_t playerIdx(int num) {
@@ -133,14 +134,11 @@ private:
 
     // Clear then build the quad tree with new objects positions.
     void rebuildQuadTree();
-
     void zoomCamera(int key);
-
-    bool isGameOver() const;
-    
+    bool isGameOver() const;    
     void createFloor();
-
     bool isPlayer(AGameObject const& obj) const;
+    bool isWithinPlayers(AGameObject const & obj) const;
 };
 
 #endif

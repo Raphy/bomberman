@@ -25,9 +25,10 @@
 const int GameScene::SKYBOX_OFFSET = 50;
 const std::string GameScene::Tag = "game";
 static int const GARBAGE_FRAME_COUNTER = 10;
+static int const DEFAULT_VIEW_SIZE = 10;
 
 GameScene::GameScene(SceneArguments const & args)
-    : AScene(Tag), m_map_width(0), m_map_height(0),
+    : AScene(Tag), m_map_width(0), m_map_height(0), m_view_size(DEFAULT_VIEW_SIZE),
     m_players(),
     m_objects(), m_walls(), m_quad_tree(0),
     m_playlist()
@@ -52,7 +53,8 @@ GameScene::GameScene(SceneArguments const & args)
         }
         genMap(atoi(str_width.c_str()), atoi(str_height.c_str()), atoi(str_players.c_str()), atoi(str_ai.c_str()));
     }
-
+    this -> m_skybox = createSkybox();
+    this -> createFloor();
     // api registration
     GameAPI::getInstance().set(*this);
 }
@@ -63,6 +65,7 @@ GameScene::~GameScene() {
 
     // free memory$
     delete m_quad_tree;
+    delete m_skybox;
     foreachObject([] (AGameObject& obj) {
         delete &obj;
     });
@@ -111,16 +114,10 @@ void GameScene::loadMap(std::string const& filename) {
                 case MapText::BOX:      instantiateObject<Box>(x, y, m_objects); break;
                 case MapText::WALL:     instantiateObject<Wall>(x, y, m_walls); break;
                 case MapText::BOMB:     instantiateObject<Bomb>(x, y, m_objects); break;
-                case MapText::FIRE:   instantiateObject<Fire>(x, y, m_objects); break;
+                case MapText::FIRE:     instantiateObject<Fire>(x, y, m_objects); break;
                 default: break;
             }
         });
-
-        //SkyBox
-        m_objects.push_back(createSkybox());
-
-        this -> createFloor();
-
         if (!m_players[0] && !m_players[1]) {
             throw Exception("the map '" + filename + "' doesn't contain any player");
         }
@@ -164,8 +161,6 @@ void GameScene::genMap(int width, int height, int players, int ai) {
         instantiateObject<IA>((*it).second, (*it).first, m_objects);
         playersList.erase(it++);
     }
-    //add skybox
-    this -> m_walls.push_back(createSkybox());
     this -> createFloor();
 }
 
@@ -209,7 +204,8 @@ bool GameScene::initialize() {
     bool init_success = true;
 
     m_quad_tree = new QuadTree(Rectangle(0, 0, m_map_width, m_map_height));
-
+    m_skybox->initialize();
+    
     foreachObject([&] (AGameObject& obj) {
         if (obj.initialize() == false) {
             init_success = false;
@@ -224,7 +220,6 @@ bool GameScene::initialize() {
         size_t idx = playerIdx(player_num);
         if (m_players[idx] != nullptr) {
             Camera* camera = new Camera(m_players[idx]);
-//            camera->setOffset(glm::vec3(0, 4, -4));
             camera->setOffset(glm::vec3(0, 4, -4));
             camera->initialize();
             addCamera("p" + std::to_string(player_num), camera);
@@ -325,7 +320,7 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
         }
     }
 
-    // then, remove all dead objects.
+    // then, sets cooldown to item for garbage collector.
     for (auto it = m_objects.begin(); it != m_objects.end();) {
         if (isPlayer(**it) == false && (*it)->isDead()) {
             this -> m_garbageCollector.push_back(std::pair<AGameObject*, int>(*it, GARBAGE_FRAME_COUNTER));
@@ -336,6 +331,7 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
         }
     }
 
+    // Free object after cooldown.
     for (auto it = this -> m_garbageCollector.begin(); it != this -> m_garbageCollector.end();) {
         (*it).second--;
         if ((*it).second == 0) {
@@ -352,24 +348,12 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
 bool GameScene::draw(gdl::AShader& shader, gdl::Clock const& clock) {
 
-
-
-
+    this -> m_skybox->draw(shader, clock);
     foreachObject([&] (AGameObject& obj) {
-        if (obj.isDead() == false) {
-            obj.draw(shader, clock);
+        if (obj.isDead() == false && GameScene::isWithinPlayers(obj) == true) {
+                obj.draw(shader, clock);
         }
     });
-//
-//   if (m_walls.empty() == false) {
-//       reinterpret_cast<AGeometry*>(m_walls.front())->drawTexture();
-//   foreachObject(m_walls, [&] (AGameObject& obj) {
-//        if (obj.isDead() == false) {
-//            reinterpret_cast<AGeometry*>(m_walls.front())->drawGeometry(shader, clock);
-//        }
-//    });
-//   }
-
     return true;
 }
 
@@ -385,3 +369,39 @@ void GameScene::rebuildQuadTree() {
         m_quad_tree->insert(obj);
     });
 }
+
+bool GameScene::isWithinPlayers(const AGameObject& obj) const {
+
+    std::tuple<double, double> posSelf;
+    std::tuple<double, double> posObj = obj.getPosition();
+    double xSelf = 0;
+    double ySelf = 0;
+    double xObj = std::get<0>(posObj);
+    double yObj = std::get<1>(posObj);
+    
+    for (auto player : this -> m_players) {
+        if (player == nullptr) {
+            continue;
+        }
+        posSelf = player->getPosition();
+        xSelf = std::get<0>(posSelf);
+        ySelf = std::get<1>(posSelf);
+        
+        if (xSelf + this -> m_view_size / 2 >= xObj && ySelf + this -> m_view_size / 2 >= yObj
+                && xSelf - this -> m_view_size / 2 <= xObj && ySelf - this -> m_view_size / 2 <= yObj) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/*
+ *       -------    ^
+ *       |     |    |
+ *       |  *  |    |
+ *       |     |    |
+ *       -------    |
+ *  <----------------  X
+ *
+ *                  Z
+ */
