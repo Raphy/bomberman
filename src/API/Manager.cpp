@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Thu Jun  5 10:41:01 2014 raphael defreitas
-// Last update Sun Jun 15 02:01:56 2014 raphael defreitas
+// Last update Sun Jun 15 21:31:38 2014 raphael defreitas
 //
 
 #include	<lua.hpp>
@@ -14,6 +14,7 @@
 #include	"BombCapacityBuff.hh"
 #include	"BombRangeBuff.hh"
 #include	"Box.hh"
+#include	"Fire.hh"
 #include	"game/GameScene.hh"
 #include	"GameObject.hh"
 #include	"Item.hh"
@@ -41,6 +42,7 @@ void Manager::registerScript(Script& script)
   API::Bomb::registerScript(script);
   API::BombCapacityBuff::registerScript(script);
   API::BombRangeBuff::registerScript(script);
+  API::Fire::registerScript(script);
   GameObject::registerScript(script);
   Item::registerScript(script);
   Map::registerScript(script);

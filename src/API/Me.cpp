@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 12:02:27 2014 raphael defreitas
-// Last update Sun Jun 15 13:27:55 2014 raphael defreitas
+// Last update Sun Jun 15 21:40:07 2014 raphael defreitas
 //
 
 #include	<lua.hpp>
@@ -118,4 +118,3 @@ int Me::putBomb(lua_State* L)
   udata->putBomb();
   return 0;
 }
-

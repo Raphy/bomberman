@@ -79,15 +79,16 @@ void APlayer::run() {
 }
 
 void APlayer::onCollision(AGameObject& obj) {
-    if (obj.getType() == "fire") {
-        if (obj.getParent() == "player1")
-            Scoring::getInstance().incrP1();
-        else if (obj.getParent() == "player2")
-            Scoring::getInstance().incrP2();
-        this->die();
-    } else if (obj.getType() == "wall"
-            || obj.getType() == "box") {
-        this->restoreLastState(obj);
-    }
+  if (obj.getType() == "fire") {
+    if (obj.getParent() == "player1")
+      Scoring::getInstance().incrP1();
+    else if (obj.getParent() == "player2")
+      Scoring::getInstance().incrP2();
+    this->die();
+  } else if (obj.getType() == "wall"
+	     || obj.getType() == "box"
+	     || obj.getType() == "bomb") {
+    this->restoreLastState(obj);
+  }
 }
 

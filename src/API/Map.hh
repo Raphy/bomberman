@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Sun Jun 15 01:58:48 2014 raphael defreitas
+// Last update Sun Jun 15 21:26:21 2014 raphael defreitas
 */
 
 #ifndef		API_MAP_HH_
@@ -31,6 +31,7 @@ namespace API
     static void registerMethods(Script& script);
     static int get(lua_State* L);
     static int free(lua_State* L);
+    static int getSize(lua_State* L);
   };
 }
 
