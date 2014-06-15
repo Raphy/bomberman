@@ -6,18 +6,18 @@
 #include "LoadingMenu.hh"
 
 LoadingMenu::LoadingMenu(SceneArguments const& arg)
-  : AMenuScene("LoadMenu")
+  : AMenuScene("LoadMenu"), _args(*new SceneArguments())
 {
-  std::cout << "FILE = "<< arg.get("file") << std::endl;
-  std::cout << "heigth = "<< arg.get("height") << std::endl;
-  std::cout << "WIDTH  = "<< arg.get("width") << std::endl;
-
-
+  _args.set("width", arg.get("width"));
+  _args.set("file", arg.get("file"));
+  _args.set("height", arg.get("height"));
+  _args.set("players", arg.get("players"));
+  _args.set("ai", arg.get("ai"));
 }
 
 LoadingMenu::~LoadingMenu()
 {
-  //  delete &_args;
+
 }
 
 bool LoadingMenu::initialize()
@@ -33,11 +33,7 @@ bool LoadingMenu::initialize()
 
 bool LoadingMenu::update(gdl::Clock const& clock, gdl::Input& input)
 {
-  SceneArguments& args = *new SceneArguments();
-  args.set("file", ResourcesPath::map("map1.bmap"));
-  setStatusGoOn<GameScene>(args);
-
-  //  setStatusGoOn<GameScene>(*new SceneArguments());
+  setStatusGoOn<GameScene>(_args);
   return true;
 }
 

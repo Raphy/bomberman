@@ -14,6 +14,7 @@ public:
   virtual bool draw(gdl::AShader & shader, gdl::Clock const &clock);
 
 private:
+  SceneArguments& _args;
 
 };
 
