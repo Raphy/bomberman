@@ -36,6 +36,7 @@ void Bomb::createFire() {
     obj->setStep(1);
     obj->setPosition(this->_position.x, this->_position.z);
     obj->setDirection(Fire::None);
+    obj->setParent(getParent());
     
     addObject(obj);
 }

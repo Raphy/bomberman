@@ -11,6 +11,10 @@
 #include "IA.hh"
 #include "Lua/Script.hh"
 
+IA::IA() : APlayer(ResourcesPath::asset("android.fbx"), "ia"), _direction(None), pressed(false) {
+}
+
+
 IA::~IA()
 {
   //delete this->_script;
@@ -22,18 +26,19 @@ bool IA::initialize()
 
     this -> pressed = false;
 
-    if (_model.createSubAnim(0, "start", 0, 37) == false) {
-        std::cout << "create anim false" << std::endl;
-    }
+//    if (_model.createSubAnim(0, "start", 0, 37) == false) {
+//        std::cout << "create anim false" << std::endl;
+//    }
+//
+//    if (_model.createSubAnim(0, "run", 37, 59) == false) {
+//        std::cout << "create anim false" << std::endl;
+//    }
+//
+//    if (_model.createSubAnim(0, "stop", 75, 130) == false) {
+//        std::cout << "create anim false" << std::endl;
+//    }
 
-    if (_model.createSubAnim(0, "run", 37, 59) == false) {
-        std::cout << "create anim false" << std::endl;
-    }
-
-    if (_model.createSubAnim(0, "stop", 75, 130) == false) {
-        std::cout << "create anim false" << std::endl;
-    }
-
+    _model.setCurrentAnim(0);
     this -> scale(glm::vec3(0.0025, 0.0025, 0.0025));
 
 
@@ -98,6 +103,7 @@ void IA::update(const gdl::Clock & clock, gdl::Input & input)
 
 void IA::onCollision(AGameObject& obj) {
     if (obj.getType() == "fire") {
+        std::cout << "owned by " << obj.getParent() << std::endl;
         this->die();
     } else if (obj.getType() == "wall"
             || obj.getType() == "box") {

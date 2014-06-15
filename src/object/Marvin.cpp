@@ -77,6 +77,7 @@ void Marvin::setBindKeys(const inputBinding& bind) {
 void Marvin::onCollision(AGameObject& obj) {
     
     if (obj.getType() == "fire") {
+        std::cout << "owned by " << obj.getParent() << std::endl;
         this->die();
     } else if (obj.getType() == "wall"
             || obj.getType() == "box") {
@@ -113,9 +114,10 @@ static const double COLLIDER_SIZE = 0.8;
 void Marvin::onBombPressed(const gdl::Clock& clock) {
     AGameObject* bomb = new Bomb();
     
-     bomb->setPosition(glm::vec3(static_cast<int>(this->_position.x + 0.5),
+    bomb->setPosition(glm::vec3(static_cast<int>(this->_position.x + 0.5),
                                 0,
                                 static_cast<int>(this->_position.z + 0.5)));
+    bomb->setParent(getType());
     this->addObject(bomb);
 }
 

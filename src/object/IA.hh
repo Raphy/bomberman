@@ -24,7 +24,7 @@ public:
         None = 4
     };
     
-    IA(): APlayer(ResourcesPath::asset("bomb.fbx"), "ia"), _direction(None), pressed(false) {}
+    IA();
     virtual ~IA();
 
     virtual bool initialize();
