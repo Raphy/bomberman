@@ -10,7 +10,16 @@ PlayerMenu::PlayerMenu(SceneArguments const& arg)
 {
   _arg.set("width",arg.get("width"));
   _arg.set("height",arg.get("height"));
-  _arg.set("ia",arg.get("ia"));
+  _arg.set("file",arg.get("file"));
+  _arg.set("ai",arg.get("ai"));
+
+
+  std::cout << arg.get("width") << std::endl;
+  std::cout << arg.get("height") << std::endl;
+  std::cout << arg.get("file") << std::endl;
+  std::cout << arg.get("ai") << std::endl;
+
+
 
   addButton(ResourcesPath::asset("img/nbplayer.tga"), glm::vec3(getXPercent(8), getYPercent(10), 1), glm::vec3(getXPercent(45), getYPercent(15) ,0) ,  static_cast<ButtonHandler>(&PlayerMenu::nbplayerhandler), 0);
   addButton(ResourcesPath::asset("img/continue.tga"), glm::vec3(getXPercent(8), getYPercent(60), 1), glm::vec3(getXPercent(20), getYPercent(10) ,0) ,  static_cast<ButtonHandler>(&PlayerMenu::continuehandler), 1);

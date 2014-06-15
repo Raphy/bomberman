@@ -9,7 +9,8 @@ MapMenu::MapMenu(SceneArguments const& arg)
 {
   _arg.set("width",arg.get("width"));
   _arg.set("height",arg.get("height"));
-  _arg.set("ia",arg.get("ia"));
+  _arg.set("ai",arg.get("ai"));
+  _arg.set("file",arg.get("file"));
   _arg.set("players",arg.get("players"));
 
   addButton(ResourcesPath::asset("img/map1.tga"), glm::vec3(60, 50, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MapMenu::map1handler), 0);

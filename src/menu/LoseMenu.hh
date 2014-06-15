@@ -15,6 +15,7 @@ public:
 
 private:
   double _time;
+  SceneArguments& _arg;
 
 };
 
