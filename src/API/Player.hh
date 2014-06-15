@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Sun Jun 15 01:58:07 2014 raphael defreitas
+// Last update Sun Jun 15 21:40:29 2014 raphael defreitas
 */
 
 #ifndef		API_PLAYER_HH_
@@ -32,12 +32,14 @@ namespace API
 
     int getBombRange(void) const;
     int getBombCapacity(void) const;
+    int getBombs(void) const;
 
     // Lua implementation
     static void registerScript(Script& script);
     static void registerMethods(Script& script);
     static int getBombRange(lua_State* L);
     static int getBombCapacity(lua_State* L);
+    static int getBombs(lua_State* L);
 
   protected:
     Marvin* _marvin;

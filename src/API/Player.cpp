@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 12:02:27 2014 raphael defreitas
-// Last update Sun Jun 15 01:01:25 2014 raphael defreitas
+// Last update Sun Jun 15 21:41:40 2014 raphael defreitas
 //
 
 #include	<cstdlib>
@@ -51,6 +51,12 @@ int Player::getBombCapacity(void) const
   return player->getBombCapacity();
 }
 
+int Player::getBombs(void) const
+{
+  APlayer* player = (this->_marvin) ? (APlayer*)this->_marvin : (APlayer*)this->_ia;
+  return player->hello_howManyBombsCanIPutOnTheAmazingMapAtThisInstance_nigger();
+}
+
 void Player::registerScript(Script& script)
 {
   luaL_newmetatable(script.getVirtualMachine().getState(), "luaL_Player");
@@ -67,6 +73,7 @@ void Player::registerMethods(Script& script)
     {
       {"getBombRange", Player::getBombRange},
       {"getBombCapacity", Player::getBombCapacity},
+      {"getBombs", Player::getBombs},
       {NULL, NULL}
     };
   luaL_setfuncs(script.getVirtualMachine().getState(), methods, 0);
@@ -85,5 +92,13 @@ int Player::getBombCapacity(lua_State* L)
   VirtualMachine vm(L);
   Player* udata = vm.toClass<Player>();
   lua_pushinteger(L, udata->getBombCapacity());
+  return 1;
+}
+
+int Player::getBombs(lua_State* L)
+{
+  VirtualMachine vm(L);
+  Player* udata = vm.toClass<Player>();
+  lua_pushinteger(L, udata->getBombs());
   return 1;
 }

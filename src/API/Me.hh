@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Sun Jun 15 01:59:36 2014 raphael defreitas
+// Last update Sun Jun 15 21:38:12 2014 raphael defreitas
 */
 
 #ifndef		API_ME_HH_
@@ -32,6 +32,9 @@ namespace API
     void moveLeft(void);
     void moveRight(void);
     void putBomb(void);
+    int getBombCapacity() const;
+    int getBombRange() const;
+    int getBombs() const;
 
     // Lua implementation
     static void registerScript(Script& script);
@@ -41,6 +44,10 @@ namespace API
     static int moveLeft(lua_State* L);
     static int moveRight(lua_State* L);
     static int putBomb(lua_State* L);
+    static int getBombCapacity(lua_State* L);
+    static int getBombRange(lua_State* L);
+    static int getBombs(lua_State* L);
+
 
   protected:
     IA* _ia;
