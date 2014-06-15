@@ -97,9 +97,9 @@ function Actions:avoid_bomb()
 	return self:follow_path()
 end
 function Actions:place_bomb()
-	List:push_back_unique((Helper:get_my_case()).previews, "preview_bomb")
 	MapManager:update()
-	HelperPrivate:preview_all_bombs()
+	-- List:push_back_unique((Helper:get_my_case()).previews, "preview_bomb")
+	HelperPrivate:preview_all_bombs(true)
 	local path = Path:calc_path("dijkstra", Helper:get_my_idx(), -1, "mark_safe_case")
 	if path == nil then
 		return false end

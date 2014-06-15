@@ -12,7 +12,9 @@ function BeginState:action()
 end
 
 BeginState.pre_conditions = {
-
+	{ function()
+		return true end,
+		"push", "break_box_state", },
 }
 
 
@@ -37,32 +39,63 @@ AvoidBombState.post_conditions = {
 		"pop", },
 }
 
--- * BREAK_WALL_STATE *
+-- * BREAK_BOX_STATE *
 
-BreakWallState = State:new("break_wall_state")
+BreakBoxState = State:new("break_box_state")
 
-function BreakWallState:action()
-	Helper:debug_print("action : ".."break_wall_state")
+function BreakBoxState:action()
+	Helper:debug_print("action : ".."break_box_state")
 	return true
 end
 
-BreakWallState.pre_conditions = {
+BreakBoxState.pre_conditions = {
 	{ function()
 		return Helper:is_place_dangerous() end,
 		"push", "avoid_bomb", },
+	{ function()
+		return not Helper:obj_in_view("Box") end,--in map ?
+		"pop", },
+	{ function()
+		return not Helper:obj_in_action_range("Box") end,
+		"push", "get_closer_of_box"},
+	{ function()
+		return true end,
+		"push", "put_bomb_state"},
 }
 
-BreakWallState.post_conditions = {
+BreakBoxState.post_conditions = {
 
 }
+
+-- * PUT_BOMB_STATE *
+
+PutBombState = State:new("put_bomb_state")
+
+function PutBombState:action()
+	Helper:debug_print("action : ".."put_bomb_state")
+	return Actions:place_bomb()
+end
+
+PutBombState.pre_conditions = {
+	{ function()
+		return Helper:is_place_dangerous() end,
+		"push", "avoid_bomb_state", },
+}
+
+PutBombState.post_conditions = {
+
+}
+
+
 
 
 
 
 StateList = {
 	["begin_state"] = BeginState,
-	["break_wall_state"] = BreakWallState,--a copier dans StateList
+	["break_box_state"] = BreakBoxState,--a copier dans StateList
 	["avoid_bomb_state"] = AvoidBombState,--a copier dans StateList
+	["put_bomb_state"] = PutBombState,--a copier dans StateList
 }
 
 function initialization()
@@ -72,13 +105,13 @@ function initialization()
 							10, 100)
 end
 
--- DEBUG = 0
 -- DEBUG_MAX = 100
+-- DEBUG = DEBUG_MAX
 
--- active_debug = true
+active_debug = true
 
 function play()
-  -- if DEBUG == DEBUG_MAX then
+  -- if DEBUG >= DEBUG_MAX then
 		-- Helper:debug_print("\n\nIA_BREAKER) play")
 		MapManager:update()
 		StateMachine:play()
