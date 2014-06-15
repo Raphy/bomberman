@@ -68,10 +68,11 @@ private:
     }
 
     template<typename T>
-    void instantiateObject(int x, int y, std::list<AGameObject*> & list) {
+    void instantiateObject(int x, int y, std::list<AGameObject*> & list, bool isStatic = false) {
         list.push_back(new T());
         list.back()->setPosition(
             static_cast<double>(x), static_cast<double>(y));
+        list.back()->isStatic(isStatic);
     }
 
     void loadMap(std::string const& filename);

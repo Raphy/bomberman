@@ -125,7 +125,7 @@ void GameScene::loadMap(std::string const& filename) {
 void GameScene::createFloor() {
     for (int i = 0; i < getMapHeight(); i++) {
         for (int j = 0; j < getMapWidth(); j++) {
-            instantiateObject<Wall>(j, i, m_walls);
+            instantiateObject<Floor>(j, i, m_walls);
         }
     }
 }
@@ -246,7 +246,6 @@ void GameScene::zoomCamera(int key) {
 
 bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
-    m_walls.empty() ? (std::cout << "EMPTY" << std::endl) : (std::cout << "NOT EMPTY" << std::endl);
     m_playlist.update();
 
     if (input.getKey(SDLK_ESCAPE)) {
