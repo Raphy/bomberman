@@ -26,7 +26,8 @@ SpeedBuff::~SpeedBuff()
 bool SpeedBuff::initialize()
 {
   this->setSpeed(0);
-  return this->setTexture(ResourcesPath::asset("textures/wall.tga"));
+  this->scale(glm::vec3(0.75, 0.75, 0.75));
+  return this->setTexture(ResourcesPath::asset("textures/speed.tga"));
 }
 
 
@@ -36,7 +37,7 @@ void SpeedBuff::update(gdl::Clock const &clock, gdl::Input &input)
 
 void SpeedBuff::onCollision(AGameObject& obj)
 {
-  if (obj.getType() == "ia" || obj.getType() == "marvin")
+  if (obj.getType() == "ia" || obj.getType() == "player1" || obj.getType() == "player2")
     {
       if (obj.getSpeed() < 15.0f)
 	obj.setSpeed(obj.getSpeed() + 0.5f);

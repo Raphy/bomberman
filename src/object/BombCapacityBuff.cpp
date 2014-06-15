@@ -25,8 +25,8 @@ BombCapacityBuff::~BombCapacityBuff()
 
 bool BombCapacityBuff::initialize()
 {
-  this->setSpeed(0);
-  return this->setTexture(ResourcesPath::asset("textures/box.tga"));
+  this->scale(glm::vec3(0.75, 0.75, 0.75));
+  return this->setTexture(ResourcesPath::asset("textures/capacity.tga"));
 }
 
 
@@ -36,11 +36,11 @@ void BombCapacityBuff::update(gdl::Clock const &clock, gdl::Input &input)
 
 void BombCapacityBuff::onCollision(AGameObject& obj)
 {
-  if (obj.getType() == "ia" || obj.getType() == "marvin")
+  if (obj.getType() == "ia" || obj.getType() == "player1" || obj.getType() == "player2")
     {
       APlayer* player = static_cast<APlayer*>(&obj);
       if (player->getBombCapacity() < 5)
-        player->setBombCapacity(player->getBombCapacity() + 1);
+        player->addBombCapacity();
       this->die();
     }
 }

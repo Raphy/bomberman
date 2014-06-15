@@ -18,13 +18,22 @@ bool APlayer::initialize() {
 
 void APlayer::putBomb(){
     
-    AGameObject* bomb = new Bomb();
+    if (this->_bombBag > 0) {
     
-    bomb->setPosition(glm::vec3(static_cast<int>(this->_position.x + 0.5),
+        Bomb* bomb = new Bomb();
+    
+        bomb->setParentObject(this);
+        bomb->setPosition(glm::vec3(static_cast<int>(this->_position.x + 0.5),
                                 0,
                                 static_cast<int>(this->_position.z + 0.5)));
-    bomb->setParent(getType());
-    this->addObject(bomb);
+        bomb->setParent(getType());
+        
+        std::cout << getBombRange() << std::endl;
+        bomb->setSteps(getBombRange());
+        this->addObject(bomb);
+        
+        this->removeBombFromBag();
+    }
 }
 
 void APlayer::onUpPressed(gdl::Clock const &clock)
@@ -81,3 +90,4 @@ void APlayer::onCollision(AGameObject& obj) {
         this->restoreLastState(obj);
     }
 }
+
