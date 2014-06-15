@@ -158,7 +158,7 @@ void GameScene::genMap(int width, int height, int players, int ai) {
     std::list<std::pair<int, int> > playersList = map.setHumans(players, ai);
 
     for (int i = 0; i < players; i++) {
-        initPlayer(i + 1, playersList.front().first, playersList.front().second);
+        initPlayer(i + 1, playersList.front().second, playersList.front().first);
         playersList.erase(playersList.begin());
     }
     //add skybox
