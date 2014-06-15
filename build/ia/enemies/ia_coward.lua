@@ -70,7 +70,7 @@ end
 -- 	StateMachine:play()
 -- end
 
-local function _display_objects(objects)
+local function _debug_dump_objects(objects)
 	for _,obj in ipairs(objects) do
 		print(obj:getType())
 	end
@@ -97,7 +97,7 @@ function play()
 	-- if Helper:are_objects_in_case(x,y,"Bomb") == true then
  -- 		print("but should REALLY match !!!!") end
  -- 	local objects = Helper:get_objects_around("Bomb",x,y,3)
- -- 	if objects then _display_objects(objects) end
+ -- 	if objects then _debug_dump_objects(objects) end
 
     DEBUG = 0
   end

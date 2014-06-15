@@ -17,12 +17,10 @@ end
 -- * TIME_HELPER *
 
 function Helper:get_current_time()
-	self:to_implement()
-	return 0
+	return os.time()
 end
-function Helper:get_elapsed_time(origin_time)
-	self:to_implement()
-	return 0
+function Helper:get_elapsed_time(previous_time)
+	return os.difftime(self:get_current_time(),previous_time)
 end
 function Helper:get_frames_since_action()
 	return self._frames_since_action
@@ -66,7 +64,7 @@ function Helper:debug_dump_list(list)
 		self:debug_print("...DUMP END")
 	end
 end
-function Helper:display_objects(objects)
+function Helper:debug_dump_objects(objects)
 	if active_debug_objects then
   		for i,obj in ipairs(objects) do
   		   local x, y = obj:getPosition()
@@ -84,34 +82,42 @@ end
 function Helper:get_my_coord()
 	return Coord:new(self:get_my_position())
 end
+function Helper:get_my_case()
+	return MapManager:get_case(self:get_my_idx())
+end
 function Helper:get_my_position()
-	local x,y = me:getPosition()
-	return x+1,y+1--arrondir directement ici ?
+	return self:get_obj_position(me)
+end
+
+function Helper:get_obj_position(obj)
+	local x,y = obj:getPosition()
+	return x+1,y+1
 end
 
 function Helper:map_get(x,y,distance)
 	local x,y = math.ceil(x)-1,math.ceil(y)-1
 	return HelperPrivate:filter_objects(map:get(x,y,2,me), x,y)
 end
---[[TODO : faire la meme chose avec la position des gameobjects]]
+function Helper:map_free(objects)
+	map:free(objects)
+end
 
 
 
 -- * OBJECTS_HELPER *
 
 function Helper:are_objects_in_case(x,y,type)
-	local function _filter(obj,type)
+	return HelperPrivate:search_obj(function (obj,type)
 		return obj:getType() ~= "Me" and type == nil or type == obj:getType()
-	end
-	return HelperPrivate:search_obj(_filter, true,false, x,y,type)
+	end, x,y,type)
 end
 function Helper:are_objects_in_case_except(x,y,type)
 	assert(type ~= nil, "are_objects_in_case_except : type expected")
-	local function _filter(obj,type)
+	return HelperPrivate:search_obj(function (obj,type)
 		return obj:getType() ~= "Me" and type ~= obj:getType()
-	end
-	return HelperPrivate:search_obj(_filter, true,false, x,y,type)
+	end, x,y,type)
 end
+
 function Helper:get_objects_from_case(x,y,type,objects)
 	local o = objects or {}
 	local case = self:map_get(x,y,1)
@@ -124,77 +130,22 @@ function Helper:get_objects_from_case(x,y,type,objects)
 	return o
 end
 
-function Helper:get_all_objects(type)
-	local o = {}
-	for case in MapManager:iter() do
-		o = self:get_objects_from_case(case.x,case.y,type,o)
-	end
-	return o
-end
--- function Helper:are_objects(type)
--- 	for case in MapManager:iter() do
--- 		if self:are_objects_in_case(case.x,case.y,type,o) then
--- 			return true end
--- 	end
--- 	return false
--- end
-
 function Helper:are_objects_around(type,x,y,radius)
-	local r = radius or 1
 	local found = false
-
-	-- if self:are_objects_in_case(x,y,type) then
-	-- 	found = true end
-	-- local coo = Coord:new(x,y)
-	-- for i=1,r do
-	-- 	Coord:for_each_direction(function (dir)
-	-- 		local x,y = Coord:unpack(Coord:from_direction(coo, dir, i))
-	-- 		if self:are_objects_in_case(x,y,type) then
-	-- 			found = true end
-	-- 	end)
-	-- end
-
-	local vision_state = MapManager._vision.active
-	MapManager:set_vision_activate(Coord:new(x,y), r)
-	MapManager:for_each_case(function (case)
+	HelperPrivate:search_around(function (case)
 		if self:are_objects_in_case(case.x,case.y,type) then
 			found = true end
-	end)
-	if not vision_state then MapManager:desactivate_vision() end
-
+	end, x,y,radius)
 	return found
-
-	-- return found
 end
 function Helper:get_objects_around(type,x,y,radius)
-	local r = radius or 1
-	local vision_state = MapManager._vision.active
-	MapManager:set_vision_activate(Coord:new(x,y), r)
-	-- local o = self:get_all_objects(type)
 	local o = nil
-	MapManager:for_each_case(function (case)
+	HelperPrivate:search_around(function (case)
 		o = self:get_objects_from_case(case.x,case.y,type,o)
-	end)
-
-	if not vision_state then MapManager:desactivate_vision() end
+	end, x,y,radius)
 	return o
 end
 
-
-
--- * BOMB_HELPER *
-
-function Helper:preview_safe_cases()
-	MapManager:update()
-	HelperPrivate:preview_all_bombs()
-	-- MapManager:make_type_unwalkable("preview_fire")
-	-- MapManager:make_type_unwalkable("preview_bomb")
-	HelperPrivate:mark_all_safe_cases()
-	MapManager:clean_previews()
-	MapManager:clean_marks()
-	-- MapManager:make_type_walkable("preview_fire")
-	-- MapManager:make_type_walkable("preview_bomb")
-end
 
 -- * WRAPPERS *
 
@@ -207,22 +158,22 @@ function Helper:last_action_failed()
 	return not StateMachine._action_status.status
 end
 function Helper:obj_in_view(type)
-	local x,y = Helper:get_my_position()
-	return self:are_objects_around(type,x,y,MapManager.size / 2)
+	HelperPrivate:from_my_position(function (x,y)
+		return self:are_objects_around(type,x,y,MapManager.size / 2) end)
 end
 function Helper:obj_in_map(type) --[[ est ce une bonne idee ?? ]]
-	local x,y = Helper:get_my_position()
-	return self:are_objects_around(type,x,y,MapManager.size / 2)
+	HelperPrivate:from_my_position(function (x,y)
+		return self:are_objects_around(type,x,y,MapManager.size / 2) end)
 end
 function Helper:obj_in_action_range(type)
-	local x,y = Helper:get_my_position()
-	return self:are_objects_around(type,x,y,2)
+	HelperPrivate:from_my_position(function (x,y)
+		return self:are_objects_around(type,x,y,2) end)
 end
 function Helper:is_place_safe()
-	local x,y = Helper:get_my_position()
-	return not self:are_objects_around("Bomb",x,y,3)
+	HelperPrivate:from_my_position(function (x,y)
+		return not self:are_objects_around("Bomb",x,y,3) end)
 end
 function Helper:is_place_dangerous()
-	local x,y = Helper:get_my_position()
-	return self:are_objects_around("Bomb",x,y,3)
+	HelperPrivate:from_my_position(function (x,y)
+		return self:are_objects_around("Bomb",x,y,3) end)
 end
