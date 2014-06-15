@@ -15,6 +15,7 @@
 class IA: public APlayer {
 
 public:
+    static std::string const Tag;
 
     enum Going {
         Up = 0,

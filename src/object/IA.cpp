@@ -11,7 +11,9 @@
 #include "IA.hh"
 #include "Lua/Script.hh"
 
-IA::IA() : APlayer(ResourcesPath::asset("marvin_ia.fbx"), "ia"), _direction(None), pressed(false) {
+std::string const IA::Tag = "ia";
+
+IA::IA() : APlayer(ResourcesPath::asset("marvin_ia.fbx"), Tag), _direction(None), pressed(false) {
 }
 
 
