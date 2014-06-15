@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Sun Jun 15 11:49:50 2014 raphael defreitas
-// Last update Sun Jun 15 13:05:12 2014 raphael defreitas
+// Last update Sun Jun 15 13:25:38 2014 raphael defreitas
 */
 
 #ifndef		SCORING_HH_
@@ -24,6 +24,8 @@ public:
 
   void incrP1(unsigned int value = 1);
   void incrP2(unsigned int value = 1);
+  unsigned int getScoreP1(void) const;
+  unsigned int getScoreP2(void) const;
   void flush(void);
   void addScoreP1(unsigned int score);
   void addScoreP2(unsigned int score);
