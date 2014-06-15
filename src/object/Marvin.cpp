@@ -77,6 +77,7 @@ void Marvin::setBindKeys(const inputBinding& bind) {
 void Marvin::onCollision(AGameObject& obj) {
     
     if (obj.getType() == "fire") {
+        std::cout << "owned by " << obj.getParent() << std::endl;
         this->die();
     } else if (obj.getType() == "wall"
             || obj.getType() == "box") {
@@ -84,47 +85,6 @@ void Marvin::onCollision(AGameObject& obj) {
     }
 }
 
-void Marvin::onUpPressed(gdl::Clock const &clock)
-{
-    translate(glm::vec3(0, 0, 1) * static_cast<float>(clock.getElapsed()) * _speed);
-    this -> lookNorth();
-}
-
-void Marvin::onDownPressed(gdl::Clock const &clock)
-{
-    translate(glm::vec3(0, 0, -1) * static_cast<float>(clock.getElapsed()) * _speed);
-    this -> lookSouth();
-}
-
-void Marvin::onLeftPressed(gdl::Clock const &clock)
-{
-    translate(glm::vec3(1, 0, 0) * static_cast<float>(clock.getElapsed()) * _speed);
-    this -> lookWest();
-}
-
-void Marvin::onRightPressed(gdl::Clock const &clock)
-{
-    translate(glm::vec3(-1, 0, 0) * static_cast<float>(clock.getElapsed()) * _speed);
-    this -> lookEast();
-}
-
-static const double COLLIDER_SIZE = 0.8;
-
 void Marvin::onBombPressed(const gdl::Clock& clock) {
-    AGameObject* bomb = new Bomb();
-    
-     bomb->setPosition(glm::vec3(static_cast<int>(this->_position.x + 0.5),
-                                0,
-                                static_cast<int>(this->_position.z + 0.5)));
-    this->addObject(bomb);
+    putBomb();
 }
-
-
-Rectangle Marvin::getCollider() const {
-    return Rectangle(
-        this->_position.x + 0.5 - COLLIDER_SIZE / 2,
-        this->_position.z + 0.5 - COLLIDER_SIZE / 2,
-        COLLIDER_SIZE,
-        COLLIDER_SIZE);
-}
-//~ Formatted by Jindent --- http://www.jindent.com

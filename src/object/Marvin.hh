@@ -37,7 +37,6 @@ public:
     virtual void update(gdl::Clock const& clock, gdl::Input& input);
 
     virtual void onCollision(AGameObject&);
-    virtual Rectangle getCollider() const;
     virtual void setBindKeys(inputBinding const& bind = {SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT, SDLK_RCTRL});
     
     static std::string const Tag;
@@ -50,10 +49,6 @@ private:
     void run(gdl::Clock const&);
     void stop(gdl::Clock const&);
     void none(gdl::Clock const &clock);
-    void onUpPressed(gdl::Clock const& clock);
-    void onDownPressed(gdl::Clock const& clock);
-    void onLeftPressed(gdl::Clock const& clock);
-    void onRightPressed(gdl::Clock const& clock);
     void onBombPressed(gdl::Clock const& clock);
 };
 

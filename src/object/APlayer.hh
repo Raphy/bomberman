@@ -25,13 +25,22 @@ public:
 
   int getBombCapacity() const { return this->_bomb_capacity; }
   void setBombCapacity(int value) { this->_bomb_capacity = value; }
+  
+  void putBomb();
+  
+  virtual Rectangle getCollider() const;
 
 protected:
-  APlayer(std::string const& modelPath, std::string const& id) :
+    APlayer(std::string const& modelPath, std::string const& id) :
     AModel(modelPath, id), _bomb_range(2), _bomb_capacity(1) {};
+  
+    virtual void onUpPressed(gdl::Clock const& clock);
+    virtual void onDownPressed(gdl::Clock const& clock);
+    virtual void onLeftPressed(gdl::Clock const& clock);
+    virtual void onRightPressed(gdl::Clock const& clock);
 
-  int _bomb_range;
-  int _bomb_capacity;
+    int _bomb_range;
+    int _bomb_capacity;
 };
 
 #endif /* !APLAYER_HH_*/
