@@ -39,7 +39,8 @@ active_debug_walkable = false
 
 
 -- -- require "ia_state"
-require "ia_stalker"
+-- require "ia_stalker"
+require "ia_seeker"
 -- -- require "ia_intro"
 -- -- require "ia_simple"
 -- require "ia_coward"
