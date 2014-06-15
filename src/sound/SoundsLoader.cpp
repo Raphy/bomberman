@@ -18,9 +18,9 @@ void SoundsLoader::operator()() {
 
   ResourcesPath::root("./build");
 
-  Configuration::setDefault<std::string>("maintheme", ResourcesPath::sound("goto80.wav"));
-  Configuration::setDefault<std::string>("button", ResourcesPath::sound("button.wav"));
-  Configuration::setDefault<std::string>("menu", ResourcesPath::sound("menu.wav"));
+  Configuration::setDefault<std::string>("maintheme", "goto80.wav");
+  Configuration::setDefault<std::string>("button", "button.wav");
+  Configuration::setDefault<std::string>("menu", "menu.wav");
   bool success = true;
 
   success = s_sound_manager.loadMusic("maintheme", ResourcesPath::sound(Configuration::get<std::string>("maintheme")));
