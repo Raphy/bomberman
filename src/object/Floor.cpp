@@ -28,7 +28,7 @@ Floor::Floor() : AGeometry("floor") {
 }
 
 bool Floor::initialize() {
-    return setTexture(ResourcesPath::asset("textures/wall.tga"));
+    return setTexture(ResourcesPath::asset("textures/floor.tga"));
 }
 
 void Floor::update(const gdl::Clock& clock, gdl::Input& input) {
