@@ -1,8 +1,7 @@
 
 TagsList = { "up","down","left","right","put_bomb",
-				"player","Me","Player",
-				"Item","Bomb",
-				"preview_bomb","preview_fire",
+				"Me","Player", "Item","Bomb",
+				"preview_bomb","preview_fire","mark_safe_case",
 				"open","closed","unknown",
 				"astar","dijkstra","glouton",
 				"push","pop","continue", }

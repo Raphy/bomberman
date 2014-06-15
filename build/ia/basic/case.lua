@@ -19,7 +19,7 @@ local case_mt =
 Case = {}
 
 function Case:create_case(curr_idx, i,j)
-	-- assert(MapManager:check_coord(j,i))
+	-- assert(MapManager:check_xy(j,i))
 
 	local case = {}
 	setmetatable(case, case_mt)
@@ -41,9 +41,27 @@ function Case:clean_case(case)
   	case.parent = -1
 	case.g,case.h,case.f = 0,0,0
 end
+function Case:clean_previews(case)
+	List:clear(case.previews)
+end
+function Case:clean_marks(case)
+	List:clear(case.marks)
+end
 function Case:get_coord(case)
 	return Coord:new(case.x,case.y)
 end
 function Case:are_adjacents(c1,c2)
 	return Coord:are_adjacents(self:get_coord(c1),self:get_coord(c2))
+end
+
+function Case:make_type_unwalkable(case,type)
+	if case.walkable then
+		if string.find(type, "preview") ~= nil then
+			case.walkable = List:empty(case.previews)
+		elseif string.find(type, "mark") ~= nil then
+			case.walkable = List:empty(case.marks)
+		else
+			case.walkable = not Helper:are_objects_in_case(case.x,case.y,type)
+		end
+	end
 end

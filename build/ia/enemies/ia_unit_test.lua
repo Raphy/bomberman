@@ -116,7 +116,7 @@ function initialization()
 		
 		local coo = Helper:get_my_coord()
 		print("my_coord : ", Coord:unpack(coo))
-		local idx = MapManager:coord_to_idx(Coord:unpack(coo))
+		local idx = MapManager:coord_to_idx(coo)
 		print("my_idx : ", idx)
 		local case = MapManager:get_case(idx)
 		print("my_case : ",
