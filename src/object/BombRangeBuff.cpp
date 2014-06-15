@@ -25,8 +25,8 @@ BombRangeBuff::~BombRangeBuff()
 
 bool BombRangeBuff::initialize()
 {
-  this->setSpeed(0);
-  return this->setTexture(ResourcesPath::asset("textures/box.tga"));
+  this->scale(glm::vec3(0.75, 0.75, 0.75));
+  return this->setTexture(ResourcesPath::asset("textures/range.tga"));
 }
 
 
@@ -36,11 +36,11 @@ void BombRangeBuff::update(gdl::Clock const &clock, gdl::Input &input)
 
 void BombRangeBuff::onCollision(AGameObject& obj)
 {
-  if (obj.getType() == "ia" || obj.getType() == "marvin")
+  if (obj.getType() == "ia" || obj.getType() == "player1" || obj.getType() == "player2")
     {
       APlayer* player = static_cast<APlayer*>(&obj);
       if (player->getBombRange() < 5)
-        player->setBombRange(player->getBombRange() + 1);
+        player->addBombRange();
       this->die();
     }
 }

@@ -26,6 +26,7 @@ void Bomb::update(const gdl::Clock& clock, gdl::Input& input) {
         std::cout << "BOOM: " << this << std::endl;
         this -> die();
         this -> createFire();
+        this -> _parentObject -> addBombToBag();
     }
 }
 
@@ -33,7 +34,7 @@ void Bomb::createFire() {
     
     Fire* obj = new Fire();
     
-    obj->setStep(1);
+    obj->setStep(getSteps());
     obj->setPosition(this->_position.x, this->_position.z);
     obj->setDirection(Fire::None);
     obj->setParent(getParent());
