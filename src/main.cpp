@@ -12,35 +12,34 @@
 #include "GameEngine.hh"
 #include "ResourcesPath.hh"
 #include "Configuration.hh"
+#include "SoundManager.hh"
 
 int main()
 {
-    ResourcesPath::setRootDir("./build");
+  ResourcesPath::setRootDir("./build");
+
+  // Initialization of the random system
+  srand(time(NULL));
+
+  try {
+    GameEngine engine;
+
     Configuration::load();
+    SoundManager::getInstance().load();
 
-    // Initialization of the random system
-    srand(time(NULL));
-
-    try {
-        GameEngine engine;
-
-	// Force the volume setting of SoundManager becasue of Configuration Loading
-	SoundManager::getInstance().setVolumeFx(Configuration::get<int>("sound_volume_fx"));
-	SoundManager::getInstance().setVolumeMusic(Configuration::get<int>("sound_volume_music"));
-
-         if (engine.initialize() == false) {
-            return (EXIT_FAILURE);
-        }
-
-        while (engine.update() == true) {
-            engine.draw();
-        }
-    }
-   catch(std::exception& ex) {
-        std::cerr << "[EXCEPTION] " << ex.what() << std::endl;
+    if (engine.initialize() == false) {
+      return (EXIT_FAILURE);
     }
 
-    Configuration::save();
+    while (engine.update() == true) {
+      engine.draw();
+    }
+  }
+  catch(std::exception& ex) {
+    std::cerr << "[EXCEPTION] " << ex.what() << std::endl;
+  }
+
+  Configuration::save();
 
   return EXIT_SUCCESS;
 }

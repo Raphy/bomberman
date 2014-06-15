@@ -11,6 +11,8 @@ class SoundManager
 public:
   static SoundManager& getInstance();
 
+  void load(void);
+
   bool playMusic(const std::string&);
   bool playMusicFade(const std::string&);
   bool playFx(const std::string&);
