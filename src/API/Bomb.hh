@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Sun Jun 15 01:59:15 2014 raphael defreitas
+// Last update Sun Jun 15 21:35:20 2014 raphael defreitas
 */
 
 #ifndef		API_BOMB_HH_
@@ -29,11 +29,13 @@ namespace API
     ~Bomb(void);
 
     double getTime(void) const;
+    int getRange(void) const;
 
     // Lua implementation
     static void registerScript(Script& script);
     static void registerMethods(Script& script);
     static int getTime(lua_State* L);
+    static int getRange(lua_State* L);
 
   protected:
     ::Bomb* _bomb;

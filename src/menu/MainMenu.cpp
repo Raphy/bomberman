@@ -13,8 +13,10 @@ MainMenu::MainMenu(SceneArguments const& arg)
   : AMenuScene("MainMenu"), _playlist(), _arg(*new SceneArguments())
 {
   _arg.set("width",arg.get("width"));
+  _arg.set("file",arg.get("file"));
+  _arg.set("players",arg.get("players"));
   _arg.set("height",arg.get("height"));
-  _arg.set("ia",arg.get("ia"));
+  _arg.set("ai",arg.get("ai"));
 
   addButton(ResourcesPath::asset("img/play.tga"), glm::vec3(getXPercent(8), getYPercent(8), 1), glm::vec3(getXPercent(20), getYPercent(10), 0) , static_cast<ButtonHandler>(&MainMenu::playhandler), 0);
   addButton(ResourcesPath::asset("img/option.tga"), glm::vec3(getXPercent(8), getYPercent(20), 1), glm::vec3(getXPercent(25), getYPercent(10), 0) , static_cast<ButtonHandler>(&MainMenu::optionhandler), 1);
@@ -134,13 +136,13 @@ bool MainMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 void MainMenu::playhandler(int t)
 {
   (void)t;
-  setStatusGoOn<PlayerMenu>(_arg);
+  setStatusGoOn<PlayerMenu>(*new SceneArguments(_arg));
 }
 
 void MainMenu::optionhandler(int t)
 {
   (void)t;
-  setStatusGoOn<OptionMenu>(_arg);
+  setStatusGoOn<OptionMenu>(*new SceneArguments(_arg));
 }
 
 void MainMenu::exithandler(int t)
@@ -153,11 +155,11 @@ void MainMenu::loadhandler(int t)
 {
   (void)t;
   _arg.set("file", ResourcesPath::save("save.bmap"));
-  setStatusGoOn<LoadingMenu>(_arg);
+  setStatusGoOn<LoadingMenu>(*new SceneArguments(_arg));
 }
 
 void MainMenu::scorehandler(int t)
 {
   (void)t;
-  setStatusGoOn<ScoreMenu>(_arg);
+  setStatusGoOn<ScoreMenu>(*new SceneArguments(_arg));
 }

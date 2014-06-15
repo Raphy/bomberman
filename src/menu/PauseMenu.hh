@@ -25,6 +25,7 @@ public:
   void exitmenuhandler(int);
 
 private:
+  SceneArguments& _arg;
   Cursor *_cursor;
   Cursor *_save;
 

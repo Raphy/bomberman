@@ -10,8 +10,13 @@
 SoundManager& PauseMenu::_son = SoundManager::getInstance();
 
 PauseMenu::PauseMenu(SceneArguments const& arg)
-  : AMenuScene("PauseMenu")
+  : AMenuScene("PauseMenu"), _arg(*new SceneArguments())
 {
+  _arg.set("width",arg.get("width"));
+  _arg.set("file",arg.get("file"));
+  _arg.set("players",arg.get("players"));
+  _arg.set("height",arg.get("height"));
+  _arg.set("ai",arg.get("ai"));
 
   addButton(ResourcesPath::asset("img/resume.tga"), glm::vec3(getXPercent(10), getYPercent(8), 1), glm::vec3(getXPercent(32), getYPercent(10), 0) , static_cast<ButtonHandler>(&PauseMenu::resumehandler), 0);
   addButton(ResourcesPath::asset("img/save.tga"), glm::vec3(getXPercent(10), getYPercent(20), 1), glm::vec3(getXPercent(25), getYPercent(10), 0) , static_cast<ButtonHandler>(&PauseMenu::savehandler), 1);
@@ -134,16 +139,15 @@ void PauseMenu::resumehandler(int a)
 void PauseMenu::savehandler(int a)
 {
   _isSave = true;
-  ResourcesPath::setRootDir("./build");
   GameAPI::getInstance().save(ResourcesPath::save("save.bmap"));
 }
 
 void PauseMenu::optionhandler(int a)
 {
-  setStatusGoOn<OptionMenu>(*new SceneArguments());
+  setStatusGoOn<OptionMenu>(*new SceneArguments(_arg));
 }
 
 void PauseMenu::exitmenuhandler(int a)
 {
-  setStatusGoOn<MainMenu>(*new SceneArguments());
+  setStatusGoOn<MainMenu>(*new SceneArguments(_arg));
 }

@@ -124,8 +124,6 @@ end
 function StateMachine:execute()
 	Helper:increase_frames()
 	Helper:debug_print("		StateMachine: execute) "..self._current.name)
-	if self._current == nil
-		then Helper:warning("execute with empty stack") end
 	local status = self._current.action()
 	self:register_status(status)
 	self._executed = true

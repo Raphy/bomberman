@@ -4,9 +4,13 @@
 #include "LoseMenu.hh"
 
 LoseMenu::LoseMenu(SceneArguments const& arg)
-  : AMenuScene("LoadMenu"), _time(0)
+  : AMenuScene("LoadMenu"), _time(0), _arg(*new SceneArguments())
 {
-
+  _arg.set("width",arg.get("width"));
+  _arg.set("height",arg.get("height"));
+  _arg.set("ai",arg.get("ai"));
+  _arg.set("players",arg.get("players"));
+  _arg.set("file",arg.get("file"));
 }
 
 LoseMenu::~LoseMenu()
@@ -30,7 +34,7 @@ bool LoseMenu::update(gdl::Clock const& clock, gdl::Input& input)
   _time += clock.getElapsed();
   if (_time > 8.0 || input.getKey(SDLK_ESCAPE))
     {
-      setStatusGoOn<MainMenu>(*new SceneArguments());
+      setStatusGoOn<MainMenu>(*new SceneArguments(_arg));
     }
   return true;
 }

@@ -321,12 +321,16 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
     }
 
     // then, sets cooldown to item for garbage collector.
+    bool no_more_ai = true;
     for (auto it = m_objects.begin(); it != m_objects.end();) {
         if (isPlayer(**it) == false && (*it)->isDead()) {
             this -> m_garbageCollector.push_back(std::pair<AGameObject*, int>(*it, GARBAGE_FRAME_COUNTER));
             m_objects.erase(it++);
         }
         else {
+            if (no_more_ai && (*it)->getType() == IA::Tag) {
+                no_more_ai = false;
+            }
             it++;
         }
     }
@@ -343,6 +347,11 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
         }
     }
 
+    if (no_more_ai && nAiRemaing() == 1) {
+        std::cout << "You win !" << std::endl;
+        setStatusGoOn<LoseMenu>(*new SceneArguments());
+    }
+
     return true;
 }
 
@@ -355,6 +364,16 @@ bool GameScene::draw(gdl::AShader& shader, gdl::Clock const& clock) {
         }
     });
     return true;
+}
+
+unsigned int GameScene::nAiRemaing() const {
+    unsigned int n = 0;
+    for (auto player : m_players) {
+        if (player != nullptr && player->isDead() == false) {
+            n++;
+        }
+    }
+    return n;
 }
 
 bool GameScene::resume() {

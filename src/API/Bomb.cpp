@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 12:02:27 2014 raphael defreitas
-// Last update Fri Jun 13 23:38:51 2014 raphael defreitas
+// Last update Sun Jun 15 21:35:32 2014 raphael defreitas
 //
 
 #include	<lua.hpp>
@@ -35,6 +35,11 @@ double API::Bomb::getTime(void) const
   return this->_bomb->getTime();
 }
 
+int API::Bomb::getRange(void) const
+{
+  return this->_bomb->getSteps();
+}
+
 void API::Bomb::registerScript(Script& script)
 {
   luaL_newmetatable(script.getVirtualMachine().getState(), "luaL_Bomb");
@@ -50,6 +55,7 @@ void API::Bomb::registerMethods(Script& script)
   luaL_Reg methods[] =
     {
       {"getTime", API::Bomb::getTime},
+      {"getRange", API::Bomb::getRange},
       {NULL, NULL}
     };
   luaL_setfuncs(script.getVirtualMachine().getState(), methods, 0);
@@ -60,5 +66,13 @@ int API::Bomb::getTime(lua_State* L)
   VirtualMachine vm(L);
   API::Bomb* udata = vm.toClass<API::Bomb>();
   lua_pushnumber(L, udata->getTime());
+  return 1;
+}
+
+int API::Bomb::getRange(lua_State* L)
+{
+  VirtualMachine vm(L);
+  API::Bomb* udata = vm.toClass<API::Bomb>();
+  lua_pushnumber(L, udata->getRange());
   return 1;
 }

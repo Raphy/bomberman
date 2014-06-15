@@ -30,7 +30,7 @@ bool LoadingMenu::initialize()
 
 bool LoadingMenu::update(gdl::Clock const& clock, gdl::Input& input)
 {
-  setStatusGoOn<GameScene>(_args);
+  setStatusGoOn<GameScene>(*new SceneArguments(_args));
   return true;
 }
 

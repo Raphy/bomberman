@@ -31,9 +31,6 @@ end
 
 function Path:register_case_open(open_list, case, sort)
 	case.status = "open"
-	if case.walkable == false then
-		Helper:warning("register_case_open but case unwalkable. x,y = ",case.x,case.y) end
-	assert(case.walkable)
 	List:add_case_in_list(open_list, case)
 	if sort ~= nil and sort ~= false then
 		List:sort(open_list) end
@@ -105,7 +102,6 @@ end
 function Path:calc_path(algo_name, start_idx, dest_idx, type)
 	if start_idx == dest_idx then
 		return List:new("empty_path") end
-  	-- MapManager:clean_map()--?????????
 	local algoModule = PathAlgos[algo_name]
 	local open_list = List:new("open_list")
 	local closed_list = List:new("closed_list")
@@ -115,7 +111,6 @@ function Path:calc_path(algo_name, start_idx, dest_idx, type)
 	if dest_idx ~= -1 then
 		dest = MapManager:get_case(dest_idx)
 		if dest == nil then
-			Helper:debug_print("destination is not in vision")
 			return nil end
 	end
 
