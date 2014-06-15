@@ -131,17 +131,7 @@ end
 	pour les listes de tables, necessite que l'operateur < soit implementé
 ]]
 function List:sort(list)
-	table.sort(list)-- ?
-	-- local change = true
-	-- while change do
-	-- 	local change = false
-	-- 	for i=1,self._nb_elem-1 do
-	-- 		if list[i] < list[i + 1] then
-				-- list[i], list[i + 1] = list[i + 1], list[i]
-	-- 			change = true
-	-- 		end
-	-- 	end
-	-- end
+	table.sort(list)
 end
 function List:push_and_sort(list, elem)
 	self:push_back(list,elem)
@@ -164,19 +154,14 @@ function List:add_case_in_list(list, case)
 	end
 	if active_debug_list then
 		Helper:debug_print("add_case_in_list : "..list._name..". x,y = ",case.x,case.y) end
-	list._nb_elem = list._nb_elem + 1
-	table.insert(list, list._nb_elem, case.idx)
+	self:push_back(list, case.idx)
 end
 function List:remove_case_from_list(list, case)
 	self:remove(list, case.idx)
 end
 
 function List:is_case_in_list(list, case)
-	for _,v in ipairs(list) do
-		if v == case.idx then
-			return true
-		end
-	end
+	return self:is_elem_in_list(list, case.idx)
 end
 function List:iter_case(list)
 	local i = 0

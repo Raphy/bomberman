@@ -80,12 +80,6 @@ end
 
 function Actions:get_closer_of_one_enemy(enemy_pos)--si c'est pour faire enemy_pos, autant faire un go_to !!!
 	return self:get_closer_of_obj("Player")
-	-- if self:path_recalc_needed(enemy_pos) then
-	-- 	local start_idx = Helper:get_my_idx()
-	-- 	local dest_idx = -1
-	-- 	self._path = Path:calc_path("dijkstra", start_idx, -1, "Player")
-	-- end
-	-- return self:follow_path()
 end
 function Actions:get_away_of_one_enemy(enemy_id)
 	local id = enemy_id or -1
@@ -93,14 +87,9 @@ function Actions:get_away_of_one_enemy(enemy_id)
 	return me:moveUp()
 end
 
-function Actions:avoid_bomb()--bomb_id)
-	-- local id = bomb_id or -1
+function Actions:avoid_bomb()
 	MapManager:update()
 	HelperPrivate:preview_all_bombs()
-	-- Helper:preview_safe_cases()
-	-- local case = MapManager:get_case(Helper:get_my_idx())
-	-- print("i'm walkable : ", case.walkable)
-	-- print("i'm safe : ", List:is_elem_in_list(case.marks, "mark_safe_case"))
 	local path = Path:calc_path("dijkstra", Helper:get_my_idx(), -1, "mark_safe_case")
 	if path == nil then
 		return false end
@@ -108,10 +97,9 @@ function Actions:avoid_bomb()--bomb_id)
 	return self:follow_path()
 end
 function Actions:place_bomb()
-	-- add preview_bomb dans ma case
+	List:push_back_unique((Helper:get_my_case()).previews, "preview_bomb")
 	MapManager:update()
 	HelperPrivate:preview_all_bombs()
-	-- Helper:preview_safe_cases()
 	local path = Path:calc_path("dijkstra", Helper:get_my_idx(), -1, "mark_safe_case")
 	if path == nil then
 		return false end

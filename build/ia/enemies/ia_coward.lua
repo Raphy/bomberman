@@ -41,7 +41,7 @@ function AvoidBombState:action()
 end
 
 AvoidBombState.pre_conditions = {
-	{ function()
+	{ function ()
 		return Helper:is_place_safe() end,
 		"pop", },
 }
@@ -62,7 +62,7 @@ StateList = {
 function initialization()
 	Helper:debug_print("\n\nIA_COWARD) initialization")
 	Helper:initialization_base(10, 5)
-	StateMachine:init(3)
+	StateMachine:init(1, 1000, 1000, 100)
 end
 
 -- function play()
@@ -70,18 +70,36 @@ end
 -- 	StateMachine:play()
 -- end
 
-DEBUG = 0
-DEBUG_MAX = 100
+local function _debug_dump_objects(objects)
+	for _,obj in ipairs(objects) do
+		print(obj:getType())
+	end
+end
 
-active_debug = true
+DEBUG_MAX = 1
+DEBUG = DEBUG_MAX
+
+-- active_debug = true
 
 function play()
-  if DEBUG == DEBUG_MAX then
+  if DEBUG >= DEBUG_MAX then
     MapManager:update()
-	Helper:debug_print("\n\nIA_COWARD) play")
     StateMachine:play()
+  --   local cond =  AvoidBombState.pre_conditions[1]
+  --   local f = cond[1]
+  --   local res = f()
+  --   if res == true then print("condition match") end
+	 -- if Helper:is_place_dangerous() == true then print("but should match !!!!") end
+
+	--  local x,y = Helper:get_my_position()
+	-- if Helper:are_objects_around("Bomb",x,y,3) == true then
+ -- 		print("but should match !!!!") end
+	-- if Helper:are_objects_in_case(x,y,"Bomb") == true then
+ -- 		print("but should REALLY match !!!!") end
+ -- 	local objects = Helper:get_objects_around("Bomb",x,y,3)
+ -- 	if objects then _debug_dump_objects(objects) end
+
     DEBUG = 0
   end
   DEBUG = DEBUG + 1
-  -- Helper:debug_print("\n\nIA_SIMPLE) play")
 end
