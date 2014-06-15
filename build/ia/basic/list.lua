@@ -23,67 +23,67 @@ function List:push(list, elem)
 	table.insert(list, 1, elem)
 end
 function List:pop(list)
-	if list._nb_elem <= 0 then
-		Helper:warning("pop on empty list "..list._name)
-	end
+	-- if list._nb_elem <= 0 then
+	-- 	Helper:warning("pop on empty list "..list._name)
+	-- end
 	table.remove(list, 1)
 	list._nb_elem = list._nb_elem - 1
 end
 function List:front(list)
-	if list._nb_elem <= 0 then
-		Helper:warning("front on empty list "..list._name)
-	end
+	-- if list._nb_elem <= 0 then
+	-- 	Helper:warning("front on empty list "..list._name)
+	-- end
 	return list[1]
 end
 function List:front_and_pop(list)
-	if list._nb_elem <= 0 then
-		Helper:warning("pop on empty list "..list._name)
-	end
+	-- if list._nb_elem <= 0 then
+	-- 	Helper:warning("pop on empty list "..list._name)
+	-- end
 	local head = table.remove(list, 1)
 	list._nb_elem = list._nb_elem - 1
 	return head
 end
 
 function List:push_back(list, elem)
-	if list._nb_elem == nil then print(debug.traceback()); assert(false) end
+	-- if list._nb_elem == nil then print(debug.traceback()); assert(false) end
 	list._nb_elem = list._nb_elem + 1
 	table.insert(list, list._nb_elem, elem)
 end
 function List:push_back_unique(list, elem)
-	if list._nb_elem == nil then print(debug.traceback()); assert(false) end
+	-- if list._nb_elem == nil then print(debug.traceback()); assert(false) end
 	if not List:is_elem_in_list(list,elem) then
 		list._nb_elem = list._nb_elem + 1
 		table.insert(list, list._nb_elem, elem)
 	end
 end
 function List:pop_back(list)
-	if list._nb_elem <= 0 then
-		Helper:warning("pop_back on empty list "..list._name)
-	end
+	-- if list._nb_elem <= 0 then
+	-- 	Helper:warning("pop_back on empty list "..list._name)
+	-- end
 	table.remove(list, list._nb_elem)
 	list._nb_elem = list._nb_elem - 1
 end
 function List:back(list)
-	if list._nb_elem <= 0 then
-		Helper:warning("back on empty list "..list._name)
-	end
+	-- if list._nb_elem <= 0 then
+	-- 	Helper:warning("back on empty list "..list._name)
+	-- end
 	return list[list._nb_elem]
 end
 function List:back_and_pop(list)
-	if list._nb_elem <= 0 then
-		Helper:warning("pop_back on empty list "..list._name)
-	end
+	-- if list._nb_elem <= 0 then
+	-- 	Helper:warning("pop_back on empty list "..list._name)
+	-- end
 	local tail = table.remove(list, list._nb_elem)
 	list._nb_elem = list._nb_elem - 1
 	return tail
 end
 
 function List:remove(list, elem)
-	if not List:is_elem_in_list(list, elem) then
-		Helper:warning("try to remove unexisted elem ",elem," from list "..list._name)
-	end
-	if active_debug_list then
-		Helper:debug_print("remove_from_list : "..list._name.." elem : ",elem) end
+	-- if not List:is_elem_in_list(list, elem) then
+	-- 	Helper:warning("try to remove unexisted elem ",elem," from list "..list._name)
+	-- end
+	-- if active_debug_list then
+	-- 	Helper:debug_print("remove_from_list : "..list._name.." elem : ",elem) end
 	for i,v in ipairs(list) do
 		if v == elem then
 			table.remove(list, i)
@@ -96,7 +96,7 @@ function List:size(list)
 	return list._nb_elem
 end
 function List:empty(list)
-	if list == nil then print(debug.traceback()) end
+	-- if list == nil then print(debug.traceback()) end
 	return list._nb_elem == 0
 end
 function List:clear(list)
@@ -149,11 +149,11 @@ function List:front_case_and_pop(list)
 end
 
 function List:add_case_in_list(list, case)
-	if List:is_case_in_list(list, case) then
-		Helper:warning("try to add idx "..case.idx.." already in list "..list._name)
-	end
-	if active_debug_list then
-		Helper:debug_print("add_case_in_list : "..list._name..". x,y = ",case.x,case.y) end
+	-- if List:is_case_in_list(list, case) then
+	-- 	Helper:warning("try to add idx "..case.idx.." already in list "..list._name)
+	-- end
+	-- if active_debug_list then
+	-- 	Helper:debug_print("add_case_in_list : "..list._name..". x,y = ",case.x,case.y) end
 	self:push_back(list, case.idx)
 end
 function List:remove_case_from_list(list, case)

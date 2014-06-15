@@ -67,6 +67,8 @@ private:
         return num - 1;
     }
 
+    unsigned int nAiRemaing() const;
+
     template<typename T>
     void instantiateObject(int x, int y, std::list<AGameObject*> & list, bool isStatic = false) {
         list.push_back(new T());
