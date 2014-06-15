@@ -20,6 +20,10 @@ std::string const& ResourcesPath::rootDir() {
     return s_root;
 }
 
+std::string ResourcesPath::root(std::string const& file)   {
+  return s_root + "/" + file;
+}
+
 std::string ResourcesPath::sound(std::string const& file)   {
     return makePath(s_sounds, file); 
 }

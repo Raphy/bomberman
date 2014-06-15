@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "../Configuration.hh"
 #include "GameEngine.hh"
 #include "GameScene.hh"
 #include "Exception.hh"
@@ -10,6 +11,9 @@
 GameEngine::GameEngine():
     m_scenes_manager()
 {
+  // Setting the default configuration variables
+  Configuration::set<int>("win_h", 600);
+  Configuration::set<int>("win_w", 800);
 }
 
 GameEngine::~GameEngine()
@@ -17,8 +21,7 @@ GameEngine::~GameEngine()
 }
 
 bool GameEngine::initialize() {
-
-    if (!m_context.start(800, 600, "My bomberman!")) {
+    if (!m_context.start(Configuration::get<int>("win_w"), Configuration::get<int>("win_h"), "My bomberman!")) {
         throw Exception("fail to start gdl context");
     }
 

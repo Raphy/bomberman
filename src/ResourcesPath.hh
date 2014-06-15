@@ -23,6 +23,7 @@ public:
     static void setRootDir(std::string const& pathname);
     static std::string const& rootDir();
 
+    static std::string root(std::string const& file="");
     static std::string sound(std::string const& file="");
     static std::string shader(std::string const& file="");
     static std::string asset(std::string const& file="");

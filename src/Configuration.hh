@@ -1,27 +1,57 @@
-/* 
- * File:   Configuration.hh
- * Author: svirch_n
- *
- * Created on 13 June 2014, 19:08
- */
+/*
+** Configuration.hh for Bomberman in /home/raphy/Epitech/Tech_2/bomberman/src
+**
+** Made by raphael defreitas
+** Login   <defrei_r@epitech.net>
+**
+** Started on  Sun Jun 15 02:19:46 2014 raphael defreitas
+// Last update Sun Jun 15 05:17:01 2014 raphael defreitas
+*/
 
-#ifndef CONFIGURATION_HH
-#define	CONFIGURATION_HH
+#ifndef		CONFIGURATION_HH_
+# define	CONFIGURATION_HH_
 
-class Configuration {
-private:
-    
-    static int s_window_width;
-    static int s_window_height;
-    static float s_fov_horizontal;
-    
+# include	<iostream>
+# include	<map>
+# include	<sstream>
+# include	<stdexcept>
+# include	<string>
+
+# include	"Exception.hh"
+
+class Configuration
+{
 public:
+  static void load(void);
+  static void save(void);
 
-    static int WindowWidth() { return s_window_width; }
-    static int WindowHeight() { return s_window_height; }
-    static float FOV() { return s_fov_horizontal; }
-    
+  template<typename T>
+  static void set(const std::string& name, T value)
+  {
+    std::stringstream ss;
+    ss << value;
+    _setVariable(name, ss.str());
+  }
+
+  template<typename T>
+  static T get(const std::string& name)
+  {
+    if (_variables.find(name) == _variables.end())
+      throw Exception("Variable " + name + " not exists (maybe not default value set ?)");
+    std::stringstream ss(_variables[name]);
+    T value;
+    ss >> value;
+    return value;
+  }
+
+private:
+  Configuration(void);
+  ~Configuration(void);
+
+  static std::map<std::string, std::string> _variables;
+
+  static void _parseConfigLine(const std::string& line);
+  static void _setVariable(const std::string& name, const std::string& value);
 };
 
-#endif	/* CONFIGURATION_HH */
-
+#endif /* !CONFIGURATION_HH_*/
