@@ -85,8 +85,13 @@ void GameScene::initPlayer(int num, int x, int y) {
 
     Marvin* player = new Marvin(num);
     player->setPosition(static_cast<double>(x), static_cast<double>(y));
-    if (num == 1) player->setBindKeys();
-    else player->setBindKeys({SDLK_z, SDLK_s, SDLK_q, SDLK_d, SDLK_LCTRL});
+
+    if (num == 2) {
+        player->setBindKeys();
+    }
+    else {
+        player->setBindKeys({SDLK_z, SDLK_s, SDLK_q, SDLK_d, SDLK_LCTRL});
+    }
     m_players[idx] = player;
     m_objects.push_back(player);
 }
