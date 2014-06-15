@@ -4,6 +4,7 @@
 #include <sstream>
 #include "SoundManager.hh"
 #include "ResourcesPath.hh"
+#include "Configuration.hh"
 
 std::string const SoundManager::CONF_FILE = "volume.conf";
 
@@ -13,7 +14,11 @@ SoundManager::SoundManager()
   if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048) == -1)
     throw std::string("Init Mix_OpenAudio fail");
   Mix_AllocateChannels(64);
-  getVolumeFile();
+
+  // Setting the  default configuration variables
+  Configuration::set<int>("sound_volume_fx", 128);
+  Configuration::set<int>("sound_volume_music", 128);
+  //getVolumeFile(); => Delete this method
 }
 
 SoundManager::~SoundManager()
