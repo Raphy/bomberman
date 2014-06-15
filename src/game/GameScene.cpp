@@ -43,12 +43,14 @@ GameScene::GameScene(SceneArguments const & args)
     else {
         std::string const& str_width = args.get("width");
         std::string const& str_height = args.get("height");
-
+        std::string const& str_players = args.get("players");
+        std::string const& str_ai = args.get("ai");
+        
         if (str_width.empty() || str_height.empty()) {
             throw Exception("fail to construct the game scene: "
                 "missing arguments 'file', 'width' or 'height'");
         }
-        genMap(atoi(str_width.c_str()), atoi(str_height.c_str()));
+        genMap(atoi(str_width.c_str()), atoi(str_height.c_str()), atoi(str_players.c_str()), atoi(str_ai.c_str()));
     }
 
     // api registration
@@ -139,20 +141,24 @@ SkyBox* GameScene::createSkybox() const {
     return result;
 }
 
-void GameScene::genMap(int width, int height) {
+void GameScene::genMap(int width, int height, int players, int ai) {
     m_map_width = width;
     m_map_height = height;
     MapGenerator    map;
+
     std::pair<std::list<AGameObject*>, std::list<AGameObject*>> tmp = map.Generate(width, height);
     this -> m_walls.merge(tmp.first);
     this -> m_objects.merge(tmp.second);
+    
+    std::list<std::pair<int, int> > playersList = map.setHumans(players, ai);
 
+    for (int i = 0; i < players; i++) {
+        initPlayer(i + 1, playersList.front().first, playersList.front().second);
+        playersList.erase(playersList.begin());
+    }
     //add skybox
     this -> m_objects.push_back(createSkybox());
-
     this -> createFloor();
-
-    initPlayer(1, 5, 5);
 }
 
 void GameScene::save(std::string const& filename) const {
