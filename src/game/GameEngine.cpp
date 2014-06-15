@@ -12,8 +12,8 @@ GameEngine::GameEngine():
     m_scenes_manager()
 {
   // Setting the default configuration variables
-  Configuration::set<int>("win_h", 600);
-  Configuration::set<int>("win_w", 800);
+  Configuration::setDefault<int>("win_h", 600);
+  Configuration::setDefault<int>("win_w", 800);
 }
 
 GameEngine::~GameEngine()

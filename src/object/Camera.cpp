@@ -11,7 +11,7 @@
 Camera::Camera(AObject const* object) :
   _follow(object), _lookAt(0,0,0), _offset(0, 0, 0)
 {
-  Configuration::set<float>("fov", 60.2f);
+  Configuration::setDefault<float>("fov", 60.2f);
 }
 
 void Camera::update(const gdl::Clock& clock, gdl::Input& input) {

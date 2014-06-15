@@ -17,8 +17,8 @@ SoundManager::SoundManager()
   Mix_AllocateChannels(64);
 
   // Setting the  default configuration variables
-  Configuration::set<int>("sound_volume_fx", 128);
-  Configuration::set<int>("sound_volume_music", 128);
+  Configuration::setDefault<int>("sound_volume_fx", 128);
+  Configuration::setDefault<int>("sound_volume_music", 128);
 
   setVolumeFx(Configuration::get<int>("sound_volume_fx"));
   setVolumeMusic(Configuration::get<int>("sound_volume_music"));
