@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 12:12:44 2014 raphael defreitas
-// Last update Sun Jun 15 02:07:53 2014 raphael defreitas
+// Last update Sun Jun 15 19:11:27 2014 raphael defreitas
 //
 
 #include	<cstring>
@@ -55,7 +55,7 @@ std::vector<GameObject*> Map::get(int x, int y, int d, Me* me)
   // Creating our own vector of API::GameObjects
   for (std::list<AGameObject*>::iterator it = list_go.begin(); it != list_go.end(); it++)
     {
-      if ((*it)->getType() == "marvin")
+      if ((*it)->getType() == "player1" || (*it)->getType() == "player2")
 	objects.push_back(new Player((Marvin*)*it));
       else if ((*it)->getType() == "wall")
 	objects.push_back(new API::Wall((::Wall*)*it));
