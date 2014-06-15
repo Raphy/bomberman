@@ -22,6 +22,7 @@ public:
   void backhandler(int);
 
 private:
+  SceneArguments& _arg;
   Cursor *_cursor;
 
   bool _btnUp = false;

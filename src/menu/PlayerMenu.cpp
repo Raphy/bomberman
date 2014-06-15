@@ -6,8 +6,12 @@
 SoundManager& PlayerMenu::_son = SoundManager::getInstance();
 
 PlayerMenu::PlayerMenu(SceneArguments const& arg)
-  : AMenuScene("PlayerMenu")
+  : AMenuScene("PlayerMenu"), _arg(*new SceneArguments())
 {
+  _arg.set("width",arg.get("width"));
+  _arg.set("height",arg.get("height"));
+  _arg.set("ia",arg.get("ia"));
+
   addButton(ResourcesPath::asset("img/nbplayer.tga"), glm::vec3(getXPercent(8), getYPercent(10), 1), glm::vec3(getXPercent(45), getYPercent(15) ,0) ,  static_cast<ButtonHandler>(&PlayerMenu::nbplayerhandler), 0);
   addButton(ResourcesPath::asset("img/continue.tga"), glm::vec3(getXPercent(8), getYPercent(60), 1), glm::vec3(getXPercent(20), getYPercent(10) ,0) ,  static_cast<ButtonHandler>(&PlayerMenu::continuehandler), 1);
   addButton(ResourcesPath::asset("img/back.tga"), glm::vec3(getXPercent(8), getYPercent(80), 1), glm::vec3(getXPercent(20), getYPercent(10) ,0) ,  static_cast<ButtonHandler>(&PlayerMenu::backhandler), 2);
@@ -142,16 +146,21 @@ bool PlayerMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 
 void PlayerMenu::backhandler(int t)
 {
+  (void)t;
   setStatusBack();
 }
 
 void PlayerMenu::nbplayerhandler(int t)
 {
+  (void)t;
 }
 
 void PlayerMenu::continuehandler(int t)
 {
-  SceneArguments& args = *new SceneArguments();
-  args.set("players", std::to_string(_nbplayer));
-  setStatusGoOn<MapMenu>(args);
+  (void)t;
+  std::string tmp;
+
+  tmp = std::to_string(_nbplayer);
+  _arg.set("players", tmp);
+  setStatusGoOn<MapMenu>(_arg);
 }
