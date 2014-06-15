@@ -11,6 +11,11 @@
 #include "IA.hh"
 #include "Lua/Script.hh"
 
+IA::~IA()
+{
+  //delete this->_script;
+}
+
 bool IA::initialize()
 {
     this -> setSpeed(5);
@@ -97,7 +102,7 @@ void IA::onCollision(AGameObject& obj) {
     } else if (obj.getType() == "wall"
             || obj.getType() == "box") {
         this->_direction = None;
-        this->restoreLastState();
+        this->restoreLastState(obj);
     }
 }
 

@@ -47,6 +47,7 @@ public:
     // Performance loss if used on movement object
     void isStatic(bool value = true) { this->_static = value; }
     
+    void setScale(glm::vec3 const& scale) { this->_scale = scale; }
     void setPosition(double x, double y) { _position = glm::vec3(x, 0, y); }
     void setSpeed(float speed) { this->_speed = speed; }
     float getSpeed(void) const { return this->_speed; }

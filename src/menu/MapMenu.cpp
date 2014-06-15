@@ -117,7 +117,7 @@ bool MapMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 void MapMenu::map1handler(int t)
 {
   SceneArguments& args = *new SceneArguments();
-  //  args.set("file", ResourcesPath::map("map1.bmap"));
+  args.set("file", ResourcesPath::map("map1.bmap"));
   setStatusGoOn<LoadingMenu>(args);
 }
 
@@ -125,7 +125,7 @@ void MapMenu::map2handler(int t)
 {
   SceneArguments& args = *new SceneArguments();
   args.set("file", ResourcesPath::map("map2.bmap"));
-  setStatusGoOn<GameScene>(args);
+  setStatusGoOn<LoadingMenu>(args);
 }
 
 void MapMenu::maprandomhandler(int t)
@@ -133,7 +133,7 @@ void MapMenu::maprandomhandler(int t)
   SceneArguments& args = *new SceneArguments();
   args.set("width", "20");
   args.set("height", "20");
-  setStatusGoOn<GameScene>(args);
+  setStatusGoOn<LoadingMenu>(args);
 }
 
 void MapMenu::backhandler(int t)

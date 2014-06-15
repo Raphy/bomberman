@@ -5,12 +5,14 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Thu Jun  5 10:41:01 2014 raphael defreitas
-// Last update Fri Jun 13 23:28:39 2014 raphael defreitas
+// Last update Sun Jun 15 02:01:56 2014 raphael defreitas
 //
 
 #include	<lua.hpp>
 
 #include	"Bomb.hh"
+#include	"BombCapacityBuff.hh"
+#include	"BombRangeBuff.hh"
 #include	"Box.hh"
 #include	"game/GameScene.hh"
 #include	"GameObject.hh"
@@ -20,6 +22,7 @@
 #include	"Map.hh"
 #include	"Me.hh"
 #include	"Player.hh"
+#include	"SpeedBuff.hh"
 #include	"Wall.hh"
 
 using namespace API;
@@ -36,11 +39,14 @@ void Manager::registerScript(Script& script)
 {
   API::Box::registerScript(script);
   API::Bomb::registerScript(script);
+  API::BombCapacityBuff::registerScript(script);
+  API::BombRangeBuff::registerScript(script);
   GameObject::registerScript(script);
   Item::registerScript(script);
   Map::registerScript(script);
   Me::registerScript(script);
   Player::registerScript(script);
+  SpeedBuff::registerScript(script);
   API::Wall::registerScript(script);
 
   API::Map* udata = new API::Map();

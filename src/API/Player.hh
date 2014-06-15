@@ -5,11 +5,11 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Fri Jun 13 23:18:28 2014 raphael defreitas
+// Last update Sun Jun 15 01:58:07 2014 raphael defreitas
 */
 
-#ifndef		PLAYER_HH_
-# define	PLAYER_HH_
+#ifndef		API_PLAYER_HH_
+# define	API_PLAYER_HH_
 
 # include	<lua.hpp>
 # include	<string>
@@ -30,9 +30,14 @@ namespace API
     Player(IA* ia);
     ~Player(void);
 
+    int getBombRange(void) const;
+    int getBombCapacity(void) const;
+
     // Lua implementation
     static void registerScript(Script& script);
     static void registerMethods(Script& script);
+    static int getBombRange(lua_State* L);
+    static int getBombCapacity(lua_State* L);
 
   protected:
     Marvin* _marvin;
@@ -40,4 +45,4 @@ namespace API
   };
 }
 
-#endif /* !PLAYER_HH_*/
+#endif /* !API_PLAYER_HH_*/

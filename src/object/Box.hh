@@ -23,5 +23,10 @@ class Box: public ACube
         virtual bool initialize();
         
         static std::string const Tag;
+        
+    private:
+        
+        // call die the next update
+        bool _plannedDeath;
 };
 #endif   /* BOX_HH */

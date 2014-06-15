@@ -4,6 +4,7 @@
 #include "GameScene.hh"
 #include "MapMenu.hh"
 #include "OptionMenu.hh"
+#include "LoadingMenu.hh"
 
 SoundManager& MainMenu::_son = SoundManager::getInstance();
 
@@ -144,5 +145,5 @@ void MainMenu::loadhandler(int t)
 {
   SceneArguments& args = *new SceneArguments();
   args.set("file", ResourcesPath::save("save.bmap"));
-  setStatusGoOn<GameScene>(args);
+  setStatusGoOn<LoadingMenu>(args);
 }

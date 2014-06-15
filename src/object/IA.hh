@@ -8,11 +8,11 @@
 #ifndef IA_HH
 #define	IA_HH
 
-# include   "AModel.hh"
+# include   "APlayer.hh"
 # include   "Lua/Script.hh"
 # include   "ResourcesPath.hh"
 
-class IA: public AModel {
+class IA: public APlayer {
 
 public:
 
@@ -24,8 +24,8 @@ public:
         None = 4
     };
     
-    IA(): AModel(ResourcesPath::asset("bomb.fbx"), "ia"), _direction(None), pressed(false) {}
-    virtual ~IA() {};
+    IA(): APlayer(ResourcesPath::asset("bomb.fbx"), "ia"), _direction(None), pressed(false) {}
+    virtual ~IA();
 
     virtual bool initialize();
     

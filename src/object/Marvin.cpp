@@ -82,7 +82,7 @@ void Marvin::onCollision(AGameObject& obj) {
         this->die();
     } else if (obj.getType() == "wall"
             || obj.getType() == "box") {
-        this->restoreLastState();
+        this->restoreLastState(obj);
     }
 }
 

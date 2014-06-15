@@ -7,14 +7,16 @@
 
 #include <cstdlib>
 
+#include "BombCapacityBuff.hh"
 #include "BombRangeBuff.hh"
 #include "Box.hh"
 #include "ResourcesPath.hh"
 #include "SpeedBuff.hh"
+#include "Wall.hh"
 
 std::string const Box::Tag = "box";
 
-Box::Box(): ACube("box") {
+Box::Box(): ACube("box"), _plannedDeath(false) {
 }
 
 Box::~Box() {
@@ -26,40 +28,48 @@ bool Box::initialize() {
 }
 
 void Box::update(gdl::Clock const &clock, gdl::Input &input)
-{}
+{
+    if (_plannedDeath == true)
+        this->die();
+}
 
 void Box::onCollision(AGameObject& obj) {
-    if (obj.getType() == "fire"
-        && obj.getPosition() == this->getPosition())
-      {
-	/*if (rand() % 10 == 0)
-	  {*/
-	    AGameObject* buff;
-	    switch(rand() % 2)
+  if (obj.getType() == "fire"
+      && obj.getPosition() == this->getPosition())
+    {
+      if (rand() % 10 == 0)
+	{
+	  AGameObject* buff;
+	  switch(rand() % 3)
+	    {
+	    case 0:
 	      {
-	      case 0:
-		{
-		  buff = new SpeedBuff();
-		  break;
-		}
-	      case 1:
-		{
-		  buff = new BombRangeBuff();
-		  break;
-		}
+		buff = new SpeedBuff();
+		break;
 	      }
-	    buff->setPosition(glm::vec3(static_cast<int>(this->_position.x + 0.5),
-					0,
-					static_cast<int>(this->_position.z + 0.5)));
-	    buff->initialize();
-	    this->addObject(buff);
-	    std::cout << "Buff: " << buff->getType() << std::endl;
-	    /*}*/
-	    this->die();
+	    case 1:
+	      {
+		buff = new BombRangeBuff();
+		break;
+	      }
+	    case 3:
+	      {
+		buff = new BombCapacityBuff();
+		break;
+	      }
+	    }
+	  buff->setPosition(glm::vec3(static_cast<int>(this->_position.x + 0.5),
+				      0,
+				      static_cast<int>(this->_position.z + 0.5)));
+	  this->addObject(buff);
+	}
             
-            // trick 'cause if box die the fire won't get onCollider(box) ..
-            obj.onCollision(*this);
-      }
-    else if (obj.getType() == "wall")
-        this->restoreLastState();
+      // kill the object at the next update
+      _plannedDeath = true;
+            
+      // trick 'cause if box die the fire won't get onCollider(box) ..
+      obj.onCollision(*this);
+    }
+  else if (obj.getType() == "wall")
+    this->restoreLastState(obj);
 }

@@ -65,7 +65,7 @@ protected:
     // to force child to set it.  
     AGameObject(std::string const& type) : AObject(), m_type(type), m_dead(false) {}
 
-    void restoreLastState();
+    virtual void restoreLastState(AGameObject const&);
     void saveCurrentState();
 
     void addObject(AGameObject *);
