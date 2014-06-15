@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 12:02:27 2014 raphael defreitas
-// Last update Thu Jun 12 20:24:23 2014 raphael defreitas
+// Last update Sun Jun 15 13:27:55 2014 raphael defreitas
 //
 
 #include	<lua.hpp>
@@ -52,7 +52,7 @@ void Me::moveRight(void)
 
 void Me::putBomb(void)
 {
-  // ToDo: Perfom this action
+  this->_ia->putBomb();
 }
 
 void Me::registerScript(Script& script)
