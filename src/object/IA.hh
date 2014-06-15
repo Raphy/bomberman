@@ -24,7 +24,7 @@ public:
         None = 4
     };
     
-    IA(): APlayer(ResourcesPath::asset("bomb.fbx"), "ia"), _direction(None), pressed(false) {}
+    IA();
     virtual ~IA();
 
     virtual bool initialize();
@@ -38,9 +38,6 @@ public:
 
 
     virtual void onCollision(AGameObject&);
-
-    virtual Rectangle getCollider() const;
-
     
 private:
     
@@ -52,10 +49,10 @@ private:
     bool        pressed;
     Lua::Script* _script;
     
-    void onUpPressed(gdl::Clock const &clock);
-    void onDownPressed(gdl::Clock const &clock);
-    void onLeftPressed(gdl::Clock const &clock);
-    void onRightPressed(gdl::Clock const &clock);
+    virtual void onUpPressed(gdl::Clock const &clock);
+    virtual void onDownPressed(gdl::Clock const &clock);
+    virtual void onLeftPressed(gdl::Clock const &clock);
+    virtual void onRightPressed(gdl::Clock const &clock);
 };
 
 #endif	/* IA_HH */

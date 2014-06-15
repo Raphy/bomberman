@@ -13,6 +13,7 @@
 #include "ResourcesPath.hh"
 #include "Configuration.hh"
 #include "SoundManager.hh"
+#include "Scoring.hh"
 
 int main()
 {
@@ -24,22 +25,27 @@ int main()
   try {
     GameEngine engine;
 
+    // Loading statics and singletons classes
     Configuration::load();
     SoundManager::getInstance().load();
+    Scoring::getInstance().load();
 
     if (engine.initialize() == false) {
       return (EXIT_FAILURE);
     }
 
-    while (engine.update() == true) {
+    while (engine.update() == true)
       engine.draw();
-    }
+
+    // Saving statics and singletons classes
+    Configuration::save();
+    Scoring::getInstance().save();
   }
   catch(std::exception& ex) {
     std::cerr << "[EXCEPTION] " << ex.what() << std::endl;
   }
 
-  Configuration::save();
+
 
   return EXIT_SUCCESS;
 }

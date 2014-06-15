@@ -50,7 +50,8 @@ end
 
 AvoidBombState.pre_conditions = {
   { function()-- impossible de s'enfuir
-      return not Helper:are_objects_around("Player",Helper:get_my_position(),MapManager.size / 2) end,
+    return false end,
+      -- return not Helper:are_objects_around("Player",Helper:get_my_position(),MapManager.size / 2) end,
     "push", "break_box_state", },
   { function()
     return Helper:is_place_safe() end,
