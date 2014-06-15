@@ -1,6 +1,6 @@
 
 TagsList = { "up","down","left","right","put_bomb",
-				"Me","Player", "Item","Bomb","Bonus",
+				"Me","Player", "Item","Bomb","Item",
 				"preview_bomb","preview_fire","mark_safe_case",
 				"open","closed","unknown",
 				"astar","dijkstra","glouton",

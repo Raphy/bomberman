@@ -30,7 +30,7 @@ function initialization()
 	local x,y = Helper:get_my_position()
 	print("ME : x == "..x.." and y == "..y.." !!!!!!")
 	print("x == 5.0 and y == 5.0 map -> get enemy !!!!!!")
-	print("x == 1.0 and y == 9.0 map -> get bonus !!!!!!")
+	print("x == 1.0 and y == 9.0 map -> get item !!!!!!")
 	print("x == 9.0 and y == 1.0 map -> get bomb !!!!!!")
 
 	--Helper:initialization_base(10, 2)
