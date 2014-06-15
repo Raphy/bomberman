@@ -4,6 +4,7 @@
 #include "MapMenu.hh"
 #include "OptionMenu.hh"
 #include "LoadingMenu.hh"
+#include "PlayerMenu.hh"
 
 SoundManager& MainMenu::_son = SoundManager::getInstance();
 
@@ -126,8 +127,7 @@ bool MainMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 
 void MainMenu::playhandler(int t)
 {
-  SceneArguments& args = *new SceneArguments();
-  setStatusGoOn<MapMenu>(args);
+  setStatusGoOn<PlayerMenu>(*new SceneArguments());
 }
 
 void MainMenu::optionhandler(int t)

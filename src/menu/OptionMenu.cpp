@@ -193,7 +193,7 @@ void OptionMenu::soundfxhandler(int a)
 {
   if (a == 1)
     _son.setVolumeFx(_son.getVolumeFx() + 2);
-  else
+  else if (a == -1)
     _son.setVolumeFx(_son.getVolumeFx() - 2);
 }
 
@@ -201,7 +201,7 @@ void OptionMenu::soundmusichandler(int a)
 {
   if (a == 1)
     _son.setVolumeMusic(_son.getVolumeMusic() + 2);
-  else
+  else if (a == -1)
     _son.setVolumeMusic(_son.getVolumeMusic() - 2);
 }
 

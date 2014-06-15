@@ -70,16 +70,24 @@ void Marvin::update(gdl::Clock const &clock,
 }
 
 void Marvin::stop(const gdl::Clock&) {
+    this->stop();
+}
+
+void Marvin::run(const gdl::Clock&) {
+    this->run();
+}
+
+void Marvin::stop() {
     this->totalPressed--;
     if (this->totalPressed == 0)
         APlayer::stop();
 }
 
-
-void Marvin::run(const gdl::Clock&) {
+void Marvin::run() {
     this->totalPressed++;
     APlayer::run();
 }
+
 
 void Marvin::none(gdl::Clock const &clock) {
     (void) clock;

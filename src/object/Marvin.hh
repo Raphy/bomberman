@@ -43,8 +43,12 @@ private:
     std::vector<inputStructure> _inputs;
     int totalPressed = 0;
     
-    virtual void run(gdl::Clock const&);
-    virtual void stop(gdl::Clock const&);
+    void run(gdl::Clock const&);
+    void stop(gdl::Clock const&);
+
+    virtual void run();
+    virtual void stop();
+
     void none(gdl::Clock const &clock);
     void onBombPressed(gdl::Clock const& clock);
 };

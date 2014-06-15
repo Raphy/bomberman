@@ -20,6 +20,11 @@ GameEngine::~GameEngine()
 {
 }
 
+void GameEngine::setArgs(SceneArguments& args)
+{
+  this->m_args = args;
+}
+
 bool GameEngine::initialize() {
     if (!m_context.start(Configuration::get<int>("win_w"), Configuration::get<int>("win_h"), "My bomberman!")) {
         throw Exception("fail to start gdl context");
@@ -39,8 +44,8 @@ bool GameEngine::initialize() {
 
     SoundsLoader()();
 
-    SceneArguments scene_args;
-    m_scenes_manager.start<FirstScene>(scene_args);
+    //SceneArguments scene_args;
+    m_scenes_manager.start<FirstScene>(this->m_args);
 
     return true;
 }
