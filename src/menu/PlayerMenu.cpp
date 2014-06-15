@@ -64,7 +64,7 @@ bool PlayerMenu::update(gdl::Clock const& clock, gdl::Input& input)
     {
       if (input.getKey(SDLK_LEFT) && _nbplayer == 2)
 	_nbplayer = 1;
-      else if (input.getKey(SDLK_RIGHT) && _nbplayer == _nbplayer == 1)
+      else if (input.getKey(SDLK_RIGHT) && _nbplayer == 1)
 	_nbplayer = 2;
     }
 
