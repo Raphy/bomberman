@@ -139,6 +139,8 @@ private:
     bool isGameOver() const;
     
     void createFloor();
+
+    bool isPlayer(AGameObject const& obj) const;
 };
 
 #endif

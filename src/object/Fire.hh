@@ -13,6 +13,8 @@
 class Fire: public ACube {
 
 public:
+
+    static std::string const Tag;
     
     enum Direction {
         North,

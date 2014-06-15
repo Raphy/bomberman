@@ -13,6 +13,13 @@ active_debug_objects = false
 active_debug_walkable = false
 
 
+function initialization()
+	return true
+end
+function play()
+	return true
+end
+
 -- function initialization()
 -- 	print("[IA] initialization")
 -- end
@@ -39,7 +46,8 @@ active_debug_walkable = false
 
 
 -- -- require "ia_state"
-require "ia_stalker"
+-- require "ia_stalker"
+-- require "ia_seeker"
 -- -- require "ia_intro"
 -- -- require "ia_simple"
 -- require "ia_coward"

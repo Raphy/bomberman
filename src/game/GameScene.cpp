@@ -256,6 +256,15 @@ void GameScene::zoomCamera(int key) {
     }
 }
 
+bool GameScene::isPlayer(AGameObject const& obj) const {
+    for (auto player : m_players) {
+        if (player && player == &obj) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
     m_playlist.update();
@@ -272,7 +281,8 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
     }
 
     if (isGameOver()) {
-      setStatusGoOn<LoseMenu>(*new SceneArguments());
+        std::cout<< "game over" << std::endl;
+        setStatusGoOn<LoseMenu>(*new SceneArguments());
     }
 
     std::list<AGameObject*> new_objects;
@@ -314,7 +324,7 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
     // then, remove all dead objects.
     for (auto it = m_objects.begin(); it != m_objects.end();) {
-        if ((*it)->getType() != "marvin" && (*it)->isDead()) {
+        if (isPlayer(**it) == false && (*it)->isDead()) {
             this -> m_garbageCollector.push_back(std::pair<AGameObject*, int>(*it, GARBAGE_FRAME_COUNTER));
             m_objects.erase(it++);
         }
