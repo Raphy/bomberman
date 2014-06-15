@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 //
 // Started on  Sun Jun 15 02:19:52 2014 raphael defreitas
-// Last update Sun Jun 15 06:15:33 2014 raphael defreitas
+// Last update Sun Jun 15 12:36:23 2014 raphael defreitas
 //
 
 #include	<iostream>
@@ -26,8 +26,8 @@ void Configuration::load(void)
       std::string line;
       while (std::getline(ifs, line))
 	_parseConfigLine(line);
-      ifs.close();
     }
+  ifs.close();
 }
 
 void Configuration::save(void)
@@ -35,10 +35,8 @@ void Configuration::save(void)
   std::string config_file = ResourcesPath::root("configuration.conf");
   std::ofstream ofs(config_file);
   if (ofs.good())
-    {
-      for (std::map<std::string, std::string>::iterator it = _variables.begin(); it != _variables.end(); it++)
-	ofs << it->first << "=" << it->second << std::endl;
-    }
+    for (std::map<std::string, std::string>::iterator it = _variables.begin(); it != _variables.end(); it++)
+      ofs << it->first << "=" << it->second << std::endl;
   ofs.close();
 }
 
