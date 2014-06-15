@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Sun Jun 15 02:19:46 2014 raphael defreitas
-// Last update Sun Jun 15 05:17:01 2014 raphael defreitas
+// Last update Sun Jun 15 05:56:37 2014 raphael defreitas
 */
 
 #ifndef		CONFIGURATION_HH_
@@ -24,6 +24,17 @@ class Configuration
 public:
   static void load(void);
   static void save(void);
+
+  template<typename T>
+  static void setDefault(const std::string& name, T value)
+  {
+    if (_variables.find(name) == _variables.end())
+      {
+	std::stringstream ss;
+	ss << value;
+	_setVariable(name, ss.str());
+      }
+  }
 
   template<typename T>
   static void set(const std::string& name, T value)

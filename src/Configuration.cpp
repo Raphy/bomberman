@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Sun Jun 15 02:19:52 2014 raphael defreitas
-// Last update Sun Jun 15 05:02:44 2014 raphael defreitas
+// Last update Sun Jun 15 06:06:15 2014 raphael defreitas
 //
 
 #include	<iostream>
@@ -20,24 +20,26 @@ std::map<std::string, std::string> Configuration::_variables = std::map<std::str
 void Configuration::load(void)
 {
   std::string config_file = ResourcesPath::root("configuration.conf");
-  std::cout << "Reading " << config_file << std::endl;
   std::ifstream ifs(config_file);
   if (ifs.good())
     {
-      std::cout << "File OK" << std::endl;
       std::string line;
       while (std::getline(ifs, line))
 	_parseConfigLine(line);
       ifs.close();
     }
-  std::cout << "End load" << std::endl;
 }
 
 void Configuration::save(void)
 {
-  std::cout << "Save" << std::endl;
-  for (std::map<std::string, std::string>::iterator it = _variables.begin(); it != _variables.end(); it++)
-    std::cout << it->first << " <=> " << it->second << std::endl;
+  std::string config_file = ResourcesPath::root("configuration.conf");
+  std::ofstream ofs(config_file);
+  if (ofs.good())
+    {
+      for (std::map<std::string, std::string>::iterator it = _variables.begin(); it != _variables.end(); it++)
+	ofs << it->first << "=" << it->second << std::endl;
+    }
+  ofs.close();
 }
 
 Configuration::~Configuration(void)
@@ -46,7 +48,6 @@ Configuration::~Configuration(void)
 
 void Configuration::_parseConfigLine(const std::string& line)
 {
-  std::cout << "Line: " << line << std::endl;
   size_t pos = line.find('=');
   if (pos == std::string::npos)
     return;
@@ -57,6 +58,5 @@ void Configuration::_parseConfigLine(const std::string& line)
 
 void Configuration::_setVariable(const std::string& name, const std::string& value)
 {
-  std::cout << name << " = " << value << std::endl;
   _variables[name] = value;
 }
