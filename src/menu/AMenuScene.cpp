@@ -1,8 +1,9 @@
 #include <iostream>
 #include "AMenuScene.hh"
+#include "../Configuration.hh"
 
 AMenuScene::AMenuScene(const std::string& tag)
-  : AScene(tag), _conf() , _windowX((float)_conf.WindowWidth()), _windowY((float)_conf.WindowHeight())
+  : AScene(tag), _windowX(Configuration::get<float>("win_h")), _windowY(Configuration::get<float>("win_w"))
 {
 
   std::cout << "X = " <<_windowX <<  "Y = "<<_windowY << std::endl;
