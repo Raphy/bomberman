@@ -18,7 +18,7 @@ IA::IA() : APlayer(ResourcesPath::asset("marvin_ia.fbx"), Tag), _direction(None)
 
 IA::~IA()
 {
-    this->join();
+//   this->join();
   //delete this->_script;
 }
 
@@ -68,6 +68,7 @@ void IA::update(const gdl::Clock & clock, gdl::Input & input)
 
 void * IA::routine()
 {
+    std::cout << "I'm a little thread !!!" << std::endl;
     while (this->_status == ALIVE)
     {
         this->_cv->wait();

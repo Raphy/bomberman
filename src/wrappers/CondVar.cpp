@@ -31,7 +31,7 @@ CondVar::~CondVar()
 {
 	delete _mutex;
 	if (pthread_cond_destroy(&_cond) != 0)
-		throw std::runtime_error("Can't destroy condition variable");
+		;//throw std::runtime_error("Can't destroy condition variable");
 }
 
 void CondVar::wait(void)

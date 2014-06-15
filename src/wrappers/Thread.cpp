@@ -15,9 +15,9 @@ Thread::Thread()
 {}
 Thread::~Thread()
 {
-	if (_status == ALIVE)
+/*	if (_status == ALIVE)
 		throw std::runtime_error("Destruction of alive thread");
-	delete _cv;
+*/	delete _cv;
 	delete _mutex;
 }
 

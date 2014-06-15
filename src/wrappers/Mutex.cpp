@@ -20,7 +20,7 @@ Mutex::Mutex()
 Mutex::~Mutex()
 {
 	if (pthread_mutex_destroy(&_mutex) != 0)
-		throw std::runtime_error("Can't destroy mutex");
+		;//throw std::runtime_error("Can't destroy mutex");
 }
 
 void Mutex::lock(void)
