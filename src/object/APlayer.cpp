@@ -8,6 +8,13 @@
 #include "APlayer.hh"
 #include "Bomb.hh"
 
+bool APlayer::initialize() {
+    this->setSpeed(5);
+    this->initAnim();
+    this->scale(glm::vec3(0.0025, 0.0025, 0.0025));
+    return true;
+}
+
 void APlayer::putBomb(){
     
     AGameObject* bomb = new Bomb();
@@ -51,4 +58,12 @@ Rectangle APlayer::getCollider() const {
         this->_position.z + 0.5 - COLLIDER_SIZE / 2,
         COLLIDER_SIZE,
         COLLIDER_SIZE);
+}
+
+void APlayer::stop() {
+    _model.setCurrentSubAnim("stop", false);
+}
+
+void APlayer::run() {
+    _model.setCurrentSubAnim("run");
 }

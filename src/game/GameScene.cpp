@@ -61,7 +61,7 @@ GameScene::~GameScene() {
     // api unregistration
     GameAPI::getInstance().unset();
 
-    // free memory
+    // free memory$
     delete m_quad_tree;
     foreachObject([] (AGameObject& obj) {
         delete &obj;
@@ -83,10 +83,15 @@ void GameScene::initPlayer(int num, int x, int y) {
         throw err;
     }
 
-    Marvin* player = new Marvin();
+    Marvin* player = new Marvin(num);
     player->setPosition(static_cast<double>(x), static_cast<double>(y));
-    if (num == 1) player->setBindKeys();
-    else player->setBindKeys({SDLK_z, SDLK_s, SDLK_q, SDLK_d, SDLK_LCTRL});
+
+    if (num == 2) {
+        player->setBindKeys();
+    }
+    else {
+        player->setBindKeys({SDLK_z, SDLK_s, SDLK_q, SDLK_d, SDLK_LCTRL});
+    }
     m_players[idx] = player;
     m_objects.push_back(player);
 }
@@ -251,6 +256,15 @@ void GameScene::zoomCamera(int key) {
     }
 }
 
+bool GameScene::isPlayer(AGameObject const& obj) const {
+    for (auto player : m_players) {
+        if (player && player == &obj) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
     m_playlist.update();
@@ -267,7 +281,8 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
     }
 
     if (isGameOver()) {
-      setStatusGoOn<LoseMenu>(*new SceneArguments());
+        std::cout<< "game over" << std::endl;
+        setStatusGoOn<LoseMenu>(*new SceneArguments());
     }
 
     std::list<AGameObject*> new_objects;
@@ -309,7 +324,7 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
 
     // then, remove all dead objects.
     for (auto it = m_objects.begin(); it != m_objects.end();) {
-        if ((*it)->getType() != "marvin" && (*it)->isDead()) {
+        if (isPlayer(**it) == false && (*it)->isDead()) {
             this -> m_garbageCollector.push_back(std::pair<AGameObject*, int>(*it, GARBAGE_FRAME_COUNTER));
             m_objects.erase(it++);
         }

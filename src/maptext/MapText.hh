@@ -24,8 +24,8 @@ public:
     static const char ENEMY = 'e';
     static const char WALL = 'w';
     static const char BOMB = 'b';
-    static const char FIRE = 'f';
     static const char BOX = 'x';
+    static const char FIRE = 'f';
 
 public:
     MapText();

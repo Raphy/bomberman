@@ -20,6 +20,7 @@
 class IA: public APlayer, public Thread {
 
 public:
+    static std::string const Tag;
 
     enum Going {
         Up = 0,
@@ -32,6 +33,7 @@ public:
     IA();
     virtual ~IA();
 
+    virtual bool initAnim();
     virtual bool initialize();
     
     virtual void update(const gdl::Clock& clock, gdl::Input& input);
@@ -59,6 +61,9 @@ private:
     Lua::Script* _script;
 
     gdl::Clock  _clock;//pour le recuperer dans run
+
+    
+    void stopMouvement(float &);
 
     virtual void onUpPressed(gdl::Clock const &clock);
     virtual void onDownPressed(gdl::Clock const &clock);
