@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Sun Jun 15 11:50:38 2014 raphael defreitas
-// Last update Sun Jun 15 13:06:17 2014 raphael defreitas
+// Last update Sun Jun 15 13:26:15 2014 raphael defreitas
 //
 
 #include	<iostream>
@@ -53,6 +53,16 @@ void Scoring::incrP1(unsigned int value)
 void Scoring::incrP2(unsigned int value)
 {
   this->_score_p2 += value;
+}
+
+unsigned int Scoring::getScoreP1(void) const
+{
+  return this->_score_p1;
+}
+
+unsigned int Scoring::getScoreP2(void) const
+{
+  return this->_score_p2;
 }
 
 void Scoring::flush(void)
