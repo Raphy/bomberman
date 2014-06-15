@@ -100,7 +100,5 @@ int main(int argc, char** argv)
     std::cerr << "[EXCEPTION] " << ex.what() << std::endl;
   }
 
-
-
   return EXIT_SUCCESS;
 }
