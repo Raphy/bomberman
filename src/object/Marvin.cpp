@@ -96,17 +96,6 @@ void Marvin::setBindKeys(const inputBinding& bind) {
     this -> _inputs.push_back({bind.bomb, false, &Marvin::none, &Marvin::onBombPressed, &Marvin::none});
 }
 
-void Marvin::onCollision(AGameObject& obj) {
-    
-    if (obj.getType() == "fire") {
-        std::cout << "owned by " << obj.getParent() << std::endl;
-        this->die();
-    } else if (obj.getType() == "wall"
-            || obj.getType() == "box") {
-        this->restoreLastState(obj);
-    }
-}
-
 void Marvin::onBombPressed(const gdl::Clock& clock) {
     putBomb();
 }

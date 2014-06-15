@@ -44,10 +44,6 @@ public:
     void goOneCaseUp();
     void goOneCaseLeft();
     void goOneCaseRight();
-
-
-    virtual void onCollision(AGameObject&);
-
     
 private:
     

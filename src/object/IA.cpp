@@ -94,18 +94,6 @@ void * IA::routine()
     return nullptr;
 }
 
-void IA::onCollision(AGameObject& obj) {
-    if (obj.getType() == "fire") {
-        std::cout << "owned by " << obj.getParent() << std::endl;
-        this->die();
-    } else if (obj.getType() == "wall"
-            || obj.getType() == "box") {
-        this->_direction = None;
-        this->restoreLastState(obj);
-    }
-}
-
-
 void IA::goOneCaseDown()
 {
     if (this -> _direction == None) {

@@ -36,7 +36,6 @@ public:
     virtual bool initAnim();
     virtual void update(gdl::Clock const& clock, gdl::Input& input);
 
-    virtual void onCollision(AGameObject&);
     virtual void setBindKeys(inputBinding const& bind = {SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT, SDLK_RCTRL});
     
 private:
