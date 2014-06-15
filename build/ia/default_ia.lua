@@ -10,6 +10,7 @@ DEBUG_MAX = 50
 active_debug = false
 active_debug_list = false
 active_debug_objects = false
+active_debug_walkable = false
 
 
 -- function initialization()
@@ -43,6 +44,7 @@ active_debug_objects = false
 -- -- require "ia_simple"
 -- -- require "ia_coward"
 -- -- require "ia_intelligent_coward"
-require "search_box"
+-- require "search_box"
+require "avoid_bomb"
 
 -- -- require "ia_unit_test"

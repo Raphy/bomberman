@@ -47,8 +47,8 @@ end
 function Path:get_side_cases(curr_idx)
 
 	local function _insert_case(x,y, side_cases, side_open_cases)
-		if not MapManager:check_coord(x,y) then return end
-		local case_idx = MapManager:coord_to_idx(x,y)
+		if not MapManager:check_xy(x,y) then return end
+		local case_idx = MapManager:xy_to_idx(x,y)
 		local case = MapManager:get_case(case_idx)
 		if case.status == "unknown" and case.walkable then
 			List:add_case_in_list(side_cases, case)
@@ -59,12 +59,12 @@ function Path:get_side_cases(curr_idx)
 
 	local side_cases = List:new("size_cases")
 	local side_open_cases = List:new("side_open_cases")
-	local x,y = MapManager:idx_to_coord(curr_idx)
+	local coo = Coord:new(MapManager:idx_to_xy(curr_idx))
 
-	_insert_case(x-1,y,side_cases,side_open_cases)
-	_insert_case(x+1,y,side_cases,side_open_cases)
-	_insert_case(x,y-1,side_cases,side_open_cases)
-	_insert_case(x,y+1,side_cases,side_open_cases)
+	Coord:for_each_direction(function (dir)
+		local x,y = Coord:unpack(Coord:from_direction(coo, dir))
+		_insert_case(x,y,side_cases,side_open_cases)
+	end)
 	return side_cases,side_open_cases
 end
 
@@ -83,16 +83,19 @@ local function check_finish(start, curr, dest, type)
 	if dest ~= nil and curr.idx == dest.idx then
 		finish = true
 	elseif dest == nil then
-		local x,y = MapManager:idx_to_coord(curr.idx)
+		local x,y = MapManager:idx_to_xy(curr.idx)
 		if Helper:are_objects_in_case(x,y,type)
 			or List:is_elem_in_list(curr.previews, type)
 			or List:is_elem_in_list(curr.marks, type) then
+				finish = true end
+		if type == "mark_safe_case"
+			-- and not Helper:are_objects_in_case_except(curr.x,curr.y,"Player")
+			and List:empty(curr.previews) then
 				finish = true end
 	end
 	if finish then
 		Helper:debug_print("path found x=",curr.x," y=",curr.y," !!")
 		return true, Path:get_final_path(start.idx, curr.idx) end
-	-- Helper:debug_print("path not found...x=",curr.x," y=",curr.y)
 	return false
 end
 
@@ -128,7 +131,12 @@ function Path:calc_path(algo_name, start_idx, dest_idx, type)
 		algoModule:check_side_open_cases(curr, side_open_cases, dest)
 		Path:register_case_closed(open_list, closed_list, curr)
 		algoModule:open_side_cases(open_list, curr.idx, side_cases, dest)	
-		if List:empty(open_list) then return nil end
+		if List:empty(open_list) then
+			Helper:debug_print("path not found...x=",curr.x," y=",curr.y);
+			Helper:debug_print(curr.previews[1])
+			Helper:debug_print(type)
+			Helper:debug_print("--------")
+			return nil end
 
 		local next_case = algoModule:get_next_open_case(open_list)
 		-- DEBUG =  DEBUG + 1
