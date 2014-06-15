@@ -38,9 +38,6 @@ public:
 
 
     virtual void onCollision(AGameObject&);
-
-    virtual Rectangle getCollider() const;
-
     
 private:
     
