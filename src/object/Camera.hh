@@ -26,6 +26,10 @@ public:
     
     // Define the offset from the follow position and the camera
     void setOffset(glm::vec3 offset) { this->_offset = offset; }
+    void setFollowed(AObject const* object = nullptr) {
+        _follow = object;
+    }
+
     void zoom(double diff);
     void zoomPlus();
     void zoomMinus();

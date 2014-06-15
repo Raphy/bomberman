@@ -325,12 +325,19 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
         }
     }
 
-    // then, remove all dead objects.
+    // then, remove all dead objects. (except player) and resize
+    // camera if necessary
     bool no_more_ai = true;
     for (auto it = m_objects.begin(); it != m_objects.end();) {
-        if (isPlayer(**it) == false && (*it)->isDead()) {
-            this -> m_garbageCollector.push_back(std::pair<AGameObject*, int>(*it, GARBAGE_FRAME_COUNTER));
+        if ((*it)->isDead()) {
+            if (isPlayer(**it)) {
+                fitCamera();
+            } 
+            else {
+                this -> m_garbageCollector.push_back(std::pair<AGameObject*, int>(*it, GARBAGE_FRAME_COUNTER));
+            }
             m_objects.erase(it++);
+
         }
         else {
             if (no_more_ai && (*it)->getType() == IA::Tag) {
@@ -351,7 +358,7 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
         }
     }
 
-    if (no_more_ai && nAiRemaing() == 1) {
+    if (no_more_ai && nPlayersRemaing() == 1) {
         std::cout << "You win !" << std::endl;
         setStatusGoOn<LoseMenu>(*new SceneArguments());
     }
@@ -382,7 +389,7 @@ bool GameScene::draw(gdl::AShader& shader, gdl::Clock const& clock) {
     return true;
 }
 
-unsigned int GameScene::nAiRemaing() const {
+unsigned int GameScene::nPlayersRemaing() const {
     unsigned int n = 0;
     for (auto player : m_players) {
         if (player != nullptr && player->isDead() == false) {
@@ -403,4 +410,23 @@ void GameScene::rebuildQuadTree() {
     foreachObject([&](AGameObject& obj) {
         m_quad_tree->insert(obj);
     });
+}
+
+void GameScene::fitCamera() {
+    int dead_num = 0, alive_num = 0;
+
+    for (int num = 1; num <= 2; num++) {
+        Marvin const* marvin = m_players[playerIdx(num)];
+        if (marvin == nullptr || marvin->isDead() == true) {
+            dead_num = num;
+        }
+        else {
+            alive_num = num;
+        }
+    }
+
+    if (dead_num != 0 && alive_num != 0) {
+        removeCamera("p" + std::to_string(dead_num));
+    }
+
 }

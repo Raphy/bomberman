@@ -67,7 +67,9 @@ private:
         return num - 1;
     }
 
-    unsigned int nAiRemaing() const;
+    void fitCamera();
+
+    unsigned int nPlayersRemaing() const;
 
     template<typename T>
     void instantiateObject(int x, int y, std::list<AGameObject*> & list, bool isStatic = false) {
