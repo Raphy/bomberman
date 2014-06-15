@@ -5,16 +5,19 @@
 SoundManager& MapMenu::_son = SoundManager::getInstance();
 
 MapMenu::MapMenu(SceneArguments const& arg)
-  : AMenuScene("MapMenu")
+  : AMenuScene("MapMenu"), _arg(*new SceneArguments())
 {
+  _arg.set("width",arg.get("width"));
+  _arg.set("height",arg.get("height"));
+  _arg.set("ia",arg.get("ia"));
+  _arg.set("players",arg.get("players"));
+
   addButton(ResourcesPath::asset("img/map1.tga"), glm::vec3(60, 50, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MapMenu::map1handler), 0);
   addButton(ResourcesPath::asset("img/map2.tga"), glm::vec3(60, 180, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MapMenu::map2handler), 1);
   addButton(ResourcesPath::asset("img/maprandom.tga"), glm::vec3(60, 300, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MapMenu::maprandomhandler), 2);
   addButton(ResourcesPath::asset("img/back.tga"), glm::vec3(60, 450, 1), glm::vec3(100, 100, 0) , static_cast<ButtonHandler>(&MapMenu::backhandler), 3);
 
   _cursor = new Cursor(ResourcesPath::asset("img/bombe.tga"), glm::vec3(30, 100, 1), glm::vec3(50, 50, 0));
-
-
 }
 
 MapMenu::~MapMenu()
@@ -62,7 +65,6 @@ bool MapMenu::update(gdl::Clock const& clock, gdl::Input& input)
 
   if (input.getKey(SDLK_DOWN) && !_btnDown)
     {
-
       _btnDown = true;
       _cursorPos++;
       if (_cursorPos == 4)
@@ -70,7 +72,6 @@ bool MapMenu::update(gdl::Clock const& clock, gdl::Input& input)
     }
   if (!input.getKey(SDLK_DOWN) && _btnDown)
     _btnDown = false;
-
 
   if (input.getKey(SDLK_SPACE) && !_btnSpace)
     {
@@ -85,7 +86,6 @@ bool MapMenu::update(gdl::Clock const& clock, gdl::Input& input)
 	    (this->*(it->second))(SDLK_SPACE);
 	  it++;
 	}
-
     }
   if (!input.getKey(SDLK_SPACE) && _btnSpace)
     _btnSpace = false;
@@ -110,36 +110,45 @@ bool MapMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 
   _cursor->draw(shader, clock);
 
-
   return true;
 }
 
 void MapMenu::map1handler(int t)
 {
-  SceneArguments& args = *new SceneArguments();
-  args.set("file", ResourcesPath::map("map1.bmap"));
-  setStatusGoOn<LoadingMenu>(args);
+  (void)t;
+  std::string tmp;
+  tmp = _arg.get("players");
+
+  if (tmp.compare("1") == 0)
+    _arg.set("file", ResourcesPath::map("map1.bmap"));
+  else if (tmp.compare("2") == 0)
+    _arg.set("file", ResourcesPath::map("map1-2.bmap"));
+  setStatusGoOn<LoadingMenu>(_arg);
 }
 
 void MapMenu::map2handler(int t)
 {
-  SceneArguments& args = *new SceneArguments();
-  args.set("file", ResourcesPath::map("map2.bmap"));
-  setStatusGoOn<LoadingMenu>(args);
+  (void)t;
+  std::string tmp;
+
+  tmp = _arg.get("players");
+
+  if (tmp.compare("1") == 0)
+    _arg.set("file", ResourcesPath::map("map2.bmap"));
+  else if (tmp.compare("2") == 0)
+    _arg.set("file", ResourcesPath::map("map2-2.bmap"));
+  setStatusGoOn<LoadingMenu>(_arg);
 }
 
 void MapMenu::maprandomhandler(int t)
 {
-  SceneArguments& args = *new SceneArguments();
-  args.set("width", "20");
-  args.set("height", "20");
-  args.set("players", "2");
-  args.set("ai", "5");
-  setStatusGoOn<LoadingMenu>(args);
+  (void)t;
+  setStatusGoOn<LoadingMenu>(_arg);
 }
 
 void MapMenu::backhandler(int t)
 {
+  (void)t;
   setStatusBack();
 }
 

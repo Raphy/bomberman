@@ -1,3 +1,4 @@
+#include <iostream>
 
 #include "MainMenu.hh"
 #include "GameScene.hh"
@@ -9,8 +10,12 @@
 SoundManager& MainMenu::_son = SoundManager::getInstance();
 
 MainMenu::MainMenu(SceneArguments const& arg)
-  : AMenuScene("MainMenu"), _playlist()
+  : AMenuScene("MainMenu"), _playlist(), _arg(*new SceneArguments())
 {
+  _arg.set("width",arg.get("width"));
+  _arg.set("height",arg.get("height"));
+  _arg.set("ia",arg.get("ia"));
+
   addButton(ResourcesPath::asset("img/play.tga"), glm::vec3(getXPercent(8), getYPercent(8), 1), glm::vec3(getXPercent(20), getYPercent(10), 0) , static_cast<ButtonHandler>(&MainMenu::playhandler), 0);
   addButton(ResourcesPath::asset("img/option.tga"), glm::vec3(getXPercent(8), getYPercent(20), 1), glm::vec3(getXPercent(25), getYPercent(10), 0) , static_cast<ButtonHandler>(&MainMenu::optionhandler), 1);
   addButton(ResourcesPath::asset("img/load.tga"), glm::vec3(getXPercent(8), getYPercent(32), 1), glm::vec3(getXPercent(20), getYPercent(10), 0) , static_cast<ButtonHandler>(&MainMenu::loadhandler), 2);
@@ -127,7 +132,7 @@ bool MainMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 
 void MainMenu::playhandler(int t)
 {
-  setStatusGoOn<PlayerMenu>(*new SceneArguments());
+  setStatusGoOn<PlayerMenu>(_arg);
 }
 
 void MainMenu::optionhandler(int t)
@@ -145,7 +150,6 @@ void MainMenu::loadhandler(int t)
   SceneArguments& args = *new SceneArguments();
 
   std::cout << ResourcesPath::save("save.bmap") << std::endl;
-
   args.set("file", ResourcesPath::save("save.bmap"));
   setStatusGoOn<LoadingMenu>(args);
 }

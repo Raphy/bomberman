@@ -22,6 +22,7 @@ public:
   void continuehandler(int);
 
 private:
+  SceneArguments& _arg;
   Cursor *_cursor;
   Cursor *_nb1;
   Cursor *_nb2;
