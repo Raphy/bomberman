@@ -1,6 +1,6 @@
 #include <iostream>
 #include "AMenuScene.hh"
-#include "../Configuration.hh"
+#include "Configuration.hh"
 
 AMenuScene::AMenuScene(const std::string& tag)
   : AScene(tag), _windowX(Configuration::get<float>("win_h")), _windowY(Configuration::get<float>("win_w"))
@@ -8,7 +8,7 @@ AMenuScene::AMenuScene(const std::string& tag)
 
   std::cout << "X = " <<_windowX <<  "Y = "<<_windowY << std::endl;
 
-  _projection = glm::ortho(0.0f, 2000.0f, 720.0f, 0.0f, -1.0f, 1.0f);
+  _projection = glm::ortho(0.0f, _windowX, _windowY, 0.0f, -1.0f, 1.0f);
 
   _cursorPos = 0;
 
@@ -73,7 +73,7 @@ bool AMenuScene::draw(gdl::AShader& shader, gdl::Clock const& clock)
   shader.setUniform("view", glm::mat4(1));
   shader.setUniform("projection", _projection);
 
-  glm::vec3 size(2000, 720, 0);
+  glm::vec3 size(_windowX, _windowY, 0);
   glm::mat4 transform(1);
 
   transform = glm::scale(transform, size);
