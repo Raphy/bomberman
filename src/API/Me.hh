@@ -5,11 +5,11 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Fri Jun 13 21:41:55 2014 raphael defreitas
+// Last update Sun Jun 15 01:59:36 2014 raphael defreitas
 */
 
-#ifndef		ME_HH_
-# define	ME_HH_
+#ifndef		API_ME_HH_
+# define	API_ME_HH_
 
 # include	<string>
 
@@ -47,4 +47,4 @@ namespace API
   };
 }
 
-#endif /* !ME_HH_*/
+#endif /* !API_ME_HH_*/

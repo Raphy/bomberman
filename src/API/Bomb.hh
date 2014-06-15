@@ -5,11 +5,11 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Fri Jun 13 23:37:00 2014 raphael defreitas
+// Last update Sun Jun 15 01:59:15 2014 raphael defreitas
 */
 
-#ifndef		BOMB_HH_
-# define	BOMB_HH_
+#ifndef		API_BOMB_HH_
+# define	API_BOMB_HH_
 
 # include	<lua.hpp>
 # include	<string>
@@ -40,4 +40,4 @@ namespace API
   };
 }
 
-#endif /* !BOMB_HH_*/
+#endif /* !API_BOMB_HH_*/

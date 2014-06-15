@@ -5,11 +5,11 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Fri Jun 13 22:51:08 2014 raphael defreitas
+// Last update Sun Jun 15 01:58:48 2014 raphael defreitas
 */
 
-#ifndef		MAP_HH_
-# define	MAP_HH_
+#ifndef		API_MAP_HH_
+# define	API_MAP_HH_
 
 # include	<vector>
 
@@ -34,4 +34,4 @@ namespace API
   };
 }
 
-#endif /* !MAP_HH_*/
+#endif /* !API_MAP_HH_*/

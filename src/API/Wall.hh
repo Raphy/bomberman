@@ -5,11 +5,11 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Fri Jun 13 23:36:51 2014 raphael defreitas
+// Last update Sun Jun 15 01:58:25 2014 raphael defreitas
 */
 
-#ifndef		WALL_HH_
-# define	WALL_HH_
+#ifndef		API_WALL_HH_
+# define	API_WALL_HH_
 
 # include	<lua.hpp>
 # include	<string>
@@ -37,4 +37,4 @@ namespace API
   };
 }
 
-#endif /* !WALL_HH_*/
+#endif /* !API_WALL_HH_*/

@@ -5,11 +5,11 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Fri Jun 13 23:20:19 2014 raphael defreitas
+// Last update Sun Jun 15 01:58:57 2014 raphael defreitas
 */
 
-#ifndef		ITEM_HH_
-# define	ITEM_HH_
+#ifndef		API_ITEM_HH_
+# define	API_ITEM_HH_
 
 # include	<lua.hpp>
 # include	<string>
@@ -34,4 +34,4 @@ namespace API
   };
 }
 
-#endif /* !ITEM_HH_*/
+#endif /* !API_ITEM_HH_*/
