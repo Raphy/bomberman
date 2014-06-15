@@ -63,7 +63,12 @@ function HelperPrivate:preview_bomb(bomb_coord)
 		end)
 	end
 end
-function HelperPrivate:preview_all_bombs()
+function HelperPrivate:preview_all_bombs(self_bomb)
+	if self_bomb then
+		local case = Helper:get_my_case()
+		if not List:is_elem_in_list(case.previews, "preview_bomb") then
+			List:push_back(case.previews, "preview_bomb") end
+	end
 	for case in MapManager:iter() do
 		if Helper:are_objects_in_case(case.x,case.y,"Bomb")
 			or List:is_elem_in_list(case.previews, "preview_bomb") then

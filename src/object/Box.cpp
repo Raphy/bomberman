@@ -37,7 +37,7 @@ void Box::onCollision(AGameObject& obj) {
   if (obj.getType() == "fire"
       && obj.getPosition() == this->getPosition())
     {
-      if (rand() % 10 == 0)
+      if (rand() % 3 == 0)
 	{
 	  AGameObject* buff;
 	  switch(rand() % 3)
@@ -52,7 +52,7 @@ void Box::onCollision(AGameObject& obj) {
 		buff = new BombRangeBuff();
 		break;
 	      }
-	    case 3:
+	    case 2:
 	      {
 		buff = new BombCapacityBuff();
 		break;

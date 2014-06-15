@@ -138,7 +138,6 @@ void GameScene::createFloor() {
     }
 }
 
-
 SkyBox* GameScene::createSkybox() const {
     SkyBox * result = new SkyBox();
     result->setScale(glm::vec3(getMapWidth() + SKYBOX_OFFSET, SKYBOX_OFFSET * 1, getMapHeight() + SKYBOX_OFFSET));
@@ -158,11 +157,15 @@ void GameScene::genMap(int width, int height, int players, int ai) {
     std::list<std::pair<int, int> > playersList = map.setHumans(players, ai);
 
     for (int i = 0; i < players; i++) {
-        initPlayer(i + 1, playersList.front().first, playersList.front().second);
+        initPlayer(i + 1, playersList.front().second, playersList.front().first);
         playersList.erase(playersList.begin());
     }
+    for (auto it = playersList.begin(); it != playersList.end();) {
+        instantiateObject<IA>((*it).second, (*it).first, m_objects);
+        playersList.erase(it++);
+    }
     //add skybox
-    this -> m_objects.push_back(createSkybox());
+    this -> m_walls.push_back(createSkybox());
     this -> createFloor();
 }
 

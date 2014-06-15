@@ -36,7 +36,6 @@ public:
     virtual bool initAnim();
     virtual void update(gdl::Clock const& clock, gdl::Input& input);
 
-    virtual void onCollision(AGameObject&);
     virtual void setBindKeys(inputBinding const& bind = {SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT, SDLK_RCTRL});
     
 private:
@@ -44,8 +43,12 @@ private:
     std::vector<inputStructure> _inputs;
     int totalPressed = 0;
     
-    virtual void run(gdl::Clock const&);
-    virtual void stop(gdl::Clock const&);
+    void run(gdl::Clock const&);
+    void stop(gdl::Clock const&);
+
+    virtual void run();
+    virtual void stop();
+
     void none(gdl::Clock const &clock);
     void onBombPressed(gdl::Clock const& clock);
 };

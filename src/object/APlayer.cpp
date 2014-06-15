@@ -7,6 +7,7 @@
 
 #include "APlayer.hh"
 #include "Bomb.hh"
+#include "Scoring.hh"
 
 bool APlayer::initialize() {
     this->setSpeed(5);
@@ -17,13 +18,22 @@ bool APlayer::initialize() {
 
 void APlayer::putBomb(){
     
-    AGameObject* bomb = new Bomb();
+    if (this->_bombBag > 0) {
     
-    bomb->setPosition(glm::vec3(static_cast<int>(this->_position.x + 0.5),
+        Bomb* bomb = new Bomb();
+    
+        bomb->setParentObject(this);
+        bomb->setPosition(glm::vec3(static_cast<int>(this->_position.x + 0.5),
                                 0,
                                 static_cast<int>(this->_position.z + 0.5)));
-    bomb->setParent(getType());
-    this->addObject(bomb);
+        bomb->setParent(getType());
+        
+        std::cout << getBombRange() << std::endl;
+        bomb->setSteps(getBombRange());
+        this->addObject(bomb);
+        
+        this->removeBombFromBag();
+    }
 }
 
 void APlayer::onUpPressed(gdl::Clock const &clock)
@@ -67,3 +77,17 @@ void APlayer::stop() {
 void APlayer::run() {
     _model.setCurrentSubAnim("run");
 }
+
+void APlayer::onCollision(AGameObject& obj) {
+    if (obj.getType() == "fire") {
+        if (obj.getParent() == "player1")
+            Scoring::getInstance().incrP1();
+        else if (obj.getParent() == "player2")
+            Scoring::getInstance().incrP2();
+        this->die();
+    } else if (obj.getType() == "wall"
+            || obj.getType() == "box") {
+        this->restoreLastState(obj);
+    }
+}
+
