@@ -158,22 +158,22 @@ function Helper:last_action_failed()
 	return not StateMachine._action_status.status
 end
 function Helper:obj_in_view(type)
-	HelperPrivate:from_my_position(function (x,y)
+	return HelperPrivate:from_my_position(function (x,y)
 		return self:are_objects_around(type,x,y,MapManager.size / 2) end)
 end
 function Helper:obj_in_map(type) --[[ est ce une bonne idee ?? ]]
-	HelperPrivate:from_my_position(function (x,y)
+	return HelperPrivate:from_my_position(function (x,y)
 		return self:are_objects_around(type,x,y,MapManager.size / 2) end)
 end
 function Helper:obj_in_action_range(type)
-	HelperPrivate:from_my_position(function (x,y)
+	return HelperPrivate:from_my_position(function (x,y)
 		return self:are_objects_around(type,x,y,2) end)
 end
 function Helper:is_place_safe()
-	HelperPrivate:from_my_position(function (x,y)
+	return HelperPrivate:from_my_position(function (x,y)
 		return not self:are_objects_around("Bomb",x,y,3) end)
 end
 function Helper:is_place_dangerous()
-	HelperPrivate:from_my_position(function (x,y)
+	return HelperPrivate:from_my_position(function (x,y)
 		return self:are_objects_around("Bomb",x,y,3) end)
 end
