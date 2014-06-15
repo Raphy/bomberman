@@ -44,10 +44,11 @@ function StateMachine:update()
 	self:check_conds(self._current.pre_conditions)
 	if self._change ~= "continue"
 		then self:check_state_change()
-		else self:execute() end
-	self:check_conds(self._current.post_conditions)
-	if self._change ~= "continue" then
-		self:check_state_change() end
+		else self:execute()
+			self:check_conds(self._current.post_conditions)
+			if self._change ~= "continue" then
+				self:check_state_change() end
+	end
 end
 
 function StateMachine:action_terminated()

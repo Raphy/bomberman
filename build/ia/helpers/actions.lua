@@ -14,6 +14,10 @@ Actions = {
 	_global_direction = "up",
 	_current_dest = Coord:new(1,1),
 	_repeat_max = 10,
+	_wait = {
+		begin = -1,
+		duration = -1,
+	}
 }
 
 function Actions:init(repeat_max)
@@ -27,12 +31,19 @@ function Actions:path_recalc_needed(new_dest)
 		-- or Helper:last_action_failed()
 end
 function Actions:follow_path()
-	if self._path == nil or List:empty(self._path) then
+	if self._path == nil then
 		return false end
+ 	if List:empty(self._path) then
+		return true end
 	return self:go_towards(List:front_and_pop(self._path))
 end
 
-function Actions:wait()
+function Actions:wait(duration)
+	assert(duration ~= nil)
+	if Helper:no_more_wait() then
+		self._wait.begin = Helper:get_current_time()
+		self._wait.duration = duration
+	end
 	return true
 end
 
@@ -60,7 +71,7 @@ function Actions:go_to(x,y)
 		local start_idx = Helper:get_my_idx()
 		local dest_idx = MapManager:xy_to_idx(x, y)
 		if start_idx == dest_idx then
-			return false end
+			return true end
 		self._path = Path:calc_path("astar", start_idx, dest_idx)
 	end
 	return self:follow_path()
