@@ -11,7 +11,7 @@
 #include "IA.hh"
 #include "Lua/Script.hh"
 
-IA::IA() : APlayer(ResourcesPath::asset("android.fbx"), "ia"), _direction(None), pressed(false) {
+IA::IA() : APlayer(ResourcesPath::asset("bomb.fbx"), "ia"), _direction(None), pressed(false) {
 }
 
 
@@ -147,8 +147,7 @@ void IA::goOneCaseUp()
 
 void IA::onUpPressed(gdl::Clock const &clock)
 {
-    translate(glm::vec3(0, 0, 1) * static_cast<float>(clock.getElapsed()) * _speed);
-    this -> lookNorth();
+    APlayer::onUpPressed(clock);
 
     if (this -> _position.z >= this -> _to) {
         this -> _direction  = None;
@@ -160,8 +159,7 @@ void IA::onUpPressed(gdl::Clock const &clock)
 
 void IA::onDownPressed(gdl::Clock const &clock)
 {
-    translate(glm::vec3(0, 0, -1) * static_cast<float>(clock.getElapsed()) * _speed);
-    this -> lookSouth();
+    APlayer::onDownPressed(clock);
 
     if (this -> _position.z <= this -> _to) {
         this -> _direction  = None;
@@ -172,9 +170,8 @@ void IA::onDownPressed(gdl::Clock const &clock)
 
 void IA::onLeftPressed(gdl::Clock const &clock)
 {
-    translate(glm::vec3(1, 0, 0) * static_cast<float>(clock.getElapsed()) * _speed);
-    this -> lookWest();
-
+    APlayer::onLeftPressed(clock);
+    
     if (this -> _position.x >= this -> _to) {
         this -> _direction  = None;
         this -> _position.x = this -> _to;
@@ -184,8 +181,7 @@ void IA::onLeftPressed(gdl::Clock const &clock)
 
 void IA::onRightPressed(gdl::Clock const &clock)
 {
-    translate(glm::vec3(-1, 0, 0) * static_cast<float>(clock.getElapsed()) * _speed);
-    this -> lookEast();
+    APlayer::onRightPressed(clock);
     
     if (this -> _position.x <= this -> _to) {
         this -> _direction  = None;
@@ -194,12 +190,3 @@ void IA::onRightPressed(gdl::Clock const &clock)
     }
 }
 
-static const double COLLIDER_SIZE = 0.7;
-
-Rectangle IA::getCollider() const {
-    return Rectangle(
-        this->_position.x + 0.5 - COLLIDER_SIZE / 2,
-        this->_position.z + 0.5 - COLLIDER_SIZE / 2,
-        COLLIDER_SIZE,
-        COLLIDER_SIZE);
-}

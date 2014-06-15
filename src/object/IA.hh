@@ -52,10 +52,10 @@ private:
     bool        pressed;
     Lua::Script* _script;
     
-    void onUpPressed(gdl::Clock const &clock);
-    void onDownPressed(gdl::Clock const &clock);
-    void onLeftPressed(gdl::Clock const &clock);
-    void onRightPressed(gdl::Clock const &clock);
+    virtual void onUpPressed(gdl::Clock const &clock);
+    virtual void onDownPressed(gdl::Clock const &clock);
+    virtual void onLeftPressed(gdl::Clock const &clock);
+    virtual void onRightPressed(gdl::Clock const &clock);
 };
 
 #endif	/* IA_HH */
