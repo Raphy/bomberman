@@ -1,11 +1,11 @@
 //
 // Configuration.cpp for Bomberman in /home/raphy/Epitech/Tech_2/bomberman/src
-// 
+//
 // Made by raphael defreitas
 // Login   <defrei_r@epitech.net>
-// 
+//
 // Started on  Sun Jun 15 02:19:52 2014 raphael defreitas
-// Last update Sun Jun 15 06:06:15 2014 raphael defreitas
+// Last update Sun Jun 15 06:15:33 2014 raphael defreitas
 //
 
 #include	<iostream>

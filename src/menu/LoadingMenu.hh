@@ -12,8 +12,8 @@ public:
   virtual bool initialize();
   virtual bool update(gdl::Clock const& clock, gdl::Input& input);
   virtual bool draw(gdl::AShader & shader, gdl::Clock const &clock);
+
 private:
-  SceneArguments& _args;
 
 };
 

@@ -69,3 +69,13 @@ glm::vec3 Cursor::getPosition() const
 {
   return _position;
 }
+
+glm::vec3 Cursor::getScale() const
+{
+  return _scale;
+}
+
+void Cursor::setScale(const glm::vec3& scale)
+{
+  _scale = scale;
+}
