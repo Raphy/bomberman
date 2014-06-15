@@ -14,7 +14,7 @@
 std::string const IA::Tag = "ia";
 IA::IA() : APlayer(ResourcesPath::asset("marvin_ia.fbx"), Tag), _direction(None), pressed(false) {
     this->start();
-
+}
 
 IA::~IA()
 {
@@ -66,7 +66,7 @@ void IA::update(const gdl::Clock & clock, gdl::Input & input)
     }    
 }
 
-void * IA::run()
+void * IA::routine()
 {
     while (this->_status == ALIVE)
     {

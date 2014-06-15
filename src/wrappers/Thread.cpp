@@ -6,7 +6,7 @@
 
 static void *	runThread(void * arg)
 {
-	return (static_cast<Thread *>(arg))->run();
+	return (static_cast<Thread *>(arg))->routine();
 }
 
 

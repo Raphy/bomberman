@@ -17,7 +17,7 @@ public:
 	virtual int join() = 0;
 	virtual int detach() = 0;
 
-	virtual void *	run() = 0;
+	virtual void *	routine() = 0;
 };
 
 #endif

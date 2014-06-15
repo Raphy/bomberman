@@ -38,7 +38,7 @@ public:
     
     virtual void update(const gdl::Clock& clock, gdl::Input& input);
     
-    /*virtual */void * run();
+    /*virtual */void * routine();
 
     void goOneCaseDown();
     void goOneCaseUp();
