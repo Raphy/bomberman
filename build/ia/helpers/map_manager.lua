@@ -13,6 +13,7 @@ MapManager = {
 	_map = nil,
 	w,h,size = -1,-1,-1,
 	min,max = nil,nil,
+	unwalkables = nil,
 
 	_vision = {
 		active = false,
@@ -30,16 +31,17 @@ MapManager = {
 }
 
 function MapManager:debug_dump()
-	if active_debug then
+	if active_debug_walkable then
 		for i=1,self.w do
 			for j=1,self.h do
-				local idx = self:coord_to_idx(j,i)
+				local idx = self:xy_to_idx(j,i)
 				local case = self._map[idx]
 				print("case x,y",j,i,"walkable : ",case.walkable)
 			end
 			print("")
 		end
 	end
+	return nil
 end
 
 -- * GENERAL *
@@ -50,10 +52,11 @@ function MapManager:init(w,h, vision_size)
 	self.size = self.w * self.h
 	self.min = Coord:new(1,1)
 	self.max = Coord:new(w,h)
+	self.unwalkables = List:new("unwalkables")
 	self:set_vision(Helper:get_my_coord(), vision_size or 2)
 	self:set_vision(Helper:get_my_coord(), vision_size or 2, true)
 	for i,j in self:complete_iter_ij() do
-		local curr_idx = MapManager:coord_to_idx(j,i)
+		local curr_idx = MapManager:xy_to_idx(j,i)
 	   self._map[curr_idx] = Case:create_case(curr_idx,i,j)
 	end
 	self:make_type_unwalkable("Wall")
@@ -61,17 +64,21 @@ function MapManager:init(w,h, vision_size)
 end
 function MapManager:update()
 	self:set_vision(Helper:get_my_coord(), self._vision.size, true)
-	for i,j in self:iter_ij() do
-		local curr_idx = MapManager:coord_to_idx(j,i)
-	   self._map[curr_idx] = Case:create_case(curr_idx,i,j)
-	end
-	self:make_type_unwalkable("Wall")
-	self:make_type_unwalkable("Box")
+	self:clean_map()
+	self:update_walkables()
+	-- for i,j in self:iter_ij() do
+	-- 	local curr_idx = MapManager:xy_to_idx(j,i)
+	--    self._map[curr_idx] = Case:create_case(curr_idx,i,j)
+	-- end
 end
 function MapManager:clean_map()
-	for case in self:iter() do Case:clean_case(case) end
-	self:make_type_unwalkable("Wall")
-	self:make_type_unwalkable("Box")
+	self:for_each_case(function(case) Case:clean_case(case) end)
+end
+function MapManager:clean_previews()
+	self:for_each_case(function(case) Case:clean_previews(case) end)
+end
+function MapManager:clean_marks()
+	self:for_each_case(function(case) Case:clean_marks(case) end)
 end
 
 -- * VISION *
@@ -106,17 +113,26 @@ end
 
 -- * COORDINATES *
 
-function MapManager:check_coord(x,y)
+function MapManager:check_coord(coo)
 	local vision = self:get_vision()
-	local pos = Coord:new(x,y)
-	return pos >= vision.min and pos <= vision.max
+	return coo >= vision.min and coo <= vision.max
 end
-function MapManager:coord_to_idx(x,y)
+function MapManager:coord_to_idx(coo)
+	return self:xy_to_idx(Coord:unpack(coo))
+end
+function MapManager:idx_to_coord(coo)
+	return self:idx_to_xy(Coord:unpack(coo))
+end
+
+function MapManager:check_xy(x,y)
+	return self:check_coord(Coord:new(x,y))
+end
+function MapManager:xy_to_idx(x,y)
 	local x,y = math.floor(x),math.floor(y)
 	local idx = (y - 1) * self.w + x
 	return idx
 end
-function MapManager:idx_to_coord(idx)
+function MapManager:idx_to_xy(idx)
 	local x = idx % self.w
 	local y = math.ceil(idx / self.w)
 	return x,y
@@ -127,7 +143,10 @@ end
 
 
 function MapManager:get_case(i)
-	assert(i ~= nil, "get_case expect an index")
+	-- assert(i ~= nil, "get_case expect an index")
+	if type(i) ~= "number" then
+		Helper:warning("get_case expect an index(number), got :",type(i))
+		print(debug.traceback()) end
 	i = math.ceil(i)
 	if i <= 0 or i > self.size then
 		Helper:warning("get_case : idx="..i.." is outside the map")
@@ -140,11 +159,14 @@ function MapManager:iter()
 		return function ()
 			j = j + 1
 			if j > max.x then i = i + 1; j = min.x end
-			if i <= max.y then return self:get_case(self:coord_to_idx(j,i)) end
+			if i <= max.y then return self:get_case(self:xy_to_idx(j,i)) end
 		end
 	end
 	local vision = self:get_vision()
 	return _iter(vision.min, vision.max)
+end
+function MapManager:for_each_case(f)
+	for case in self:iter() do f(case) end
 end
 --[[ private ]]
 function MapManager:iter_ij()
@@ -174,13 +196,19 @@ end
 -- * MAP ALTERATIONS *
 
 function MapManager:make_type_unwalkable(type)
-	for case in self:iter() do
-		if case.walkable then
-			if string.find(type, "preview") ~= nil then
-				case.walkable = List:empty(case.previews)
-			else
-				case.walkable = not Helper:are_objects_in_case(case.x,case.y,type)
-			end
-		end
-	end
+	if not List:is_elem_in_list(self.unwalkables, type) then
+		List:push(self.unwalkables, type) end
+	self:for_each_case(function(case) Case:make_type_unwalkable(case,type) end)
+end
+function MapManager:make_type_walkable(type)
+	if List:is_elem_in_list(self.unwalkables, type) then
+		List:remove(self.unwalkables, type) end
+	self:update_walkables()
+end
+function MapManager:update_walkables()
+	self:for_each_case(function(case)
+		case.walkable = true
+		for unwalkable in List:iter(self.unwalkables) do
+			Case:make_type_unwalkable(case,unwalkable) end
+		end)
 end

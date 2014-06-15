@@ -26,6 +26,7 @@ protected:
 
     // Help children scenes to manage their status.
     void setStatusNone();
+    void setStatusLeave();
     void setStatusBack();
     void setStatusRewind(std::string const& id_tag);
 
@@ -39,12 +40,12 @@ protected:
     // Each cameras will be considered every game frames
     void addCamera(std::string const& label, Camera *camera) { m_cameras.insert(std::pair<std::string, Camera *>(label, camera)); }
     void removeCamera(std::string label);
-    
+
     // return false if the label is not find
     Camera * getCamera(std::string const& label);
-    
-    
-    
+
+
+
 public:
     // Do not overload these methods in children.
     virtual SceneStatus const& getStatus() const;

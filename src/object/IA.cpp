@@ -102,7 +102,7 @@ void IA::onCollision(AGameObject& obj) {
     } else if (obj.getType() == "wall"
             || obj.getType() == "box") {
         this->_direction = None;
-        this->restoreLastState();
+        this->restoreLastState(obj);
     }
 }
 
