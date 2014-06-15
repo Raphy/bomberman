@@ -5,11 +5,11 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Sun Jun 15 01:03:07 2014 raphael defreitas
+// Last update Sun Jun 15 01:58:07 2014 raphael defreitas
 */
 
-#ifndef		PLAYER_HH_
-# define	PLAYER_HH_
+#ifndef		API_PLAYER_HH_
+# define	API_PLAYER_HH_
 
 # include	<lua.hpp>
 # include	<string>
@@ -45,4 +45,4 @@ namespace API
   };
 }
 
-#endif /* !PLAYER_HH_*/
+#endif /* !API_PLAYER_HH_*/

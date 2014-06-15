@@ -5,11 +5,11 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Tue Jun 03 11:52:41 2014 raphael defreitas
-// Last update Sat Jun 14 03:07:56 2014 raphael defreitas
+// Last update Sun Jun 15 01:59:46 2014 raphael defreitas
 */
 
-#ifndef		GAMEOBJECT_HH_
-# define	GAMEOBJECT_HH_
+#ifndef		API_GAMEOBJECT_HH_
+# define	API_GAMEOBJECT_HH_
 
 # include	<lua.hpp>
 # include	<string>
@@ -45,4 +45,4 @@ namespace API
   };
 }
 
-#endif /* !GAMEOBJECT_HH_*/
+#endif /* !API_GAMEOBJECT_HH_*/

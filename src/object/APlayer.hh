@@ -5,7 +5,7 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Sun Jun 15 00:35:59 2014 raphael defreitas
-// Last update Sun Jun 15 00:49:28 2014 raphael defreitas
+// Last update Sun Jun 15 01:37:25 2014 raphael defreitas
 */
 
 #ifndef		APLAYER_HH_
@@ -28,7 +28,7 @@ public:
 
 protected:
   APlayer(std::string const& modelPath, std::string const& id) :
-    AModel(modelPath, id) {};
+    AModel(modelPath, id), _bomb_range(2), _bomb_capacity(1) {};
 
   int _bomb_range;
   int _bomb_capacity;

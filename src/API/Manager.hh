@@ -5,11 +5,11 @@
 ** Login   <defrei_r@epitech.net>
 **
 ** Started on  Thu Jun 05 10:38:15 2014 raphael defreitas
-// Last update Fri Jun 13 20:56:43 2014 raphael defreitas
+// Last update Sun Jun 15 01:58:36 2014 raphael defreitas
 */
 
-#ifndef		MANAGER_HH_
-# define	MANAGER_HH_
+#ifndef		API_MANAGER_HH_
+# define	API_MANAGER_HH_
 
 # include	"game/GameScene.hh"
 # include	"Lua/Script.hh"
@@ -37,4 +37,4 @@ namespace API
   };
 }
 
-#endif /* !MANAGER_HH_*/
+#endif /* !API_MANAGER_HH_*/

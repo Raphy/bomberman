@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 12:12:44 2014 raphael defreitas
-// Last update Sat Jun 14 03:41:54 2014 raphael defreitas
+// Last update Sun Jun 15 02:07:53 2014 raphael defreitas
 //
 
 #include	<cstring>
@@ -15,6 +15,8 @@
 #include	<vector>
 
 #include	"Bomb.hh"
+#include	"BombCapacityBuff.hh"
+#include	"BombRangeBuff.hh"
 #include	"Box.hh"
 #include	"game/Rectangle.hh"
 #include	"game/GameAPI.hh"
@@ -28,6 +30,7 @@
 #include	"object/Marvin.hh"
 #include	"object/Wall.hh"
 #include	"Player.hh"
+#include	"SpeedBuff.hh"
 #include	"Wall.hh"
 
 using namespace API;
@@ -64,6 +67,12 @@ std::vector<GameObject*> Map::get(int x, int y, int d, Me* me)
 	objects.push_back(new API::Bomb((::Bomb*)*it));
       else if ((*it)->getType() == "box")
 	objects.push_back(new API::Box((::Box*)*it));
+      else if ((*it)->getType() == "speed_buff")
+	objects.push_back(new API::SpeedBuff((::SpeedBuff*)*it));
+      else if ((*it)->getType() == "bomb_capacity_buff")
+	objects.push_back(new API::BombCapacityBuff((::BombCapacityBuff*)*it));
+      else if ((*it)->getType() == "bomb_range_buff")
+	objects.push_back(new API::BombRangeBuff((::BombRangeBuff*)*it));
       /*else
 	std::cout << "GAMEOBJECT NOT HANDLED (Api::Map::get) : " << (*it)->getType() << std::endl;*/
     }
