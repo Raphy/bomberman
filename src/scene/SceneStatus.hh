@@ -16,6 +16,7 @@ public:
         GoOn,
         Back,
         Rewind,
+        Leave
     };
 
     // Encapsule the fonction pointer and the his argument.
@@ -37,6 +38,7 @@ public:
     void setBack();
     void setRewind(SceneId const& scene_id);
     void setGoOn(FunctSceneFactory factory, SceneArguments& args);
+    void setLeave() { m_type = Leave; }
 
 private:
     Type m_type;

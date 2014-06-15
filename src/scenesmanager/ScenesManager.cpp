@@ -53,6 +53,11 @@ bool ScenesManager::applyChanges() {
             }
             break;
         }
+        
+        case SceneStatus::Leave: {
+            while ((retval = m_scenes_stack.pop()) == true);
+            break;
+        }
 
         default: /* unreachable */ break;
     }

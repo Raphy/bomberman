@@ -100,7 +100,7 @@ function Coord:from_direction(c1,dir,radius)
 	return c1 * diff
 end
 
-function Coord:apply_to_all_directions(f)
+function Coord:for_each_direction(f)
 	local function _apply(dir_v)
 		f(Tags:k(dir_v))
 		if dir_v == Tags:v("right") then

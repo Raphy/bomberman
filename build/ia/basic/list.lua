@@ -49,6 +49,13 @@ function List:push_back(list, elem)
 	list._nb_elem = list._nb_elem + 1
 	table.insert(list, list._nb_elem, elem)
 end
+function List:push_back_unique(list, elem)
+	if list._nb_elem == nil then print(debug.traceback()); assert(false) end
+	if not List:is_elem_in_list(list,elem) then
+		list._nb_elem = list._nb_elem + 1
+		table.insert(list, list._nb_elem, elem)
+	end
+end
 function List:pop_back(list)
 	if list._nb_elem <= 0 then
 		Helper:warning("pop_back on empty list "..list._name)
@@ -69,6 +76,20 @@ function List:back_and_pop(list)
 	local tail = table.remove(list, list._nb_elem)
 	list._nb_elem = list._nb_elem - 1
 	return tail
+end
+
+function List:remove(list, elem)
+	if not List:is_elem_in_list(list, elem) then
+		Helper:warning("try to remove unexisted elem ",elem," from list "..list._name)
+	end
+	if active_debug_list then
+		Helper:debug_print("remove_from_list : "..list._name.." elem : ",elem) end
+	for i,v in ipairs(list) do
+		if v == elem then
+			table.remove(list, i)
+			list._nb_elem = list._nb_elem - 1
+		end
+	end
 end
 
 function List:size(list)
@@ -110,16 +131,17 @@ end
 	pour les listes de tables, necessite que l'operateur < soit implementé
 ]]
 function List:sort(list)
-	local change = true
-	while change do
-		local change = false
-		for i=1,self._nb_elem-1 do
-			if list[i] < list[i + 1] then
-				list[i], list[i + 1] = list[i + 1], list[i]
-				change = true
-			end
-		end
-	end
+	table.sort(list)-- ?
+	-- local change = true
+	-- while change do
+	-- 	local change = false
+	-- 	for i=1,self._nb_elem-1 do
+	-- 		if list[i] < list[i + 1] then
+				-- list[i], list[i + 1] = list[i + 1], list[i]
+	-- 			change = true
+	-- 		end
+	-- 	end
+	-- end
 end
 function List:push_and_sort(list, elem)
 	self:push_back(list,elem)
@@ -146,17 +168,7 @@ function List:add_case_in_list(list, case)
 	table.insert(list, list._nb_elem, case.idx)
 end
 function List:remove_case_from_list(list, case)
-	if not List:is_case_in_list(list, case) then
-		Helper:warning("try to remove unexisted idx "..case.idx.." from list "..list._name)
-	end
-	if active_debug_list then
-		Helper:debug_print("remove_case_from_list : "..list._name..". x,y = ",case.x,case.y) end
-	for i,v in ipairs(list) do
-		if v == case.idx then
-			table.remove(list, i)
-			list._nb_elem = list._nb_elem - 1
-		end
-	end
+	self:remove(list, case.idx)
 end
 
 function List:is_case_in_list(list, case)

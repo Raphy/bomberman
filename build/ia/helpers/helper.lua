@@ -78,6 +78,9 @@ end
 
 -- * API_HELPER *
 
+function Helper:get_my_idx()
+	return MapManager:xy_to_idx(self:get_my_position())
+end
 function Helper:get_my_coord()
 	return Coord:new(self:get_my_position())
 end
@@ -98,14 +101,14 @@ end
 
 function Helper:are_objects_in_case(x,y,type)
 	local function _filter(obj,type)
-		return type == nil or type == obj:getType()
+		return obj:getType() ~= "Me" and type == nil or type == obj:getType()
 	end
 	return HelperPrivate:search_obj(_filter, true,false, x,y,type)
 end
 function Helper:are_objects_in_case_except(x,y,type)
 	assert(type ~= nil, "are_objects_in_case_except : type expected")
 	local function _filter(obj,type)
-		return type ~= obj:getType()
+		return obj:getType() ~= "Me" and type ~= obj:getType()
 	end
 	return HelperPrivate:search_obj(_filter, true,false, x,y,type)
 end
@@ -115,7 +118,7 @@ function Helper:get_objects_from_case(x,y,type,objects)
 	if case == nil then
 		return nil end
 	for _,obj in pairs(case) do
-		if type == nil or type == obj:getType() then
+		if obj:getType() ~= "Me" and type == nil or type == obj:getType() then
 			table.insert(o, obj) end
 	end
 	return o
@@ -157,46 +160,17 @@ end
 
 -- * BOMB_HELPER *
 
-function Helper:clean_preview()
-	for case in MapManager:iter() do
-		List:clear(case.previews)
-	end
+function Helper:preview_safe_cases()
+	MapManager:update()
+	HelperPrivate:preview_all_bombs()
+	-- MapManager:make_type_unwalkable("preview_fire")
+	-- MapManager:make_type_unwalkable("preview_bomb")
+	HelperPrivate:mark_all_safe_cases()
+	MapManager:clean_previews()
+	MapManager:clean_marks()
+	-- MapManager:make_type_walkable("preview_fire")
+	-- MapManager:make_type_walkable("preview_bomb")
 end
-function Helper:preview_bomb(bomb_coord)
-	local function _preview_fire(coord)
-		local x,y = Coord:unpack(coord)
-		if not MapManager:check_coord(x,y) then
-			return false end
-		local case = MapManager:get_case(MapManager:coord_to_idx(x,y))
-		if not List:is_elem_in_list(case.previews, "preview_fire") then
-			List:push_back(case.previews, "preview_fire") end
-		return true
-	end
-	_preview_fire(bomb_coord)
-	for radius=1,3 do
-		local function _call_preview(dir)
-			_preview_fire(Coord:from_direction(bomb_coord, dir, radius))
-		end
-		Coord:apply_to_all_directions(_call_preview)
-	end
-end
-
-function Helper:mark_all_safe_cases()
-	for case in MapManager:iter() do
-		if HelperPrivate:is_case_safe(case)
-			and not List:is_elem_in_list(case.marks, "safe_place") then
-				List:push_back(case.marks, "safe_place") end
-	end
-end
-function Helper:preview_all_bombs()
-	for case in MapManager:iter() do
-		if self:are_objects_in_case(case.x,case.y,"Bomb")
-			or List:is_elem_in_list(case.previews, "preview_bomb") then
-				self:preview_bomb(Coord:new(case.x,case.y))
-		end
-	end
-end
-
 
 -- * WRAPPERS *
 
