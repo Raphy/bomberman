@@ -45,6 +45,7 @@ active_debug_walkable = false
 -- end
 
 
+require "ia_killer"
 -- require "ia_breaker"
 -- require "ia_state"
 -- require "ia_stalker"
@@ -56,6 +57,6 @@ active_debug_walkable = false
 -- require "search_box"
 -- require "avoid_bomb"
 -- require "test_dangerous"
-require "put_bomb"
+-- require "put_bomb"
 
 -- -- require "ia_unit_test"
