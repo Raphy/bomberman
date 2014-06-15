@@ -138,7 +138,8 @@ void MainMenu::optionhandler(int t)
 
 void MainMenu::exithandler(int t)
 {
-  setStatusBack();
+  setStatusLeave();
+  //setStatusBack();
 }
 
 void MainMenu::loadhandler(int t)

@@ -20,9 +20,9 @@
 
 static int const  BRANCHRATE      = -2;    // positive means more branches and negative longer branches
 static char const WALL            = '#';
-static char const PATH            = '.';
+static char const PATH            = ' ';
 static char const UNDEFINED       = '?';
-static char const TOBEDEFINED     = ',';
+static char const TOBEDEFINED     = '!';
 static char const DESTRUCTIBLE    = '@';
 static int const  DESTRUCTIBILITY = 70; // in percent
 
@@ -67,54 +67,29 @@ std::pair<std::list<AGameObject*>, std::list<AGameObject*>> MapGenerator::Genera
 
 void MapGenerator::Dig(int y, int x)
 {
-    std::vector<std::pair<int, int>> extra;
-    std::vector<std::vector<char>> & field = (*this -> _field);
+    (*this -> _field)[y][x] = PATH;
+    setExtra(y, x - 1);
+    setExtra(y, x + 1);
+    setExtra(y - 1, x);
+    setExtra(y + 1, x);
 
-    field[y][x] = PATH;
-    if (x > 0 && field[y][x - 1] == UNDEFINED) {
-        field[y][x - 1] = TOBEDEFINED;
-        extra.push_back(std::pair<int, int>(y, x - 1));
-    }
-    if (x < this -> _width - 1 && field[y][x + 1] == UNDEFINED) {
-        field[y][x + 1] = TOBEDEFINED;
-        extra.push_back(std::pair<int, int>(y, x + 1));
-    }
-    if (y > 0 && field[y - 1][x] == UNDEFINED) {
-        field[y - 1][x] = TOBEDEFINED;
-        extra.push_back(std::pair<int, int>(y - 1, x));
-    }
-    if (y < this -> _height - 1 && field[y + 1][x] == UNDEFINED) {
-        field[y + 1][x] = TOBEDEFINED;
-        extra.push_back(std::pair<int, int>(y + 1, x));
-    }
-
-    while (extra.empty() == false)
+    while (this -> _extra.empty() == false)
     {
-        int elem = rand() % extra.size();
-        this -> _frontier.push_back(extra[elem]);
-        extra.erase(extra.begin() + elem);
+        int elem = rand() % this -> _extra.size();
+        this -> _frontier.push_back(this -> _extra[elem]);
+        this -> _extra.erase(this -> _extra.begin() + elem);
     }
 }
 
 bool MapGenerator::Check(int y, int x)
 {
-    int edgeState = 0;
     std::vector<std::vector<char>> & field = (*this -> _field);
 
-    if (x > 0 && field[y][x - 1] == PATH) {
-        edgeState += 1;
-    }
-    if (x < this -> _width - 1 && field[y][x + 1] == PATH) {
-        edgeState += 2;
-    }
-    if (y > 0 && field[y - 1][x] == PATH) {
-        edgeState += 4;
-    }
-    if (y < this -> _height - 1 && field[y + 1][x] == PATH) {
-        edgeState += 8;
-    }
     
-    if (edgeState == 1 || edgeState == 2 || edgeState == 4 || edgeState == 8) {
+    if (((x > 0 && field[y][x - 1] == PATH)
+            ^ (x < this -> _width - 1 && field[y][x + 1] == PATH)
+            ^ (y > 0 && field[y - 1][x] == PATH)
+            ^ (y < this -> _height - 1 && field[y + 1][x] == PATH)) == true) {
         return true;
     }
     return false;
@@ -127,6 +102,17 @@ void    MapGenerator::Harden(int y, int x)
     }
     else {
         (*this -> _field)[y][x] = WALL;
+    }
+}
+
+void MapGenerator::setExtra(int y, int x)
+{
+    std::vector<std::vector<char>> & field = (*this -> _field);
+    
+    if (y >= 0 && y < this -> _height && x >= 0 && x < this -> _width
+            && field[y][x] == UNDEFINED) {
+        field[y][x] = TOBEDEFINED;
+        this -> _extra.push_back(std::pair<int, int>(y, x));
     }
 }
 
@@ -160,6 +146,5 @@ std::pair<std::list<AGameObject*>, std::list<AGameObject*>> MapGenerator::ToList
     std::cout << "Completed!" << std::endl;
     return this -> _objects;
 }
-
 
 //~ Formatted by Jindent --- http://www.jindent.com

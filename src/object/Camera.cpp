@@ -8,6 +8,12 @@
 #include "Camera.hh"
 #include "Configuration.hh"
 
+Camera::Camera(AObject const* object) :
+  _follow(object), _lookAt(0,0,0), _offset(0, 0, 0)
+{
+  Configuration::set<float>("fov", 60.2f);
+}
+
 void Camera::update(const gdl::Clock& clock, gdl::Input& input) {
 }
 
@@ -27,7 +33,7 @@ void Camera::updateCamera(gdl::AShader & shader, unsigned int cameraNumber) cons
     
     shader.bind();
     shader.setUniform("view", glm::lookAt(this->getPosition(), this->getLookAt(), glm::vec3(0, 1, 0)));
-    shader.setUniform("projection", glm::perspective(Configuration::FOV(), (800.0f / cameraNumber) / 600.0f, 0.1f, 200.0f));
+    shader.setUniform("projection", glm::perspective(Configuration::get<float>("fov"), (800.0f / cameraNumber) / 600.0f, 0.1f, 200.0f));
 }
 
 

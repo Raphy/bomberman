@@ -1,7 +1,8 @@
 #include "AMenuScene.hh"
+#include "../Configuration.hh"
 
 AMenuScene::AMenuScene(const std::string& tag)
-  : AScene(tag), _conf() , _windowX((float)_conf.WindowHeight()), _windowY((float)_conf.WindowWidth())
+  : AScene(tag), _windowX(Configuration::get<float>("win_h")), _windowY(Configuration::get<float>("win_w"))
 {
   _projection = glm::ortho(0.0f, getWindowX(), getWindowY(), 0.0f, -1.0f, 1.0f);
 

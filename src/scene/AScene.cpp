@@ -10,6 +10,10 @@ AScene::AScene(std::string const& id_tag)
 {
 }
 
+void AScene::setStatusLeave()
+{
+  m_status.setLeave();
+}
 
 void AScene::setStatusNone() {
     m_status.setNone();
@@ -33,31 +37,31 @@ SceneId const& AScene::getId() const {
 
 Camera* AScene::getCamera(const std::string& label) {
    auto it = m_cameras.find(label);
-   
+
    if (it == m_cameras.end())
        return nullptr;
    return it->second;
 }
 
 void AScene::removeCamera(std::string label) {
-   m_cameras.erase(m_cameras.find(label)); 
+   m_cameras.erase(m_cameras.find(label));
 }
 
 
 bool AScene::metaDraw(gdl::AShader& shader, const gdl::Clock& clock) {
 
     assert(m_cameras.empty() == false);
-    
+
     int offset = 800 / m_cameras.size();
     int i = 0;
-    
+
     for (auto const& pair : m_cameras) {
         glViewport(i * offset, 0, offset, 600);
         pair.second->forceUpdate(shader, m_cameras.size());
         draw(shader, clock);
         i++;
     }
-    
-    
+
+
     return true;
 }

@@ -11,10 +11,12 @@
 
 #include "GameEngine.hh"
 #include "ResourcesPath.hh"
+#include "Configuration.hh"
 
 int main()
 {
     ResourcesPath::setRootDir("./build");
+    Configuration::load();
 
     // Initialization of the random system
     srand(time(NULL));
@@ -33,6 +35,8 @@ int main()
    catch(std::exception& ex) {
         std::cerr << "[EXCEPTION] " << ex.what() << std::endl;
     }
+
+    Configuration::save();
 
   return EXIT_SUCCESS;
 }

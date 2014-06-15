@@ -9,12 +9,10 @@
 # include "AWidget.hh"
 # include "Camera.hh"
 # include "ResourcesPath.hh"
-# include "Configuration.hh"
 
 class AMenuScene : public AScene
 {
 protected:
-  Configuration _conf;
   float _windowX;
   float _windowY;
 
