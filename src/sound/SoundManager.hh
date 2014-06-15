@@ -11,6 +11,8 @@ class SoundManager
 public:
   static SoundManager& getInstance();
 
+  void load(void);
+
   bool playMusic(const std::string&);
   bool playMusicFade(const std::string&);
   bool playFx(const std::string&);
@@ -47,9 +49,6 @@ public:
   bool isMute();
   bool isMuteMusic();
   bool isMuteFx();
-
-  bool getVolumeFile();
-  bool setVolumeFile();
 
 private:
   SoundManager();

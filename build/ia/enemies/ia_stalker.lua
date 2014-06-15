@@ -17,6 +17,29 @@ BeginState.pre_conditions = {
 		"push", "random_state", },
 }
 
+-- * AVOID_BOMB_STATE *
+
+AvoidBombState = State:new("avoid_bomb_state")
+
+function AvoidBombState:action()
+	Helper:debug_print("action : ".."avoid_bomb_state")
+	return Actions:avoid_bomb()
+end
+
+AvoidBombState.pre_conditions = {
+	{ function()
+		return Helper:is_place_safe() end,
+		"pop", },
+}
+
+AvoidBombState.post_conditions = {
+	{ function()
+		return Helper:is_place_safe() end,
+		"pop", },
+}
+
+
+
 -- * GET_CLOSER_OF_ENEMY_STATE *
 
 GetCloserOfEnemyState = State:new("get_closer_of_enemy_state")
@@ -27,6 +50,9 @@ function GetCloserOfEnemyState:action()
 end
 
 GetCloserOfEnemyState.pre_conditions = {
+	{ function()
+		return Helper:is_place_dangerous() end,
+		"push", "avoid_bomb_state", },
   { function()--pas d'enemy en vue
       return not Helper:obj_in_view("Player") end,
     "push", "random_state", },
@@ -47,6 +73,9 @@ function RandomState:action()
 end
 
 RandomState.pre_conditions = {
+	{ function()
+		return Helper:is_place_dangerous() end,
+		"push", "avoid_bomb_state", },
   { function()--enemy en vue
       return Helper:obj_in_view("Player") end,
     "push", "get_closer_of_enemy_state" },
@@ -56,6 +85,7 @@ RandomState.pre_conditions = {
 
 StateList = {
 	["begin_state"] = BeginState,
+	["avoid_bomb_state"] = AvoidBombState,--a copier dans StateList
 	["get_closer_of_enemy_state"] = GetCloserOfEnemyState,--a copier dans StateList
 	["random_state"] = RandomState,--a copier dans StateList
 }

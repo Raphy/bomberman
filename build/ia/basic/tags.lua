@@ -1,6 +1,6 @@
 
 TagsList = { "up","down","left","right","put_bomb",
-				"Me","Player", "Item","Bomb",
+				"Me","Player", "Item","Bomb","Bonus",
 				"preview_bomb","preview_fire","mark_safe_case",
 				"open","closed","unknown",
 				"astar","dijkstra","glouton",
@@ -13,15 +13,13 @@ end
 function Tags:v(key)
 	local value = self[key]
 	if value == nil then
-		print(debug.traceback())
-		Helper:warning("Unexisting tag \""..key.."\"") end
+		Helper:warning("Unexisting tag \"",key,"\"") end
 	return value
 end
 function Tags:k(value)
 	local key = TagsList[value]
 	if key == nil then
-		print(debug.traceback())
-		Helper:warning("Unexisting value \""..value.."\" in TagsList") end
+		Helper:warning("Unexisting value \"",value,"\" in TagsList") end
 	return key
 end
 

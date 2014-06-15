@@ -5,11 +5,17 @@
 LoadingMenu::LoadingMenu(SceneArguments const& arg)
   : AMenuScene("LoadMenu"), _args(*new SceneArguments())
 {
-  _args = arg;
+  _args.set("width", arg.get("width"));
+  _args.set("file", arg.get("file"));
+  _args.set("height", arg.get("height"));
+  _args.set("players", arg.get("players"));
+  _args.set("ai", arg.get("ai"));
 }
 
 LoadingMenu::~LoadingMenu()
-{}
+{
+
+}
 
 bool LoadingMenu::initialize()
 {

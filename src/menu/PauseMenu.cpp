@@ -145,5 +145,5 @@ void PauseMenu::optionhandler(int a)
 
 void PauseMenu::exitmenuhandler(int a)
 {
-  std::cout << "exit to the menu !! a faire" << std::endl;
+  setStatusGoOn<MainMenu>(*new SceneArguments());
 }

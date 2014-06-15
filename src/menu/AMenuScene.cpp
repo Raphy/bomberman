@@ -1,9 +1,11 @@
+#include <iostream>
 #include "AMenuScene.hh"
+#include "Configuration.hh"
 
 AMenuScene::AMenuScene(const std::string& tag)
-  : AScene(tag), _conf() , _windowX((float)_conf.WindowHeight()), _windowY((float)_conf.WindowWidth())
+  : AScene(tag), _windowX(Configuration::get<float>("win_h")), _windowY(Configuration::get<float>("win_w"))
 {
-  _projection = glm::ortho(0.0f, getWindowX(), getWindowY(), 0.0f, -1.0f, 1.0f);
+  _projection = glm::ortho(0.0f, _windowX, _windowY, 0.0f, -1.0f, 1.0f);
 
   _cursorPos = 0;
 
@@ -68,7 +70,7 @@ bool AMenuScene::draw(gdl::AShader& shader, gdl::Clock const& clock)
   shader.setUniform("view", glm::mat4(1));
   shader.setUniform("projection", _projection);
 
-  glm::vec3 size(1080, 720, 0);
+  glm::vec3 size(_windowX, _windowY, 0);
   glm::mat4 transform(1);
 
   transform = glm::scale(transform, size);
@@ -76,6 +78,7 @@ bool AMenuScene::draw(gdl::AShader& shader, gdl::Clock const& clock)
   _geometry.draw(shader, transform, GL_QUADS);
 
   _camera->draw(shader, clock);
+
 
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

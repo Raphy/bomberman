@@ -25,15 +25,23 @@ function HelperPrivate:filter_objects(objects, x,y)
 end
 
 
-function HelperPrivate:search_obj(filter, found,default, x,y,type)
+function HelperPrivate:search_obj(filter, x,y,type)
 	local case = Helper:map_get(x,y,1)
 	if case == nil then
-		return default end
+		return false end
 	for _,obj in pairs(case) do
 		if filter(obj,type) then
-			return found end
+			Helper:map_free(case)
+			return true end
 	end
-	return default
+	return false
+end
+function HelperPrivate:search_around(f, x,y,radius)
+	local r = radius or 1
+	local vision_state = MapManager._vision.active
+	MapManager:set_vision_activate(Coord:new(x,y), r)
+	MapManager:for_each_case(f)
+	if not vision_state then MapManager:desactivate_vision() end
 end
 
 
@@ -74,4 +82,9 @@ function HelperPrivate:mark_all_safe_cases()
 				List:push_back_unique(case.marks, "mark_safe_case")
 		end
 	end
+end
+
+function HelperPrivate:from_my_position(f)
+	local x,y = Helper:get_my_position()
+	return f(x,y)
 end

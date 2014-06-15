@@ -133,6 +133,8 @@ void MapMenu::maprandomhandler(int t)
   SceneArguments& args = *new SceneArguments();
   args.set("width", "20");
   args.set("height", "20");
+  args.set("players", "2");
+  args.set("ai", "5");
   setStatusGoOn<LoadingMenu>(args);
 }
 

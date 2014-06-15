@@ -11,28 +11,41 @@
 
 #include "GameEngine.hh"
 #include "ResourcesPath.hh"
+#include "Configuration.hh"
+#include "SoundManager.hh"
+#include "Scoring.hh"
 
 int main()
 {
-    ResourcesPath::setRootDir("./build");
+  ResourcesPath::setRootDir("./build");
 
-    // Initialization of the random system
-    srand(time(NULL));
+  // Initialization of the random system
+  srand(time(NULL));
 
-    try {
-        GameEngine engine;
+  try {
+    GameEngine engine;
 
-         if (engine.initialize() == false) {
-            return (EXIT_FAILURE);
-        }
+    // Loading statics and singletons classes
+    Configuration::load();
+    SoundManager::getInstance().load();
+    Scoring::getInstance().load();
 
-        while (engine.update() == true) {
-            engine.draw();
-        }
+    if (engine.initialize() == false) {
+      return (EXIT_FAILURE);
     }
-   catch(std::exception& ex) {
-        std::cerr << "[EXCEPTION] " << ex.what() << std::endl;
-    }
+
+    while (engine.update() == true)
+      engine.draw();
+
+    // Saving statics and singletons classes
+    Configuration::save();
+    Scoring::getInstance().save();
+  }
+  catch(std::exception& ex) {
+    std::cerr << "[EXCEPTION] " << ex.what() << std::endl;
+  }
+
+
 
   return EXIT_SUCCESS;
 }

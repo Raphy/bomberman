@@ -4,16 +4,17 @@
 #include <sstream>
 #include "SoundManager.hh"
 #include "ResourcesPath.hh"
+#include "Configuration.hh"
+#include "Exception.hh"
 
 std::string const SoundManager::CONF_FILE = "volume.conf";
 
 SoundManager::SoundManager()
   : _volume(128), _volumeFx(128), _volumeMusic(128), _mute(false), _muteFx(false), _muteMusic(false)
 {
-  if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048) == -1)
-    throw std::string("Init Mix_OpenAudio fail");
-  Mix_AllocateChannels(64);
-  getVolumeFile();
+  // Setting the  default configuration variables
+  Configuration::setDefault<int>("sound_volume_fx", 128);
+  Configuration::setDefault<int>("sound_volume_music", 128);
 }
 
 SoundManager::~SoundManager()
@@ -28,6 +29,15 @@ SoundManager& SoundManager::getInstance()
 {
   static SoundManager instance;
   return instance;
+}
+
+void SoundManager::load(void)
+{
+  if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048) == -1)
+    throw Exception("Init Mix_OpenAudio fail");
+  Mix_AllocateChannels(64);
+  setVolumeFx(Configuration::get<int>("sound_volume_fx"));
+  setVolumeMusic(Configuration::get<int>("sound_volume_music"));
 }
 
 bool    SoundManager::loadFx(const std::string& tag, const std::string& path)
@@ -197,7 +207,7 @@ void    SoundManager::setVolumeFx(int v)
     _volumeFx = v;
 
   Mix_Volume(-1, _volumeFx);
-  setVolumeFile();
+  Configuration::set<int>("sound_volume_fx", _volumeFx);
 }
 
 void    SoundManager::setVolumeMusic(int v)
@@ -210,7 +220,7 @@ void    SoundManager::setVolumeMusic(int v)
   _volumeMusic = v;
 
   Mix_VolumeMusic(_volumeMusic);
-  setVolumeFile();
+  Configuration::set<int>("sound_volume_music", _volumeMusic);
 }
 
 
@@ -286,55 +296,4 @@ bool SoundManager::isMuteFx()
 bool SoundManager::isMuteMusic()
 {
   return _muteMusic;
-}
-
-bool SoundManager::setVolumeFile()
-{
-  ResourcesPath::setRootDir("./build");
-  std::string filename = ResourcesPath::sound(CONF_FILE);
-  std::fstream f;
-
-  f.open(filename.c_str(), std::ios::out);
-
-  if (f.is_open())
-    {
-      f.clear();
-      f << getVolumeFx() << std::endl;
-      f << getVolumeMusic() << std::endl;
-      return true;
-    }
-
-  return false;
-}
-
-bool SoundManager::getVolumeFile()
-{
-  ResourcesPath::setRootDir("./build");
-  std::string filename = ResourcesPath::sound(CONF_FILE);
-  std::fstream f(filename);
-
-  if (f)
-    {
-      std::string line;
-      std::istringstream a;
-      size_t n = 0;
-      int t;
-
-      while (getline(f, line))
-	{
-	  a.str(std::string());
-	  a.clear();
-	  t = 0;
-	  a.str(line);
-	  a >> t;
-	  if (n == 0)
-	    setVolumeFx(t);
-	  else if (n == 1)
-	    setVolumeMusic(t);
-	  n++;
-	}
-      return true;
-    }
-  setVolume(128);
-  return false;
 }

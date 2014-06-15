@@ -42,9 +42,9 @@ function StateMachine:update()
 	if StateMachine:cool_down() then return nil end
 	Helper:debug_print("		StateMachine:update) "..self._current.name)
 	self:check_conds(self._current.pre_conditions)
-	if self._change == "continue"
-		then self:execute()
-		else self:check_state_change() end
+	if self._change ~= "continue"
+		then self:check_state_change()
+		else self:execute() end
 	self:check_conds(self._current.post_conditions)
 	if self._change ~= "continue" then
 		self:check_state_change() end
@@ -97,7 +97,7 @@ end
 
 function StateMachine:check_conds(conds)
 	for _,cond in pairs(conds) do
-		if cond[1]() then
+		if cond[1]() == true then
 			self._change = cond[2]
 			self._next_state = cond[3]
 			break
