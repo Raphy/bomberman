@@ -8,7 +8,9 @@
 #include "Fire.hh"
 #include "ResourcesPath.hh"
 
-Fire::Fire() : ACube("fire"), _steps(0), _direction(None), _created(false), _time(0.5) {
+std::string const Fire::Tag = "fire";
+
+Fire::Fire() : ACube(Tag), _steps(0), _direction(None), _created(false), _time(0.5) {
 }
 
 bool Fire::initialize()

@@ -4,12 +4,17 @@
 
 #include "MapTextSaver.hh"
 #include "Wall.hh"
+#include "Bomb.hh"
+#include "IA.hh"
+#include "Fire.hh"
+#include "Box.hh"
 
 std::map<std::string, char> MapTextSaver::s_letter_from_tag = {
     { Wall::Tag, MapText::WALL },
-    //{ Bomb::Tag, MapText::BOMB },
-    //{ Enemy::Tag, MapText::ENEMY },
-    //{ Fire::Tag, MapText:FIRE },
+    { Bomb::Tag, MapText::BOMB },
+    { IA::Tag, MapText::ENEMY },
+    { Box::Tag, MapText::BOX },
+    { Fire::Tag, MapText::FIRE },
 };
 
 MapTextSaver::MapTextSaver(std::string const& pathname, size_t width, size_t height)
