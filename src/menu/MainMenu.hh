@@ -6,6 +6,7 @@
 # include "Cursor.hh"
 # include "SoundManager.hh"
 # include "PlaylistManager.hh"
+# include "ScoreMenu.hh"
 
 class MainMenu : public AMenuScene
 {
@@ -21,6 +22,7 @@ public:
   void optionhandler(int);
   void exithandler(int);
   void loadhandler(int);
+  void scorehandler(int);
   void initPlaylist();
 
 private:

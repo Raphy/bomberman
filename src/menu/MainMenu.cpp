@@ -19,7 +19,8 @@ MainMenu::MainMenu(SceneArguments const& arg)
   addButton(ResourcesPath::asset("img/play.tga"), glm::vec3(getXPercent(8), getYPercent(8), 1), glm::vec3(getXPercent(20), getYPercent(10), 0) , static_cast<ButtonHandler>(&MainMenu::playhandler), 0);
   addButton(ResourcesPath::asset("img/option.tga"), glm::vec3(getXPercent(8), getYPercent(20), 1), glm::vec3(getXPercent(25), getYPercent(10), 0) , static_cast<ButtonHandler>(&MainMenu::optionhandler), 1);
   addButton(ResourcesPath::asset("img/load.tga"), glm::vec3(getXPercent(8), getYPercent(32), 1), glm::vec3(getXPercent(20), getYPercent(10), 0) , static_cast<ButtonHandler>(&MainMenu::loadhandler), 2);
-  addButton(ResourcesPath::asset("img/exit.tga"), glm::vec3(getXPercent(8), getYPercent(80), 1), glm::vec3(getXPercent(10), getYPercent(10), 0) , static_cast<ButtonHandler>(&MainMenu::exithandler), 3);
+  addButton(ResourcesPath::asset("img/score.tga"), glm::vec3(getXPercent(8), getYPercent(44), 1), glm::vec3(getXPercent(22), getYPercent(10), 0) , static_cast<ButtonHandler>(&MainMenu::scorehandler), 3);
+  addButton(ResourcesPath::asset("img/exit.tga"), glm::vec3(getXPercent(8), getYPercent(80), 1), glm::vec3(getXPercent(10), getYPercent(10), 0) , static_cast<ButtonHandler>(&MainMenu::exithandler), 4);
 
   _cursor = new Cursor(ResourcesPath::asset("img/bombe.tga"), glm::vec3(getXPercent(5), getYPercent(8), 1), glm::vec3(getXPercent(5), getYPercent(5), 0));
 }
@@ -71,7 +72,7 @@ bool MainMenu::update(gdl::Clock const& clock, gdl::Input& input)
       _cursorPos--;
       _btnUp = true;
       if (_cursorPos < 0)
-	_cursorPos = 3;
+	_cursorPos = 4;
     }
   else if (!input.getKey(SDLK_UP) && _btnUp)
     _btnUp = false;
@@ -81,7 +82,7 @@ bool MainMenu::update(gdl::Clock const& clock, gdl::Input& input)
       _son.playFx("button");
       _btnDown = true;
       _cursorPos++;
-      if (_cursorPos == 4)
+      if (_cursorPos == 5)
 	_cursorPos = 0;
     }
   else if (!input.getKey(SDLK_DOWN) && _btnDown)
@@ -132,24 +133,31 @@ bool MainMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 
 void MainMenu::playhandler(int t)
 {
+  (void)t;
   setStatusGoOn<PlayerMenu>(_arg);
 }
 
 void MainMenu::optionhandler(int t)
 {
-  setStatusGoOn<OptionMenu>(*new SceneArguments());
+  (void)t;
+  setStatusGoOn<OptionMenu>(_arg);
 }
 
 void MainMenu::exithandler(int t)
 {
+  (void)t;
   setStatusLeave();
 }
 
 void MainMenu::loadhandler(int t)
 {
-  SceneArguments& args = *new SceneArguments();
+  (void)t;
+  _arg.set("file", ResourcesPath::save("save.bmap"));
+  setStatusGoOn<LoadingMenu>(_arg);
+}
 
-  std::cout << ResourcesPath::save("save.bmap") << std::endl;
-  args.set("file", ResourcesPath::save("save.bmap"));
-  setStatusGoOn<LoadingMenu>(args);
+void MainMenu::scorehandler(int t)
+{
+  (void)t;
+  setStatusGoOn<ScoreMenu>(_arg);
 }
