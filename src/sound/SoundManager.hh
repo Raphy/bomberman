@@ -48,9 +48,6 @@ public:
   bool isMuteMusic();
   bool isMuteFx();
 
-  bool getVolumeFile();
-  bool setVolumeFile();
-
 private:
   SoundManager();
   ~SoundManager();
