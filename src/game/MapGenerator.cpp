@@ -147,4 +147,42 @@ std::pair<std::list<AGameObject*>, std::list<AGameObject*>> MapGenerator::ToList
     return this -> _objects;
 }
 
+std::pair<int, int> MapGenerator::seekSpot(int x, int y) {
+
+    for (int j = y; j < this -> _height; j++) {
+        for (int i = (j == x) ? (x) : (0); i < this -> _width; i++) {
+            if ((*this -> _field)[y][x] == PATH) {
+                return std::pair<int, int>(x, y);
+            }
+        }
+    }
+    
+    for (int j = y; j < this -> _height; j--) {
+        for (int i = (j == x) ? (x) : (this -> _width - 1); i < this -> _width; i--) {
+            if ((*this -> _field)[y][x] == PATH) {
+                return std::pair<int, int>(x, y);
+            }
+        }
+    }
+    return std::pair<int, int>(-1, -1);
+}
+
+
+std::list<std::pair<int, int> > MapGenerator::setHumans(int players, int ai) {
+    std::list<std::pair<int, int> >   playersList;
+    
+    assert(players <= 3 && "4 players max");
+    assert(this -> _field != nullptr && "You should call MapGenerator::Generate() before MapGenerator::setHumans()");
+    
+    int                 tab[4 * 2] = {0, 0, this -> _width, 0, this -> _width, this -> _height, 0, this -> _height };
+    std::pair<int, int> coord;
+    
+    for (int i = 0; i < players; i += 2) {
+        coord = MapGenerator::seekSpot(tab[i], tab[i + 1]);
+        playersList.push_back(coord);
+    }
+    return playersList;
+}
+
+
 //~ Formatted by Jindent --- http://www.jindent.com
