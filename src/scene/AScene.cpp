@@ -3,7 +3,7 @@
 #include "AScene.hh"
 #include "Camera.hh"
 #include "AScene.hh"
-
+#include "Configuration.hh"
 
 AScene::AScene(std::string const& id_tag)
     : m_status(), m_id(id_tag)
@@ -52,11 +52,11 @@ bool AScene::metaDraw(gdl::AShader& shader, const gdl::Clock& clock) {
 
     assert(m_cameras.empty() == false);
 
-    int offset = 800 / m_cameras.size();
+    int offset = Configuration::get<int>("win_w") / m_cameras.size();
     int i = 0;
 
     for (auto const& pair : m_cameras) {
-        glViewport(i * offset, 0, offset, 600);
+        glViewport(i * offset, 0, offset, Configuration::get<int>("win_h"));
         pair.second->forceUpdate(shader, m_cameras.size());
         draw(shader, clock);
         i++;

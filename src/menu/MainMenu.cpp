@@ -1,4 +1,3 @@
-#include <iostream> // debug !
 
 #include "MainMenu.hh"
 #include "GameScene.hh"
@@ -139,12 +138,14 @@ void MainMenu::optionhandler(int t)
 void MainMenu::exithandler(int t)
 {
   setStatusLeave();
-  //setStatusBack();
 }
 
 void MainMenu::loadhandler(int t)
 {
   SceneArguments& args = *new SceneArguments();
+
+  std::cout << ResourcesPath::save("save.bmap") << std::endl;
+
   args.set("file", ResourcesPath::save("save.bmap"));
   setStatusGoOn<LoadingMenu>(args);
 }

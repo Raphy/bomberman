@@ -5,9 +5,6 @@
 AMenuScene::AMenuScene(const std::string& tag)
   : AScene(tag), _windowX(Configuration::get<float>("win_h")), _windowY(Configuration::get<float>("win_w"))
 {
-
-  std::cout << "X = " <<_windowX <<  "Y = "<<_windowY << std::endl;
-
   _projection = glm::ortho(0.0f, _windowX, _windowY, 0.0f, -1.0f, 1.0f);
 
   _cursorPos = 0;
@@ -81,6 +78,7 @@ bool AMenuScene::draw(gdl::AShader& shader, gdl::Clock const& clock)
   _geometry.draw(shader, transform, GL_QUADS);
 
   _camera->draw(shader, clock);
+
 
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

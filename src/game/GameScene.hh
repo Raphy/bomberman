@@ -76,7 +76,7 @@ private:
     }
 
     void loadMap(std::string const& filename);
-    void genMap(int width, int height);
+    void genMap(int width, int height, int players, int ai);
     void initPlayer(int num, int x, int y);
 
     SkyBox * createSkybox() const;
