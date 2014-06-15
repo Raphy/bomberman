@@ -16,23 +16,6 @@
 #include "SoundManager.hh"
 #include "Scoring.hh"
 
-SceneArguments& getArgs(int argc, char** argv)
-{
-  SceneArguments args;
-
-  /*if (argc == 4)
-    {
-      args.set("width", std::string(argv[1]));
-      args.set("height", std::string(argv[2]));
-      args.set("ia", std::string(argv[3]));
-    }
-  else if (argc > 1)
-    {
-      std::cerr << "Random map generation: " << argv[0] << " <width> <height> <ia>" << std::endl;
-      }*/
-  return args;
-}
-
 int main(int argc, char** argv)
 {
   ResourcesPath::setRootDir("./build");
