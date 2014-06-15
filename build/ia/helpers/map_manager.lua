@@ -143,14 +143,10 @@ end
 
 
 function MapManager:get_case(i)
-	-- assert(i ~= nil, "get_case expect an index")
-	if type(i) ~= "number" then
-		Helper:warning("get_case expect an index(number), got :",type(i))
-		print(debug.traceback()) end
 	i = math.ceil(i)
-	if i <= 0 or i > self.size then
-		Helper:warning("get_case : idx="..i.." is outside the map")
-	end
+	-- if i <= 0 or i > self.size then
+	-- 	Helper:warning("get_case : idx="..i.." is outside the map")
+	-- end
 	return self._map[i]
 end
 function MapManager:iter()

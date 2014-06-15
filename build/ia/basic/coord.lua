@@ -96,7 +96,10 @@ function Coord:to_direction(c1,c2)
 	return res
 end
 function Coord:from_direction(c1,dir,radius)
-	assert(dir == "left" or dir == "right" or dir == "up" or dir == "down")
+	if not (dir == "left" or dir == "right" or dir == "up" or dir == "down") then
+		print("ERROR ", dir)
+		print(debug.traceback())
+	end
 	local r = radius or 1
 	local diff = Coord:cpy(self._direction_diff[dir])
 	diff.x, diff.y = (diff.x * r),(diff.y * r)

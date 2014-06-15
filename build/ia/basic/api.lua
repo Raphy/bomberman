@@ -17,7 +17,7 @@
 -- 	if type(x) ~= "number" or type(y) ~= "number"
 -- 		then print("map:get expects a number"); print(debug.traceback()) end
 -- 	if x == 5.0 and y == 5.0 then print("map:get enemy !!!!!!"); return {[1]=Player} end
--- 	if x == 1.0 and y == 9.0 then print("map:get bonus !!!!!!"); return {[1]=Bonus} end
+-- 	if x == 1.0 and y == 9.0 then print("map:get item !!!!!!"); return {[1]=Item} end
 -- 	if x == 9.0 and y == 1.0 then print("map:get bomb !!!!!!"); return {[1]=Bomb} end
 -- 	return nil
 -- end
@@ -115,16 +115,16 @@
 -- 	return 1.0
 -- end
 
--- Bonus = {_type = "Bonus"}
+-- Item = {_type = "Item"}
 
--- function Bonus:getType()
--- 	return "Bonus"
+-- function Item:getType()
+-- 	return "Item"
 -- end
 
--- function Bonus:getX()
+-- function Item:getX()
 -- 	return 1.0
 -- end
 
--- function Bonus:getY()
+-- function Item:getY()
 -- 	return 9.0
 -- end

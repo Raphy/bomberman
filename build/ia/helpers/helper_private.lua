@@ -56,8 +56,16 @@ function HelperPrivate:preview_fire(coord)
 	return true
 end
 function HelperPrivate:preview_bomb(bomb_coord)
+	local x,y = Coord:unpack(bomb_coord)
 	self:preview_fire(bomb_coord)
-	for radius=1,1 do
+	local bomb_time = 1
+	local objects = Helper:get_objects_from_case(x,y,"Bomb")
+	local bomb = objects[1]
+	if bomb ~= nil then
+		bomb_time = bomb:getTime() end
+	-- else my_radius ?
+	Helper:map_free(objects)
+	for radius=1,bomb_time do
 		Coord:for_each_direction(function (dir)
 			self:preview_fire(Coord:from_direction(bomb_coord, dir, radius))
 		end)

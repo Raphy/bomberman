@@ -122,19 +122,19 @@ PutBombState.pre_conditions = {
 }
 
 
--- * GET_BONUS *
+-- * GET_ITEM *
 
-GetBonusState = State:new("get_bonus_state")
+GetItemState = State:new("get_item_state")
 
-function GetBonusState:action()
-  Helper:debug_print("action : ".."get_bonus_state")
+function GetItemState:action()
+  Helper:debug_print("action : ".."get_item_state")
   return false
 end
 
-GetBonusState.pre_conditions = {
+GetItemState.pre_conditions = {
   --conditions
 }
-GetBonusState.post_conditions = {
+GetItemState.post_conditions = {
   { function()
     return true end,
     "pop", },
@@ -190,7 +190,7 @@ StateList = {
   ["get_away_of_enemy_state"] = GetAwayOfEnemyState,--a copier dans StateList
   ["put_bomb_state"] = PutBombState,--a copier dans StateList
   ["begin_state"] = BeginState,--a copier dans StateList
-  ["get_bonus_state"] = GetBonusState,--a copier dans StateList
+  ["get_item_state"] = GetItemState,--a copier dans StateList
   ["break_box_state"] = BreakBoxState,--a copier dans StateList
 }
 
