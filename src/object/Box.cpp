@@ -11,10 +11,11 @@
 #include "Box.hh"
 #include "ResourcesPath.hh"
 #include "SpeedBuff.hh"
+#include "Wall.hh"
 
 std::string const Box::Tag = "box";
 
-Box::Box(): ACube("box") {
+Box::Box(): ACube("box"), _plannedDeath(false) {
 }
 
 Box::~Box() {
@@ -26,7 +27,10 @@ bool Box::initialize() {
 }
 
 void Box::update(gdl::Clock const &clock, gdl::Input &input)
-{}
+{
+    if (_plannedDeath == true)
+        this->die();
+}
 
 void Box::onCollision(AGameObject& obj) {
     if (obj.getType() == "fire"
@@ -51,11 +55,12 @@ void Box::onCollision(AGameObject& obj) {
 	    buff->setPosition(glm::vec3(static_cast<int>(this->_position.x + 0.5),
 					0,
 					static_cast<int>(this->_position.z + 0.5)));
-	    buff->initialize();
 	    this->addObject(buff);
-	    std::cout << "Buff: " << buff->getType() << std::endl;
-	    /*}*/
-	    this->die();
+	    
+            /*}*/
+            
+            // kill the object at the next update
+	    _plannedDeath = true;
             
             // trick 'cause if box die the fire won't get onCollider(box) ..
             obj.onCollision(*this);
