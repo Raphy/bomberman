@@ -131,27 +131,51 @@ function Helper:get_all_objects(type)
 	end
 	return o
 end
-function Helper:are_objects(type)
-	for case in MapManager:iter() do
-		if self:are_objects_in_case(case.x,case.y,type,o) then
-			return true end
-	end
-	return false
-end
+-- function Helper:are_objects(type)
+-- 	for case in MapManager:iter() do
+-- 		if self:are_objects_in_case(case.x,case.y,type,o) then
+-- 			return true end
+-- 	end
+-- 	return false
+-- end
 
 function Helper:are_objects_around(type,x,y,radius)
 	local r = radius or 1
+	local found = false
+
+	-- if self:are_objects_in_case(x,y,type) then
+	-- 	found = true end
+	-- local coo = Coord:new(x,y)
+	-- for i=1,r do
+	-- 	Coord:for_each_direction(function (dir)
+	-- 		local x,y = Coord:unpack(Coord:from_direction(coo, dir, i))
+	-- 		if self:are_objects_in_case(x,y,type) then
+	-- 			found = true end
+	-- 	end)
+	-- end
+
 	local vision_state = MapManager._vision.active
 	MapManager:set_vision_activate(Coord:new(x,y), r)
-	local found = self:are_objects(type)
+	MapManager:for_each_case(function (case)
+		if self:are_objects_in_case(case.x,case.y,type) then
+			found = true end
+	end)
 	if not vision_state then MapManager:desactivate_vision() end
+
 	return found
+
+	-- return found
 end
 function Helper:get_objects_around(type,x,y,radius)
 	local r = radius or 1
 	local vision_state = MapManager._vision.active
 	MapManager:set_vision_activate(Coord:new(x,y), r)
-	local o = self:get_all_objects(type)
+	-- local o = self:get_all_objects(type)
+	local o = nil
+	MapManager:for_each_case(function (case)
+		o = self:get_objects_from_case(case.x,case.y,type,o)
+	end)
+
 	if not vision_state then MapManager:desactivate_vision() end
 	return o
 end
@@ -183,17 +207,22 @@ function Helper:last_action_failed()
 	return not StateMachine._action_status.status
 end
 function Helper:obj_in_view(type)
-	return self:are_objects_around(type,Helper:get_my_position(),MapManager.size / 2)
+	local x,y = Helper:get_my_position()
+	return self:are_objects_around(type,x,y,MapManager.size / 2)
 end
 function Helper:obj_in_map(type) --[[ est ce une bonne idee ?? ]]
-	return self:are_objects_around(type,Helper:get_my_position(),MapManager.size / 2)
+	local x,y = Helper:get_my_position()
+	return self:are_objects_around(type,x,y,MapManager.size / 2)
 end
 function Helper:obj_in_action_range(type)
-	return self:are_objects_around(type,Helper:get_my_position(),2)
+	local x,y = Helper:get_my_position()
+	return self:are_objects_around(type,x,y,2)
 end
 function Helper:is_place_safe()
-	return not self:are_objects_around("Bomb",Helper:get_my_position(),3)
+	local x,y = Helper:get_my_position()
+	return not self:are_objects_around("Bomb",x,y,3)
 end
 function Helper:is_place_dangerous()
-	return self:are_objects_around("Bomb",Helper:get_my_position(),3)
+	local x,y = Helper:get_my_position()
+	return self:are_objects_around("Bomb",x,y,3)
 end
