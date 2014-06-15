@@ -13,5 +13,5 @@ function State:new(name)
 end
 
 function State:action()
-	Helper:warning("this method should be override")
+	-- Helper:to_override()
 end

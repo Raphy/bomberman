@@ -11,16 +11,10 @@ for i,v in ipairs(TagsList) do
 end
 
 function Tags:v(key)
-	local value = self[key]
-	if value == nil then
-		Helper:warning("Unexisting tag \"",key,"\"") end
-	return value
+	return self[key]
 end
 function Tags:k(value)
-	local key = TagsList[value]
-	if key == nil then
-		Helper:warning("Unexisting value \"",value,"\" in TagsList") end
-	return key
+	return TagsList[value]
 end
 
 function Tags:is_a_tag_value(v)
