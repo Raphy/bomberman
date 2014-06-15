@@ -30,7 +30,7 @@ class Marvin: public APlayer
 {
 public:
 
-    Marvin() : APlayer(ResourcesPath::asset("minion/minion.obj"), "marvin"), totalPressed(0) {}
+    Marvin() : APlayer(ResourcesPath::asset("marvin.fbx"), "marvin"), totalPressed(0) {}
     virtual ~Marvin() {}
     
     virtual bool initialize();
