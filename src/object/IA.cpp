@@ -11,6 +11,11 @@
 #include "IA.hh"
 #include "Lua/Script.hh"
 
+IA::~IA()
+{
+  delete this->_script;
+}
+
 bool IA::initialize()
 {
     this -> setSpeed(5);

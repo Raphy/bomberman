@@ -5,7 +5,7 @@
 // Login   <defrei_r@epitech.net>
 // 
 // Started on  Tue Jun  3 12:02:27 2014 raphael defreitas
-// Last update Thu Jun 12 20:25:15 2014 raphael defreitas
+// Last update Sun Jun 15 01:01:25 2014 raphael defreitas
 //
 
 #include	<cstdlib>
@@ -13,6 +13,7 @@
 #include	<string>
 
 #include	"GameObject.hh"
+#include	"object/APlayer.hh"
 #include	"object/IA.hh"
 #include	"object/Marvin.hh"
 #include	"Lua/Script.hh"
@@ -38,6 +39,18 @@ Player::~Player(void)
 {
 }
 
+int Player::getBombRange(void) const
+{
+  APlayer* player = (this->_marvin) ? (APlayer*)this->_marvin : (APlayer*)this->_ia;
+  return player->getBombRange();
+}
+
+int Player::getBombCapacity(void) const
+{
+  APlayer* player = (this->_marvin) ? (APlayer*)this->_marvin : (APlayer*)this->_ia;
+  return player->getBombCapacity();
+}
+
 void Player::registerScript(Script& script)
 {
   luaL_newmetatable(script.getVirtualMachine().getState(), "luaL_Player");
@@ -52,7 +65,25 @@ void Player::registerMethods(Script& script)
   GameObject::registerMethods(script);
   luaL_Reg methods[] =
     {
+      {"getBombRange", Player::getBombRange},
+      {"getBombCapacity", Player::getBombCapacity},
       {NULL, NULL}
     };
   luaL_setfuncs(script.getVirtualMachine().getState(), methods, 0);
+}
+
+int Player::getBombRange(lua_State* L)
+{
+  VirtualMachine vm(L);
+  Player* udata = vm.toClass<Player>();
+  lua_pushinteger(L, udata->getBombRange());
+  return 1;
+}
+
+int Player::getBombCapacity(lua_State* L)
+{
+  VirtualMachine vm(L);
+  Player* udata = vm.toClass<Player>();
+  lua_pushinteger(L, udata->getBombCapacity());
+  return 1;
 }
