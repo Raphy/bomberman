@@ -32,6 +32,9 @@ public:
   void putBomb();
   
   virtual Rectangle getCollider() const;
+  
+  virtual void onCollision(AGameObject&);
+
 
 protected:
     APlayer(std::string const& modelPath, std::string const& id) :

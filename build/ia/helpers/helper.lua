@@ -171,9 +171,11 @@ function Helper:obj_in_action_range(type)
 end
 function Helper:is_place_safe()
 	return HelperPrivate:from_my_position(function (x,y)
-		return not self:are_objects_around("Bomb",x,y,3) end)
+		return not self:are_objects_around("Bomb",x,y,3)
+				and not self:are_objects_around("Fire",x,y,3) end)
 end
 function Helper:is_place_dangerous()
 	return HelperPrivate:from_my_position(function (x,y)
-		return self:are_objects_around("Bomb",x,y,3) end)
+		return self:are_objects_around("Bomb",x,y,3)
+				or self:are_objects_around("Fire",x,y,3) end)
 end

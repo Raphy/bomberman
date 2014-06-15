@@ -56,13 +56,17 @@ function StateMachine:action_terminated()
 end
 function StateMachine:cool_down()
 	if self._cool_down.active then
+		Helper:debug_print("cool_down...")
 		self._cool_down.duration = self._cool_down.duration + 1
 		if self._cool_down.duration == self._cool_down.duration_max then
 			self._cool_down.duration = 0
 			self._cool_down.active = false
+			self._action_status.duration = 0
+			Helper:debug_print("... end cool_down")
 		end
 		return true
 	end
+	Helper:debug_print("ACTION !")
 	return false
 end
 function StateMachine:register_status(status)

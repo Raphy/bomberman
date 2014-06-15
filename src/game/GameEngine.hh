@@ -36,10 +36,12 @@ private:
 
     // other
     ScenesManager m_scenes_manager;
+    SceneArguments m_args;
 
 public:
     GameEngine();
     ~GameEngine();
+    void setArgs(SceneArguments& args);
     bool initialize();
     bool update();
     void draw();

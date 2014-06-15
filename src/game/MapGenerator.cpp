@@ -16,7 +16,7 @@
 #include "MapGenerator.hh"
 #include "Wall.hh"
 #include "Box.hh"
-
+#include "Exception.hh"
 
 static int const  BRANCHRATE      = -2;    // positive means more branches and negative longer branches
 static char const WALL            = '#';
@@ -24,7 +24,7 @@ static char const PATH            = ' ';
 static char const UNDEFINED       = '?';
 static char const TOBEDEFINED     = '!';
 static char const DESTRUCTIBLE    = '@';
-static int const  DESTRUCTIBILITY = 70; // in percent
+static int const  DESTRUCTIBILITY = 50; // in percent
 
 MapGenerator::MapGenerator():
     _field(nullptr)
@@ -121,11 +121,12 @@ std::pair<std::list<AGameObject*>, std::list<AGameObject*>> MapGenerator::ToList
     for (int y = 0; y < this -> _height; y++) {
         for (int x = 0; x < this -> _width; x++) {
             if (x == 0 || y == 0 || x == this -> _width - 1 || y == this -> _height - 1) {
+                (*this -> _field)[y][x] = WALL;
                 this -> _objects.first.push_back(new Wall());
                 this -> _objects.first.back()->setPosition(static_cast<double>(x), static_cast<double>(y));
             } else {
                 if ((*this -> _field)[y][x] == UNDEFINED) {
-                    MapGenerator::Harden(x, y);
+                    MapGenerator::Harden(y, x);
                 }
                 switch ((*this -> _field)[y][x])
                 {
@@ -143,46 +144,65 @@ std::pair<std::list<AGameObject*>, std::list<AGameObject*>> MapGenerator::ToList
             }
         }
     }
+    MapGenerator::printMap();
     std::cout << "Completed!" << std::endl;
     return this -> _objects;
 }
 
-std::pair<int, int> MapGenerator::seekSpot(int x, int y) {
-
+std::pair<int, int> MapGenerator::seekSpot(int y, int x) 
+{    
     for (int j = y; j < this -> _height; j++) {
         for (int i = (j == x) ? (x) : (0); i < this -> _width; i++) {
-            if ((*this -> _field)[y][x] == PATH) {
-                return std::pair<int, int>(x, y);
+            if ((*this -> _field)[j][i] == PATH) {
+                std::cout << (*this -> _field)[j][i] << std::endl;
+                return std::pair<int, int>(y, x);
             }
         }
     }
     
-    for (int j = y; j < this -> _height; j--) {
-        for (int i = (j == x) ? (x) : (this -> _width - 1); i < this -> _width; i--) {
-            if ((*this -> _field)[y][x] == PATH) {
-                return std::pair<int, int>(x, y);
+    for (int j = y; j > 0; j--) {
+        for (int i = (j == x) ? (x) : (this -> _width - 1); i > 0; i--) {
+            if ((*this -> _field)[j][i] == PATH) {
+                std::cout << (*this -> _field)[j][i] << std::endl;
+                return std::pair<int, int>(y, x);
             }
         }
     }
     return std::pair<int, int>(-1, -1);
 }
 
-
-std::list<std::pair<int, int> > MapGenerator::setHumans(int players, int ai) {
+std::list<std::pair<int, int> > MapGenerator::setHumans(int players, int ai)
+{
     std::list<std::pair<int, int> >   playersList;
     
     assert(players <= 3 && "4 players max");
     assert(this -> _field != nullptr && "You should call MapGenerator::Generate() before MapGenerator::setHumans()");
-    
-    int                 tab[4 * 2] = {0, 0, this -> _width, 0, this -> _width, this -> _height, 0, this -> _height };
+        
+    int                 tab[4 * 2] = {1, 1, this -> _width - 1, 1, this -> _width - 1, this -> _height - 1, 1, this -> _height - 1};
     std::pair<int, int> coord;
-    
-    for (int i = 0; i < players; i += 2) {
-        coord = MapGenerator::seekSpot(tab[i], tab[i + 1]);
+
+    std::cout << "Spawning players" << std::endl;
+    MapGenerator::printMap();
+    for (int i = 0; i < players * 2; i += 2) {
+        coord = MapGenerator::seekSpot(tab[i + 1], tab[i]);
+        if (coord.first == -1)
+            throw Exception("Could not find available spot for player to spawn.");
+        std::cout << "player " << (i + 1) / 2 << " [" << coord.first <<  ","  << coord.second << "]" << std::endl;
         playersList.push_back(coord);
     }
+    std::cout << "END" << std::endl;
     return playersList;
 }
+
+void MapGenerator::printMap() const {
+    for (int j = 0; j < this -> _height; j++) {
+        for (int i = 0; i < this -> _width; i++) {
+            std::cout << (*this -> _field)[j][i];
+        }
+        std::cout << std::endl;
+    }
+}
+
 
 
 //~ Formatted by Jindent --- http://www.jindent.com

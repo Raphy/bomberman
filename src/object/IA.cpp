@@ -12,13 +12,13 @@
 #include "Lua/Script.hh"
 
 std::string const IA::Tag = "ia";
-
 IA::IA() : APlayer(ResourcesPath::asset("marvin_ia.fbx"), Tag), _direction(None), pressed(false) {
+    //this->start();
 }
-
 
 IA::~IA()
 {
+//   this->join();
   //delete this->_script;
 }
 
@@ -36,18 +36,18 @@ bool IA::initialize()
     */
     try
       {
-	this -> _script = new Lua::Script("./build/ia/default_ia.lua");
-	API::Manager::getInstance().registerScript(*this->_script);
-	API::Manager::getInstance().registerMe(*this->_script, this);
-	
+    this -> _script = new Lua::Script("./build/ia/default_ia.lua");
+    API::Manager::getInstance().registerScript(*this->_script);
+    API::Manager::getInstance().registerMe(*this->_script, this);
+    
       }
     catch (std::exception& e)
       {
-	std::cerr << "[IA] " << "Lua script registering failed" << std::endl;
+    std::cerr << "[IA] " << "Lua script registering failed" << std::endl;
       }
     if (!this->_script->execute() || !this->_script->initialization())
       {
-	std::cerr << "[Lua] " << this->_script->getVirtualMachine().getError() << std::endl;
+    std::cerr << "[Lua] " << this->_script->getVirtualMachine().getError() << std::endl;
       }
 
     return (true);
@@ -55,35 +55,46 @@ bool IA::initialize()
 
 void IA::update(const gdl::Clock & clock, gdl::Input & input)
 {
-  this->saveCurrentState();
-    
-  if (!this -> _script -> play())
+/*    {
+        ScopedLock lk(this->_mutex);
+*/       this->_clock = clock;
+        this -> routine();
+
+/*    }
+    this->_cv->signal();
     {
-      std::cerr << "[Lua] " << this -> _script -> getVirtualMachine() . getError() << std::endl;
-    }
-
-    if (this -> _direction == Down) {
-        onDownPressed(clock);
-    } else if (this -> _direction == Up) {
-        onUpPressed(clock);
-    } else if (this -> _direction == Left) {
-        onLeftPressed(clock);
-    } else if (this -> _direction == Right) {
-        onRightPressed(clock);
-    }
+        ScopedLock lk(this->_mutex);
+*/        this->saveCurrentState();
+/*    }    */
 }
 
-void IA::onCollision(AGameObject& obj) {
-    if (obj.getType() == "fire") {
-        std::cout << "owned by " << obj.getParent() << std::endl;
-        this->die();
-    } else if (obj.getType() == "wall"
-            || obj.getType() == "box") {
-        this->_direction = None;
-        this->restoreLastState(obj);
+void * IA::routine()
+{
+/*    std::cout << "I'm a little thread !!!" << std::endl;
+    while (this->_status == ALIVE)
+    {
+        this->_cv->wait();
+        std::cout << "I'm a thread !!!" << std::endl;
+*/        if (!this -> _script -> play())
+        {
+          std::cerr << "[Lua] " << this -> _script -> getVirtualMachine() . getError() << std::endl;
+        }
+    
+/*        {
+            ScopedLock lk(this->_mutex);
+*/            if (this -> _direction == Down) {
+                this -> onDownPressed(this -> _clock);
+            } else if (this -> _direction == Up) {
+                this -> onUpPressed(this -> _clock);
+            } else if (this -> _direction == Left) {
+                this -> onLeftPressed(this -> _clock);
+            } else if (this -> _direction == Right) {
+                this -> onRightPressed(this -> _clock);
+            }
+/*        }
     }
+*/    return nullptr;
 }
-
 
 void IA::goOneCaseDown()
 {
@@ -164,4 +175,3 @@ void IA::onRightPressed(gdl::Clock const &clock)
         this->stopMouvement(this->_position.x);
     }
 }
-

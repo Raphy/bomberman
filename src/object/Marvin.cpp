@@ -70,16 +70,24 @@ void Marvin::update(gdl::Clock const &clock,
 }
 
 void Marvin::stop(const gdl::Clock&) {
+    this->stop();
+}
+
+void Marvin::run(const gdl::Clock&) {
+    this->run();
+}
+
+void Marvin::stop() {
     this->totalPressed--;
     if (this->totalPressed == 0)
         APlayer::stop();
 }
 
-
-void Marvin::run(const gdl::Clock&) {
+void Marvin::run() {
     this->totalPressed++;
     APlayer::run();
 }
+
 
 void Marvin::none(gdl::Clock const &clock) {
     (void) clock;
@@ -94,17 +102,6 @@ void Marvin::setBindKeys(const inputBinding& bind) {
     this -> _inputs.push_back({bind.left, false, &Marvin::onLeftPressed, &Marvin::run, &Marvin::stop});
     this -> _inputs.push_back({bind.right, false, &Marvin::onRightPressed, &Marvin::run, &Marvin::stop});
     this -> _inputs.push_back({bind.bomb, false, &Marvin::none, &Marvin::onBombPressed, &Marvin::none});
-}
-
-void Marvin::onCollision(AGameObject& obj) {
-    
-    if (obj.getType() == "fire") {
-        std::cout << "owned by " << obj.getParent() << std::endl;
-        this->die();
-    } else if (obj.getType() == "wall"
-            || obj.getType() == "box") {
-        this->restoreLastState(obj);
-    }
 }
 
 void Marvin::onBombPressed(const gdl::Clock& clock) {
