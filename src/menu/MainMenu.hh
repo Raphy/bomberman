@@ -25,6 +25,7 @@ public:
 
 private:
   PlaylistManager _playlist;
+  SceneArguments& _arg;
   Cursor *_cursor;
 
   bool _btnUp = false;
@@ -32,6 +33,8 @@ private:
   bool _btnSpace = false;
 
   static SoundManager& _son;
+
+
 
 };
 
