@@ -171,5 +171,5 @@ void PlayerMenu::continuehandler(int t)
 
   tmp = std::to_string(_nbplayer);
   _arg.set("players", tmp);
-  setStatusGoOn<MapMenu>(_arg);
+  setStatusGoOn<MapMenu>(*new SceneArguments(_arg));
 }

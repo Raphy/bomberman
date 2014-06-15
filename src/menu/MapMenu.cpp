@@ -118,13 +118,14 @@ void MapMenu::map1handler(int t)
 {
   (void)t;
   std::string tmp;
+
   tmp = _arg.get("players");
 
   if (tmp.compare("1") == 0)
     _arg.set("file", ResourcesPath::map("map1.bmap"));
   else if (tmp.compare("2") == 0)
     _arg.set("file", ResourcesPath::map("map1-2.bmap"));
-  setStatusGoOn<LoadingMenu>(_arg);
+  setStatusGoOn<LoadingMenu>(*new SceneArguments(_arg));
 }
 
 void MapMenu::map2handler(int t)
@@ -138,13 +139,13 @@ void MapMenu::map2handler(int t)
     _arg.set("file", ResourcesPath::map("map2.bmap"));
   else if (tmp.compare("2") == 0)
     _arg.set("file", ResourcesPath::map("map2-2.bmap"));
-  setStatusGoOn<LoadingMenu>(_arg);
+  setStatusGoOn<LoadingMenu>(*new SceneArguments(_arg));
 }
 
 void MapMenu::maprandomhandler(int t)
 {
   (void)t;
-  setStatusGoOn<LoadingMenu>(_arg);
+  setStatusGoOn<LoadingMenu>(*new SceneArguments(_arg));
 }
 
 void MapMenu::backhandler(int t)

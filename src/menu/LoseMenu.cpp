@@ -34,7 +34,7 @@ bool LoseMenu::update(gdl::Clock const& clock, gdl::Input& input)
   _time += clock.getElapsed();
   if (_time > 8.0 || input.getKey(SDLK_ESCAPE))
     {
-      setStatusGoOn<MainMenu>(_arg);
+      setStatusGoOn<MainMenu>(*new SceneArguments(_arg));
     }
   return true;
 }

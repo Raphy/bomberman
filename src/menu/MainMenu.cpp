@@ -136,13 +136,13 @@ bool MainMenu::draw(gdl::AShader& shader, gdl::Clock const &clock)
 void MainMenu::playhandler(int t)
 {
   (void)t;
-  setStatusGoOn<PlayerMenu>(_arg);
+  setStatusGoOn<PlayerMenu>(*new SceneArguments(_arg));
 }
 
 void MainMenu::optionhandler(int t)
 {
   (void)t;
-  setStatusGoOn<OptionMenu>(_arg);
+  setStatusGoOn<OptionMenu>(*new SceneArguments(_arg));
 }
 
 void MainMenu::exithandler(int t)
@@ -155,11 +155,11 @@ void MainMenu::loadhandler(int t)
 {
   (void)t;
   _arg.set("file", ResourcesPath::save("save.bmap"));
-  setStatusGoOn<LoadingMenu>(_arg);
+  setStatusGoOn<LoadingMenu>(*new SceneArguments(_arg));
 }
 
 void MainMenu::scorehandler(int t)
 {
   (void)t;
-  setStatusGoOn<ScoreMenu>(_arg);
+  setStatusGoOn<ScoreMenu>(*new SceneArguments(_arg));
 }

@@ -139,16 +139,15 @@ void PauseMenu::resumehandler(int a)
 void PauseMenu::savehandler(int a)
 {
   _isSave = true;
-  ResourcesPath::setRootDir("./build");
   GameAPI::getInstance().save(ResourcesPath::save("save.bmap"));
 }
 
 void PauseMenu::optionhandler(int a)
 {
-  setStatusGoOn<OptionMenu>(_arg);
+  setStatusGoOn<OptionMenu>(*new SceneArguments(_arg));
 }
 
 void PauseMenu::exitmenuhandler(int a)
 {
-  setStatusGoOn<MainMenu>(_arg);
+  setStatusGoOn<MainMenu>(*new SceneArguments(_arg));
 }
