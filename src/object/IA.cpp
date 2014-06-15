@@ -11,7 +11,7 @@
 #include "IA.hh"
 #include "Lua/Script.hh"
 
-IA::IA() : APlayer(ResourcesPath::asset("bomb.fbx"), "ia"), _direction(None), pressed(false) {
+IA::IA() : APlayer(ResourcesPath::asset("marvin_ia.fbx"), "ia"), _direction(None), pressed(false) {
 }
 
 
@@ -22,26 +22,9 @@ IA::~IA()
 
 bool IA::initialize()
 {
-    this -> setSpeed(5);
-
-    this -> pressed = false;
-
-//    if (_model.createSubAnim(0, "start", 0, 37) == false) {
-//        std::cout << "create anim false" << std::endl;
-//    }
-//
-//    if (_model.createSubAnim(0, "run", 37, 59) == false) {
-//        std::cout << "create anim false" << std::endl;
-//    }
-//
-//    if (_model.createSubAnim(0, "stop", 75, 130) == false) {
-//        std::cout << "create anim false" << std::endl;
-//    }
-
-    _model.setCurrentAnim(0);
-    this -> scale(glm::vec3(0.0025, 0.0025, 0.0025));
-
-
+    if (APlayer::initialize() == false)
+        return false;
+    
     /*
     ** Dumping the script
     */
@@ -66,24 +49,7 @@ bool IA::initialize()
 
 void IA::update(const gdl::Clock & clock, gdl::Input & input)
 {
-    
-//    Debug!
-//    
-//    if (input.getInput(SDLK_DOWN) && (this -> pressed == false)) {
-//        goOneCaseDown();
-//        this -> pressed = true;
-//    } else if (input.getInput(SDLK_UP) && (this -> pressed == false)) {
-//        goOneCaseUp();
-//        this -> pressed = true;
-//    } else if (input.getInput(SDLK_LEFT) && (this -> pressed == false)) {
-//        goOneCaseLeft();
-//        this -> pressed = true;
-//    } else if (input.getInput(SDLK_RIGHT) && (this -> pressed == false)) {
-//        goOneCaseRight();
-//        this -> pressed = true;
-//    }
-
-    this->saveCurrentState();
+  this->saveCurrentState();
     
   if (!this -> _script -> play())
     {

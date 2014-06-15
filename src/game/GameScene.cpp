@@ -61,7 +61,7 @@ GameScene::~GameScene() {
     // api unregistration
     GameAPI::getInstance().unset();
 
-    // free memory
+    // free memory$
     delete m_quad_tree;
     foreachObject([] (AGameObject& obj) {
         delete &obj;
@@ -83,7 +83,7 @@ void GameScene::initPlayer(int num, int x, int y) {
         throw err;
     }
 
-    Marvin* player = new Marvin();
+    Marvin* player = new Marvin(num);
     player->setPosition(static_cast<double>(x), static_cast<double>(y));
     if (num == 1) player->setBindKeys();
     else player->setBindKeys({SDLK_z, SDLK_s, SDLK_q, SDLK_d, SDLK_LCTRL});

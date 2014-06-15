@@ -2,24 +2,35 @@
 #include        "Marvin.hh"
 #include "Bomb.hh"
 
-std::string const Marvin::Tag = "marvin";
-
-bool Marvin::initialize() {
-
-    this->setSpeed(5);
-    
-    if (_model.createSubAnim(0, "start", 0, 37) == false
-            || _model.createSubAnim(0, "run", 37, 59) == false
-            || _model.createSubAnim(0, "stop", 75, 130) == false) {
-       
-        std::cout << "create anim false" << std::endl;
-        return false;
-    
-    }
-    this->scale(glm::vec3(0.0025, 0.0025, 0.0025));
-    
-    return (true);
+static char const * const getNumber(int nbr) {
+    if (nbr == 1)
+        return ("1");
+    return ("2");
 }
+
+static char const *const getMarvinFbx(int nbr) {
+    std::string result;
+    
+    result += "marvin";
+    result += getNumber(nbr);
+    result += "/marvin.fbx";
+    
+    return result.c_str();
+}
+
+static char const *const getMarvinTag(int nbr) {
+    std::string result;
+    
+    result += "player";
+    result += getNumber(nbr);
+    
+    return result.c_str();
+}
+
+Marvin::Marvin(int nbr) :
+    APlayer(ResourcesPath::asset(getMarvinFbx(nbr)), getMarvinTag(nbr)), totalPressed(0)
+{}
+
 
 void Marvin::update(gdl::Clock const &clock,
                     gdl::Input &     input)
@@ -49,15 +60,14 @@ void Marvin::update(gdl::Clock const &clock,
 void Marvin::stop(const gdl::Clock&) {
     this->totalPressed--;
     if (this->totalPressed == 0)
-        _model.setCurrentSubAnim("stop", false);
+        APlayer::stop();
 }
 
 
 void Marvin::run(const gdl::Clock&) {
     this->totalPressed++;
-    _model.setCurrentSubAnim("run");
+    APlayer::run();
 }
-
 
 void Marvin::none(gdl::Clock const &clock) {
     (void) clock;
