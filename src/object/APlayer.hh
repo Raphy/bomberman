@@ -26,6 +26,7 @@ public:
   int getBombCapacity() const { return this->_bomb_capacity; }
   void setBombCapacity(int value) { this->_bomb_capacity = value; }
   
+  virtual bool initAnim() = 0;
   virtual bool initialize();
 
   void putBomb();

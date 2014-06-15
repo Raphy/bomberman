@@ -20,6 +20,10 @@ IA::~IA()
   //delete this->_script;
 }
 
+bool IA::initAnim() {
+    return true;
+}
+
 bool IA::initialize()
 {
     if (APlayer::initialize() == false)
@@ -84,6 +88,7 @@ void IA::goOneCaseDown()
     if (this -> _direction == None) {
         this -> _direction = Down;
         this -> _to        = this -> _position.z - 1;
+        this->run();
     }
 }
 
@@ -92,6 +97,7 @@ void IA::goOneCaseLeft()
     if (this -> _direction == None) {
         this -> _direction = Left;
         this -> _to        = this -> _position.x + 1;
+        this->run();
     }
 }
 
@@ -100,6 +106,7 @@ void IA::goOneCaseRight()
     if (this -> _direction == None) {
         this -> _direction = Right;
         this -> _to        = this -> _position.x - 1;
+        this->run();
     }
 }
 
@@ -108,7 +115,15 @@ void IA::goOneCaseUp()
     if (this -> _direction == None) {
         this -> _direction = Up;
         this -> _to        = this -> _position.z + 1;
+        this->run();
     }
+}
+
+void IA::stopMouvement(float& to) {
+    this -> _direction  = None;
+    to                  = this -> _to;
+    this -> pressed     = false;
+    this->stop();
 }
 
 void IA::onUpPressed(gdl::Clock const &clock)
@@ -116,9 +131,7 @@ void IA::onUpPressed(gdl::Clock const &clock)
     APlayer::onUpPressed(clock);
 
     if (this -> _position.z >= this -> _to) {
-        this -> _direction  = None;
-        this -> _position.z = this -> _to;
-        this -> pressed     = false;
+        this->stopMouvement(this->_position.z);
     }
 
 }
@@ -128,9 +141,7 @@ void IA::onDownPressed(gdl::Clock const &clock)
     APlayer::onDownPressed(clock);
 
     if (this -> _position.z <= this -> _to) {
-        this -> _direction  = None;
-        this -> _position.z = this -> _to;
-        this -> pressed     = false;
+        this->stopMouvement(this->_position.z);
     }
 }
 
@@ -139,9 +150,7 @@ void IA::onLeftPressed(gdl::Clock const &clock)
     APlayer::onLeftPressed(clock);
     
     if (this -> _position.x >= this -> _to) {
-        this -> _direction  = None;
-        this -> _position.x = this -> _to;
-        this -> pressed     = false;
+        this->stopMouvement(this->_position.x);
     }
 }
 
@@ -150,9 +159,7 @@ void IA::onRightPressed(gdl::Clock const &clock)
     APlayer::onRightPressed(clock);
     
     if (this -> _position.x <= this -> _to) {
-        this -> _direction  = None;
-        this -> _position.x = this -> _to;
-        this -> pressed     = false;
+        this->stopMouvement(this->_position.x);
     }
 }
 

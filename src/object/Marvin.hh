@@ -33,6 +33,7 @@ public:
     Marvin(int nbr = 1);
     virtual ~Marvin() {}
     
+    virtual bool initAnim();
     virtual void update(gdl::Clock const& clock, gdl::Input& input);
 
     virtual void onCollision(AGameObject&);

@@ -27,6 +27,7 @@ public:
     IA();
     virtual ~IA();
 
+    virtual bool initAnim();
     virtual bool initialize();
     
     virtual void update(const gdl::Clock& clock, gdl::Input& input);
@@ -49,6 +50,7 @@ private:
     bool        pressed;
     Lua::Script* _script;
     
+    void stopMouvement(float &);
     virtual void onUpPressed(gdl::Clock const &clock);
     virtual void onDownPressed(gdl::Clock const &clock);
     virtual void onLeftPressed(gdl::Clock const &clock);

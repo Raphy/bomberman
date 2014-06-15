@@ -29,7 +29,19 @@ static char const *const getMarvinTag(int nbr) {
 
 Marvin::Marvin(int nbr) :
     APlayer(ResourcesPath::asset(getMarvinFbx(nbr)), getMarvinTag(nbr)), totalPressed(0)
-{}
+{
+}
+
+bool Marvin::initAnim() {
+    if (_model.createSubAnim(0, "start", 0, 37) == false
+        || _model.createSubAnim(0, "run", 37, 59) == false
+        || _model.createSubAnim(0, "stop", 75, 130) == false) {
+       
+        std::cout << "create anim false" << std::endl;
+        return false;
+    }
+    return true;
+}
 
 
 void Marvin::update(gdl::Clock const &clock,

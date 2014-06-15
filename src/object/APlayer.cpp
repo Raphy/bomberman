@@ -10,15 +10,7 @@
 
 bool APlayer::initialize() {
     this->setSpeed(5);
-    
-    if (_model.createSubAnim(0, "start", 0, 37) == false
-            || _model.createSubAnim(0, "run", 37, 59) == false
-            || _model.createSubAnim(0, "stop", 75, 130) == false) {
-       
-        std::cout << "create anim false" << std::endl;
-        return false;
-    
-    }
+    this->initAnim();
     this->scale(glm::vec3(0.0025, 0.0025, 0.0025));
     return true;
 }
