@@ -66,5 +66,5 @@ void Box::onCollision(AGameObject& obj) {
             obj.onCollision(*this);
       }
     else if (obj.getType() == "wall")
-        this->restoreLastState();
+        this->restoreLastState(obj);
 }
