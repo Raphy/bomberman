@@ -92,12 +92,13 @@ StateList = {
 
 function initialization()
 	Helper:debug_print("\n\nIA_STALKER) initialization")
-	Helper:initialization_base(10, 5)
+	Helper:initialization_base(10, 10)
 	StateMachine:init(3, 1000, 5, 10)
 	MapManager:update()
 end
 
 
 function play()
+	MapManager:update()
 	StateMachine:play()
 end

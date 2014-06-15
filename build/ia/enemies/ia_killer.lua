@@ -1,3 +1,4 @@
+
 require 'actions'
 require 'state'
 require 'state_machine'
@@ -14,7 +15,7 @@ end
 BeginState.pre_conditions = {
 	{ function()
 		return true end,
-		"push", "kill_enemy_state", },
+		"push", "random_state", },
 }
 
 -- * AVOID_BOMB_STATE *
@@ -38,6 +39,52 @@ AvoidBombState.post_conditions = {
 		"pop", },
 }
 
+
+
+-- * GET_CLOSER_OF_ENEMY_STATE *
+
+GetCloserOfEnemyState = State:new("get_closer_of_enemy_state")
+
+function GetCloserOfEnemyState:action()
+	Helper:debug_print("action : ".."get_closer_of_enemy_state")
+	return Actions:get_closer_of_one_enemy()
+end
+
+GetCloserOfEnemyState.pre_conditions = {
+	{ function()
+		return Helper:is_place_dangerous() end,
+		"push", "avoid_bomb_state", },
+  { function()
+      return Helper:obj_in_action_range("Player") end,
+    "push", "kill_enemy_state" },
+  { function()--pas d'enemy en vue
+      return not Helper:obj_in_view("Player") end,
+    "push", "random_state", },
+}
+GetCloserOfEnemyState.post_conditions = {
+  { function()--pas d'enemy en vue
+      return not Helper:obj_in_view("Player") end,
+    "push", "random_state", },
+}
+
+-- * RANDOM_STATE *
+
+RandomState = State:new("random_state")
+
+function RandomState:action()
+	Helper:debug_print("action : ".."random_state")
+	return Actions:go_random()
+end
+
+RandomState.pre_conditions = {
+	{ function()
+		return Helper:is_place_dangerous() end,
+		"push", "avoid_bomb_state", },
+  { function()
+      return Helper:obj_in_view("Player") end,
+    "push", "get_closer_of_enemy_state" },
+}
+
 -- * KILL_ENEMY_STATE *
 
 KillEnemyState = State:new("kill_enemy_state")
@@ -51,67 +98,38 @@ KillEnemyState.pre_conditions = {
 	{ function()
 		return Helper:is_place_dangerous() end,
 		"push", "avoid_bomb_state", },
+  { function()
+      return not Helper:obj_in_action_range("Player") end,
+    "pop", },
 	{ function()
-		return not Helper:obj_in_action_range("Player") end,
-		"push", "get_closer_of_enemy_state", },
-	{ function()
-		return not Helper:obj_in_view("Player") end,
-		"push", "wait_state", },
+		return true end,
+		"push", "put_bomb_state", },
 }
 
 KillEnemyState.post_conditions = {
+
 }
 
--- -- * WAIT_STATE *
+-- * PUT_BOMB_STATE *
 
--- WaitState = State:new("wait_state")
+PutBombState = State:new("put_bomb_state")
 
--- function WaitState:action()
--- 	Helper:debug_print("action : ".."wait_state")
--- 	 Actions:wait(100)
--- 	-- Actions._wait.begin = Helper:get_current_time()
--- 	-- Actions._wait.duration = duration
--- 	 print("wait begin", Actions._wait.begin)
--- 	 print("		 duration", Actions._wait.duration)
--- end
-
--- WaitState.pre_conditions = {
--- 	{ function()
--- 		return Helper:is_place_dangerous() end,
--- 		"push", "avoid_bomb_state", },
--- 	{ function()
--- 		return Helper:no_more_wait() end,
--- 		"pop", },
--- }
-
--- WaitState.post_conditions = {
--- }
-
--- * GET_CLOSER_OF_ENEMY_STATE *
-
-GetCloserOfEnemyState = State:new("get_closer_of_enemy_state")
-
-function GetCloserOfEnemyState:action()
-	Helper:debug_print("action : ".."get_closer_of_enemy_state")
-	return Actions:get_closer_of_obj("Player")
+function PutBombState:action()
+	Helper:debug_print("action : ".."put_bomb_state")
+	return Actions:place_bomb()
 end
 
-GetCloserOfEnemyState.pre_conditions = {
+PutBombState.pre_conditions = {
 	{ function()
 		return Helper:is_place_dangerous() end,
 		"push", "avoid_bomb_state", },
+}
+
+PutBombState.post_conditions = {
 	{ function()
-		return Helper:obj_in_action_range("Player") end,
+		return true end,
 		"pop", },
-	-- { function()
-	-- 	return not Helper:obj_in_view("Player") end,
-	-- 	"push", "wait_state", },
 }
-
-GetCloserOfEnemyState.post_conditions = {
-}
-
-
 
 
 
@@ -119,31 +137,23 @@ GetCloserOfEnemyState.post_conditions = {
 
 StateList = {
 	["begin_state"] = BeginState,
-	["avoid_bomb_state"] = AvoidBombState,
-	["kill_enemy_state"] = KillEnemyState,--a copier dans StateList
-	["wait_state"] = WaitState,--a copier dans StateList
+	["avoid_bomb_state"] = AvoidBombState,--a copier dans StateList
 	["get_closer_of_enemy_state"] = GetCloserOfEnemyState,--a copier dans StateList
+	["random_state"] = RandomState,--a copier dans StateList
+	["kill_enemy_state"] = KillEnemyState,--a copier dans StateList
+	["put_bomb_state"] = PutBombState,--a copier dans StateList
 }
 
-
 function initialization()
-	Helper:debug_print("\n\nIA_KILLER) initialization")
+	Helper:debug_print("\n\nIA_STALKER) initialization")
 	Helper:initialization_base(10, 10)
-	StateMachine:init(3, 1000,
-							30, 50)
+	StateMachine:init(3, 1000, 30, 10)
+	MapManager:update()
 end
 
--- DEBUG = 0
--- DEBUG_MAX = 100
-
-active_debug = true
 
 function play()
---   if DEBUG == DEBUG_MAX then
--- 		Helper:debug_print("\n\nIA_KILLER) play")
-		MapManager:update()
-		StateMachine:play()
---     DEBUG = 0
---   end
---   DEBUG = DEBUG + 1
+	MapManager:update()
+	StateMachine:play()
 end
+
