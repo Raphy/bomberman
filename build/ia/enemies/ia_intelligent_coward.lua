@@ -127,18 +127,9 @@ function initialization()
               10, 20)
 end
 
-DEBUG = 0
-DEBUG_MAX = 1
-
-active_debug = true
-active_debug_list = true
 
 function play()
-  if DEBUG >= DEBUG_MAX then
-    MapManager:update()
     Helper:debug_print("\n\nIA_INTELLIGENT_COWARD) play")
+    MapManager:update()
     StateMachine:play()
-    DEBUG = 0
-  end
-  DEBUG = DEBUG + 1
 end

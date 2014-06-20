@@ -21,7 +21,7 @@ int GameAPI::getMapHeight() const {
 }
 
 std::tuple<int, int> GameAPI::getMapSize() const {
-    return std::make_tuple(getMapWidth(), getMapWidth());
+    return std::make_tuple(getMapWidth(), getMapHeight());
 }
 
 std::list<AGameObject*>& GameAPI::getObjectsIn(Rectangle const& area,

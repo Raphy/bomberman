@@ -105,17 +105,8 @@ function initialization()
 							10, 100)
 end
 
--- DEBUG_MAX = 100
--- DEBUG = DEBUG_MAX
-
-active_debug = true
 
 function play()
-  -- if DEBUG >= DEBUG_MAX then
-		-- Helper:debug_print("\n\nIA_BREAKER) play")
 		MapManager:update()
 		StateMachine:play()
-    -- DEBUG = 0
-  -- end
-  -- DEBUG = DEBUG + 1
 end

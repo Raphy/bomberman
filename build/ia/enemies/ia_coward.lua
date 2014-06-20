@@ -76,30 +76,8 @@ local function _debug_dump_objects(objects)
 	end
 end
 
-DEBUG_MAX = 1
-DEBUG = DEBUG_MAX
-
--- active_debug = true
 
 function play()
-  if DEBUG >= DEBUG_MAX then
     MapManager:update()
     StateMachine:play()
-  --   local cond =  AvoidBombState.pre_conditions[1]
-  --   local f = cond[1]
-  --   local res = f()
-  --   if res == true then print("condition match") end
-	 -- if Helper:is_place_dangerous() == true then print("but should match !!!!") end
-
-	--  local x,y = Helper:get_my_position()
-	-- if Helper:are_objects_around("Bomb",x,y,3) == true then
- -- 		print("but should match !!!!") end
-	-- if Helper:are_objects_in_case(x,y,"Bomb") == true then
- -- 		print("but should REALLY match !!!!") end
- -- 	local objects = Helper:get_objects_around("Bomb",x,y,3)
- -- 	if objects then _debug_dump_objects(objects) end
-
-    DEBUG = 0
-  end
-  DEBUG = DEBUG + 1
 end

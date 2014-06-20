@@ -7,6 +7,7 @@
 #include "MainMenu.hh"
 #include "SoundsLoader.hh"
 #include "ResourcesPath.hh"
+#include "Demo.hh"
 
 GameEngine::GameEngine():
     m_scenes_manager()

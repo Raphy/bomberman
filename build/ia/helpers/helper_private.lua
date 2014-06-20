@@ -62,8 +62,8 @@ function HelperPrivate:preview_bomb(bomb_coord)
 	local objects = Helper:get_objects_from_case(x,y,"Bomb")
 	local bomb = objects[1]
 	if bomb ~= nil then
-		bomb_time = bomb:getTime() end
-	-- else my_radius ?
+		bomb_time = bomb:getRange()
+	else bomb_time = me:getBombRange() end
 	Helper:map_free(objects)
 	for radius=1,bomb_time do
 		Coord:for_each_direction(function (dir)

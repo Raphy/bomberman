@@ -28,7 +28,6 @@ void APlayer::putBomb(){
                                 static_cast<int>(this->_position.z + 0.5)));
         bomb->setParent(getType());
         
-        std::cout << getBombRange() << std::endl;
         bomb->setSteps(getBombRange());
         this->addObject(bomb);
         

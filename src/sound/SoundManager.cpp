@@ -12,9 +12,6 @@ std::string const SoundManager::CONF_FILE = "volume.conf";
 SoundManager::SoundManager()
   : _volume(128), _volumeFx(128), _volumeMusic(128), _mute(false), _muteFx(false), _muteMusic(false)
 {
-  // Setting the  default configuration variables
-  Configuration::setDefault<int>("sound_volume_fx", 128);
-  Configuration::setDefault<int>("sound_volume_music", 128);
 }
 
 SoundManager::~SoundManager()
@@ -33,6 +30,9 @@ SoundManager& SoundManager::getInstance()
 
 void SoundManager::load(void)
 {
+  // Setting the  default configuration variables
+  Configuration::setDefault<int>("sound_volume_fx", 128);
+  Configuration::setDefault<int>("sound_volume_music", 128);
   if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048) == -1)
     throw Exception("Init Mix_OpenAudio fail");
   Mix_AllocateChannels(64);

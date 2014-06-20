@@ -10,7 +10,8 @@ Helper = {
 function Helper:initialization_base(repeat_max, vision_size)
 	math.randomseed(os.time())
 	Coord:init()
-	MapManager:init(10,10, vision_size)
+	local w,h = map:getSize()
+	MapManager:init(w,h, vision_size)
 	Actions:init(repeat_max)
 end
 
@@ -181,15 +182,15 @@ function Helper:obj_in_map(type) --[[ est ce une bonne idee ?? ]]
 end
 function Helper:obj_in_action_range(type)
 	return HelperPrivate:from_my_position(function (x,y)
-		return self:are_objects_around(type,x,y,2) end)
+		return self:are_objects_around(type,x,y,me:getBombRange()) end)
 end
 function Helper:is_place_safe()
 	return HelperPrivate:from_my_position(function (x,y)
-		return not self:are_objects_around("Bomb",x,y,3)
-				and not self:are_objects_around("Fire",x,y,3) end)
+		return not self:are_objects_around("Bomb",x,y, me:getBombRange())
+				and not self:are_objects_around("Fire",x,y, me:getBombRange()) end)
 end
 function Helper:is_place_dangerous()
 	return HelperPrivate:from_my_position(function (x,y)
-		return self:are_objects_around("Bomb",x,y,3)
-				or self:are_objects_around("Fire",x,y,3) end)
+		return self:are_objects_around("Bomb",x,y, me:getBombRange())
+				or self:are_objects_around("Fire",x,y, me:getBombRange()) end)
 end

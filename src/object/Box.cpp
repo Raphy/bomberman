@@ -38,31 +38,32 @@ void Box::onCollision(AGameObject& obj) {
       && obj.getPosition() == this->getPosition())
     {
       if (rand() % 3 == 0)
-	{
-	  AGameObject* buff;
-	  switch(rand() % 3)
-	    {
-	    case 0:
-	      {
-		buff = new SpeedBuff();
-		break;
-	      }
-	    case 1:
-	      {
-		buff = new BombRangeBuff();
-		break;
-	      }
-	    case 2:
-	      {
-		buff = new BombCapacityBuff();
-		break;
-	      }
-	    }
-	  buff->setPosition(glm::vec3(static_cast<int>(this->_position.x + 0.5),
-				      0,
-				      static_cast<int>(this->_position.z + 0.5)));
-	  this->addObject(buff);
-	}
+    {
+      AGameObject* buff = nullptr;
+      switch(rand() % 3)
+        {
+        case 0:
+          {
+            buff = new SpeedBuff();
+            break;
+          }
+        case 1:
+          {
+            buff = new BombRangeBuff();
+            break;
+          }
+        case 2:
+          {
+            buff = new BombCapacityBuff();
+            break;
+          }
+        default: /*unreachable */ break;
+        }
+      buff->setPosition(glm::vec3(static_cast<int>(this->_position.x + 0.5),
+                      0,
+                      static_cast<int>(this->_position.z + 0.5)));
+      this->addObject(buff);
+    }
             
       // kill the object at the next update
       _plannedDeath = true;

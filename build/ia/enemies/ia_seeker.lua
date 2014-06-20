@@ -155,18 +155,8 @@ function initialization()
 							10, 1000)
 end
 
--- DEBUG = 0
--- DEBUG_MAX = 100
-
--- active_debug = true
 
 function play()
-	me:putBomb()
-  -- if DEBUG == DEBUG_MAX then
-		-- MapManager:update()
-		-- Helper:debug_print("\n\nIA_SEEKER) play")
-		-- StateMachine:play()
-    -- DEBUG = 0
-  -- end
-  -- DEBUG = DEBUG + 1
+	MapManager:update()
+	StateMachine:play()
 end

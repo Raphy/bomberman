@@ -23,7 +23,6 @@ void Bomb::update(const gdl::Clock& clock, gdl::Input& input) {
     this->_time += clock.getElapsed();
     
     if (this -> _time >= BOMBTIME) {
-        std::cout << "BOOM: " << this << std::endl;
         this -> die();
         this -> createFire();
         this -> _parentObject -> addBombToBag();

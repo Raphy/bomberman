@@ -113,8 +113,8 @@ void GameScene::loadMap(std::string const& filename) {
                 case MapText::ENEMY:    instantiateObject<IA>(x, y, m_objects); break;
                 case MapText::BOX:      instantiateObject<Box>(x, y, m_objects); break;
                 case MapText::WALL:     instantiateObject<Wall>(x, y, m_walls); break;
-                case MapText::BOMB:     instantiateObject<Bomb>(x, y, m_objects); break;
-                case MapText::FIRE:     instantiateObject<Fire>(x, y, m_objects); break;
+                //case MapText::BOMB:     instantiateObject<Bomb>(x, y, m_objects); break;
+                //case MapText::FIRE:     instantiateObject<Fire>(x, y, m_objects); break;
                 default: break;
             }
         });

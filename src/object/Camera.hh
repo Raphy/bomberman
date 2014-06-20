@@ -24,6 +24,8 @@ public:
     // Do not work if a setFollow object has been set
     void setLookAt(glm::vec3 const& lookAt) { this->_lookAt = lookAt; };
     
+    glm::vec3 const& getOffset() const { return this->_offset; }
+    
     // Define the offset from the follow position and the camera
     void setOffset(glm::vec3 offset) { this->_offset = offset; }
     void setFollowed(AObject const* object = nullptr) {

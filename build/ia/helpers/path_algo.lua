@@ -39,7 +39,7 @@ local function calc_h_cost(start, dest)
 end
 
 function Astar:open_side_cases(open_list, curr_idx, side_cases, dest)
-	assert(dest ~= nil)
+	assert(dest ~= nil, "astar needs a destination")
 	for case in List:iter_case(side_cases) do
 		case.parent = curr_idx
 		case.g = MapManager:get_case(case.parent).g + 1

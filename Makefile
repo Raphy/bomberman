@@ -2,11 +2,9 @@
 # Basic
 CXX ?= g++
 
-# INCFLAGS := $(shell pkg-config --cflags)
 CXXFLAGS = -Wall -std=c++11 $(INCFLAGS)
 CXXFLAGS += -I lib/gdl/includes/
-LDFLAGS :=  -L ./lib/gdl/libs -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk  -lpthread -ldl -lSDL2 -lSDL2_mixer
-# $(shell pkg-config --libs)
+LDFLAGS :=  -L ./lib -lgdl_gl -lGL -lGLEW -ldl -lrt -lfbxsdk  -lpthread -ldl -lSDL2 -lSDL2_mixer
 OFLAGS :=
 DBGFLAGS := -DDEBUG -ggdb3
 NDBGFLAGS = -DNDEBUG $(OFLAGS)
@@ -44,7 +42,7 @@ SRC_SUBDIRS := scene scenesmanager sound object API Lua game menu maptext wrappe
 SRC_ALLDIRS := $(SRC_ROOTDIR) $(foreach sub_dir, $(SRC_SUBDIRS), $(SRC_ROOTDIR)/$(sub_dir))
 
 SRC := $(foreach dir, $(SRC_ALLDIRS), $(wildcard $(dir)/*.cpp))
-INCFLAGS += $(foreach dir, $(SRC_ALLDIRS), -I $(dir)/)
+INCFLAGS += -I include $(foreach dir, $(SRC_ALLDIRS), -I $(dir)/)
 
 # Generated object files
 OBJ := $(SRC:.cpp=.o)

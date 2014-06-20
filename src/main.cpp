@@ -28,6 +28,10 @@ int main(int argc, char** argv)
   SceneArguments args;
   if (argc == 4)
     {
+      if (atoi(argv[1]) <= 0 || atoi(argv[2]) <= 0) {
+        std::cerr << "error: width and height must be greater than 0" << std::endl;
+        return EXIT_FAILURE;
+      }
       args.set("width", std::string(argv[1]));
       args.set("height", std::string(argv[2]));
       args.set("ia", std::string(argv[3]));

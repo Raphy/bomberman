@@ -21,12 +21,13 @@
 
 # include "GameScene.hh"
 # include "MainMenu.hh"
+# include "Demo.hh"
 
 class GameEngine : public gdl::Game {
 
 private:
     // Define the first scene to be loaded.
-    typedef MainMenu FirstScene;
+    typedef Demo FirstScene;
 
     // GDL
     gdl::SdlContext        m_context;

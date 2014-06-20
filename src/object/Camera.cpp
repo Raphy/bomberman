@@ -61,6 +61,7 @@ void Camera::zoom(double diff) {
     this->_offset.y -= diff;
     this->_offset.z += diff;
 }
+
 void Camera::zoomPlus() {
     zoom(0.2);
 }

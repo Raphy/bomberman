@@ -85,9 +85,6 @@ function initialization()
 end
 
 function play()
-	-- Helper:debug_print("\n\nIA_INTRO) play")
-
-
+	Helper:debug_print("\n\nIA_INTRO) play")
 	StateMachine:play()
-	-- Actions:go_random()
 end

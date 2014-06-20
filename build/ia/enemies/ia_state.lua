@@ -201,18 +201,9 @@ function initialization()
   StateMachine:init(1,1000,10,10)
 end
 
-DEBUG = 0
-DEBUG_MAX = 50
-
-active_debug = true
 
 function play()
-  -- StateMachine:play()
-  if DEBUG == DEBUG_MAX then
+   Helper:debug_print("\n\nIA_SIMPLE) play")
     MapManager:update()
     StateMachine:play()
-    DEBUG = 0
-  end
-  DEBUG = DEBUG + 1
-  -- Helper:debug_print("\n\nIA_SIMPLE) play")
 end
