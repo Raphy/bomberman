@@ -21,7 +21,7 @@
 #include "OptionMenu.hh"
 #include "PauseMenu.hh"
 #include "LoseMenu.hh"
-
+#include "WinMenu.hh"
 const int GameScene::SKYBOX_OFFSET = 50;
 const std::string GameScene::Tag = "game";
 static int const GARBAGE_FRAME_COUNTER = 10;
@@ -356,8 +356,7 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
     }
 
     if (no_more_ai && nPlayersRemaing() == 1) {
-        std::cout << "You win !" << std::endl;
-        setStatusGoOn<LoseMenu>(*new SceneArguments());
+        setStatusGoOn<WinMenu>(*new SceneArguments());
     }
 
     return true;
