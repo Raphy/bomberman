@@ -356,6 +356,8 @@ bool GameScene::update(gdl::Clock const& clock, gdl::Input& input) {
     }
 
     if (no_more_ai && nPlayersRemaing() == 1) {
+        std::cout << "Winner is player " << (m_players[0]->isDead() ? 2 : 1)
+            << std::endl;
         setStatusGoOn<WinMenu>(*new SceneArguments());
     }
 
