@@ -59,11 +59,11 @@ Lua 5.2
 
 #### IA Script Skeleton
 ~~~lua
-function onInitialization
+function initialization
   -- What to do when the script is loaded
 end
 
-function onMyTurn
+function play
   -- What to do when the player by this script will play
   
   -- The scripts is provided by the following objects:
@@ -76,7 +76,8 @@ function onMyTurn
   
   -- Browse the objects in the current player position
   for object in objects
-    print("Object "..object.getType().." in position "..object.getX()..","..object:getY())
+    local x, y = object.getPosition()
+    print("Object "..object.getType().." in position ".. x ..",".. y)
   end
   
 end
